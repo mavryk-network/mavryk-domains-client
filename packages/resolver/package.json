@@ -1,0 +1,38 @@
+{
+  "name": "@tezos-domains/resolver",
+  "scripts": {
+    "build": "rimraf dist && rollup -c rollup.config.ts",
+    "start": "rollup -c rollup.config.ts -w"
+  },
+  "files": [
+    "dist"
+  ],
+  "version": "0.0.0",
+  "description": "A library for resolving tezos domains.",
+  "author": "Necroskillz <necroskillz@gmail.com>",
+  "license": "MIT",
+  "main": "dist/resolver.umd.js",
+  "module": "dist/resolver.es2015.js",
+  "typings": "dist/public_api.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/tezos-domains/client.git"
+  },
+  "bugs": {
+    "url": "https://gitlab.com/tezos-domains/client/issues"
+  },
+  "dependencies": {
+    "@taquito/taquito": "^6.3.5-beta.0",
+    "@tezos-domains/base": "^0.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.6",
+    "@types/node": "^14.0.24",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.22.2",
+    "rollup-plugin-sourcemaps": "^0.6.2",
+    "rollup-plugin-typescript2": "^0.27.1",
+    "tslib": "^2.0.0",
+    "typescript": "^3.9.7"
+  }
+}
