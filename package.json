@@ -4,7 +4,7 @@
   "scripts": {
     "lerna": "lerna",
     "build": "lerna run build --no-private",
-    "cut-release": "lerna version --sign-git-commit --no-changelog",
+    "cut-release": "lerna version --sign-git-commit",
     "cut-prerelease": "yarn cut-release --conventional-prerelease",
     "publish": "lerna publish from-git",
     "commit": "git-cz"

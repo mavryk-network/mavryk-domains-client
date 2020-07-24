@@ -7,7 +7,7 @@
   "useWorkspaces": true,
   "command": {
     "version": {
-      "message": "chore(release): cut the %s release",
+      "message": "release: cut the %s release",
       "allowBranch": "master",
       "conventionalCommits": true
     }
