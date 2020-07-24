@@ -1,82 +1,100 @@
-import { MichelsonMap } from '@taquito/taquito';
-
-import { isTezosAddress, isTimestamp } from './check';
-
-export function encodeString(str: string) {
-    var result = '';
-    var encoded = new TextEncoder().encode(str);
+export function encodeString(str: string): string {
+    let result = '';
+    const encoded = new TextEncoder().encode(str);
     for (let i = 0; i < encoded.length; i++) {
-        let hexchar = encoded[i].toString(16);
+        const hexchar = encoded[i].toString(16);
         result += hexchar.length == 2 ? hexchar : '0' + hexchar;
     }
     return result;
 }
 
-export function decodeString(hexString: string) {
+export function decodeString(hexString: string): string {
     return new TextDecoder().decode(hexToArray(hexString));
 }
 
-export function hexToArray(hexString: string) {
-    return new Uint8Array(hexString.match(/.{1,2}/g)!.map(byte => parseInt(byte, 16)));
+export function hexToArray(hexString: string): Uint8Array {
+    return new Uint8Array(hexString.match(/.{1,2}/g)?.map(byte => parseInt(byte, 16)) || []);
 }
 
-export function toRpcData(parameters: any) {
-    if (!parameters) {
-        return null;
-    } else if (typeof parameters === 'object') {
-        return Object.keys(parameters).reduce((a, k) => {
-            if (parameters.hasOwnProperty(k)) {
-                a[k] = toRpcParameter(parameters[k]);
-            }
+export interface RpcDataEncoder {
+    encode(value: unknown): unknown;
+    decode(value: unknown): unknown;
+}
 
-            return a;
-        }, {} as { [key: string]: any });
-    } else {
-        return toRpcParameter(parameters);
+export interface TypedRpcDataEncoder<TSource, TTarget> extends RpcDataEncoder {
+    encode(value: TSource | null): TTarget | null;
+    decode(value: TTarget | null): TSource | null;
+}
+
+export function encode(encoder: RpcDataEncoder): (target: unknown, propertyKey: string) => void {
+    return function (target: unknown, propertyKey: string) {
+        let value: unknown;
+        const getter = function () {
+            return value;
+        };
+        const setter = function (newVal: unknown) {
+            value = encoder.encode(newVal);
+        };
+
+        Object.defineProperty(target, propertyKey, {
+            get: getter,
+            set: setter,
+        });
+    };
+}
+
+export function decode(encoder: RpcDataEncoder): (target: unknown, propertyKey: string) => void {
+    return function (target: unknown, propertyKey: string) {
+        let value: unknown;
+        const getter = function () {
+            return value;
+        };
+        const setter = function (newVal: unknown) {
+            value = encoder.decode(newVal);
+        };
+
+        Object.defineProperty(target, propertyKey, {
+            get: getter,
+            set: setter,
+        });
+    };
+}
+
+export class StringEncoder implements TypedRpcDataEncoder<string, string> {
+    encode(value: string | null): string | null {
+        if (!value) {
+            return null;
+        }
+
+        return encodeString(value);
+    }
+    decode(value: string | null): string | null {
+        if (!value) {
+            return null;
+        }
+
+        return decodeString(value);
     }
 }
 
-function toRpcParameter(parameter: any) {
-    switch (typeof parameter) {
-        case 'string':
-            if (isTezosAddress(parameter)) {
-                return parameter;
-            }
+export class DateEncoder implements TypedRpcDataEncoder<Date, string> {
+    encode(value: Date | null): string | null {
+        if (!value) {
+            return null;
+        }
 
-            return encodeString(parameter);
-        case 'object':
-            if (parameter === null) {
-                return null;
-            }
-
-            const map = new MichelsonMap();
-            Object.keys(parameter).forEach(k => map.set(k, toRpcParameter(parameter[k])));
-
-            return map;
+        return value.toISOString();
     }
+    decode(value: string | null): Date | null {
+        if (!value) {
+            return null;
+        }
 
-    return parameter || null;
+        return new Date(value);
+    }
 }
 
-export function fromRpcData(parameter: any) {
-    switch (typeof parameter) {
-        case 'string':
-            if (isTezosAddress(parameter)) {
-                return parameter;
-            }
-
-            if (isTimestamp(parameter)) {
-                return new Date(parameter);
-            }
-
-            return decodeString(parameter);
-        case 'object':
-            if (parameter === null) {
-                return null;
-            }
-
-            return parameter;
-    }
-
-    return parameter || null;
+export const encoders = {
+    string: new StringEncoder(),
+    date: new DateEncoder()
 }

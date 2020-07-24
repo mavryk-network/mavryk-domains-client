@@ -1,10 +1,9 @@
-
 import { BuiltInProxyAddresses } from './built-in-proxy-addresses';
 import { ContractConfig, SmartContractType, ProxyStorage, TezosDomainsConfig } from '../model';
 import { TezosClient } from '../tezos-client/client';
 
-export function getAddressesFromConfig(config?: TezosDomainsConfig) {
-    let network = config?.network || 'mainnet';
+export function getAddressesFromConfig(config?: TezosDomainsConfig): ContractConfig {
+    const network = config?.network || 'mainnet';
     if (network === 'custom') {
         if (!config?.contractAddresses) {
             throw new Error(`When network type is 'custom', it is required to specify 'contractAddresses'.`);
@@ -26,16 +25,16 @@ export function getAddressesFromConfig(config?: TezosDomainsConfig) {
 export class ProxyContractAddressResolver {
     constructor(private addresses: ContractConfig, private tezos: TezosClient) {}
 
-    async resolve(type: SmartContractType, ...params: any[]) {
-        const storage = await this.tezos.storage<ProxyStorage>(this.getAddressFromConfig(type, params));
+    async resolve(type: SmartContractType, ...params: string[]): Promise<string> {
+        const storage = await this.tezos.storage<ProxyStorage>(this.getAddressFromConfig(type, ...params));
         return storage.contract;
     }
 
-    private getAddressFromConfig(type: SmartContractType, ...params: any[]) {
+    private getAddressFromConfig(type: SmartContractType, ...params: string[]) {
         let alias: string;
 
         switch (type) {
-            case SmartContractType.TLDRegistrar:
+            case SmartContractType.TLDRegistrar: {
                 const tld = params[0];
 
                 if (!tld) {
@@ -44,6 +43,7 @@ export class ProxyContractAddressResolver {
 
                 alias = `${SmartContractType.TLDRegistrar}:${tld}`;
                 break;
+            }
             default:
                 alias = type;
                 break;

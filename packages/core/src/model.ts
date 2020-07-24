@@ -1,4 +1,5 @@
 import { BigMapAbstraction, TezosToolkit } from "@taquito/taquito";
+import { encoders, decode } from './utils/convert';
 
 export type NetworkType = 'mainnet' | 'carthagenet' | 'custom';
 
@@ -28,15 +29,15 @@ export interface NameRegistryStorage {
     validity_map: BigMapAbstraction;
 }
 
-export interface ReverseRecord {
-    name: string;
-    owner: string;
+export class ReverseRecord {
+    @decode(encoders.string) name!: string;
+    owner!: string;
 }
 
-export interface DomainRecord {
-    address: string;
+export class DomainRecord {
+    address!: string;
 }
 
-export interface RecordValidity {
-    timestamp: Date;
+export class RecordValidity {
+    @decode(encoders.date) timestamp!: Date;
 }

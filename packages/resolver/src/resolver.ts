@@ -21,7 +21,7 @@ export class TezosDomainsResolver {
         this.tezos = new TezosProxyClient(tezos, contractAddressResolver);
     }
 
-    async resolve(name: string) {
+    async resolve(name: string): Promise<string | null> {
         const [record, validity] = await Promise.all([this.getDomainRecord(name), this.getDomainValidityRecord(name)]);
         if (!record) {
             return null;
@@ -35,7 +35,7 @@ export class TezosDomainsResolver {
         return record.address;
     }
 
-    async reverseResolve(address: string) {
+    async reverseResolve(address: string): Promise<string | null> {
         const reverseRecord = await this.getReverseRecord(address);
 
         if (!reverseRecord) {
@@ -53,14 +53,14 @@ export class TezosDomainsResolver {
     }
 
     private async getDomainRecord(name: string) {
-        return this.tezos.getBigMapValue<NameRegistryStorage, DomainRecord>(SmartContractType.NameRegistry, null, s => s.records, name);
+        return this.tezos.getBigMapValue<NameRegistryStorage, DomainRecord>(SmartContractType.NameRegistry, null, s => s.records, name, DomainRecord);
     }
 
     private async getDomainValidityRecord(name: string) {
-        return this.tezos.getBigMapValue<NameRegistryStorage, RecordValidity>(SmartContractType.NameRegistry, null, s => s.validity_map, name);
+        return this.tezos.getBigMapValue<NameRegistryStorage, RecordValidity>(SmartContractType.NameRegistry, null, s => s.validity_map, name, RecordValidity);
     }
 
     private async getReverseRecord(address: string) {
-        return this.tezos.getBigMapValue<NameRegistryStorage, ReverseRecord>(SmartContractType.NameRegistry, null, s => s.reverse_records, address);
+        return this.tezos.getBigMapValue<NameRegistryStorage, ReverseRecord>(SmartContractType.NameRegistry, null, s => s.reverse_records, address, ReverseRecord);
     }
 }

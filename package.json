@@ -8,7 +8,8 @@
     "cut-prerelease": "yarn cut-release --conventional-prerelease",
     "publish": "lerna publish from-git",
     "commit": "git-cz",
-    "prepare": "yarn build"
+    "prepare": "yarn build",
+    "lint": "eslint --ext .ts ./"
   },
   "devDependencies": {
     "@commitlint/cli": "^9.1.1",
