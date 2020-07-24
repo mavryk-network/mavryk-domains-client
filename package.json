@@ -7,7 +7,8 @@
     "cut-release": "lerna version --sign-git-commit",
     "cut-prerelease": "yarn cut-release --conventional-prerelease",
     "publish": "lerna publish from-git",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "prepare": "yarn build"
   },
   "devDependencies": {
     "@commitlint/cli": "^9.1.1",
