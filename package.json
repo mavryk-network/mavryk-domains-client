@@ -6,7 +6,8 @@
     "build": "lerna run build --no-private",
     "cut-release": "lerna version --sign-git-commit --no-changelog",
     "cut-prerelease": "yarn cut-release --conventional-prerelease",
-    "publish": "lerna publish from-git"
+    "publish": "lerna publish from-git",
+    "commit": "git-cz"
   },
   "devDependencies": {
     "@commitlint/cli": "^9.1.1",
@@ -16,6 +17,8 @@
     "@typescript-eslint/eslint-plugin": "^3.7.0",
     "@typescript-eslint/parser": "^3.7.0",
     "@yarnpkg/pnpify": "^2.1.0",
+    "commitizen": "^4.1.2",
+    "cz-conventional-changelog": "^3.2.0",
     "eslint": "^7.5.0",
     "husky": "^4.2.5",
     "lerna": "^3.22.1",
@@ -28,6 +31,11 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
     }
   }
 }
