@@ -6,11 +6,11 @@ const pkg = require('./package.json');
 export default {
     input: `public_api.ts`,
     output: [
-        { file: pkg.main, name: 'tezosDomainsBase', format: 'umd', sourcemap: true },
+        { file: pkg.main, name: 'tezosDomainsResolver', format: 'umd', sourcemap: true },
         { file: pkg.module, format: 'es', sourcemap: true },
     ],
     // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
-    external: ['@tezos-domains/base'],
+    external: ['@tezos-domains/core'],
     watch: {
         include: 'src/**',
     },

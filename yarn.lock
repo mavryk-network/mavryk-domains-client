@@ -1236,9 +1236,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tezos-domains/base@^0.0.0, @tezos-domains/base@workspace:packages/base":
+"@tezos-domains/core@^0.0.0, @tezos-domains/core@workspace:packages/core":
   version: 0.0.0-use.local
-  resolution: "@tezos-domains/base@workspace:packages/base"
+  resolution: "@tezos-domains/core@workspace:packages/core"
   dependencies:
     "@taquito/michelson-encoder": ^6.3.5-beta.0
     "@taquito/rpc": ^6.3.5-beta.0
@@ -1260,7 +1260,7 @@ __metadata:
   resolution: "@tezos-domains/resolver@workspace:packages/resolver"
   dependencies:
     "@taquito/taquito": ^6.3.5-beta.0
-    "@tezos-domains/base": ^0.0.0
+    "@tezos-domains/core": ^0.0.0
     "@types/jest": ^26.0.6
     "@types/node": ^14.0.24
     rimraf: ^3.0.2

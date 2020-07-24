@@ -23,8 +23,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:."
       },
       {
-        "name": "@tezos-domains/base",
-        "reference": "workspace:packages/base"
+        "name": "@tezos-domains/core",
+        "reference": "workspace:packages/core"
       },
       {
         "name": "@tezos-domains/resolver",
@@ -34,7 +34,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
     "enableTopLevelFallback": true,
     "ignorePatternData": "(^(?:\\.yarn\\/sdks(?:\\/(?!\\.)(?:(?:(?!(?:^|\\/)\\.).)*?)|$))$)",
     "fallbackExclusionList": [
-      ["@tezos-domains/base", ["workspace:packages/base"]],
+      ["@tezos-domains/core", ["workspace:packages/core"]],
       ["@tezos-domains/resolver", ["workspace:packages/resolver"]],
       ["root", ["workspace:."]]
     ],
@@ -1293,10 +1293,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@rollup/pluginutils", [
-        ["virtual:15b72b6e67d2d9088a8506338b7010aa1b914fac44b6f1db863a5ac045141a9efcf5033b9195765c3b057f1452ea2ac973c9049d2a7556020d634f4cfb2d9c72#npm:3.1.0", {
-          "packageLocation": "./.yarn/$$virtual/@rollup-pluginutils-virtual-cfe66ee18c/0/cache/@rollup-pluginutils-npm-3.1.0-b44b222e7d-45da6411e0.zip/node_modules/@rollup/pluginutils/",
+        ["virtual:e5a06dce20b50e7e1b91c1a163dc4e18d237a740790ed7e6b670b111682ab5d15d1b2724e8ff74c7774c2fc419448539134d0b1ec498e5c75aad6bb9830be840#npm:3.1.0", {
+          "packageLocation": "./.yarn/$$virtual/@rollup-pluginutils-virtual-98cbc260a3/0/cache/@rollup-pluginutils-npm-3.1.0-b44b222e7d-45da6411e0.zip/node_modules/@rollup/pluginutils/",
           "packageDependencies": [
-            ["@rollup/pluginutils", "virtual:15b72b6e67d2d9088a8506338b7010aa1b914fac44b6f1db863a5ac045141a9efcf5033b9195765c3b057f1452ea2ac973c9049d2a7556020d634f4cfb2d9c72#npm:3.1.0"],
+            ["@rollup/pluginutils", "virtual:e5a06dce20b50e7e1b91c1a163dc4e18d237a740790ed7e6b670b111682ab5d15d1b2724e8ff74c7774c2fc419448539134d0b1ec498e5c75aad6bb9830be840#npm:3.1.0"],
             ["@types/estree", "npm:0.0.39"],
             ["estree-walker", "npm:1.0.1"],
             ["picomatch", "npm:2.2.2"],
@@ -1417,11 +1417,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["@tezos-domains/base", [
-        ["workspace:packages/base", {
-          "packageLocation": "./packages/base/",
+      ["@tezos-domains/core", [
+        ["workspace:packages/core", {
+          "packageLocation": "./packages/core/",
           "packageDependencies": [
-            ["@tezos-domains/base", "workspace:packages/base"],
+            ["@tezos-domains/core", "workspace:packages/core"],
             ["@taquito/michelson-encoder", "npm:6.3.5-beta.0"],
             ["@taquito/rpc", "npm:6.3.5-beta.0"],
             ["@taquito/taquito", "npm:6.3.5-beta.0"],
@@ -1430,8 +1430,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.0.24"],
             ["rimraf", "npm:3.0.2"],
             ["rollup", "npm:2.22.2"],
-            ["rollup-plugin-sourcemaps", "virtual:53022c89aeb491c56b0e534b9250644d1c267812ebcbde825ac1552acf21310eed0b21794fcafb513c7411338fd1b8bfba32512da0e21dca4a3e6d6fb8c92d5b#npm:0.6.2"],
-            ["rollup-plugin-typescript2", "virtual:53022c89aeb491c56b0e534b9250644d1c267812ebcbde825ac1552acf21310eed0b21794fcafb513c7411338fd1b8bfba32512da0e21dca4a3e6d6fb8c92d5b#npm:0.27.1"],
+            ["rollup-plugin-sourcemaps", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.6.2"],
+            ["rollup-plugin-typescript2", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.27.1"],
             ["tslib", "npm:2.0.0"],
             ["typescript", "patch:typescript@npm%3A3.9.7#builtin<compat/typescript>::version=3.9.7&hash=5b02a2"]
           ],
@@ -1444,13 +1444,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@tezos-domains/resolver", "workspace:packages/resolver"],
             ["@taquito/taquito", "npm:6.3.5-beta.0"],
-            ["@tezos-domains/base", "workspace:packages/base"],
+            ["@tezos-domains/core", "workspace:packages/core"],
             ["@types/jest", "npm:26.0.6"],
             ["@types/node", "npm:14.0.24"],
             ["rimraf", "npm:3.0.2"],
             ["rollup", "npm:2.22.2"],
-            ["rollup-plugin-sourcemaps", "virtual:53022c89aeb491c56b0e534b9250644d1c267812ebcbde825ac1552acf21310eed0b21794fcafb513c7411338fd1b8bfba32512da0e21dca4a3e6d6fb8c92d5b#npm:0.6.2"],
-            ["rollup-plugin-typescript2", "virtual:53022c89aeb491c56b0e534b9250644d1c267812ebcbde825ac1552acf21310eed0b21794fcafb513c7411338fd1b8bfba32512da0e21dca4a3e6d6fb8c92d5b#npm:0.27.1"],
+            ["rollup-plugin-sourcemaps", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.6.2"],
+            ["rollup-plugin-typescript2", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.27.1"],
             ["tslib", "npm:2.0.0"],
             ["typescript", "patch:typescript@npm%3A3.9.7#builtin<compat/typescript>::version=3.9.7&hash=5b02a2"]
           ],
@@ -8457,11 +8457,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["rollup-plugin-sourcemaps", [
-        ["virtual:53022c89aeb491c56b0e534b9250644d1c267812ebcbde825ac1552acf21310eed0b21794fcafb513c7411338fd1b8bfba32512da0e21dca4a3e6d6fb8c92d5b#npm:0.6.2", {
-          "packageLocation": "./.yarn/$$virtual/rollup-plugin-sourcemaps-virtual-15b72b6e67/0/cache/rollup-plugin-sourcemaps-npm-0.6.2-633958ab3a-c52a1cbd84.zip/node_modules/rollup-plugin-sourcemaps/",
+        ["virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.6.2", {
+          "packageLocation": "./.yarn/$$virtual/rollup-plugin-sourcemaps-virtual-e5a06dce20/0/cache/rollup-plugin-sourcemaps-npm-0.6.2-633958ab3a-c52a1cbd84.zip/node_modules/rollup-plugin-sourcemaps/",
           "packageDependencies": [
-            ["rollup-plugin-sourcemaps", "virtual:53022c89aeb491c56b0e534b9250644d1c267812ebcbde825ac1552acf21310eed0b21794fcafb513c7411338fd1b8bfba32512da0e21dca4a3e6d6fb8c92d5b#npm:0.6.2"],
-            ["@rollup/pluginutils", "virtual:15b72b6e67d2d9088a8506338b7010aa1b914fac44b6f1db863a5ac045141a9efcf5033b9195765c3b057f1452ea2ac973c9049d2a7556020d634f4cfb2d9c72#npm:3.1.0"],
+            ["rollup-plugin-sourcemaps", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.6.2"],
+            ["@rollup/pluginutils", "virtual:e5a06dce20b50e7e1b91c1a163dc4e18d237a740790ed7e6b670b111682ab5d15d1b2724e8ff74c7774c2fc419448539134d0b1ec498e5c75aad6bb9830be840#npm:3.1.0"],
             ["@types/node", "npm:14.0.24"],
             ["rollup", "npm:2.22.2"],
             ["source-map-resolve", "npm:0.6.0"]
@@ -8474,11 +8474,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["rollup-plugin-typescript2", [
-        ["virtual:53022c89aeb491c56b0e534b9250644d1c267812ebcbde825ac1552acf21310eed0b21794fcafb513c7411338fd1b8bfba32512da0e21dca4a3e6d6fb8c92d5b#npm:0.27.1", {
-          "packageLocation": "./.yarn/$$virtual/rollup-plugin-typescript2-virtual-4f5b5b6ffb/0/cache/rollup-plugin-typescript2-npm-0.27.1-4681670f83-5d16047042.zip/node_modules/rollup-plugin-typescript2/",
+        ["virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.27.1", {
+          "packageLocation": "./.yarn/$$virtual/rollup-plugin-typescript2-virtual-fad3352999/0/cache/rollup-plugin-typescript2-npm-0.27.1-4681670f83-5d16047042.zip/node_modules/rollup-plugin-typescript2/",
           "packageDependencies": [
-            ["rollup-plugin-typescript2", "virtual:53022c89aeb491c56b0e534b9250644d1c267812ebcbde825ac1552acf21310eed0b21794fcafb513c7411338fd1b8bfba32512da0e21dca4a3e6d6fb8c92d5b#npm:0.27.1"],
-            ["@rollup/pluginutils", "virtual:15b72b6e67d2d9088a8506338b7010aa1b914fac44b6f1db863a5ac045141a9efcf5033b9195765c3b057f1452ea2ac973c9049d2a7556020d634f4cfb2d9c72#npm:3.1.0"],
+            ["rollup-plugin-typescript2", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.27.1"],
+            ["@rollup/pluginutils", "virtual:e5a06dce20b50e7e1b91c1a163dc4e18d237a740790ed7e6b670b111682ab5d15d1b2724e8ff74c7774c2fc419448539134d0b1ec498e5c75aad6bb9830be840#npm:3.1.0"],
             ["find-cache-dir", "npm:3.3.1"],
             ["fs-extra", "npm:8.1.0"],
             ["resolve", "patch:resolve@npm%3A1.15.1#builtin<compat/resolve>::version=1.15.1&hash=3388aa"],

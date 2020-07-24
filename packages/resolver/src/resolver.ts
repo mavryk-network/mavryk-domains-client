@@ -10,7 +10,7 @@ import {
     getAddressesFromConfig,
     RecordValidity,
     ReverseRecord,
-} from '@tezos-domains/base';
+} from '@tezos-domains/core';
 
 export class TezosDomainsResolver {
     private tezos: TezosProxyClient;

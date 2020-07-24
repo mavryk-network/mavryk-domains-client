@@ -1,5 +1,5 @@
 {
-  "name": "@tezos-domains/base",
+  "name": "@tezos-domains/core",
   "scripts": {
     "build": "rimraf dist && rollup -c rollup.config.ts",
     "start": "rollup -c rollup.config.ts -w"
@@ -11,8 +11,8 @@
   "description": "Base library for interacting with tezos domains smart contracts.",
   "author": "Necroskillz <necroskillz@gmail.com>",
   "license": "MIT",
-  "main": "dist/base.umd.js",
-  "module": "dist/base.es2015.js",
+  "main": "dist/core.umd.js",
+  "module": "dist/core.es2015.js",
   "typings": "dist/public_api.d.ts",
   "repository": {
     "type": "git",
@@ -36,5 +36,8 @@
     "@taquito/rpc": "^6.3.5-beta.0",
     "@taquito/taquito": "^6.3.5-beta.0",
     "@taquito/utils": "^6.3.5-beta.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
