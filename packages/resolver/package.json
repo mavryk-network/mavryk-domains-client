@@ -2,7 +2,7 @@
   "name": "@tezos-domains/resolver",
   "scripts": {
     "build": "rimraf dist && rollup -c rollup.config.ts",
-    "start": "rollup -c rollup.config.ts -w"
+    "watch": "rollup -c rollup.config.ts -w"
   },
   "files": [
     "dist"

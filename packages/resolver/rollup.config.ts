@@ -10,7 +10,7 @@ export default {
         { file: pkg.module, format: 'es', sourcemap: true },
     ],
     // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
-    external: ['@tezos-domains/core'],
+    external: ['@tezos-domains/core', '@taquito/taquito'],
     watch: {
         include: 'src/**',
     },

@@ -1,5 +1,8 @@
-import { BigMapAbstraction, TezosToolkit } from "@taquito/taquito";
-import { encoders, decode } from './utils/convert';
+import { BigMapAbstraction, TezosToolkit } from '@taquito/taquito';
+
+import { RpcResponse, encoder } from './rpc-data/decorators';
+import { BytesEncoder } from './rpc-data/encoders/bytes-encoder';
+import { DateEncoder } from './rpc-data/encoders/date-encoder';
 
 export type NetworkType = 'mainnet' | 'carthagenet' | 'custom';
 
@@ -14,14 +17,14 @@ export type TezosDomainsConfig = {
     tezos?: TezosToolkit;
 };
 
-export interface ProxyStorage {
-    contract: string;
-}
-
 export type ContractConfig = {
     [type: string]: string;
     nameRegistry: string;
 };
+
+export interface ProxyStorage {
+    contract: string;
+}
 
 export interface NameRegistryStorage {
     records: BigMapAbstraction;
@@ -29,15 +32,19 @@ export interface NameRegistryStorage {
     validity_map: BigMapAbstraction;
 }
 
+@RpcResponse()
 export class ReverseRecord {
-    @decode(encoders.string) name!: string;
+    @encoder(BytesEncoder) name!: string;
     owner!: string;
 }
 
+@RpcResponse()
 export class DomainRecord {
+    @encoder(BytesEncoder) validity_key!: string;
     address!: string;
 }
 
+@RpcResponse()
 export class RecordValidity {
-    @decode(encoders.date) timestamp!: Date;
+    @encoder(DateEncoder) timestamp!: Date;
 }
