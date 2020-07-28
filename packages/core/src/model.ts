@@ -34,14 +34,14 @@ export interface NameRegistryStorage {
 
 @RpcResponse()
 export class ReverseRecord {
-    @encoder(BytesEncoder) name!: string;
+    @encoder(BytesEncoder) name?: string;
     owner!: string;
 }
 
 @RpcResponse()
 export class DomainRecord {
     @encoder(BytesEncoder) validity_key!: string;
-    address!: string;
+    address?: string;
 }
 
 @RpcResponse()

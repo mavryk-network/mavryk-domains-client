@@ -1,11 +1,12 @@
 import { TezosToolkit, BigMapAbstraction } from '@taquito/taquito';
+import NodeCache from 'node-cache';
 
 import { RpcResponseData } from '../rpc-data/rpc-response-data';
 import { RpcRequestData } from '../rpc-data/rpc-request-data';
 import { BytesEncoder } from '../rpc-data/encoders/bytes-encoder';
 
 export class TezosClient {
-    private storageCache = new Map<string, unknown>();
+    private storageCache = new NodeCache({ stdTTL: 60 * 60, checkperiod: 0, useClones: false, maxKeys: 10 });
 
     constructor(private tezos: TezosToolkit) {}
 
@@ -17,7 +18,7 @@ export class TezosClient {
             this.storageCache.set(contractAddress, promise);
         }
 
-        return this.storageCache.get(contractAddress) as T;
+        return this.storageCache.get<Promise<T>>(contractAddress)!;
     }
 
     async getBigMapValue<TStorage>(contractAddress: string, bigMapSelector: (storage: TStorage) => BigMapAbstraction, key: string): Promise<RpcResponseData> {

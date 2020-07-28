@@ -9,6 +9,7 @@ export class BytesEncoder implements TypedRpcDataEncoder<string, string> {
 
         return encodeString(value);
     }
+
     decode(value: string | null): string | null {
         if (!value) {
             return null;

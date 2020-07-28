@@ -15,19 +15,19 @@ export function RpcResponse(): (target: unknown) => void {
     };
 }
 
-export function encoder(encoder: Constructable<RpcDataEncoder>): (target: unknown, propertyKey: string) => void {
-    return function (target: unknown, propertyKey: string) {
-        const type = rpcTypes.get(target);
-        if (!type) {
-            throw new Error('In order to use encoder() decorator, the class must be decorated with either RpcRequest() or RpcResponse()');
-        }
-
+export function encoder(encoder: Constructable<RpcDataEncoder>): (target: any, propertyKey: string) => void {
+    return function (target: any, propertyKey: string) {
         let value: unknown;
         const encoderInstance = new encoder();
         const getter = function () {
             return value;
         };
         const setter = function (newVal: unknown) {
+            const type = rpcTypes.get(target.constructor);
+            if (!type) {
+                throw new Error('In order to use encoder() decorator, the class must be decorated with either RpcRequest() or RpcResponse()');
+            }
+
             value = type === 'request' ? encoderInstance.encode(newVal) : encoderInstance.decode(newVal);
         };
 
