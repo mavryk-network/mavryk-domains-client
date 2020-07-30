@@ -23,13 +23,14 @@
   "bugs": {
     "url": "https://gitlab.com/tezos-domains/client/issues"
   },
-  "devDependencies": {
+  "dependencies": {
     "@taquito/taquito": "^6.3.5-beta.0",
-    "@tezos-domains/core": "^0.0.1-alpha.1",
-    "@types/node": "^14.0.24",
+    "@tezos-domains/core": "^0.0.1-alpha.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.27",
     "fake-promise": "^2.5.29",
     "jest": "^26.1.0",
-    "jest-config": "^26.1.0",
     "mockdate": "^3.0.2",
     "rimraf": "^3.0.2",
     "rollup": "^2.22.2",
@@ -39,10 +40,6 @@
     "ts-mockito": "^2.6.1",
     "tslib": "^2.0.0",
     "typescript": "^3.9.7"
-  },
-  "peerDependencies": {
-    "@taquito/taquito": "^6.3.5-beta.0",
-    "@tezos-domains/core": "0.0.1-alpha.0"
   },
   "publishConfig": {
     "access": "public"
