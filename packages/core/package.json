@@ -26,6 +26,7 @@
   "dependencies": {
     "@taquito/taquito": "^6.3.5-beta.0",
     "@taquito/utils": "^6.3.5-beta.0",
+    "bignumber.js": "^9.0.0",
     "node-cache": "^5.1.2"
   },
   "devDependencies": {

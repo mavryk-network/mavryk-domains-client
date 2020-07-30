@@ -14,7 +14,7 @@ import { mock, when, anyFunction, anything, instance } from 'ts-mockito';
 import MockDate from 'mockdate';
 
 interface FakeNameRegistryStorage {
-    records: Record<string, Exact<DomainRecord>>;
+    records: Record<string, Pick<DomainRecord, 'validity_key' | 'address'>>;
     reverse_records: Record<string, Exact<ReverseRecord>>;
     validity_map: Record<string, Date>;
 }

@@ -1990,13 +1990,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tezos-domains/core@0.0.1-alpha.1, @tezos-domains/core@^0.0.1-alpha.1, @tezos-domains/core@workspace:packages/core":
+"@tezos-domains/core@^1.0.0-beta.0, @tezos-domains/core@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@tezos-domains/core@workspace:packages/core"
   dependencies:
     "@taquito/taquito": ^6.3.5-beta.0
     "@taquito/utils": ^6.3.5-beta.0
     "@types/node": ^14.0.27
+    bignumber.js: ^9.0.0
     fake-promise: ^2.5.29
     jest: ^26.1.0
     mockdate: ^3.0.2
@@ -2012,12 +2013,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tezos-domains/resolver@0.0.1-alpha.1, @tezos-domains/resolver@workspace:packages/resolver":
+"@tezos-domains/resolver@^1.0.0-beta.0, @tezos-domains/resolver@workspace:packages/resolver":
   version: 0.0.0-use.local
   resolution: "@tezos-domains/resolver@workspace:packages/resolver"
   dependencies:
     "@taquito/taquito": ^6.3.5-beta.0
-    "@tezos-domains/core": ^0.0.1-alpha.1
+    "@tezos-domains/core": ^1.0.0-beta.0
     "@types/node": ^14.0.27
     fake-promise: ^2.5.29
     jest: ^26.1.0
@@ -6325,8 +6326,8 @@ __metadata:
     "@taquito/signer": ^6.3.5-beta.0
     "@taquito/taquito": ^6.3.5-beta.0
     "@taquito/utils": ^6.3.5-beta.0
-    "@tezos-domains/core": 0.0.1-alpha.1
-    "@tezos-domains/resolver": 0.0.1-alpha.1
+    "@tezos-domains/core": ^1.0.0-beta.0
+    "@tezos-domains/resolver": ^1.0.0-beta.0
     "@types/node": ^14.0.27
     chalk: ^4.1.0
     jest: ^26.1.0

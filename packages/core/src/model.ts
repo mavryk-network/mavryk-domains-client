@@ -1,7 +1,5 @@
 import { BigMapAbstraction, TezosToolkit } from '@taquito/taquito';
-
-import { RpcResponse, encoder } from './rpc-data/decorators';
-import { BytesEncoder } from './rpc-data/encoders/bytes-encoder';
+import BigNumber from 'bignumber.js';
 
 export type NetworkType = 'mainnet' | 'carthagenet' | 'custom';
 
@@ -33,16 +31,15 @@ export interface NameRegistryStorage {
     records: BigMapAbstraction;
     reverse_records: BigMapAbstraction;
     validity_map: BigMapAbstraction;
+    owner: string;
+    trusted_senders: string[];
+    validators: string[];
 }
 
-@RpcResponse()
-export class ReverseRecord {
-    @encoder(BytesEncoder) name?: string;
-    owner!: string;
-}
-
-@RpcResponse()
-export class DomainRecord {
-    @encoder(BytesEncoder) validity_key!: string;
-    address?: string;
+export interface TLDRegistrarStorage {
+    records: BigMapAbstraction;
+    commitments: BigMapAbstraction;
+    max_commitment_age: BigNumber;
+    min_commitment_age: BigNumber;
+    min_bid_per_day: BigNumber;
 }

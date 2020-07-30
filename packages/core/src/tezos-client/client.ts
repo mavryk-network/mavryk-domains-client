@@ -35,12 +35,19 @@ export class TezosClient {
         return storage;
     }
 
-    async getBigMapValue<TStorage>(contractAddress: string, bigMapSelector: (storage: TStorage) => BigMapAbstraction, key: RpcRequestScalarData<string>): Promise<RpcResponseData> {
-        this.tracer.trace(`=> Getting big map value from a big map of '${contractAddress}' selected by '${bigMapSelector.toString()}' with key '${key}'.`);
+    async getBigMapValue<TStorage>(
+        contractAddress: string,
+        bigMapSelector: (storage: TStorage) => BigMapAbstraction,
+        key: RpcRequestScalarData<string>
+    ): Promise<RpcResponseData> {
+        const encodedKey = key.encode()!;
+        this.tracer.trace(
+            `=> Getting big map value from a big map of '${contractAddress}' selected by '${bigMapSelector.toString()}' with key '${encodedKey}'.`
+        );
 
         const storage = await this.storage<TStorage>(contractAddress);
         const bigMap = bigMapSelector(storage);
-        const value = await bigMap.get(key.encode()!);
+        const value = await bigMap.get(encodedKey);
 
         this.tracer.trace(`<= Received big map value.`, value);
 

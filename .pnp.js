@@ -2308,6 +2308,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@taquito/taquito", "npm:6.3.5-beta.0"],
             ["@taquito/utils", "npm:6.3.5-beta.0"],
             ["@types/node", "npm:14.0.27"],
+            ["bignumber.js", "npm:9.0.0"],
             ["fake-promise", "npm:2.5.29"],
             ["jest", "npm:26.1.0"],
             ["mockdate", "npm:3.0.2"],
