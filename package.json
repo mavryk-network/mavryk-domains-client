@@ -31,7 +31,8 @@
     "typescript": "^3.9.7"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "integration-tests"
   ],
   "husky": {
     "hooks": {

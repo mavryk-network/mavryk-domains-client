@@ -1990,16 +1990,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tezos-domains/core@0.0.1-alpha.0, @tezos-domains/core@workspace:packages/core":
+"@tezos-domains/core@0.0.1-alpha.1, @tezos-domains/core@^0.0.1-alpha.1, @tezos-domains/core@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@tezos-domains/core@workspace:packages/core"
   dependencies:
     "@taquito/taquito": ^6.3.5-beta.0
     "@taquito/utils": ^6.3.5-beta.0
-    "@types/node": ^14.0.24
+    "@types/node": ^14.0.27
     fake-promise: ^2.5.29
     jest: ^26.1.0
-    jest-config: ^26.1.0
+    mockdate: ^3.0.2
     node-cache: ^5.1.2
     rimraf: ^3.0.2
     rollup: ^2.22.2
@@ -2009,22 +2009,18 @@ __metadata:
     ts-mockito: ^2.6.1
     tslib: ^2.0.0
     typescript: ^3.9.7
-  peerDependencies:
-    "@taquito/taquito": ^6.3.5-beta.0
-    "@taquito/utils": ^6.3.5-beta.0
   languageName: unknown
   linkType: soft
 
-"@tezos-domains/resolver@workspace:packages/resolver":
+"@tezos-domains/resolver@0.0.1-alpha.1, @tezos-domains/resolver@workspace:packages/resolver":
   version: 0.0.0-use.local
   resolution: "@tezos-domains/resolver@workspace:packages/resolver"
   dependencies:
     "@taquito/taquito": ^6.3.5-beta.0
-    "@tezos-domains/core": 0.0.1-alpha.0
-    "@types/node": ^14.0.24
+    "@tezos-domains/core": ^0.0.1-alpha.1
+    "@types/node": ^14.0.27
     fake-promise: ^2.5.29
     jest: ^26.1.0
-    jest-config: ^26.1.0
     mockdate: ^3.0.2
     rimraf: ^3.0.2
     rollup: ^2.22.2
@@ -2034,9 +2030,6 @@ __metadata:
     ts-mockito: ^2.6.1
     tslib: ^2.0.0
     typescript: ^3.9.7
-  peerDependencies:
-    "@taquito/taquito": ^6.3.5-beta.0
-    "@tezos-domains/core": 0.0.1-alpha.0
   languageName: unknown
   linkType: soft
 
@@ -2213,7 +2206,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>= 8, @types/node@npm:^14.0.24":
+"@types/node@npm:*, @types/node@npm:>= 8":
   version: 14.0.24
   resolution: "@types/node@npm:14.0.24"
   checksum: b10d6b56faeb7fdf2d2527d7aa685b472adaf810612903d667e364eb53a1ffd2ee0e74f25ab135375c7c3f77400cf05a569d7b8d5eee51cbf7b2f748ec86383d
@@ -2231,6 +2224,13 @@ __metadata:
   version: 13.13.14
   resolution: "@types/node@npm:13.13.14"
   checksum: b2fa5163740c067303f41b06aa35bc67e67ea5284de2aceac4c3b4eb8e34c1c9f102ecba82d268f05a4d06fbcc82079160ca577a763cfe31ee38a0a123bd42dd
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^14.0.27":
+  version: 14.0.27
+  resolution: "@types/node@npm:14.0.27"
+  checksum: 54ecf408eb94f44685e12ef395d8d9d5789cb9e209f171153b6b951272af6b8da099778d09d66454aa5d35ce246f3922ebd7476ed768bf3bd4267306c12a6703
   languageName: node
   linkType: hard
 
@@ -2753,6 +2753,13 @@ __metadata:
     delegates: ^1.0.0
     readable-stream: ^2.0.6
   checksum: 2d6fdb0ddde9b8cb120b6851b42c75f6b6db78b540b579a00d144ad38cb9e1bdf1248e5454049fcf5b47ef61d1a6f2ea433a8e38984158afd441bc1e0db7a625
+  languageName: node
+  linkType: hard
+
+"arg@npm:^4.1.0":
+  version: 4.1.3
+  resolution: "arg@npm:4.1.3"
+  checksum: 81b3b40b1529c4fbf75b12f7c3e6fb2dcce9e78072063babc169de9b4f40777788f3d2b04380f659ef676a756e03ccfbfe78adf4477353bda906295fa69dab89
   languageName: node
   linkType: hard
 
@@ -3440,7 +3447,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:4.1.0, chalk@npm:^4.0.0":
+"chalk@npm:4.1.0, chalk@npm:^4.0.0, chalk@npm:^4.1.0":
   version: 4.1.0
   resolution: "chalk@npm:4.1.0"
   dependencies:
@@ -6310,6 +6317,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"integration-tests@workspace:integration-tests":
+  version: 0.0.0-use.local
+  resolution: "integration-tests@workspace:integration-tests"
+  dependencies:
+    "@taquito/michelson-encoder": ^6.3.5-beta.0
+    "@taquito/signer": ^6.3.5-beta.0
+    "@taquito/taquito": ^6.3.5-beta.0
+    "@taquito/utils": ^6.3.5-beta.0
+    "@tezos-domains/core": 0.0.1-alpha.1
+    "@tezos-domains/resolver": 0.0.1-alpha.1
+    "@types/node": ^14.0.27
+    chalk: ^4.1.0
+    jest: ^26.1.0
+    ts-jest: ^26.1.3
+    ts-node: ^8.10.2
+    tslib: ^2.0.0
+    typescript: ^3.9.7
+  languageName: unknown
+  linkType: soft
+
 "ip-regex@npm:^2.1.0":
   version: 2.1.0
   resolution: "ip-regex@npm:2.1.0"
@@ -7878,7 +7905,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"make-error@npm:1.x":
+"make-error@npm:1.x, make-error@npm:^1.1.1":
   version: 1.3.6
   resolution: "make-error@npm:1.3.6"
   checksum: 2c780bab8409b865e8ee86697c599a2bf2765ec64d21eb67ccda27050e039f983feacad05a0d43aba3c966ea03d305d2612e94fec45474bcbc61181f57c5bb88
@@ -10567,7 +10594,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"source-map-support@npm:^0.5.6":
+"source-map-support@npm:^0.5.17, source-map-support@npm:^0.5.6":
   version: 0.5.19
   resolution: "source-map-support@npm:0.5.19"
   dependencies:
@@ -11335,6 +11362,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ts-node@npm:^8.10.2":
+  version: 8.10.2
+  resolution: "ts-node@npm:8.10.2"
+  dependencies:
+    arg: ^4.1.0
+    diff: ^4.0.1
+    make-error: ^1.1.1
+    source-map-support: ^0.5.17
+    yn: 3.1.1
+  peerDependencies:
+    typescript: ">=2.7"
+  bin:
+    ts-node: dist/bin.js
+    ts-node-script: dist/bin-script.js
+    ts-node-transpile-only: dist/bin-transpile.js
+    ts-script: dist/bin-script-deprecated.js
+  checksum: cd6e023e073d65ea346cf4a5b70bfd1e7c7f342c967a23a83038fd3462067558a4dda4fc8b238e6709db69aca3847590a93b4c52ae001e23ed9fef3b4fecbc71
+  languageName: node
+  linkType: hard
+
 "tslib@npm:1.11.2, tslib@npm:^1.10.0":
   version: 1.11.2
   resolution: "tslib@npm:1.11.2"
@@ -12081,5 +12128,12 @@ typescript@^3.9.7:
     y18n: ^4.0.0
     yargs-parser: ^18.1.2
   checksum: dbf687d6b938f01bbf11e158dde6df906282b70cd9295af0217ee8cefbd83ad09d49fa9458d0d5325b0e66f03df954a38986db96f91e5b46ccdbbaf9a0157b23
+  languageName: node
+  linkType: hard
+
+"yn@npm:3.1.1":
+  version: 3.1.1
+  resolution: "yn@npm:3.1.1"
+  checksum: bff63b80568d80c711670935427494dde47cdf97e8b04196b140ce0af519c81c5ee857eddad0caa8b422dd65aea0157bbfaacbb1546bebba623f0f383d5d9ae5
   languageName: node
   linkType: hard

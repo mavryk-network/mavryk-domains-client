@@ -21,6 +21,10 @@ describe('RpcRequestData', () => {
         it('should encode data with specified encoder', () => {
             expect(RpcRequestData.fromValue('1', FakeEncoder).encode()).toBe('1encoded');
         });
+
+        it('should have originalValue', () => {
+            expect(RpcRequestData.fromValue('1', FakeEncoder).originalValue).toBe('1');
+        });
     });
 
     describe('fromObject()', () => {
@@ -32,6 +36,10 @@ describe('RpcRequestData', () => {
 
             expect(request.prop1).toBe('a');
             expect(request.prop2).toBe('bencoded');
+        });
+
+        it('should have originalValue', () => {
+            expect(RpcRequestData.fromObject(FakeRequest, { prop1: 'a', prop2: 'b' }).originalValue).toEqual({ prop1: 'a', prop2: 'b' });
         });
 
         it('should throw if class does not have RpcRequest decorator', () => {

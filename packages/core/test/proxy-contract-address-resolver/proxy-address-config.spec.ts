@@ -34,7 +34,7 @@ describe('ProxyAddressConfig', () => {
     });
 
     it('should throw when no addresses are specified for custom network', () => {
-        expect(() => new ProxyAddressConfig({ network: 'custom' })).toThrowError();
+        expect(() => new ProxyAddressConfig({ network: 'custom' } as any)).toThrowError();
     });
 
     it('should when unknown option network is specified', () => {

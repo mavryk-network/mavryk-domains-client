@@ -2,7 +2,6 @@ import { BigMapAbstraction, TezosToolkit } from '@taquito/taquito';
 
 import { RpcResponse, encoder } from './rpc-data/decorators';
 import { BytesEncoder } from './rpc-data/encoders/bytes-encoder';
-import { DateEncoder } from './rpc-data/encoders/date-encoder';
 
 export type NetworkType = 'mainnet' | 'carthagenet' | 'custom';
 
@@ -11,11 +10,15 @@ export enum SmartContractType {
     NameRegistry = 'nameRegistry',
 }
 
-export type TezosDomainsConfig = {
-    network?: NetworkType;
-    contractAddresses?: ContractConfig;
+export type CommonConfig = {
     tezos?: TezosToolkit;
+    tracing?: boolean;
 };
+
+export type CustomNetworkConfig = { network?: 'custom'; contractAddresses: ContractConfig } & CommonConfig;
+export type DefaultNetworkConfig = { network?: 'mainnet' | 'carthagenet'; contractAddresses?: ContractConfig } & CommonConfig;
+
+export type TezosDomainsConfig = DefaultNetworkConfig | CustomNetworkConfig;
 
 export type ContractConfig = {
     [type: string]: string;
@@ -42,9 +45,4 @@ export class ReverseRecord {
 export class DomainRecord {
     @encoder(BytesEncoder) validity_key!: string;
     address?: string;
-}
-
-@RpcResponse()
-export class RecordValidity {
-    @encoder(DateEncoder) timestamp!: Date;
 }

@@ -1,4 +1,4 @@
-import { ProxyContractAddressResolver, TezosClient, ProxyAddressConfig, SmartContractType, smartContract } from '@tezos-domains/core';
+import { ProxyContractAddressResolver, TezosClient, ProxyAddressConfig, SmartContractType, smartContract, Tracer } from '@tezos-domains/core';
 import { mock, instance, when, anyString, verify } from 'ts-mockito';
 import FakePromise from 'fake-promise';
 
@@ -8,18 +8,20 @@ describe('ProxyContractAddressResolver', () => {
     let resolver: ProxyContractAddressResolver;
     let proxyAddressConfigMock: ProxyAddressConfig;
     let tezosClientMock: TezosClient;
+    let tracerMock: Tracer;
     let storage: FakePromise<ProxyStorage>;
 
     beforeEach(() => {
         proxyAddressConfigMock = mock(ProxyAddressConfig);
         tezosClientMock = mock(TezosClient);
+        tracerMock = mock(Tracer);
         storage = new FakePromise();
 
         when(tezosClientMock.storage(anyString())).thenReturn(storage);
         when(proxyAddressConfigMock.get(SmartContractType.NameRegistry)).thenReturn('nra');
         when(proxyAddressConfigMock.get(`${SmartContractType.TLDRegistrar}:tez`)).thenReturn('tld_tez');
 
-        resolver = new ProxyContractAddressResolver(instance(proxyAddressConfigMock), instance(tezosClientMock));
+        resolver = new ProxyContractAddressResolver(instance(proxyAddressConfigMock), instance(tezosClientMock), instance(tracerMock));
     });
 
     it('should return smart contract address for current network by type', async () => {

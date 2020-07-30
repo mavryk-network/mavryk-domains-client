@@ -1,6 +1,6 @@
 import { TypedRpcDataEncoder } from '../data-encoder';
 
-export class DateEncoder implements TypedRpcDataEncoder<Date, string> {
+export class DateEncoder extends TypedRpcDataEncoder<Date, string> {
     encode(value: Date | null): string | null {
         if (!value) {
             return null;
