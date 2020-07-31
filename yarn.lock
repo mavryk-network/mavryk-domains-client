@@ -2010,6 +2010,9 @@ __metadata:
     ts-mockito: ^2.6.1
     tslib: ^2.0.0
     typescript: ^3.9.7
+  peerDependencies:
+    "@taquito/taquito": ^6.3.5-beta.0
+    "@taquito/utils": ^6.3.5-beta.0
   languageName: unknown
   linkType: soft
 
@@ -2031,6 +2034,8 @@ __metadata:
     ts-mockito: ^2.6.1
     tslib: ^2.0.0
     typescript: ^3.9.7
+  peerDependencies:
+    "@taquito/taquito": ^6.3.5-beta.0
   languageName: unknown
   linkType: soft
 

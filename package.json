@@ -10,8 +10,9 @@
     "cut-prerelease": "yarn cut-release --conventional-prerelease --preid beta",
     "publish": "lerna publish from-git",
     "commit": "git-cz",
+    "lint": "eslint --ext .ts ./",
     "prepare": "yarn build",
-    "lint": "eslint --ext .ts ./"
+    "version": "yarn"
   },
   "devDependencies": {
     "@commitlint/cli": "^9.1.1",

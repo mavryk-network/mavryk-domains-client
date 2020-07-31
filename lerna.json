@@ -6,6 +6,7 @@
   "version": "1.0.0-beta.0",
   "npmClient": "yarn",
   "useWorkspaces": true,
+  "granularPathspec": false,
   "command": {
     "version": {
       "message": "release: cut the %s release",
