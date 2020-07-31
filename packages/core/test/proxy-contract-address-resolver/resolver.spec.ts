@@ -1,5 +1,5 @@
 import { ProxyContractAddressResolver, TezosClient, ProxyAddressConfig, SmartContractType, smartContract, Tracer } from '@tezos-domains/core';
-import { mock, instance, when, anyString, verify } from 'ts-mockito';
+import { mock, instance, when, anyString, verify, anything } from 'ts-mockito';
 import FakePromise from 'fake-promise';
 
 import { ProxyStorage } from '../../src/model';
@@ -14,12 +14,13 @@ describe('ProxyContractAddressResolver', () => {
     beforeEach(() => {
         proxyAddressConfigMock = mock(ProxyAddressConfig);
         tezosClientMock = mock(TezosClient);
-        tracerMock = mock(Tracer);
+        tracerMock = mock<Tracer>();
         storage = new FakePromise();
 
         when(tezosClientMock.storage(anyString())).thenReturn(storage);
         when(proxyAddressConfigMock.get(SmartContractType.NameRegistry)).thenReturn('nra');
         when(proxyAddressConfigMock.get(`${SmartContractType.TLDRegistrar}:tez`)).thenReturn('tld_tez');
+        when(tracerMock.trace(anything(), anything()));
 
         resolver = new ProxyContractAddressResolver(instance(proxyAddressConfigMock), instance(tezosClientMock), instance(tracerMock));
     });

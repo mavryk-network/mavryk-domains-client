@@ -1,14 +1,14 @@
-export abstract class Tracer {
-    abstract trace(msg: any, ...args: any[]): void;
+export interface Tracer {
+    trace(msg: any, ...args: any[]): void;
 }
 
-export class ConsoleTracer extends Tracer {
+export class ConsoleTracer implements Tracer {
     trace(msg: any, ...args: any[]): void {
         console.trace(`[${new Date().toISOString()}] Trace`, msg, ...args);
     }
 }
 
-export class NoopTracer extends Tracer {
+export class NoopTracer implements Tracer {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     trace(): void {}
 }

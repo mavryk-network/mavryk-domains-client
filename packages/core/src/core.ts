@@ -1,4 +1,5 @@
 import './rpc-data/data-encoder';
+import './tracing/tracer';
 
 export { SmartContractType, ContractConfig, NetworkType, NameRegistryStorage, DomainRecord, ReverseRecord, TezosDomainsConfig } from './model';
 export { smartContract } from './proxy-contract-address-resolver/alias';
