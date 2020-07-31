@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/%40tezos-domains%2Fcore.svg)](https://www.npmjs.com/package/@tezos-domains/core)
+
 # Tezos Domains Client
 
 Library for resolving and managing tezos domains built on top of [taquito](https://tezostaquito.io/).
