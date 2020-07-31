@@ -9,17 +9,18 @@ import {
     NoopTracer,
 } from '@tezos-domains/core';
 
-import { Resolver } from './resolver';
+import { NameResolver } from './name-resolver';
+import { BlockchainNameResolver } from './blockchain-name-resolver';
 
-export class TezosDomainsResolver {
-    private resolver: Resolver;
+export class TezosDomainsResolver implements NameResolver {
+    private resolver: NameResolver;
 
     constructor(config?: TezosDomainsConfig) {
         const tracer = config?.tracing ? new ConsoleTracer() : new NoopTracer();
         const tezosClient = new TezosClient(config?.tezos || Tezos, tracer);
         const contractAddressResolver = new ProxyContractAddressResolver(new ProxyAddressConfig(config), tezosClient, tracer);
         const tezos = new TezosProxyClient(tezosClient, contractAddressResolver);
-        this.resolver = new Resolver(tezos, tracer);
+        this.resolver = new BlockchainNameResolver(tezos, tracer);
     }
 
     async resolve(name: string): Promise<string | null> {

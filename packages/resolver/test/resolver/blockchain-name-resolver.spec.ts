@@ -9,7 +9,7 @@ import {
     Tracer,
     BytesEncoder,
 } from '@tezos-domains/core';
-import { Resolver } from '@tezos-domains/resolver';
+import { NameResolver, BlockchainNameResolver } from '@tezos-domains/resolver';
 import { mock, when, anyFunction, anything, instance } from 'ts-mockito';
 import MockDate from 'mockdate';
 
@@ -22,7 +22,7 @@ interface FakeNameRegistryStorage {
 const e = (s: string) => new BytesEncoder().encode(s)!;
 
 describe('Resolver', () => {
-    let resolver: Resolver;
+    let resolver: NameResolver;
     let tezosProxyClientMock: TezosProxyClient;
     let tracerMock: Tracer;
 
@@ -57,7 +57,7 @@ describe('Resolver', () => {
 
         MockDate.set(new Date(2020, 10, 11, 20, 0, 0));
 
-        resolver = new Resolver(instance(tezosProxyClientMock), instance(tracerMock));
+        resolver = new BlockchainNameResolver(instance(tezosProxyClientMock), instance(tracerMock));
     });
 
     afterEach(() => {

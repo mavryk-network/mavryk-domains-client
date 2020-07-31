@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 
 import { TypedRpcDataEncoder } from '../data-encoder';
 
-export class BigNumberEncoder extends TypedRpcDataEncoder<number, BigNumber> {
+export class BigNumberEncoder implements TypedRpcDataEncoder<number, BigNumber> {
     encode(value: number | null): BigNumber | null {
         if (!value) {
             return null;

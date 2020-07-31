@@ -1,5 +1,5 @@
 jest.mock('@tezos-domains/core');
-jest.mock('../src/resolver/resolver');
+jest.mock('../../src/resolver/blockchain-name-resolver');
 jest.mock('@taquito/taquito');
 
 import {
@@ -11,7 +11,7 @@ import {
     NoopTracer,
     ProxyAddressConfig,
 } from '@tezos-domains/core';
-import { TezosDomainsResolver, Resolver } from '@tezos-domains/resolver';
+import { TezosDomainsResolver, BlockchainNameResolver } from '@tezos-domains/resolver';
 import { mock, instance, when, anyString, verify } from 'ts-mockito';
 import { Tezos, TezosToolkit } from '@taquito/taquito';
 import FakePromise from 'fake-promise';
@@ -24,7 +24,7 @@ describe('TezosDomainsResolver', () => {
     let proxyAddressConfig: ProxyAddressConfig;
     let noopTracerMock: NoopTracer;
     let consoleTracerMock: ConsoleTracer;
-    let resolverMock: Resolver;
+    let resolverMock: BlockchainNameResolver;
 
     beforeEach(() => {
         tezosProxyClientMock = mock(TezosProxyClient);
@@ -33,7 +33,7 @@ describe('TezosDomainsResolver', () => {
         proxyAddressConfig = mock(ProxyAddressConfig);
         noopTracerMock = mock(NoopTracer);
         consoleTracerMock = mock(ConsoleTracer);
-        resolverMock = mock(Resolver);
+        resolverMock = mock(BlockchainNameResolver);
 
         (TezosClient as jest.Mock).mockReturnValue(instance(tezosClientMock));
         (ProxyContractAddressResolver as jest.Mock).mockReturnValue(instance(proxyAddressResolverMock));
@@ -41,7 +41,7 @@ describe('TezosDomainsResolver', () => {
         (ProxyAddressConfig as jest.Mock).mockReturnValue(instance(proxyAddressConfig));
         (ConsoleTracer as jest.Mock).mockReturnValue(instance(consoleTracerMock));
         (NoopTracer as jest.Mock).mockReturnValue(instance(noopTracerMock));
-        (Resolver as jest.Mock).mockReturnValue(instance(resolverMock));
+        (BlockchainNameResolver as jest.Mock).mockReturnValue(instance(resolverMock));
     });
 
     describe('config', () => {
@@ -52,7 +52,7 @@ describe('TezosDomainsResolver', () => {
             expect(ProxyAddressConfig).toHaveBeenCalledWith(undefined);
             expect(ProxyContractAddressResolver).toHaveBeenCalledWith(instance(proxyAddressConfig), instance(tezosClientMock), instance(noopTracerMock));
             expect(TezosProxyClient).toHaveBeenCalledWith(instance(tezosClientMock), instance(proxyAddressResolverMock));
-            expect(Resolver).toHaveBeenCalledWith(instance(tezosProxyClientMock), instance(noopTracerMock));
+            expect(BlockchainNameResolver).toHaveBeenCalledWith(instance(tezosProxyClientMock), instance(noopTracerMock));
         });
 
         it('should setup with custom config', () => {
@@ -64,7 +64,7 @@ describe('TezosDomainsResolver', () => {
             expect(ProxyAddressConfig).toHaveBeenCalledWith(config);
             expect(ProxyContractAddressResolver).toHaveBeenCalledWith(instance(proxyAddressConfig), instance(tezosClientMock), instance(consoleTracerMock));
             expect(TezosProxyClient).toHaveBeenCalledWith(instance(tezosClientMock), instance(proxyAddressResolverMock));
-            expect(Resolver).toHaveBeenCalledWith(instance(tezosProxyClientMock), instance(consoleTracerMock));
+            expect(BlockchainNameResolver).toHaveBeenCalledWith(instance(tezosProxyClientMock), instance(consoleTracerMock));
         });
     });
 

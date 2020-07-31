@@ -10,8 +10,9 @@ import {
     RpcRequestData,
     BytesEncoder,
 } from '@tezos-domains/core';
+import { NameResolver } from './name-resolver';
 
-export class Resolver {
+export class BlockchainNameResolver implements NameResolver {
     constructor(private tezos: TezosProxyClient, private tracer: Tracer) {
     }
 
