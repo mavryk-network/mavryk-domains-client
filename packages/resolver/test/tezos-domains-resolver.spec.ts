@@ -46,7 +46,6 @@ describe('TezosDomainsResolver', () => {
 
     describe('config', () => {
         it('should setup with default config', () => {
-            console.log(TezosDomainsResolver);
             new TezosDomainsResolver();
 
             expect(TezosClient).toHaveBeenCalledWith(Tezos, instance(noopTracerMock));

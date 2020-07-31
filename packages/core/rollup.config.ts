@@ -10,7 +10,7 @@ export default {
         { file: pkg.module, format: 'es', sourcemap: true },
     ],
     // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
-    external: ['@taquito/utils', '@taquito/taquito', '@taquito/util'],
+    external: ['@taquito/utils', '@taquito/taquito', 'node-cache', 'bignumber.js'],
     watch: {
         include: 'src/**',
     },
