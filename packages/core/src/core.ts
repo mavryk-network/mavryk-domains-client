@@ -14,4 +14,5 @@ export { BytesEncoder } from './rpc-data/encoders/bytes-encoder';
 export { DateEncoder } from './rpc-data/encoders/date-encoder';
 export { Tracer, ConsoleTracer, NoopTracer } from './tracing/tracer';
 export * from './utils/domains';
+export * from './utils/validate';
 export * from './utils/types';
