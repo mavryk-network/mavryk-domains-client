@@ -16,7 +16,8 @@ import {
 import { NameResolver } from './name-resolver';
 
 export class BlockchainNameResolver implements NameResolver {
-    constructor(private tezos: TezosProxyClient, private tracer: Tracer) {}
+    constructor(private tezos: TezosProxyClient, private tracer: Tracer) {
+    }
 
     async resolve(name: string): Promise<string | null> {
         this.tracer.trace(`=> Resolving address for '${name}'`);
@@ -65,7 +66,7 @@ export class BlockchainNameResolver implements NameResolver {
             return null;
         }
 
-        this.tracer.trace(`<= Resolved reverse record.`, reverseRecord.name);
+        this.tracer.trace(`<= Resolved name.`, reverseRecord.name);
 
         return reverseRecord.name;
     }

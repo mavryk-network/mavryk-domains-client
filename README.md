@@ -50,3 +50,7 @@ The above example would use the default taquito instance `Tezos` to execute requ
 `tracing` (default: `false`)
 
  - Whether to output debugging information.
+
+`caching` (default `{ enabled: false, recordTtl: 600, reverseRecordTtl: 600 }`)
+
+ - Specifies how to handle caching of name and address resolution.

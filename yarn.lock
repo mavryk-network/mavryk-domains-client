@@ -2027,6 +2027,7 @@ __metadata:
     fake-promise: ^2.5.29
     jest: ^26.1.0
     mockdate: ^3.0.2
+    node-cache: ^5.1.2
     rimraf: ^3.0.2
     rollup: ^2.22.2
     rollup-plugin-sourcemaps: ^0.6.2
