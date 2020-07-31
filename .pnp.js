@@ -2323,7 +2323,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["typescript", "patch:typescript@npm%3A3.9.7#builtin<compat/typescript>::version=3.9.7&hash=5b02a2"]
           ],
           "packagePeers": [
-            "@taquito/taquito"
+            "@taquito/taquito",
+            "@taquito/utils"
           ],
           "linkType": "SOFT",
         }],
@@ -2357,6 +2358,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@tezos-domains/resolver", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/resolver"],
             ["@taquito/taquito", "npm:6.3.5-beta.0"],
+            ["@taquito/utils", "npm:6.3.5-beta.0"],
             ["@tezos-domains/core", "virtual:f333c05e26333dab345221b123e7e4633031a3f39ef1f94009b1de8872697808850fbf4afaf0e3a37db7cd4088dd1102fb261c7e4d8ec17945b9eac95e1c7658#workspace:packages/core"],
             ["@types/node", "npm:14.0.27"],
             ["fake-promise", "npm:2.5.29"],
@@ -2372,7 +2374,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["typescript", "patch:typescript@npm%3A3.9.7#builtin<compat/typescript>::version=3.9.7&hash=5b02a2"]
           ],
           "packagePeers": [
-            "@taquito/taquito"
+            "@taquito/taquito",
+            "@taquito/utils"
           ],
           "linkType": "SOFT",
         }],
@@ -2381,6 +2384,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@tezos-domains/resolver", "workspace:packages/resolver"],
             ["@taquito/taquito", "npm:6.3.5-beta.0"],
+            ["@taquito/utils", "npm:6.3.5-beta.0"],
             ["@tezos-domains/core", "virtual:f333c05e26333dab345221b123e7e4633031a3f39ef1f94009b1de8872697808850fbf4afaf0e3a37db7cd4088dd1102fb261c7e4d8ec17945b9eac95e1c7658#workspace:packages/core"],
             ["@types/node", "npm:14.0.27"],
             ["fake-promise", "npm:2.5.29"],

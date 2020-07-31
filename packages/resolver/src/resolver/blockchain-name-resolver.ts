@@ -1,3 +1,4 @@
+import { validateAddress, ValidationResult } from '@taquito/utils';
 import {
     SmartContractType,
     NameRegistryStorage,
@@ -9,18 +10,23 @@ import {
     DateEncoder,
     RpcRequestData,
     BytesEncoder,
+    validateDomainName,
+    DomainNameValidationResult,
 } from '@tezos-domains/core';
 import { NameResolver } from './name-resolver';
 
 export class BlockchainNameResolver implements NameResolver {
-    constructor(private tezos: TezosProxyClient, private tracer: Tracer) {
-    }
+    constructor(private tezos: TezosProxyClient, private tracer: Tracer) {}
 
     async resolve(name: string): Promise<string | null> {
         this.tracer.trace(`=> Resolving address for '${name}'`);
 
         if (!name) {
             throw new Error(`Argument 'name' was not specified.`);
+        }
+
+        if (validateDomainName(name) !== DomainNameValidationResult.VALID) {
+            throw new Error(`'${name}' is not a valid domain name.`);
         }
 
         const record = await this.getValidRecord(name);
@@ -40,6 +46,10 @@ export class BlockchainNameResolver implements NameResolver {
 
         if (!address) {
             throw new Error(`Argument 'address' was not specified.`);
+        }
+
+        if (validateAddress(address) !== ValidationResult.VALID) {
+            throw new Error(`'${address}' is not a valid address.`);
         }
 
         const reverseRecord = await this.getReverseRecord(address);

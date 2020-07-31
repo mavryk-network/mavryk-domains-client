@@ -1,3 +1,4 @@
+import { SupportedTLDs, DomainNameValidators, AlphanumericWithHyphenDomainNameValidator } from '@tezos-domains/core';
 import { TezosDomainsResolver } from '@tezos-domains/resolver';
 import { TezosToolkit } from '@taquito/taquito';
 import { DATA } from '../data';
@@ -14,6 +15,9 @@ describe('resolver', () => {
     beforeAll(() => {
         const tezos = new TezosToolkit();
         tezos.setRpcProvider(process.env.TD_RPC_URL);
+
+        SupportedTLDs.push('test');
+        DomainNameValidators['test'] = AlphanumericWithHyphenDomainNameValidator;
 
         resolver = new TezosDomainsResolver({ network: 'carthagenet', tezos });
     });
