@@ -1,3 +1,4 @@
+import { ResolverConfig } from './../../src/resolver/tezos-domains-resolver';
 jest.mock('@tezos-domains/core');
 jest.mock('../../src/resolver/blockchain-name-resolver');
 jest.mock('../../src/resolver/cached-name-resolver');
@@ -7,7 +8,6 @@ import {
     TezosClient,
     TezosProxyClient,
     ProxyContractAddressResolver,
-    TezosDomainsConfig,
     ConsoleTracer,
     NoopTracer,
     ProxyAddressConfig,
@@ -62,7 +62,7 @@ describe('TezosDomainsResolver', () => {
 
         it('should setup with custom config', () => {
             const customTezosToolkit = mock(TezosToolkit);
-            const config: TezosDomainsConfig = {
+            const config: ResolverConfig = {
                 tezos: instance(customTezosToolkit),
                 network: 'carthagenet',
                 tracing: true,
