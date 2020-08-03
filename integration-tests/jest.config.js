@@ -5,5 +5,6 @@ module.exports = {
         'ts-jest': {
             packageJson: 'package.json',
         },
-    }
+    },
+    reporters: ['default', ['jest-junit', { outputDirectory: 'coverage' }]]
 };

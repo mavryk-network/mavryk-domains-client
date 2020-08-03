@@ -2000,6 +2000,7 @@ __metadata:
     bignumber.js: ^9.0.0
     fake-promise: ^2.5.29
     jest: ^26.1.0
+    jest-junit: ^11.1.0
     mockdate: ^3.0.2
     node-cache: ^5.1.2
     rimraf: ^3.0.2
@@ -2026,6 +2027,7 @@ __metadata:
     "@types/node": ^14.0.27
     fake-promise: ^2.5.29
     jest: ^26.1.0
+    jest-junit: ^11.1.0
     mockdate: ^3.0.2
     node-cache: ^5.1.2
     rimraf: ^3.0.2
@@ -6339,6 +6341,7 @@ __metadata:
     "@types/node": ^14.0.27
     chalk: ^4.1.0
     jest: ^26.1.0
+    jest-junit: ^11.1.0
     ts-jest: ^26.1.3
     ts-node: ^8.10.2
     tslib: ^2.0.0
@@ -7070,6 +7073,18 @@ __metadata:
     pretty-format: ^26.1.0
     throat: ^5.0.0
   checksum: b574b0d4754aba1a0b37c89f23c2845840631382ca288abd8d2b734a7f866c0cf4a09e71f24e61a25e3754dd736d5e8153e69a695d877e94aff4f363f5a79501
+  languageName: node
+  linkType: hard
+
+"jest-junit@npm:^11.1.0":
+  version: 11.1.0
+  resolution: "jest-junit@npm:11.1.0"
+  dependencies:
+    mkdirp: ^1.0.4
+    strip-ansi: ^5.2.0
+    uuid: ^3.3.3
+    xml: ^1.0.1
+  checksum: 1166ceac6f77cd7c16fb1efb16f649bc1b7eed02ddb90e6009c376e4598641e07a0071adeec8c60f3d651f7cc67fef27ad419e6c151926c188624027d9c7a6be
   languageName: node
   linkType: hard
 
@@ -8321,7 +8336,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mkdirp@npm:1.x, mkdirp@npm:^1.0.3":
+"mkdirp@npm:1.x, mkdirp@npm:^1.0.3, mkdirp@npm:^1.0.4":
   version: 1.0.4
   resolution: "mkdirp@npm:1.0.4"
   bin:
@@ -11684,7 +11699,7 @@ typescript@^3.9.7:
   languageName: node
   linkType: hard
 
-"uuid@npm:^3.0.1, uuid@npm:^3.3.2":
+"uuid@npm:^3.0.1, uuid@npm:^3.3.2, uuid@npm:^3.3.3":
   version: 3.4.0
   resolution: "uuid@npm:3.4.0"
   bin:
@@ -12040,6 +12055,13 @@ typescript@^3.9.7:
   version: 3.0.0
   resolution: "xml-name-validator@npm:3.0.0"
   checksum: b96679a42e6be36d2433987fe3cc45e972d20d7c2c2a787a2d6b2da94392bd9f23f671cdba29a91211289a2fa8e6965e466dbc1105d0e5730fc3a43e4f1a0688
+  languageName: node
+  linkType: hard
+
+"xml@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "xml@npm:1.0.1"
+  checksum: adde7652a6f6010d28079586e7f608d616138bcb6c44bbc9174292b5cc2fab09b351d6c5f009e9304df2e0030888198225dd2e9ccbf51b776c8928479bfea4cb
   languageName: node
   linkType: hard
 

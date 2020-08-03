@@ -10,5 +10,6 @@ module.exports = {
             packageJson: 'package.json',
         },
     },
-    collectCoverage: true
+    collectCoverage: true,
+    reporters: ['default', ['jest-junit', { outputDirectory: 'coverage' }]]
 };

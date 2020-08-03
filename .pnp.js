@@ -2311,6 +2311,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bignumber.js", "npm:9.0.0"],
             ["fake-promise", "npm:2.5.29"],
             ["jest", "npm:26.1.0"],
+            ["jest-junit", "npm:11.1.0"],
             ["mockdate", "npm:3.0.2"],
             ["node-cache", "npm:5.1.2"],
             ["rimraf", "npm:3.0.2"],
@@ -2338,6 +2339,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bignumber.js", "npm:9.0.0"],
             ["fake-promise", "npm:2.5.29"],
             ["jest", "npm:26.1.0"],
+            ["jest-junit", "npm:11.1.0"],
             ["mockdate", "npm:3.0.2"],
             ["node-cache", "npm:5.1.2"],
             ["rimraf", "npm:3.0.2"],
@@ -2363,6 +2365,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.0.27"],
             ["fake-promise", "npm:2.5.29"],
             ["jest", "npm:26.1.0"],
+            ["jest-junit", "npm:11.1.0"],
             ["mockdate", "npm:3.0.2"],
             ["node-cache", "npm:5.1.2"],
             ["rimraf", "npm:3.0.2"],
@@ -2390,6 +2393,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.0.27"],
             ["fake-promise", "npm:2.5.29"],
             ["jest", "npm:26.1.0"],
+            ["jest-junit", "npm:11.1.0"],
             ["mockdate", "npm:3.0.2"],
             ["node-cache", "npm:5.1.2"],
             ["rimraf", "npm:3.0.2"],
@@ -7152,6 +7156,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.0.27"],
             ["chalk", "npm:4.1.0"],
             ["jest", "npm:26.1.0"],
+            ["jest-junit", "npm:11.1.0"],
             ["ts-jest", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:26.1.3"],
             ["ts-node", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#npm:8.10.2"],
             ["tslib", "npm:2.0.0"],
@@ -7963,6 +7968,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest-util", "npm:26.1.0"],
             ["pretty-format", "npm:26.1.0"],
             ["throat", "npm:5.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["jest-junit", [
+        ["npm:11.1.0", {
+          "packageLocation": "./.yarn/cache/jest-junit-npm-11.1.0-02e4bee68f-1166ceac6f.zip/node_modules/jest-junit/",
+          "packageDependencies": [
+            ["jest-junit", "npm:11.1.0"],
+            ["mkdirp", "npm:1.0.4"],
+            ["strip-ansi", "npm:5.2.0"],
+            ["uuid", "npm:3.4.0"],
+            ["xml", "npm:1.0.1"]
           ],
           "linkType": "HARD",
         }]
@@ -13345,6 +13363,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["xhr2-cookies", "npm:1.1.0"],
             ["cookiejar", "npm:2.1.2"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["xml", [
+        ["npm:1.0.1", {
+          "packageLocation": "./.yarn/cache/xml-npm-1.0.1-f50a7aeb8e-adde7652a6.zip/node_modules/xml/",
+          "packageDependencies": [
+            ["xml", "npm:1.0.1"]
           ],
           "linkType": "HARD",
         }]
