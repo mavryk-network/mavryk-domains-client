@@ -4,7 +4,7 @@ export interface Tracer {
 
 export class ConsoleTracer implements Tracer {
     trace(msg: any, ...args: any[]): void {
-        console.trace(`[${new Date().toISOString()}] Trace`, msg, ...args);
+        console.debug(`[${new Date().toISOString()}] Trace`, msg, ...args);
     }
 }
 

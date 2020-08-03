@@ -8,7 +8,7 @@ describe('Tracer', () => {
         let consoleSpy: jest.SpyInstance;
 
         beforeEach(() => {
-            consoleSpy = jest.spyOn(global.console, 'trace').mockImplementation(void 0);
+            consoleSpy = jest.spyOn(global.console, 'debug').mockImplementation(void 0);
 
             MockDate.set(new Date(2020, 9, 11, 20, 10, 35));
 
