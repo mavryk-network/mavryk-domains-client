@@ -2272,7 +2272,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["@taquito/taquito", [
         ["npm:6.3.5-beta.0", {
-          "packageLocation": "./.yarn/unplugged/@taquito-taquito-npm-6.3.5-beta.0-2ebf068efd/node_modules/@taquito/taquito/",
+          "packageLocation": "./.yarn/cache/@taquito-taquito-npm-6.3.5-beta.0-2ebf068efd-2e640c8cfb.zip/node_modules/@taquito/taquito/",
           "packageDependencies": [
             ["@taquito/taquito", "npm:6.3.5-beta.0"],
             ["@taquito/http-utils", "npm:6.3.5-beta.0"],

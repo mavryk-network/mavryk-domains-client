@@ -31,6 +31,11 @@
     "prettier": "^2.0.5",
     "typescript": "^3.9.7"
   },
+  "dependenciesMeta": {
+    "@taquito/taquito": {
+      "built": false
+    }
+  },
   "workspaces": [
     "packages/*",
     "integration-tests"
