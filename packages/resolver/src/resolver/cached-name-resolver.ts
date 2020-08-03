@@ -1,7 +1,8 @@
-import { CachingConfig, Tracer } from '@tezos-domains/core';
+import { Tracer } from '@tezos-domains/core';
 import NodeCache from 'node-cache';
 
 import { NameResolver } from './name-resolver';
+import { CachingConfig } from '../resolver';
 
 export class CachedNameResolver implements NameResolver {
     private cache: NodeCache;

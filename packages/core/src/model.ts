@@ -12,12 +12,9 @@ export enum SmartContractType {
     NameRegistry = 'nameRegistry',
 }
 
-export type CachingConfig = { enabled: boolean, recordTtl?: number, reverseRecordTtl?: number; }
-
 export type CommonConfig = {
     tezos?: TezosToolkit;
     tracing?: boolean;
-    caching?: CachingConfig; 
 };
 
 export type CustomNetworkConfig = { network?: 'custom'; contractAddresses: ContractConfig } & CommonConfig;
@@ -65,4 +62,3 @@ export class DomainRecord {
     owner!: string;
     address?: string;
 }
-

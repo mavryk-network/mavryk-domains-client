@@ -13,10 +13,16 @@ import { NameResolver } from './name-resolver';
 import { BlockchainNameResolver } from './blockchain-name-resolver';
 import { CachedNameResolver } from './cached-name-resolver';
 
+export type CachingConfig = { enabled: boolean; recordTtl?: number; reverseRecordTtl?: number };
+
+export type ResolverConfig = TezosDomainsConfig & {
+    caching?: CachingConfig;
+};
+
 export class TezosDomainsResolver implements NameResolver {
     private resolver: NameResolver;
 
-    constructor(config?: TezosDomainsConfig) {
+    constructor(config?: ResolverConfig) {
         const tracer = config?.tracing ? new ConsoleTracer() : new NoopTracer();
         const tezosClient = new TezosClient(config?.tezos || Tezos, tracer);
         const contractAddressResolver = new ProxyContractAddressResolver(new ProxyAddressConfig(config), tezosClient, tracer);
