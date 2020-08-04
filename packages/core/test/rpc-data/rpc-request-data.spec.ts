@@ -3,12 +3,12 @@ import { RpcRequestData, RpcRequest, encoder } from '@tezos-domains/core';
 import { FakeEncoder } from './fake-encoder';
 
 @RpcRequest()
-export class FakeRequest {
+class FakeRequest {
     prop1!: string;
     @encoder(FakeEncoder) prop2!: string;
 }
 
-export class InvalidFakeRequest {
+class InvalidFakeRequest {
     @encoder(FakeEncoder) prop!: string;
 }
 

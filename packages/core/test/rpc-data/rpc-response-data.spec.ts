@@ -3,12 +3,12 @@ import { encoder, RpcResponse, RpcResponseData } from '@tezos-domains/core';
 import { FakeEncoder } from './fake-encoder';
 
 @RpcResponse()
-export class FakeResponse {
+class FakeResponse {
     prop1!: string;
     @encoder(FakeEncoder) prop2!: string;
 }
 
-export class InvalidFakeResponse {
+class InvalidFakeResponse {
     @encoder(FakeEncoder) prop!: string;
 }
 

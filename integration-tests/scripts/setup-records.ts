@@ -39,7 +39,7 @@ async function call(endpoint: string, parameters: any) {
             amount: 0,
             parameter: {
                 entrypoint: endpoint,
-                value: value,
+                value,
             },
         });
 

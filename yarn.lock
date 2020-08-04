@@ -2343,6 +2343,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@typescript-eslint/experimental-utils@npm:^2.5.0":
+  version: 2.34.0
+  resolution: "@typescript-eslint/experimental-utils@npm:2.34.0"
+  dependencies:
+    "@types/json-schema": ^7.0.3
+    "@typescript-eslint/typescript-estree": 2.34.0
+    eslint-scope: ^5.0.0
+    eslint-utils: ^2.0.0
+  peerDependencies:
+    eslint: "*"
+  checksum: 53cbbcfe67ddc53b4bc23f78b3726b0c2de5ea04ee849ca8b619f1fcad16f644d9d72bb3ea9a08aabfc605ea4a9769fe1b81931af09ce2223ec49de749cde2d4
+  languageName: node
+  linkType: hard
+
 "@typescript-eslint/parser@npm:^3.7.0":
   version: 3.7.0
   resolution: "@typescript-eslint/parser@npm:3.7.0"
@@ -2366,6 +2380,26 @@ __metadata:
   version: 3.7.0
   resolution: "@typescript-eslint/types@npm:3.7.0"
   checksum: f484d333d000f529858369a1a87afcb403c9b1412eb25cd66560f28f9bb71d4f53372353e06486a0128ebb91ac83fff24537ea83cd8f39d486b54411d8538160
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/typescript-estree@npm:2.34.0":
+  version: 2.34.0
+  resolution: "@typescript-eslint/typescript-estree@npm:2.34.0"
+  dependencies:
+    debug: ^4.1.1
+    eslint-visitor-keys: ^1.1.0
+    glob: ^7.1.6
+    is-glob: ^4.0.1
+    lodash: ^4.17.15
+    semver: ^7.3.2
+    tsutils: ^3.17.1
+  peerDependencies:
+    typescript: "*"
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 77d1a758dfd4a2813fb51d6102aa79d7eccb006c66db8cff49a10706c8cf64cae6b256b8ec6694058c1c333775e1dbc6ca7501769138fc89165b9c10f8201e40
   languageName: node
   linkType: hard
 
@@ -4715,6 +4749,17 @@ __metadata:
     escodegen: bin/escodegen.js
     esgenerate: bin/esgenerate.js
   checksum: 548c5a83a81a51122f1006309a392e1412bb00657f15aca60f01f9d4553851bdaf0519d898fd3ee2bb46f116e03ee48757f4d9a28a7b58bc8c096fd4b33f6cbc
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-jest@npm:^23.20.0":
+  version: 23.20.0
+  resolution: "eslint-plugin-jest@npm:23.20.0"
+  dependencies:
+    "@typescript-eslint/experimental-utils": ^2.5.0
+  peerDependencies:
+    eslint: ">=5"
+  checksum: 2f3b875346cad48925c306044482590fa35231ec80bf74ff5d5137a722ec4186430e23c13ee318b978c0b2f3264db6f965bf469b2e6c7c8b72c86ca6560e1211
   languageName: node
   linkType: hard
 
@@ -10233,6 +10278,7 @@ __metadata:
     commitizen: ^4.1.2
     cz-conventional-changelog: ^3.2.0
     eslint: ^7.5.0
+    eslint-plugin-jest: ^23.20.0
     husky: ^4.2.5
     lerna: ^3.22.1
     prettier: ^2.0.5
