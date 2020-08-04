@@ -1,4 +1,6 @@
 [![npm version](https://badge.fury.io/js/%40tezos-domains%2Fcore.svg)](https://www.npmjs.com/package/@tezos-domains/core)
+[![pipeline status](https://gitlab.com/tezos-domains/client/badges/master/pipeline.svg)](https://gitlab.com/tezos-domains/client/-/commits/master)
+[![coverage report](https://gitlab.com/tezos-domains/client/badges/master/coverage.svg)](https://gitlab.com/tezos-domains/client/-/commits/master)
 
 # Tezos Domains Client
 

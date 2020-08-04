@@ -1,0 +1,58 @@
+stages:
+    - build
+    - test
+
+build:
+    stage: build
+    image: node:alpine3.12
+    script:
+        - yarn lint
+        - yarn build
+    artifacts:
+        expire_in: 1 day
+        paths:
+            - packages/core/dist/
+            - packages/resolver/dist/
+    tags:
+        - docker
+
+test:core:
+    stage: test
+    image: node:alpine3.12
+    allow_failure: false
+    script:
+        - yarn workspace @tezos-domains/core test
+    coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+    artifacts:
+        paths:
+            - packages/core/coverage/
+        reports:
+            junit:
+                - ./packages/core/coverage/junit.xml
+    tags:
+        - docker
+
+test:resolver:
+    stage: test
+    image: node:alpine3.12
+    allow_failure: false
+    script:
+        - yarn workspace @tezos-domains/resolver test
+    coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+    artifacts:
+        paths:
+            - packages/resolver/coverage/
+        reports:
+            junit:
+                - ./packages/resolver/coverage/junit.xml
+    tags:
+        - docker
+
+test:integration:
+    stage: test
+    image: node:alpine3.12
+    allow_failure: false
+    script:
+        - yarn workspace integration-tests integration-test
+    tags:
+        - docker
