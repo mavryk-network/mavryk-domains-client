@@ -27,17 +27,16 @@ export type ContractConfig = {
     nameRegistry: string;
 };
 
-export interface ProxyStorage {
-    contract: string;
-}
-
 export interface NameRegistryStorage {
-    records: BigMapAbstraction;
-    reverse_records: BigMapAbstraction;
-    validity_map: BigMapAbstraction;
-    owner: string;
+    actions: BigMapAbstraction;
+    store: {
+        records: BigMapAbstraction;
+        reverse_records: BigMapAbstraction;
+        validity_map: BigMapAbstraction;
+        owner: string;
+        validators: string[];
+    };
     trusted_senders: string[];
-    validators: string[];
 }
 
 export interface TLDRegistrarStorage {

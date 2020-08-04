@@ -6,11 +6,9 @@ jest.mock('@taquito/taquito');
 
 import {
     TezosClient,
-    TezosProxyClient,
-    ProxyContractAddressResolver,
     ConsoleTracer,
     NoopTracer,
-    ProxyAddressConfig,
+    AddressBook,
 } from '@tezos-domains/core';
 import { TezosDomainsResolver, BlockchainNameResolver, CachedNameResolver } from '@tezos-domains/resolver';
 import { mock, instance, when, anyString, verify } from 'ts-mockito';
@@ -20,28 +18,22 @@ import FakePromise from 'fake-promise';
 describe('TezosDomainsResolver', () => {
     let resolver: TezosDomainsResolver;
     let tezosClientMock: TezosClient;
-    let tezosProxyClientMock: TezosProxyClient;
-    let proxyAddressResolverMock: ProxyContractAddressResolver;
-    let proxyAddressConfig: ProxyAddressConfig;
+    let addressBookMock: AddressBook;
     let noopTracerMock: NoopTracer;
     let consoleTracerMock: ConsoleTracer;
     let blockchainNameResolverMock: BlockchainNameResolver;
     let cachedNameResolver: CachedNameResolver;
 
     beforeEach(() => {
-        tezosProxyClientMock = mock(TezosProxyClient);
         tezosClientMock = mock(TezosClient);
-        proxyAddressResolverMock = mock(ProxyContractAddressResolver);
-        proxyAddressConfig = mock(ProxyAddressConfig);
+        addressBookMock = mock(AddressBook);
         noopTracerMock = mock(NoopTracer);
         consoleTracerMock = mock(ConsoleTracer);
         blockchainNameResolverMock = mock(BlockchainNameResolver);
         cachedNameResolver = mock(CachedNameResolver);
 
         (TezosClient as jest.Mock).mockReturnValue(instance(tezosClientMock));
-        (ProxyContractAddressResolver as jest.Mock).mockReturnValue(instance(proxyAddressResolverMock));
-        (TezosProxyClient as jest.Mock).mockReturnValue(instance(tezosProxyClientMock));
-        (ProxyAddressConfig as jest.Mock).mockReturnValue(instance(proxyAddressConfig));
+        (AddressBook as jest.Mock).mockReturnValue(instance(addressBookMock));
         (ConsoleTracer as jest.Mock).mockReturnValue(instance(consoleTracerMock));
         (NoopTracer as jest.Mock).mockReturnValue(instance(noopTracerMock));
         (BlockchainNameResolver as jest.Mock).mockReturnValue(instance(blockchainNameResolverMock));
@@ -53,10 +45,8 @@ describe('TezosDomainsResolver', () => {
             new TezosDomainsResolver();
 
             expect(TezosClient).toHaveBeenCalledWith(Tezos, instance(noopTracerMock));
-            expect(ProxyAddressConfig).toHaveBeenCalledWith(undefined);
-            expect(ProxyContractAddressResolver).toHaveBeenCalledWith(instance(proxyAddressConfig), instance(tezosClientMock), instance(noopTracerMock));
-            expect(TezosProxyClient).toHaveBeenCalledWith(instance(tezosClientMock), instance(proxyAddressResolverMock));
-            expect(BlockchainNameResolver).toHaveBeenCalledWith(instance(tezosProxyClientMock), instance(noopTracerMock));
+            expect(AddressBook).toHaveBeenCalledWith(undefined);
+            expect(BlockchainNameResolver).toHaveBeenCalledWith(instance(tezosClientMock), instance(addressBookMock), instance(noopTracerMock));
             expect(CachedNameResolver).not.toHaveBeenCalled();
         });
 
@@ -71,10 +61,8 @@ describe('TezosDomainsResolver', () => {
             new TezosDomainsResolver(config);
 
             expect(TezosClient).toHaveBeenCalledWith(instance(customTezosToolkit), instance(consoleTracerMock));
-            expect(ProxyAddressConfig).toHaveBeenCalledWith(config);
-            expect(ProxyContractAddressResolver).toHaveBeenCalledWith(instance(proxyAddressConfig), instance(tezosClientMock), instance(consoleTracerMock));
-            expect(TezosProxyClient).toHaveBeenCalledWith(instance(tezosClientMock), instance(proxyAddressResolverMock));
-            expect(BlockchainNameResolver).toHaveBeenCalledWith(instance(tezosProxyClientMock), instance(consoleTracerMock));
+            expect(AddressBook).toHaveBeenCalledWith(config);
+            expect(BlockchainNameResolver).toHaveBeenCalledWith(instance(tezosClientMock), instance(addressBookMock), instance(consoleTracerMock));
             expect(CachedNameResolver).toHaveBeenCalledWith(instance(blockchainNameResolverMock), instance(consoleTracerMock), {
                 recordTtl: 50,
                 reverseRecordTtl: 60,

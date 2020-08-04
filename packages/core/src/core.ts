@@ -2,11 +2,8 @@ import './rpc-data/data-encoder';
 import './tracing/tracer';
 
 export { SmartContractType, ContractConfig, NetworkType, NameRegistryStorage, DomainRecord, ReverseRecord, TezosDomainsConfig } from './model';
-export { smartContract } from './proxy-contract-address-resolver/alias';
-export { ProxyContractAddressResolver } from './proxy-contract-address-resolver/resolver';
-export { ProxyAddressConfig } from './proxy-contract-address-resolver/proxy-address-config';
+export { AddressBook } from './address-book/address-book';
 export { TezosClient } from './tezos-client/client';
-export { TezosProxyClient } from './tezos-client/proxy-client';
 export { RpcRequest, RpcResponse, encoder } from './rpc-data/decorators';
 export { RpcDataEncoder, TypedRpcDataEncoder } from './rpc-data/data-encoder';
 export { RpcRequestData, RpcRequestObjectData, RpcRequestScalarData } from './rpc-data/rpc-request-data';

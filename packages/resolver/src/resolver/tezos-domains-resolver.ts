@@ -1,10 +1,8 @@
 import { Tezos } from '@taquito/taquito';
 import {
-    ProxyContractAddressResolver,
     TezosDomainsConfig,
     TezosClient,
-    TezosProxyClient,
-    ProxyAddressConfig,
+    AddressBook,
     ConsoleTracer,
     NoopTracer,
 } from '@tezos-domains/core';
@@ -24,10 +22,9 @@ export class TezosDomainsResolver implements NameResolver {
 
     constructor(config?: ResolverConfig) {
         const tracer = config?.tracing ? new ConsoleTracer() : new NoopTracer();
-        const tezosClient = new TezosClient(config?.tezos || Tezos, tracer);
-        const contractAddressResolver = new ProxyContractAddressResolver(new ProxyAddressConfig(config), tezosClient, tracer);
-        const tezos = new TezosProxyClient(tezosClient, contractAddressResolver);
-        const blockchainResolver = new BlockchainNameResolver(tezos, tracer);
+        const tezos = new TezosClient(config?.tezos || Tezos, tracer);
+        const addressBook = new AddressBook(config);
+        const blockchainResolver = new BlockchainNameResolver(tezos, addressBook, tracer);
         if (config?.caching) {
             this.resolver = new CachedNameResolver(blockchainResolver, tracer, {
                 recordTtl: config.caching.recordTtl || 600,

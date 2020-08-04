@@ -1,5 +1,4 @@
 import {
-    TezosProxyClient,
     SmartContractType,
     Exact,
     DomainRecord,
@@ -8,55 +7,65 @@ import {
     RpcResponseData,
     Tracer,
     BytesEncoder,
+    AddressBook,
+    TezosClient,
 } from '@tezos-domains/core';
 import { NameResolver, BlockchainNameResolver } from '@tezos-domains/resolver';
 import { mock, when, anyFunction, anything, instance } from 'ts-mockito';
 import MockDate from 'mockdate';
 
 interface FakeNameRegistryStorage {
-    records: Record<string, Pick<DomainRecord, 'validity_key' | 'address'>>;
-    reverse_records: Record<string, Exact<ReverseRecord>>;
-    validity_map: Record<string, Date>;
+    store: {
+        records: Record<string, Pick<DomainRecord, 'validity_key' | 'address'>>;
+        reverse_records: Record<string, Exact<ReverseRecord>>;
+        validity_map: Record<string, Date>;
+    };
 }
 
 const e = (s: string) => new BytesEncoder().encode(s)!;
 
 describe('Resolver', () => {
     let resolver: NameResolver;
-    let tezosProxyClientMock: TezosProxyClient;
+    let tezosClientMock: TezosClient;
+    let addressBookMock: AddressBook;
     let tracerMock: Tracer;
 
     const storage: FakeNameRegistryStorage = {
-        records: {},
-        validity_map: {},
-        reverse_records: {},
+        store: {
+            records: {},
+            validity_map: {},
+            reverse_records: {},
+        },
     };
 
     beforeEach(() => {
-        tezosProxyClientMock = mock(TezosProxyClient);
+        tezosClientMock = mock(TezosClient);
+        addressBookMock = mock(AddressBook);
         tracerMock = mock<Tracer>();
 
-        storage.records[e('play.necroskillz.tez')] = { validity_key: e('necroskillz.tez'), address: 'tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i' };
-        storage.records[e('expired.tez')] = { validity_key: e('expired.tez'), address: 'tz1NXtvKxbCpWkSmHSAirdxzPbQgicTFwWyc' };
-        storage.records[e('no-address.tez')] = { validity_key: e('no-address.tez') };
-
-        storage.validity_map[e('necroskillz.tez')] = new Date(2021, 1, 1);
-        storage.validity_map[e('expired.tez')] = new Date(2019, 1, 1);
-
-        storage.reverse_records['tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i'] = { name: e('play.necroskillz.tez'), owner: 'tz1zzz' };
-        storage.reverse_records['tz1NXtvKxbCpWkSmHSAirdxzPbQgicTFwWyc'] = { name: e('expired.tez'), owner: 'tz1ezz' };
-        storage.reverse_records['tz1SdArNzLEch64rBDmMeJf23TRQ19gc4yTs'] = { name: e('orphan.tez'), owner: 'tz1aaa' };
-        storage.reverse_records['tz1a1qfkPhNnaUGb1mNfDsUKJi23ADet7h62'] = { owner: 'tz1aaa' };
+        storage.store.records[e('play.necroskillz.tez')] = { validity_key: e('necroskillz.tez'), address: 'tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i' };
+        storage.store.records[e('expired.tez')] = { validity_key: e('expired.tez'), address: 'tz1NXtvKxbCpWkSmHSAirdxzPbQgicTFwWyc' };
+        storage.store.records[e('no-address.tez')] = { validity_key: e('no-address.tez') };
+        
+        storage.store.validity_map[e('necroskillz.tez')] = new Date(2021, 1, 1);
+        storage.store.validity_map[e('expired.tez')] = new Date(2019, 1, 1);
+        
+        storage.store.reverse_records['tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i'] = { name: e('play.necroskillz.tez'), owner: 'tz1zzz' };
+        storage.store.reverse_records['tz1NXtvKxbCpWkSmHSAirdxzPbQgicTFwWyc'] = { name: e('expired.tez'), owner: 'tz1ezz' };
+        storage.store.reverse_records['tz1SdArNzLEch64rBDmMeJf23TRQ19gc4yTs'] = { name: e('orphan.tez'), owner: 'tz1aaa' };
+        storage.store.reverse_records['tz1a1qfkPhNnaUGb1mNfDsUKJi23ADet7h62'] = { owner: 'tz1aaa' };
 
         when(tracerMock.trace(anything(), anything()));
 
+        when(addressBookMock.lookup(anything())).thenCall(type => `${type}addr`);
+
         when(
-            tezosProxyClientMock.getBigMapValue(SmartContractType.NameRegistry, anyFunction(), anything())
+            tezosClientMock.getBigMapValue(`${SmartContractType.NameRegistry}addr`, anyFunction(), anything())
         ).thenCall((_, selector, key: RpcRequestScalarData<string>) => Promise.resolve(new RpcResponseData(selector(storage)[key.encode()!])));
 
         MockDate.set(new Date(2020, 10, 11, 20, 0, 0));
 
-        resolver = new BlockchainNameResolver(instance(tezosProxyClientMock), instance(tracerMock));
+        resolver = new BlockchainNameResolver(instance(tezosClientMock), instance(addressBookMock), instance(tracerMock));
     });
 
     afterEach(() => {

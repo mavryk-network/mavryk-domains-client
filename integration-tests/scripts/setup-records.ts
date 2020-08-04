@@ -1,7 +1,7 @@
 import { TezosToolkit, MichelsonMap } from '@taquito/taquito';
 import { InMemorySigner, importKey } from '@taquito/signer';
 import { Schema } from '@taquito/michelson-encoder';
-import { BytesEncoder, getLabel, getTld } from '@tezos-domains/core';
+import { BytesEncoder, getLabel, getTld, AddressBook, SmartContractType } from '@tezos-domains/core';
 import chalk from 'chalk';
 
 import { DATA, FaucetWallet, CONFIG } from '../data';
@@ -9,6 +9,7 @@ import { DATA, FaucetWallet, CONFIG } from '../data';
 /**
  * Setup integration test data on carthagenet
  */
+const addressBook = new AddressBook({ network: 'carthagenet' });
 let tezos: TezosToolkit;
 
 async function setTezos(wallet: FaucetWallet | 'admin') {
@@ -28,12 +29,13 @@ function encodeString(s: string | null) {
 
 async function call(endpoint: string, parameters: any) {
     try {
-        const entrypoints = await tezos.rpc.getEntrypoints(CONFIG.nameRegistryAddress);
+        const address = addressBook.lookup(SmartContractType.NameRegistry, endpoint);
+        const entrypoints = await tezos.rpc.getEntrypoints(address);
         const schema = new Schema(entrypoints.entrypoints[endpoint]);
         const value = schema.Encode(parameters);
 
         const op = await tezos.contract.transfer({
-            to: CONFIG.nameRegistryAddress,
+            to: address,
             amount: 0,
             parameter: {
                 entrypoint: endpoint,
@@ -61,16 +63,6 @@ export async function createRecord(name: string, owner: string, address: string 
     console.info(chalk.green(`Set record ${name}`));
 }
 
-export async function setValidity(name: string, validity: Date | null): Promise<void> {
-    await call('set_validity', {
-        label: encodeString(getLabel(name)),
-        parent: encodeString(getTld(name)),
-        validity: validity ? validity.toISOString() : null,
-    });
-
-    console.info(chalk.green(`Set validity of ${name}`));
-}
-
 export async function createReverseRecord(address: string, name: string | null): Promise<void> {
     await call('claim_reverse_record', {
         name: encodeString(name),
@@ -91,7 +83,7 @@ export async function run(): Promise<void> {
     await setTezos(DATA.expired.wallet);
     await createReverseRecord(DATA.expired.address, DATA.expired.name);
     await setTezos('admin');
-    await setValidity(DATA.expired.name, new Date(2019, 1, 1));
+    await createRecord(DATA.expired.name, DATA.expired.address, DATA.expired.address, new Date(2019, 1, 1));
 
     await createRecord(DATA.noExpiration.name, DATA.noExpiration.address, DATA.noExpiration.address, null);
     await setTezos(DATA.noExpiration.wallet);

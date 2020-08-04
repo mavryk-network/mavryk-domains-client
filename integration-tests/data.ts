@@ -89,7 +89,6 @@ const TEST_WALLETS: FaucetWallet[] = [
 export const CONFIG = {
     adminAddress: 'tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix',
     adminKey: process.env.TD_ADMIN_SIGN_KEY!,
-    nameRegistryAddress: 'KT1EWBoCmzdKkiVkXrTgvLEut6rY3own4KFB',
     rpcUrl: process.env.TD_RPC_URL!,
 };
 

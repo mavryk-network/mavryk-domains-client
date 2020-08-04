@@ -1,7 +1,7 @@
-import { BuiltInProxyAddresses } from './built-in-proxy-addresses';
-import { ContractConfig, TezosDomainsConfig } from '../model';
+import { BuiltInAddresses } from './built-in-addresses';
+import { ContractConfig, TezosDomainsConfig, SmartContractType } from '../model';
 
-export class ProxyAddressConfig {
+export class AddressBook {
     private config: ContractConfig;
 
     constructor(config?: TezosDomainsConfig) {
@@ -15,7 +15,7 @@ export class ProxyAddressConfig {
         if (config?.contractAddresses) {
             this.config = config.contractAddresses;
         } else {
-            const addresses = BuiltInProxyAddresses[network];
+            const addresses = BuiltInAddresses[network];
             if (!addresses) {
                 throw new Error(`Built in address configuration for network ${network} not found. Supported built-in networks are: 'mainnet', 'carthagenet'.`);
             }
@@ -24,7 +24,8 @@ export class ProxyAddressConfig {
         }
     }
 
-    get(alias: string): string {
+    lookup(type: SmartContractType, ...params: string[]): string {
+        const alias = this.buildAlias(type, params, type === SmartContractType.TLDRegistrar ? 1 : 0);
         const address = this.config[alias];
 
         if (!address) {
@@ -32,5 +33,14 @@ export class ProxyAddressConfig {
         }
 
         return address;
+    }
+
+    private buildAlias(type: SmartContractType, params: string[], minParams: number) {
+        const specifiedParameters = params.filter(p => !!p);
+        if (specifiedParameters.length < minParams) {
+            throw new Error(`Lookup of address for type ${type} requires at least ${minParams} parameter(s).`);
+        }
+    
+        return [type as string].concat(specifiedParameters).join(':');
     }
 }

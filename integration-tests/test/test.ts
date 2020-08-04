@@ -1,6 +1,7 @@
 import { SupportedTLDs, DomainNameValidators, AlphanumericWithHyphenDomainNameValidator } from '@tezos-domains/core';
 import { TezosDomainsResolver } from '@tezos-domains/resolver';
 import { TezosToolkit } from '@taquito/taquito';
+
 import { DATA } from '../data';
 
 interface TestCase {
