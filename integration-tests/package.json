@@ -5,7 +5,7 @@
     "integration-test": "jest",
     "setup-records": "ts-node --script-mode ./scripts/setup-records.ts"
   },
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "author": "Necroskillz <necroskillz@gmail.com>",
   "repository": {
     "type": "git",
@@ -19,8 +19,8 @@
     "@taquito/signer": "^6.3.5-beta.0",
     "@taquito/taquito": "^6.3.5-beta.0",
     "@taquito/utils": "^6.3.5-beta.0",
-    "@tezos-domains/client": "1.0.0-beta.3",
-    "@tezos-domains/core": "1.0.0-beta.3",
+    "@tezos-domains/client": "^1.0.0-beta.4",
+    "@tezos-domains/core": "^1.0.0-beta.4",
     "@types/node": "^14.0.27",
     "chalk": "^4.1.0",
     "jest": "^26.1.0",
