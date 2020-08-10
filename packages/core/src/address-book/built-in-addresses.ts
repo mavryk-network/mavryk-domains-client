@@ -5,6 +5,7 @@ export const BuiltInAddresses = {
         'nameRegistry:set_child_record': 'KT1Rn87iUtz98PfCkZtnejWarGcm744yRJV2',
         'nameRegistry:update_record': 'KT1U3K4iTMwN6EZBsCwcjAX2KAAfabub3BXp',
         'nameRegistry:claim_reverse_record': 'KT1WsdJpj8xeebmrskiGYK3LXnhtHffPSb66',
+        'nameRegistry:update_reverse_record': 'KT1FjRT7pdCcg4k3YbCe6iWpdHqmexSQW4ex',
         'tldRegistrar:tez': 'KT1GhDzJHR82Lz7Qxzd5CqtYdefScTDhVL48',
         'tldRegistrar:tez:buy': 'KT1GhDzJHR82Lz7Qxzd5CqtYdefScTDhVL48',
         'tldRegistrar:tez:commit': 'KT1GhDzJHR82Lz7Qxzd5CqtYdefScTDhVL48',

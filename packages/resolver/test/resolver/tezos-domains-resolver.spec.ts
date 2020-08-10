@@ -1,4 +1,3 @@
-import { ResolverConfig } from './../../src/resolver/tezos-domains-resolver';
 jest.mock('@tezos-domains/core');
 jest.mock('../../src/resolver/blockchain-name-resolver');
 jest.mock('../../src/resolver/cached-name-resolver');
@@ -10,7 +9,7 @@ import {
     NoopTracer,
     AddressBook,
 } from '@tezos-domains/core';
-import { TezosDomainsResolver, BlockchainNameResolver, CachedNameResolver } from '@tezos-domains/resolver';
+import { TezosDomainsResolver, BlockchainNameResolver, CachedNameResolver, ResolverConfig } from '@tezos-domains/resolver';
 import { mock, instance, when, anyString, verify } from 'ts-mockito';
 import { Tezos, TezosToolkit } from '@taquito/taquito';
 import FakePromise from 'fake-promise';

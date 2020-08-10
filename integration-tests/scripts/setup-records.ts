@@ -1,7 +1,7 @@
-import { TezosToolkit, MichelsonMap } from '@taquito/taquito';
+import { TezosToolkit } from '@taquito/taquito';
 import { InMemorySigner, importKey } from '@taquito/signer';
-import { Schema } from '@taquito/michelson-encoder';
-import { BytesEncoder, getLabel, getTld, AddressBook, SmartContractType } from '@tezos-domains/core';
+import { getLabel, getTld } from '@tezos-domains/core';
+import { TezosDomainsManager } from '@tezos-domains/manager';
 import chalk from 'chalk';
 
 import { DATA, FaucetWallet, CONFIG } from '../data';
@@ -9,11 +9,10 @@ import { DATA, FaucetWallet, CONFIG } from '../data';
 /**
  * Setup integration test data on carthagenet
  */
-const addressBook = new AddressBook({ network: 'carthagenet' });
-let tezos: TezosToolkit;
+let manager: TezosDomainsManager;
 
 async function setTezos(wallet: FaucetWallet | 'admin') {
-    tezos = new TezosToolkit();
+    const tezos = new TezosToolkit();
     tezos.setRpcProvider(CONFIG.rpcUrl);
 
     if (wallet === 'admin') {
@@ -21,53 +20,32 @@ async function setTezos(wallet: FaucetWallet | 'admin') {
     } else {
         await importKey(tezos, wallet.email, wallet.password, wallet.mnemonic.join(' '), wallet.secret);
     }
-}
 
-function encodeString(s: string | null) {
-    return new BytesEncoder().encode(s);
-}
-
-async function call(endpoint: string, parameters: any) {
-    try {
-        const address = addressBook.lookup(SmartContractType.NameRegistry, endpoint);
-        const entrypoints = await tezos.rpc.getEntrypoints(address);
-        const schema = new Schema(entrypoints.entrypoints[endpoint]);
-        const value = schema.Encode(parameters);
-
-        const op = await tezos.contract.transfer({
-            to: address,
-            amount: 0,
-            parameter: {
-                entrypoint: endpoint,
-                value,
-            },
-        });
-
-        await op.confirmation();
-    } catch (err) {
-        console.error(chalk.red(`Call to ${endpoint} with ${JSON.stringify(parameters)} failed with ${JSON.stringify(err)}`));
-        process.exit(1);
-    }
+    manager = new TezosDomainsManager({ tezos, network: 'carthagenet' });
 }
 
 export async function createRecord(name: string, owner: string, address: string | null, validity: Date | null): Promise<void> {
-    await call('set_child_record', {
+    const operation = await manager.setChildRecord({
         address,
-        data: new MichelsonMap(),
-        label: encodeString(getLabel(name)),
+        data: {},
+        label: getLabel(name),
         owner,
-        parent: encodeString(getTld(name)),
-        validity: validity ? validity.toISOString() : null,
+        parent: getTld(name),
+        validity,
     });
+
+    await operation.confirmation();
 
     console.info(chalk.green(`Set record ${name}`));
 }
 
 export async function createReverseRecord(address: string, name: string | null): Promise<void> {
-    await call('claim_reverse_record', {
-        name: encodeString(name),
+    const operation = await manager.claimReverseRecord({
+        name,
         owner: address,
     });
+
+    await operation.confirmation();
 
     console.info(chalk.green(`Set reverse record for ${address}`));
 }
@@ -96,4 +74,7 @@ export async function run(): Promise<void> {
     await createReverseRecord(DATA.emptyReverseRecord.address, DATA.emptyReverseRecord.name);
 }
 
-void run();
+void run().catch(err => {
+    console.error(chalk.red(`ERROR ${JSON.stringify(err)}`));
+    process.exit(1);
+});

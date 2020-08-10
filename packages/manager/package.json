@@ -1,5 +1,5 @@
 {
-  "name": "@tezos-domains/resolver",
+  "name": "@tezos-domains/manager",
   "scripts": {
     "build": "rimraf dist && rollup -c rollup.config.ts",
     "watch": "rollup -c rollup.config.ts -w",
@@ -13,8 +13,8 @@
   "description": "A library for resolving tezos domains.",
   "author": "Necroskillz <necroskillz@gmail.com>",
   "license": "MIT",
-  "main": "dist/resolver.umd.js",
-  "module": "dist/resolver.es2015.js",
+  "main": "dist/manager.umd.js",
+  "module": "dist/manager.es2015.js",
   "typings": "dist/public_api.d.ts",
   "repository": {
     "type": "git",
@@ -24,14 +24,19 @@
     "url": "https://gitlab.com/tezos-domains/client/issues"
   },
   "peerDependencies": {
+    "@taquito/michelson-encoder": "^6.3.5-beta.0",
     "@taquito/taquito": "^6.3.5-beta.0",
     "@taquito/utils": "^6.3.5-beta.0"
   },
   "dependencies": {
     "@tezos-domains/core": "1.0.0-beta.3",
-    "node-cache": "^5.1.2"
+    "@types/sha.js": "^2.4.0",
+    "bignumber.js": "^9.0.0",
+    "sha.js": "^2.4.11"
   },
   "devDependencies": {
+    "@taquito/michelson-encoder": "^6.3.5-beta.0",
+    "@taquito/rpc": "^6.3.5-beta.0",
     "@taquito/taquito": "^6.3.5-beta.0",
     "@taquito/utils": "^6.3.5-beta.0",
     "@types/node": "^14.0.27",

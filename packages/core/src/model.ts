@@ -4,6 +4,7 @@ import BigNumber from 'bignumber.js';
 import { RpcResponse, encoder } from './rpc-data/decorators';
 import { BigNumberEncoder } from './rpc-data/encoders/big-number-encoder';
 import { BytesEncoder } from './rpc-data/encoders/bytes-encoder';
+import { MapEncoder } from './rpc-data/encoders/map-encoder';
 
 export type NetworkType = 'mainnet' | 'carthagenet' | 'custom';
 
@@ -59,5 +60,6 @@ export class DomainRecord {
     @encoder(BigNumberEncoder) level!: number;
     @encoder(BigNumberEncoder) validator!: number;
     owner!: string;
+    @encoder(MapEncoder) data!: Record<string, string>;
     address?: string;
 }

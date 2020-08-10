@@ -1990,7 +1990,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tezos-domains/core@^1.0.0-beta.3, @tezos-domains/core@workspace:packages/core":
+"@tezos-domains/core@1.0.0-beta.3, @tezos-domains/core@^1.0.0-beta.3, @tezos-domains/core@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@tezos-domains/core@workspace:packages/core"
   dependencies:
@@ -2017,13 +2017,45 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@tezos-domains/manager@^1.0.0-beta.3, @tezos-domains/manager@workspace:packages/manager":
+  version: 0.0.0-use.local
+  resolution: "@tezos-domains/manager@workspace:packages/manager"
+  dependencies:
+    "@taquito/michelson-encoder": ^6.3.5-beta.0
+    "@taquito/rpc": ^6.3.5-beta.0
+    "@taquito/taquito": ^6.3.5-beta.0
+    "@taquito/utils": ^6.3.5-beta.0
+    "@tezos-domains/core": 1.0.0-beta.3
+    "@types/node": ^14.0.27
+    "@types/sha.js": ^2.4.0
+    bignumber.js: ^9.0.0
+    fake-promise: ^2.5.29
+    jest: ^26.1.0
+    jest-junit: ^11.1.0
+    mockdate: ^3.0.2
+    rimraf: ^3.0.2
+    rollup: ^2.22.2
+    rollup-plugin-sourcemaps: ^0.6.2
+    rollup-plugin-typescript2: ^0.27.1
+    sha.js: ^2.4.11
+    ts-jest: ^26.1.3
+    ts-mockito: ^2.6.1
+    tslib: ^2.0.0
+    typescript: ^3.9.7
+  peerDependencies:
+    "@taquito/michelson-encoder": ^6.3.5-beta.0
+    "@taquito/taquito": ^6.3.5-beta.0
+    "@taquito/utils": ^6.3.5-beta.0
+  languageName: unknown
+  linkType: soft
+
 "@tezos-domains/resolver@^1.0.0-beta.3, @tezos-domains/resolver@workspace:packages/resolver":
   version: 0.0.0-use.local
   resolution: "@tezos-domains/resolver@workspace:packages/resolver"
   dependencies:
     "@taquito/taquito": ^6.3.5-beta.0
     "@taquito/utils": ^6.3.5-beta.0
-    "@tezos-domains/core": ^1.0.0-beta.3
+    "@tezos-domains/core": 1.0.0-beta.3
     "@types/node": ^14.0.27
     fake-promise: ^2.5.29
     jest: ^26.1.0
@@ -2272,6 +2304,15 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: e6e6613c800aeda63e2331e753e8d21df1a2c9aa7a4bc71ed792a848e4811fc96e609759089355314a2318c76eff1f161499cd242044838ab1e6f56e463ebb9c
+  languageName: node
+  linkType: hard
+
+"@types/sha.js@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "@types/sha.js@npm:2.4.0"
+  dependencies:
+    "@types/node": "*"
+  checksum: d23139fb0c9ad65c884b057728b19944399e167fc2a05a22931760d3541c861af7c3c274de11ecc26d3e340f38c249e6d3b0359d249fb674bb702c3232c2d53f
   languageName: node
   linkType: hard
 
@@ -6382,6 +6423,7 @@ __metadata:
     "@taquito/taquito": ^6.3.5-beta.0
     "@taquito/utils": ^6.3.5-beta.0
     "@tezos-domains/core": ^1.0.0-beta.3
+    "@tezos-domains/manager": ^1.0.0-beta.3
     "@tezos-domains/resolver": ^1.0.0-beta.3
     "@types/node": ^14.0.27
     chalk: ^4.1.0
@@ -10459,7 +10501,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sha.js@npm:^2.4.0, sha.js@npm:^2.4.8":
+"sha.js@npm:^2.4.0, sha.js@npm:^2.4.11, sha.js@npm:^2.4.8":
   version: 2.4.11
   resolution: "sha.js@npm:2.4.11"
   dependencies:

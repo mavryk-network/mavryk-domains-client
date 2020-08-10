@@ -1,4 +1,4 @@
-import { TezosToolkit, BigMapAbstraction } from '@taquito/taquito';
+import { TezosToolkit, BigMapAbstraction, TransactionWalletOperation } from '@taquito/taquito';
 import NodeCache from 'node-cache';
 
 import { RpcResponseData } from '../rpc-data/rpc-response-data';
@@ -20,7 +20,7 @@ export class TezosClient {
                 this.tracer.trace('Storage object not found in cache. Fetching.');
             }
 
-            const contract = await this.tezos.contract.at(contractAddress);
+            const contract = await this.tezos.wallet.at(contractAddress);
             const promise = contract.storage<T>();
 
             this.storageCache.set(contractAddress, promise);
@@ -52,5 +52,20 @@ export class TezosClient {
         this.tracer.trace(`<= Received big map value.`, value);
 
         return new RpcResponseData(value);
+    }
+
+    async call(contractAddress: string, method: string, parameters: any[], amount?: number): Promise<TransactionWalletOperation> {
+        this.tracer.trace(
+            `=> Calling entrypoint '${method}' at '${contractAddress}' with parameters '${JSON.stringify(parameters)}' and amount '${
+                amount ? amount.toString() : 'N/A'
+            }.'`
+        );
+
+        const contract = await this.tezos.wallet.at(contractAddress);
+        const operation = await contract.methods[method](...parameters).send({ amount });
+
+        this.tracer.trace('<= Operation sent.', operation.opHash);
+
+        return operation;
     }
 }
