@@ -35,16 +35,16 @@ import { TezosDomainsClient } from '@tezos-domains/client';
 async function main() {
     const client = new TezosDomainsClient();
 
-    const commitOperation = await client.commit('tez', { label: 'necroskillz', owner: 'tz1VxMudmADssPp6FPDGRsvJXE41DD6i9g6n' });
+    const commitOperation = await client.manager.commit('tez', { label: 'necroskillz', owner: 'tz1VxMudmADssPp6FPDGRsvJXE41DD6i9g6n' });
     await commitOperation.confirmation();
 
     // wait for min_commitment_age
     await new Promise(resolve => setTimeout(() => resolve(), 60000));
 
-    const buyOperation = await client.buy('tez', { label: 'necroskillz', owner: 'tz1VxMudmADssPp6FPDGRsvJXE41DD6i9g6n', duration: 365 });
+    const buyOperation = await client.manager.buy('tez', { label: 'necroskillz', owner: 'tz1VxMudmADssPp6FPDGRsvJXE41DD6i9g6n', duration: 365 });
     await buyOperation.confirmation();
 
-    console.log('Domains necroskillz.tez has been registered.');
+    console.log('Domain necroskillz.tez has been registered.');
 }
 ```
 
