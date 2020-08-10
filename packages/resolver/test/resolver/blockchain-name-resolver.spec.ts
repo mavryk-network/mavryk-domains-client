@@ -24,7 +24,7 @@ interface FakeNameRegistryStorage {
 
 const e = (s: string) => new BytesEncoder().encode(s)!;
 
-describe('Resolver', () => {
+describe('BlockchainNameResolver', () => {
     let resolver: NameResolver;
     let tezosClientMock: TezosClient;
     let addressBookMock: AddressBook;

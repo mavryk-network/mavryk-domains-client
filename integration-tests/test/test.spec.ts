@@ -1,5 +1,5 @@
 import { SupportedTLDs, DomainNameValidators, AlphanumericWithHyphenDomainNameValidator } from '@tezos-domains/core';
-import { TezosDomainsResolver } from '@tezos-domains/resolver';
+import { TezosDomainsClient } from '@tezos-domains/client';
 import { TezosToolkit } from '@taquito/taquito';
 
 import { DATA } from '../data';
@@ -11,7 +11,7 @@ interface TestCase {
 }
 
 describe('resolver', () => {
-    let resolver: TezosDomainsResolver;
+    let client: TezosDomainsClient;
 
     beforeAll(() => {
         const tezos = new TezosToolkit();
@@ -20,7 +20,7 @@ describe('resolver', () => {
         SupportedTLDs.push('test');
         DomainNameValidators['test'] = AlphanumericWithHyphenDomainNameValidator;
 
-        resolver = new TezosDomainsResolver({ network: 'carthagenet', tezos });
+        client = new TezosDomainsClient({ network: 'carthagenet', tezos });
     });
 
     describe('resolve()', () => {
@@ -34,7 +34,7 @@ describe('resolver', () => {
 
         TEST_CASES.forEach(t => {
             it(t.description, async () => {
-                const address = await resolver.resolve(t.from);
+                const address = await client.resolver.resolve(t.from);
 
                 expect(address).toBe(t.to);
             });
@@ -52,7 +52,7 @@ describe('resolver', () => {
 
         TEST_CASES.forEach(t => {
             it(t.description, async () => {
-                const name = await resolver.reverseResolve(t.from);
+                const name = await client.resolver.reverseResolve(t.from);
 
                 expect(name).toBe(t.to);
             });

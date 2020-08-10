@@ -13,6 +13,8 @@ build:
         paths:
             - packages/core/dist/
             - packages/resolver/dist/
+            - packages/manager/dist/
+            - packages/client/dist/
     tags:
         - docker
 
@@ -45,6 +47,38 @@ test:resolver:
         reports:
             junit:
                 - ./packages/resolver/coverage/junit.xml
+    tags:
+        - docker
+
+test:manager:
+    stage: test
+    image: node:alpine3.12
+    allow_failure: false
+    script:
+        - yarn workspace @tezos-domains/manager test
+    coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+    artifacts:
+        paths:
+            - packages/manager/coverage/
+        reports:
+            junit:
+                - ./packages/manager/coverage/junit.xml
+    tags:
+        - docker
+
+test:client:
+    stage: test
+    image: node:alpine3.12
+    allow_failure: false
+    script:
+        - yarn workspace @tezos-domains/client test
+    coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+    artifacts:
+        paths:
+            - packages/client/coverage/
+        reports:
+            junit:
+                - ./packages/client/coverage/junit.xml
     tags:
         - docker
 

@@ -2,36 +2,54 @@
 
 Library for resolving and managing tezos domains built on top of [taquito](https://tezostaquito.io/).
 
-## Resolver
+## Getting started
 
-### Getting started
-
-#### 1) Install `@tezos-domains/resolver` package
+### 1) Install `@tezos-domains/client` package
 ```
-yarn add @tezos-domains/resolver
+yarn add @tezos-domains/client
 --or--
-npm install @tezos-domains/resolver
+npm install @tezos-domains/client
 ```
 
-#### 2) Use `TezosDomainsResolver` to resolve names and addresses
+### 2a) Use `resolver` to resolve names and addresses
 
 ```
-import { TezosDomainsResolver } from '@tezos-domains/resolver';
+import { TezosDomainsClient } from '@tezos-domains/client';
 
 async function main() {
-    const resolver = new TezosDomainsResolver();
+    const client = new TezosDomainsClient();
 
-    const address = await resolver.resolve('alice.tez');
+    const address = await client.resolver.resolve('alice.tez');
 
     console.log(address);
 }
-
 ```
 
 The above example would use the default taquito instance `Tezos` to execute requests against `mainnet` Tezos Domains contracts.
 
-### Options
-`TezosDomainsResolver` takes options that can customize it's behavior.
+### 2b) Use `manager` to register and manage domains
+
+```
+import { TezosDomainsClient } from '@tezos-domains/client';
+
+async function main() {
+    const client = new TezosDomainsClient();
+
+    const commitOperation = await client.commit('tez', { label: 'necroskillz', owner: 'tz1VxMudmADssPp6FPDGRsvJXE41DD6i9g6n' });
+    await commitOperation.confirmation();
+
+    // wait for min_commitment_age
+    await new Promise(resolve => setTimeout(() => resolve(), 60000));
+
+    const buyOperation = await client.buy('tez', { label: 'necroskillz', owner: 'tz1VxMudmADssPp6FPDGRsvJXE41DD6i9g6n', duration: 365 });
+    await buyOperation.confirmation();
+
+    console.log('Domains necroskillz.tez has been registered.');
+}
+```
+
+## Options
+`TezosDomainsClient` takes options that can customize it's behavior.
 
 `network` (default: `'mainnet'`)
 

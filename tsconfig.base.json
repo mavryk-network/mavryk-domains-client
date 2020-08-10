@@ -31,6 +31,9 @@
       ],
       "@tezos-domains/manager": [
         "manager/public_api.ts"
+      ],
+      "@tezos-domains/client": [
+        "client/public_api.ts"
       ]
     }
   }

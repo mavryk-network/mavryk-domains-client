@@ -8,7 +8,7 @@ import { TezosDomainsManager, BlockchainDomainsManager, CommitmentGenerator, Man
 import { mock, instance, when } from 'ts-mockito';
 import { Tezos, TezosToolkit, TransactionWalletOperation } from '@taquito/taquito';
 
-describe('TezosDomainsResolver', () => {
+describe('TezosDomainsManager', () => {
     let manager: TezosDomainsManager;
     let tezosClientMock: TezosClient;
     let addressBookMock: AddressBook;

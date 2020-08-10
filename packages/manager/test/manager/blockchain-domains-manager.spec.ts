@@ -17,7 +17,7 @@ interface FakeTLDRegistrarStorage {
 
 const e = (s: string) => new BytesEncoder().encode(s)!;
 
-describe('Resolver', () => {
+describe('BlockchainDomainsManager', () => {
     let manager: DomainsManager;
     let tezosClientMock: TezosClient;
     let addressBookMock: AddressBook;

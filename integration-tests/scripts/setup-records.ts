@@ -1,7 +1,7 @@
 import { TezosToolkit } from '@taquito/taquito';
 import { InMemorySigner, importKey } from '@taquito/signer';
 import { getLabel, getTld } from '@tezos-domains/core';
-import { TezosDomainsManager } from '@tezos-domains/manager';
+import { TezosDomainsClient } from '@tezos-domains/client';
 import chalk from 'chalk';
 
 import { DATA, FaucetWallet, CONFIG } from '../data';
@@ -9,7 +9,7 @@ import { DATA, FaucetWallet, CONFIG } from '../data';
 /**
  * Setup integration test data on carthagenet
  */
-let manager: TezosDomainsManager;
+let client: TezosDomainsClient;
 
 async function setTezos(wallet: FaucetWallet | 'admin') {
     const tezos = new TezosToolkit();
@@ -21,11 +21,11 @@ async function setTezos(wallet: FaucetWallet | 'admin') {
         await importKey(tezos, wallet.email, wallet.password, wallet.mnemonic.join(' '), wallet.secret);
     }
 
-    manager = new TezosDomainsManager({ tezos, network: 'carthagenet' });
+    client = new TezosDomainsClient({ tezos, network: 'carthagenet' });
 }
 
 export async function createRecord(name: string, owner: string, address: string | null, validity: Date | null): Promise<void> {
-    const operation = await manager.setChildRecord({
+    const operation = await client.manager.setChildRecord({
         address,
         data: {},
         label: getLabel(name),
@@ -40,7 +40,7 @@ export async function createRecord(name: string, owner: string, address: string 
 }
 
 export async function createReverseRecord(address: string, name: string | null): Promise<void> {
-    const operation = await manager.claimReverseRecord({
+    const operation = await client.manager.claimReverseRecord({
         name,
         owner: address,
     });
