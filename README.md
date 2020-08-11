@@ -13,7 +13,7 @@ npm install @tezos-domains/client
 
 ### 2a) Use `resolver` to resolve names and addresses
 
-```
+```ts
 import { TezosDomainsClient } from '@tezos-domains/client';
 
 async function main() {
@@ -29,7 +29,7 @@ The above example would use the default taquito instance `Tezos` to execute requ
 
 ### 2b) Use `manager` to register and manage domains
 
-```
+```ts
 import { TezosDomainsClient } from '@tezos-domains/client';
 
 async function main() {
