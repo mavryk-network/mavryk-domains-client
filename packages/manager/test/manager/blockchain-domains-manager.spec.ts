@@ -8,11 +8,13 @@ import BigNumber from 'bignumber.js';
 import { TLDRecord, CommitmentRequest } from './../../src/manager/model';
 
 interface FakeTLDRegistrarStorage {
-    records: Record<string, Exact<TLDRecord>>;
-    commitments: Record<string, string>;
-    min_bid_per_day: BigNumber;
-    min_commitment_age: BigNumber;
-    max_commitment_age: BigNumber;
+    store: {
+        records: Record<string, Exact<TLDRecord>>;
+        commitments: Record<string, string>;
+        min_bid_per_day: BigNumber;
+        min_commitment_age: BigNumber;
+        max_commitment_age: BigNumber;
+    };
 }
 
 const e = (s: string) => new BytesEncoder().encode(s)!;
@@ -26,11 +28,13 @@ describe('BlockchainDomainsManager', () => {
     let operation: TransactionWalletOperation;
 
     const storage: FakeTLDRegistrarStorage = {
-        records: {},
-        commitments: {},
-        min_bid_per_day: new BigNumber(3 * 1e12),
-        min_commitment_age: new BigNumber(60),
-        max_commitment_age: new BigNumber(60 * 60),
+        store: {
+            records: {},
+            commitments: {},
+            min_bid_per_day: new BigNumber(3 * 1e12),
+            min_commitment_age: new BigNumber(60),
+            max_commitment_age: new BigNumber(60 * 60),
+        },
     };
 
     beforeEach(() => {
@@ -40,10 +44,10 @@ describe('BlockchainDomainsManager', () => {
         commitmentGeneratorMock = mock(CommitmentGenerator);
         operation = mock(TransactionWalletOperation);
 
-        storage.commitments['commitment'] = '2020-10-01T10:00:00.000Z'
+        storage.store.commitments['commitment'] = '2020-10-01T10:00:00.000Z';
 
-        storage.records[e('necroskillz.tez')] = { price_per_day: new BigNumber(20 * 1e12), expiration_date: new Date(2021, 1, 1) };
-        storage.records[e('expired.tez')] = { price_per_day: new BigNumber(50 * 1e12), expiration_date: new Date(2019, 1, 1) };
+        storage.store.records[e('necroskillz.tez')] = { price_per_day: new BigNumber(20 * 1e12), expiration_date: new Date(2021, 1, 1) };
+        storage.store.records[e('expired.tez')] = { price_per_day: new BigNumber(50 * 1e12), expiration_date: new Date(2019, 1, 1) };
 
         when(tracerMock.trace(anything(), anything(), anything()));
 
@@ -119,13 +123,7 @@ describe('BlockchainDomainsManager', () => {
 
             const op = await manager.commit('tez', params);
 
-            verify(
-                tezosClientMock.call(
-                    `${SmartContractType.TLDRegistrar}addrtezcommit`,
-                    'commit',
-                    deepEqual(['commitment'])
-                )
-            ).called();
+            verify(tezosClientMock.call(`${SmartContractType.TLDRegistrar}addrtezcommit`, 'commit', deepEqual(['commitment']))).called();
 
             expect(op).toBe(instance(operation));
         });
@@ -136,16 +134,10 @@ describe('BlockchainDomainsManager', () => {
             const op = await manager.buy('tez', {
                 duration: 365,
                 label: 'necroskillz',
-                owner: 'tz1xxx'
+                owner: 'tz1xxx',
             });
 
-            verify(
-                tezosClientMock.call(
-                    `${SmartContractType.TLDRegistrar}addrtezbuy`,
-                    'buy',
-                    deepEqual([365, e('necroskillz'), 'tz1xxx'])
-                )
-            ).called();
+            verify(tezosClientMock.call(`${SmartContractType.TLDRegistrar}addrtezbuy`, 'buy', deepEqual([365, e('necroskillz'), 'tz1xxx']))).called();
 
             expect(op).toBe(instance(operation));
         });
@@ -158,13 +150,7 @@ describe('BlockchainDomainsManager', () => {
                 label: 'necroskillz',
             });
 
-            verify(
-                tezosClientMock.call(
-                    `${SmartContractType.TLDRegistrar}addrtezrenew`,
-                    'renew',
-                    deepEqual([365, e('necroskillz')])
-                )
-            ).called();
+            verify(tezosClientMock.call(`${SmartContractType.TLDRegistrar}addrtezrenew`, 'renew', deepEqual([365, e('necroskillz')]))).called();
 
             expect(op).toBe(instance(operation));
         });
@@ -194,7 +180,7 @@ describe('BlockchainDomainsManager', () => {
             const op = await manager.updateReverseRecord({
                 address: 'tz1xxx',
                 name: 'necroskillz.tez',
-                owner: 'tz1yyy'
+                owner: 'tz1yyy',
             });
 
             verify(

@@ -4,7 +4,7 @@ import { getLabel, getTld } from '@tezos-domains/core';
 import { TezosDomainsClient } from '@tezos-domains/client';
 import chalk from 'chalk';
 
-import { DATA, FaucetWallet, CONFIG } from '../data';
+import {  FaucetWallet, CONFIG, DATA } from '../data';
 
 /**
  * Setup integration test data on carthagenet
@@ -13,7 +13,12 @@ let client: TezosDomainsClient;
 
 async function setTezos(wallet: FaucetWallet | 'admin') {
     const tezos = new TezosToolkit();
-    tezos.setRpcProvider(CONFIG.rpcUrl);
+    tezos.setProvider({
+        rpc: CONFIG.rpcUrl,
+        config: {
+            confirmationPollingIntervalSecond: 5
+        }
+    })
 
     if (wallet === 'admin') {
         tezos.setSignerProvider(await InMemorySigner.fromSecretKey(CONFIG.adminKey));
@@ -50,12 +55,21 @@ export async function createReverseRecord(address: string, name: string | null):
     console.info(chalk.green(`Set reverse record for ${address}`));
 }
 
+export async function commit(name: string, owner: string): Promise<void> {
+    const operation = await client.manager.commit(getTld(name), { label: getLabel(name), owner });
+
+    await operation.confirmation();
+
+    console.info(chalk.green(`Created commitment for ${name}`));
+}
+
 export async function run(): Promise<void> {
     await setTezos('admin');
     await createRecord(DATA.ok.name, DATA.ok.address, DATA.ok.address, new Date(2100, 1, 1));
     await setTezos(DATA.ok.wallet);
     await createReverseRecord(DATA.ok.address, DATA.ok.name);
     await setTezos('admin');
+    await commit('commit.tez', CONFIG.adminAddress);
 
     await createRecord(DATA.expired.name, DATA.expired.address, DATA.expired.address, null);
     await setTezos(DATA.expired.wallet);
@@ -75,6 +89,7 @@ export async function run(): Promise<void> {
 }
 
 void run().catch(err => {
-    console.error(chalk.red(`ERROR ${JSON.stringify(err)}`));
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    console.error(chalk.red(`ERROR ${err.message} ${JSON.stringify(err)}`));
     process.exit(1);
 });

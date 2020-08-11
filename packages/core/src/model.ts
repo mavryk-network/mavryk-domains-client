@@ -41,11 +41,15 @@ export interface NameRegistryStorage {
 }
 
 export interface TLDRegistrarStorage {
-    records: BigMapAbstraction;
-    commitments: BigMapAbstraction;
-    max_commitment_age: BigNumber;
-    min_commitment_age: BigNumber;
-    min_bid_per_day: BigNumber;
+    store: {
+        records: BigMapAbstraction;
+        commitments: BigMapAbstraction;
+        max_commitment_age: BigNumber;
+        min_commitment_age: BigNumber;
+        min_bid_per_day: BigNumber;
+        owner: string;
+    };
+    trusted_senders: string[];
 }
 
 @RpcResponse()

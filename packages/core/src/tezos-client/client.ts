@@ -47,6 +47,9 @@ export class TezosClient {
 
         const storage = await this.storage<TStorage>(contractAddress);
         const bigMap = bigMapSelector(storage);
+        if (!bigMap) {
+            throw new Error(`Specified big map ${bigMapSelector.toString()} does not exist on contract with address ${contractAddress}.`);
+        }
         const value = await bigMap.get(encodedKey);
 
         this.tracer.trace(`<= Received big map value.`, value);

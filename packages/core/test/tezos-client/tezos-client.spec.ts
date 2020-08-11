@@ -83,6 +83,12 @@ describe('TezosClient', () => {
             const value = await promise;
             expect(value.scalar()).toBe('value');
         });
+
+        it('should throw if bigmap is undefined', async () => {
+            const promise = client.getBigMapValue<{ bad: BigMapAbstraction }>('KT1xxx', s => s.bad, RpcRequestData.fromValue('aa', BytesEncoder));
+
+            await expect(promise).rejects.toEqual(new Error('Specified big map s => s.bad does not exist on contract with address KT1xxx.'));
+        });
     });
 
     describe('call', () => {
