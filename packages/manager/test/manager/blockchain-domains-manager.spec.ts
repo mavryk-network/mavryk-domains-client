@@ -204,6 +204,7 @@ describe('BlockchainDomainsManager', () => {
 
             const commitment = await manager.getCommitment('tez', params);
 
+            expect(commitment!.created.toISOString()).toBe('2020-10-01T10:00:00.000Z');
             expect(commitment!.usableFrom.toISOString()).toBe('2020-10-01T10:01:00.000Z');
             expect(commitment!.usableUntil.toISOString()).toBe('2020-10-01T11:00:00.000Z');
         });

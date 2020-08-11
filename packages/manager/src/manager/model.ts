@@ -60,4 +60,5 @@ export class TLDRecord {
 export interface CommitmentInfo {
     usableFrom: Date;
     usableUntil: Date;
+    created: Date;
 }

@@ -22,6 +22,7 @@ describe('resolver', () => {
             const commitment = await client.manager.getCommitment('tez', { label: 'commit', owner: CONFIG.adminAddress });
 
             expect(commitment).not.toBeNull();
+            expect(commitment!.created.toISOString()).toBe('2020-08-11T13:30:10.000Z');
             expect(commitment!.usableFrom.toISOString()).toBe('2020-08-11T13:31:10.000Z');
             expect(commitment!.usableUntil.toISOString()).toBe('2020-08-12T13:30:10.000Z');
         });
