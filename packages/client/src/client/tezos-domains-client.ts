@@ -6,8 +6,8 @@ import { Tezos } from '@taquito/taquito';
 export type ClientConfig = ManagerConfig & ResolverConfig;
 
 export class TezosDomainsClient {
-    private _manager: DomainsManager;
-    private _resolver: NameResolver;
+    private _manager!: DomainsManager;
+    private _resolver!: NameResolver;
 
     get manager(): DomainsManager {
         return this._manager;
@@ -18,6 +18,10 @@ export class TezosDomainsClient {
     }
 
     constructor(config?: ClientConfig) {
+        this.setConfig(config);
+    }
+
+    setConfig(config?: ClientConfig): void {
         const tracer = config?.tracing ? new ConsoleTracer() : new NoopTracer();
         const tezosToolkit = config?.tezos || Tezos;
         const tezos = new TezosClient(config?.tezos || Tezos, tracer);

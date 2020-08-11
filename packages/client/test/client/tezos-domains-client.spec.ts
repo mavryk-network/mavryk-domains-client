@@ -18,7 +18,7 @@ describe('TezosDomainsClient', () => {
     let blockchainDomainsManagerMock: BlockchainDomainsManager;
     let commitmentGeneratorMock: CommitmentGenerator;
     let blockchainNameResolverMock: BlockchainNameResolver;
-    let cachedNameResolver: CachedNameResolver;
+    let cachedNameResolverMock: CachedNameResolver;
 
     beforeEach(() => {
         tezosClientMock = mock(TezosClient);
@@ -28,7 +28,7 @@ describe('TezosDomainsClient', () => {
         blockchainDomainsManagerMock = mock(BlockchainDomainsManager);
         commitmentGeneratorMock = mock(CommitmentGenerator);
         blockchainNameResolverMock = mock(BlockchainNameResolver);
-        cachedNameResolver = mock(CachedNameResolver);
+        cachedNameResolverMock = mock(CachedNameResolver);
 
         (TezosClient as jest.Mock).mockReturnValue(instance(tezosClientMock));
         (AddressBook as jest.Mock).mockReturnValue(instance(addressBookMock));
@@ -37,7 +37,7 @@ describe('TezosDomainsClient', () => {
         (BlockchainDomainsManager as jest.Mock).mockReturnValue(instance(blockchainDomainsManagerMock));
         (CommitmentGenerator as jest.Mock).mockReturnValue(instance(commitmentGeneratorMock));
         (BlockchainNameResolver as jest.Mock).mockReturnValue(instance(blockchainNameResolverMock));
-        (CachedNameResolver as jest.Mock).mockReturnValue(instance(cachedNameResolver));
+        (CachedNameResolver as jest.Mock).mockReturnValue(instance(cachedNameResolverMock));
     });
 
     describe('config', () => {
@@ -84,6 +84,20 @@ describe('TezosDomainsClient', () => {
                 reverseRecordTtl: 60,
             });
         });
+
+        describe('setConfig()', () => {
+            it('should recreate parts', () => {
+                const client = new TezosDomainsClient();
+
+                const newManager = mock(BlockchainDomainsManager);
+                (BlockchainDomainsManager as jest.Mock).mockReturnValue(instance(newManager));
+                
+                client.setConfig({ caching: { enabled: true } });
+
+                expect(client.manager).toBe(instance(newManager));
+                expect(client.resolver).toBe(instance(cachedNameResolverMock));
+            });
+        });
     });
 
     describe('functionality', () => {
@@ -91,7 +105,7 @@ describe('TezosDomainsClient', () => {
 
         beforeEach(() => {
             client = new TezosDomainsClient();
-        })
+        });
 
         it('should expose manager', () => {
             expect(client.manager).toBe(instance(blockchainDomainsManagerMock));
