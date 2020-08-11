@@ -1,7 +1,7 @@
 import { TransactionWalletOperation, MichelsonMap } from '@taquito/taquito';
 import { SmartContractType, Exact, RpcRequestScalarData, RpcResponseData, Tracer, AddressBook, TezosClient, BytesEncoder } from '@tezos-domains/core';
 import { DomainsManager, CommitmentGenerator, BlockchainDomainsManager } from '@tezos-domains/manager';
-import { mock, when, anyFunction, anything, instance, anyString, verify, anyOfClass, deepEqual } from 'ts-mockito';
+import { mock, when, anyFunction, anything, instance, anyString, verify, anyOfClass, deepEqual, anyNumber } from 'ts-mockito';
 import MockDate from 'mockdate';
 import BigNumber from 'bignumber.js';
 
@@ -59,6 +59,7 @@ describe('BlockchainDomainsManager', () => {
         ).thenCall((_, selector, key: RpcRequestScalarData<string>) => Promise.resolve(new RpcResponseData(selector(storage)[key.encode()!])));
         when(tezosClientMock.storage(`${SmartContractType.TLDRegistrar}addrtez`)).thenResolve(storage);
         when(tezosClientMock.call(anyString(), anyString(), anything())).thenResolve(instance(operation));
+        when(tezosClientMock.call(anyString(), anyString(), anything(), anyNumber())).thenResolve(instance(operation));
 
         when(operation.opHash).thenReturn('op_hash');
 
@@ -130,27 +131,27 @@ describe('BlockchainDomainsManager', () => {
     });
 
     describe('buy()', () => {
-        it('should call smart contract', async () => {
+        it('should call smart contract with price', async () => {
             const op = await manager.buy('tez', {
                 duration: 365,
                 label: 'necroskillz',
                 owner: 'tz1xxx',
             });
 
-            verify(tezosClientMock.call(`${SmartContractType.TLDRegistrar}addrtezbuy`, 'buy', deepEqual([365, e('necroskillz'), 'tz1xxx']))).called();
+            verify(tezosClientMock.call(`${SmartContractType.TLDRegistrar}addrtezbuy`, 'buy', deepEqual([365, e('necroskillz'), 'tz1xxx']), 7300)).called();
 
             expect(op).toBe(instance(operation));
         });
     });
 
     describe('renew()', () => {
-        it('should call smart contract', async () => {
+        it('should call smart contract with price', async () => {
             const op = await manager.renew('tez', {
                 duration: 365,
-                label: 'necroskillz',
+                label: 'necroskillz2',
             });
 
-            verify(tezosClientMock.call(`${SmartContractType.TLDRegistrar}addrtezrenew`, 'renew', deepEqual([365, e('necroskillz')]))).called();
+            verify(tezosClientMock.call(`${SmartContractType.TLDRegistrar}addrtezrenew`, 'renew', deepEqual([365, e('necroskillz2')]), 1095)).called();
 
             expect(op).toBe(instance(operation));
         });

@@ -71,8 +71,9 @@ export class BlockchainDomainsManager implements DomainsManager {
         this.tracer.trace(`=> Executing ${entrypoint}.`, request);
 
         const address = this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
+        const price = await this.getPrice(`${request.label}.${tld}`, request.duration);
         const encodedRequest = RpcRequestData.fromObject(BuyRequest, request).encode();
-        const operation = await this.tezos.call(address, entrypoint, [encodedRequest.duration, encodedRequest.label, encodedRequest.owner]);
+        const operation = await this.tezos.call(address, entrypoint, [encodedRequest.duration, encodedRequest.label, encodedRequest.owner], price);
 
         this.tracer.trace('<= Executed.', operation.opHash);
 
@@ -85,8 +86,9 @@ export class BlockchainDomainsManager implements DomainsManager {
         this.tracer.trace(`=> Executing ${entrypoint}.`, request);
 
         const address = this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
+        const price = await this.getPrice(`${request.label}.${tld}`, request.duration);
         const encodedRequest = RpcRequestData.fromObject(RenewRequest, request).encode();
-        const operation = await this.tezos.call(address, entrypoint, [encodedRequest.duration, encodedRequest.label]);
+        const operation = await this.tezos.call(address, entrypoint, [encodedRequest.duration, encodedRequest.label], price);
 
         this.tracer.trace('<= Executed.', operation.opHash);
 
@@ -129,11 +131,15 @@ export class BlockchainDomainsManager implements DomainsManager {
 
         this.tracer.trace('!! Calculated commitment hash for given parameters.', commitmentHash);
 
-        const commitmentResponse = await this.tezos.getBigMapValue<TLDRegistrarStorage>(address, s => s.store.commitments, RpcRequestData.fromValue(commitmentHash));
+        const commitmentResponse = await this.tezos.getBigMapValue<TLDRegistrarStorage>(
+            address,
+            s => s.store.commitments,
+            RpcRequestData.fromValue(commitmentHash)
+        );
         const commitment = commitmentResponse.scalar(DateEncoder);
 
         if (!commitment) {
-            this.tracer.trace('<= Commitment not found.')
+            this.tracer.trace('<= Commitment not found.');
 
             return null;
         }
@@ -145,7 +151,9 @@ export class BlockchainDomainsManager implements DomainsManager {
         const usableFrom = new Date(commitment.getTime() + minAge * 1000);
         const usableUntil = new Date(commitment.getTime() + maxAge * 1000);
 
-        this.tracer.trace(`<= Commitment found with timestamp ${commitment.toISOString()}. Based on TLDRegistrar it's usable from ${usableFrom.toISOString()} to ${usableUntil.toISOString()}.`)
+        this.tracer.trace(
+            `<= Commitment found with timestamp ${commitment.toISOString()}. Based on TLDRegistrar it's usable from ${usableFrom.toISOString()} to ${usableUntil.toISOString()}.`
+        );
 
         return { usableFrom, usableUntil };
     }
@@ -167,16 +175,14 @@ export class BlockchainDomainsManager implements DomainsManager {
         } else {
             const tldStorage = await this.tezos.storage<TLDRegistrarStorage>(address);
 
-            this.tracer.trace(`!! Existing record not found, falling back to TLDRegistrar default price ${tldStorage.store.min_bid_per_day.toNumber()} XTZ per day.`);
+            this.tracer.trace(
+                `!! Existing record not found, falling back to TLDRegistrar default price ${tldStorage.store.min_bid_per_day.toNumber()} XTZ per day.`
+            );
 
             pricePerDay = tldStorage.store.min_bid_per_day;
         }
 
-        const price = pricePerDay
-            .dividedBy(1e12)
-            .multipliedBy(duration)
-            .precision(6)
-            .toNumber();
+        const price = pricePerDay.dividedBy(1e12).multipliedBy(duration).precision(6).toNumber();
 
         this.tracer.trace('<= Price calculated.', price);
 
