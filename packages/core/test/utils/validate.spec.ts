@@ -19,6 +19,11 @@ describe('validateDomainName', () => {
             expect(validateDomainName('$$.tez')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
         });
 
+        it('should return INVALID_LENGTH label is too long', () => {
+            expect(validateDomainName('loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong.a.tez')).toBe(DomainNameValidationResult.TOO_LONG);
+            expect(validateDomainName('looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong.a.tez')).toBe(DomainNameValidationResult.VALID);
+        });
+
         it('should return VALID if domain is valid', () => {
             expect(validateDomainName('tez')).toBe(DomainNameValidationResult.VALID);
             expect(validateDomainName('a-a.tez')).toBe(DomainNameValidationResult.VALID);

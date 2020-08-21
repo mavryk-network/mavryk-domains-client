@@ -8,6 +8,7 @@ export enum DomainNameValidationResult {
     UNSUPPORTED_CHARACTERS = 'UNSUPPORTED_CHARACTERS',
     INVALID_FIRST_CHARACTER = 'INVALID_FIRST_CHARACTER',
     INVALID_LAST_CHARACTER = 'INVALID_LAST_CHARACTER',
+    TOO_LONG = 'TOO_LONG',
 }
 
 /** name is without tld */
@@ -28,6 +29,10 @@ export const AlphanumericWithHyphenDomainNameValidator: DomainNameValidator = (n
     const parts = tokenizeDomainName(name);
 
     for (const part of parts) {
+        if (part.length > 100) {
+            return DomainNameValidationResult.TOO_LONG;
+        }
+
         if (!/^[a-z0-9]/.test(part)) {
             return DomainNameValidationResult.INVALID_FIRST_CHARACTER;
         }
