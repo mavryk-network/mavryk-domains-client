@@ -22,13 +22,13 @@ describe('AddressBook', () => {
     });
 
     it('should resolve custom addresses', () => {
-        addressBook = new AddressBook({ network: 'custom', contractAddresses: { nameRegistry: 'custom_nr', tldRegistrar: 'custom_tld' } });
+        addressBook = new AddressBook({ network: 'custom', contractAddresses: { nameRegistry: 'custom_nr' } });
 
         expect(addressBook.lookup(SmartContractType.NameRegistry)).toBe('custom_nr');
     });
 
     it('should disregarding network when resolving custom addresses', () => {
-        addressBook = new AddressBook({ network: 'carthagenet', contractAddresses: { nameRegistry: 'custom_nr', tldRegistrar: 'custom_tld' } });
+        addressBook = new AddressBook({ network: 'carthagenet', contractAddresses: { nameRegistry: 'custom_nr' } });
 
         expect(addressBook.lookup(SmartContractType.NameRegistry)).toBe('custom_nr');
     });

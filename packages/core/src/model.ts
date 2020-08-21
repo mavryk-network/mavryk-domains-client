@@ -26,7 +26,6 @@ export type TezosDomainsConfig = DefaultNetworkConfig | CustomNetworkConfig;
 export type ContractConfig = {
     [type: string]: string;
     nameRegistry: string;
-    tldRegistrar: string;
 };
 
 export interface NameRegistryStorage {
