@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.6](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.5...v1.0.0-beta.6) (2020-08-21)
+
+
+### Features
+
+* **core:** add TOO_LONG error to domain validation ([20f4ef1](https://gitlab.com/tezos-domains/client/commit/20f4ef197f945d0e8eb805adb153554cb50d54f2))
+
+
+### Reverts
+
+* add tldRegistrar field to contract config ([f29c679](https://gitlab.com/tezos-domains/client/commit/f29c679b635a17f65bb4c92e36944fce787d09e9))
+
+
+
+
+
 # [1.0.0-beta.5](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2020-08-11)
 
 
