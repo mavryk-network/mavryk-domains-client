@@ -51,8 +51,8 @@ describe('BlockchainDomainsManager', () => {
 
         when(tracerMock.trace(anything(), anything(), anything()));
 
-        when(addressBookMock.lookup(anything(), anything())).thenCall((type, p1) => `${type}addr${p1 || ''}`);
-        when(addressBookMock.lookup(anything(), anything(), anything())).thenCall((type, p1, p2) => `${type}addr${p1 || ''}${p2 || ''}`);
+        when(addressBookMock.lookup(anything(), anything())).thenCall((type, p1) => Promise.resolve(`${type}addr${p1 || ''}`));
+        when(addressBookMock.lookup(anything(), anything(), anything())).thenCall((type, p1, p2) => Promise.resolve(`${type}addr${p1 || ''}${p2 || ''}`));
 
         when(
             tezosClientMock.getBigMapValue(`${SmartContractType.TLDRegistrar}addrtez`, anyFunction(), anything())

@@ -24,7 +24,7 @@ export class AddressBook {
         }
     }
 
-    lookup(type: SmartContractType, ...params: string[]): string {
+    async lookup(type: SmartContractType, ...params: string[]): Promise<string> {
         const alias = this.buildAlias(type, params, type === SmartContractType.TLDRegistrar ? 1 : 0);
         const address = this.config[alias];
 
@@ -32,7 +32,7 @@ export class AddressBook {
             throw new Error(`Address for contract ${alias} is not configured.`);
         }
 
-        return address;
+        return Promise.resolve(address);
     }
 
     private buildAlias(type: SmartContractType, params: string[], minParams: number) {

@@ -11,13 +11,12 @@ import {
     validateDomainName,
     DomainNameValidationResult,
     TezosClient,
-    AddressBook
+    AddressBook,
 } from '@tezos-domains/core';
 import { NameResolver } from './name-resolver';
 
 export class BlockchainNameResolver implements NameResolver {
-    constructor(private tezos: TezosClient, private addressBook: AddressBook, private tracer: Tracer) {
-    }
+    constructor(private tezos: TezosClient, private addressBook: AddressBook, private tracer: Tracer) {}
 
     async resolve(name: string): Promise<string | null> {
         this.tracer.trace(`=> Resolving address for '${name}'`);
@@ -95,11 +94,8 @@ export class BlockchainNameResolver implements NameResolver {
     private async getDomainRecord(name: string) {
         this.tracer.trace(`=> Getting record '${name}'.`);
 
-        const result = await this.tezos.getBigMapValue<NameRegistryStorage>(
-            this.addressBook.lookup(SmartContractType.NameRegistry),
-            s => s.store.records,
-            RpcRequestData.fromValue(name, BytesEncoder)
-        );
+        const address = await this.addressBook.lookup(SmartContractType.NameRegistry);
+        const result = await this.tezos.getBigMapValue<NameRegistryStorage>(address, s => s.store.records, RpcRequestData.fromValue(name, BytesEncoder));
 
         const record = result.decode(DomainRecord);
 
@@ -111,11 +107,8 @@ export class BlockchainNameResolver implements NameResolver {
     private async getDomainValidity(key: string) {
         this.tracer.trace(`=> Getting validity with key '${key}'`);
 
-        const result = await this.tezos.getBigMapValue<NameRegistryStorage>(
-            this.addressBook.lookup(SmartContractType.NameRegistry),
-            s => s.store.validity_map,
-            RpcRequestData.fromValue(key, BytesEncoder)
-        );
+        const address = await this.addressBook.lookup(SmartContractType.NameRegistry);
+        const result = await this.tezos.getBigMapValue<NameRegistryStorage>(address, s => s.store.validity_map, RpcRequestData.fromValue(key, BytesEncoder));
 
         const validity = result.scalar(DateEncoder);
 
@@ -126,11 +119,9 @@ export class BlockchainNameResolver implements NameResolver {
 
     private async getReverseRecord(address: string) {
         this.tracer.trace(`=> Getting reverse record '${address}'`);
-        const result = await this.tezos.getBigMapValue<NameRegistryStorage>(
-            this.addressBook.lookup(SmartContractType.NameRegistry),
-            s => s.store.reverse_records,
-            RpcRequestData.fromValue(address)
-        );
+
+        const contractAddress = await this.addressBook.lookup(SmartContractType.NameRegistry);
+        const result = await this.tezos.getBigMapValue<NameRegistryStorage>(contractAddress, s => s.store.reverse_records, RpcRequestData.fromValue(address));
 
         const reverseRecord = result.decode(ReverseRecord);
 

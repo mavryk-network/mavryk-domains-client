@@ -25,7 +25,7 @@ export class BlockchainDomainsManager implements DomainsManager {
 
         this.tracer.trace(`=> Executing ${entrypoint}.`, request);
 
-        const address = this.addressBook.lookup(SmartContractType.NameRegistry, entrypoint);
+        const address = await this.addressBook.lookup(SmartContractType.NameRegistry, entrypoint);
         const encodedRequest = RpcRequestData.fromObject(SetChildRecordRequest, request).encode();
         const operation = await this.tezos.call(address, entrypoint, [
             encodedRequest.address,
@@ -44,7 +44,7 @@ export class BlockchainDomainsManager implements DomainsManager {
     async updateRecord(request: Exact<UpdateRecordRequest>): Promise<TransactionWalletOperation> {
         const entrypoint = 'update_record';
         this.tracer.trace(`=> Executing ${entrypoint}.`, request);
-        const address = this.addressBook.lookup(SmartContractType.NameRegistry, entrypoint);
+        const address = await this.addressBook.lookup(SmartContractType.NameRegistry, entrypoint);
         const encodedRequest = RpcRequestData.fromObject(UpdateRecordRequest, request).encode();
         const operation = await this.tezos.call(address, entrypoint, [encodedRequest.address, encodedRequest.data, encodedRequest.name, encodedRequest.owner]);
 
@@ -56,7 +56,7 @@ export class BlockchainDomainsManager implements DomainsManager {
     async commit(tld: string, request: Exact<CommitmentRequest>): Promise<TransactionWalletOperation> {
         const entrypoint = 'commit';
         this.tracer.trace(`=> Executing ${entrypoint}.`, request);
-        const address = this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
+        const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
         const commitmentHash = await this.commitmentGenerator.generate(request);
         const operation = await this.tezos.call(address, entrypoint, [commitmentHash]);
 
@@ -70,7 +70,7 @@ export class BlockchainDomainsManager implements DomainsManager {
 
         this.tracer.trace(`=> Executing ${entrypoint}.`, request);
 
-        const address = this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
+        const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
         const price = await this.getPrice(`${request.label}.${tld}`, request.duration);
         const encodedRequest = RpcRequestData.fromObject(BuyRequest, request).encode();
         const operation = await this.tezos.call(address, entrypoint, [encodedRequest.duration, encodedRequest.label, encodedRequest.owner], price);
@@ -85,7 +85,7 @@ export class BlockchainDomainsManager implements DomainsManager {
 
         this.tracer.trace(`=> Executing ${entrypoint}.`, request);
 
-        const address = this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
+        const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
         const price = await this.getPrice(`${request.label}.${tld}`, request.duration);
         const encodedRequest = RpcRequestData.fromObject(RenewRequest, request).encode();
         const operation = await this.tezos.call(address, entrypoint, [encodedRequest.duration, encodedRequest.label], price);
@@ -100,7 +100,7 @@ export class BlockchainDomainsManager implements DomainsManager {
 
         this.tracer.trace(`=> Executing ${entrypoint}.`, request);
 
-        const address = this.addressBook.lookup(SmartContractType.NameRegistry, entrypoint);
+        const address = await this.addressBook.lookup(SmartContractType.NameRegistry, entrypoint);
         const encodedRequest = RpcRequestData.fromObject(ReverseRecordRequest, request).encode();
         const operation = await this.tezos.call(address, entrypoint, [encodedRequest.name, encodedRequest.owner]);
 
@@ -114,7 +114,7 @@ export class BlockchainDomainsManager implements DomainsManager {
 
         this.tracer.trace(`=> Executing ${entrypoint}.`, request);
 
-        const address = this.addressBook.lookup(SmartContractType.NameRegistry, entrypoint);
+        const address = await this.addressBook.lookup(SmartContractType.NameRegistry, entrypoint);
         const encodedRequest = RpcRequestData.fromObject(UpdateReverseRecordRequest, request).encode();
         const operation = await this.tezos.call(address, entrypoint, [encodedRequest.address, encodedRequest.name, encodedRequest.owner]);
 
@@ -126,7 +126,7 @@ export class BlockchainDomainsManager implements DomainsManager {
     async getCommitment(tld: string, request: Exact<CommitmentRequest>): Promise<CommitmentInfo | null> {
         this.tracer.trace('=> Getting existing commitment.', tld, request);
 
-        const address = this.addressBook.lookup(SmartContractType.TLDRegistrar, tld);
+        const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld);
         const commitmentHash = await this.commitmentGenerator.generate(request);
 
         this.tracer.trace('!! Calculated commitment hash for given parameters.', commitmentHash);
@@ -161,7 +161,7 @@ export class BlockchainDomainsManager implements DomainsManager {
     async getPrice(name: string, duration: number): Promise<number> {
         this.tracer.trace(`=> Calculating price for '${name}' for duration of ${duration} days.`);
 
-        const address = this.addressBook.lookup(SmartContractType.TLDRegistrar, getTld(name));
+        const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, getTld(name));
 
         const response = await this.tezos.getBigMapValue<TLDRegistrarStorage>(address, s => s.store.records, RpcRequestData.fromValue(name, BytesEncoder));
         const tldRecord = response.decode(TLDRecord);

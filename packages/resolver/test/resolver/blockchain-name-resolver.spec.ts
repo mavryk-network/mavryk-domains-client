@@ -57,7 +57,7 @@ describe('BlockchainNameResolver', () => {
 
         when(tracerMock.trace(anything(), anything()));
 
-        when(addressBookMock.lookup(anything())).thenCall(type => `${type}addr`);
+        when(addressBookMock.lookup(anything())).thenCall(type => Promise.resolve(`${type}addr`));
 
         when(
             tezosClientMock.getBigMapValue(`${SmartContractType.NameRegistry}addr`, anyFunction(), anything())
