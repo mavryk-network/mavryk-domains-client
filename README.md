@@ -19,7 +19,7 @@ import { TezosDomainsClient } from '@tezos-domains/client';
 async function main() {
     const client = new TezosDomainsClient();
 
-    const address = await client.resolver.resolve('alice.tez');
+    const address = await client.resolver.resolveAddress('alice.tez');
 
     console.log(address);
 }
@@ -67,6 +67,6 @@ async function main() {
 
  - Whether to output debugging information.
 
-`caching` (default `{ enabled: false, recordTtl: 600, reverseRecordTtl: 600 }`)
+`caching` (default `{ enabled: false, defaultRecordTtl: 600, defaultReverseRecordTtl: 600 }`)
 
  - Specifies how to handle caching of name and address resolution.
