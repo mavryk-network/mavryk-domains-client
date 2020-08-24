@@ -33,8 +33,8 @@ export class TezosDomainsClient {
         const blockchainResolver = new BlockchainNameResolver(tezos, addressBook, tracer);
         if (config?.caching) {
             this._resolver = new CachedNameResolver(blockchainResolver, tracer, {
-                recordTtl: config.caching.recordTtl || 600,
-                reverseRecordTtl: config.caching.reverseRecordTtl || 600,
+                defaultRecordTtl: config.caching.defaultRecordTtl || 600,
+                defaultReverseRecordTtl: config.caching.defaultReverseRecordTtl || 600,
             });
         } else {
             this._resolver = blockchainResolver;

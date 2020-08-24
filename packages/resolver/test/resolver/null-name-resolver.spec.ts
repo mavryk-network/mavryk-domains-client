@@ -13,9 +13,21 @@ describe('NullNameResolver', () => {
         });
     });
 
+    describe('resolveAddress()', () => {
+        it('should return null', async () => {
+            await expect(resolver.resolveAddress('necroskillz.tez')).resolves.toBeNull();
+        });
+    });
+
     describe('reverseResolve()', () => {
         it('should return null', async () => {
             await expect(resolver.reverseResolve('tz1xxx')).resolves.toBeNull();
+        });
+    });
+
+    describe('reverseResolveName()', () => {
+        it('should return null', async () => {
+            await expect(resolver.reverseResolveName('tz1xxx')).resolves.toBeNull();
         });
     });
 });

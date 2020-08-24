@@ -15,3 +15,11 @@ export function decodeString(hexString: string): string {
 export function hexToArray(hexString: string): Uint8Array {
     return new Uint8Array(hexString.match(/.{1,2}/g)?.map(byte => parseInt(byte, 16)) || []);
 }
+
+export function safeJsonParse(jsonString: string): unknown {
+    try {
+        return JSON.parse(jsonString);
+    } catch {
+        return null;
+    }
+}

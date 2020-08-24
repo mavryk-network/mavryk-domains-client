@@ -2,16 +2,16 @@ import { Constructable } from '../utils/types';
 import { TypedRpcDataEncoder } from './data-encoder';
 
 export class RpcResponseData {
-    constructor(private rawValue: unknown | null) {}
+    constructor(private rawValue: unknown) {}
 
     scalar<TDecoded, TEncoded = unknown>(encoder?: Constructable<TypedRpcDataEncoder<TDecoded, TEncoded>>): TDecoded | null {
         if (!encoder) {
-            return this.rawValue as TDecoded;
+            return (this.rawValue || null) as TDecoded | null;
         }
 
         const encoderInstance = new encoder();
 
-        return encoderInstance.decode(this.rawValue as TEncoded) as TDecoded
+        return encoderInstance.decode(this.rawValue as TEncoded) as TDecoded;
     }
 
     decode<T>(type: Constructable<T>): T | null {

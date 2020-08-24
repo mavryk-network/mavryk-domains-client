@@ -64,7 +64,7 @@ describe('TezosDomainsClient', () => {
                 tezos: instance(customTezosToolkit),
                 network: 'carthagenet',
                 tracing: true,
-                caching: { enabled: true, recordTtl: 50, reverseRecordTtl: 60 },
+                caching: { enabled: true, defaultRecordTtl: 50, defaultReverseRecordTtl: 60 },
             };
             new TezosDomainsClient(config);
 
@@ -80,8 +80,8 @@ describe('TezosDomainsClient', () => {
 
             expect(BlockchainNameResolver).toHaveBeenCalledWith(instance(tezosClientMock), instance(addressBookMock), instance(consoleTracerMock));
             expect(CachedNameResolver).toHaveBeenCalledWith(instance(blockchainNameResolverMock), instance(consoleTracerMock), {
-                recordTtl: 50,
-                reverseRecordTtl: 60,
+                defaultRecordTtl: 50,
+                defaultReverseRecordTtl: 60,
             });
         });
 

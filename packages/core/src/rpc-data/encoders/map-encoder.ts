@@ -1,26 +1,34 @@
 import { MichelsonMap } from '@taquito/taquito';
 
 import { TypedRpcDataEncoder } from '../data-encoder';
-// import { encodeString, decodeString } from '../../utils/convert';
-// TODO: implement serialization of values
+import { RecordMetadata } from '../record-metadata';
 
-export class MapEncoder implements TypedRpcDataEncoder<Record<string, string>, MichelsonMap<string, string>> {
-    encode(value: Record<string, string> | null): MichelsonMap<string, string> | null {
+export class MapEncoder implements TypedRpcDataEncoder<RecordMetadata, MichelsonMap<string, string>> {
+    encode(value: RecordMetadata | null): MichelsonMap<string, string> | null {
         if (!value) {
             return null;
         }
 
-        const map = new MichelsonMap<string, string>();
+        const map = new MichelsonMap<string, string>({ prim: 'map', args: [{ prim: 'string' }, { prim: 'bytes' }] });
+
+        const rawValues = value.raw();
+
+        Object.keys(rawValues).forEach(k => {
+            map.set(k, rawValues[k]);
+        });
 
         return map;
     }
 
-    decode(value: MichelsonMap<string, string> | null): Record<string, string> | null {
+    decode(value: MichelsonMap<string, string> | null): RecordMetadata | null {
         if (!value) {
             return null;
         }
 
-        const record = {};
+        const record = new RecordMetadata();
+        value.forEach((v, k) => {
+            record.set(k, v);
+        });
 
         return record;
     }

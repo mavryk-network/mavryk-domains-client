@@ -1,7 +1,17 @@
 import { TransactionWalletOperation, MichelsonMap } from '@taquito/taquito';
-import { SmartContractType, Exact, RpcRequestScalarData, RpcResponseData, Tracer, AddressBook, TezosClient, BytesEncoder } from '@tezos-domains/core';
+import {
+    SmartContractType,
+    Exact,
+    RpcRequestScalarData,
+    RpcResponseData,
+    Tracer,
+    AddressBook,
+    TezosClient,
+    BytesEncoder,
+    RecordMetadata,
+} from '@tezos-domains/core';
 import { DomainsManager, CommitmentGenerator, BlockchainDomainsManager } from '@tezos-domains/manager';
-import { mock, when, anyFunction, anything, instance, anyString, verify, anyOfClass, deepEqual, anyNumber } from 'ts-mockito';
+import { mock, when, anyFunction, anything, instance, anyString, verify, anyOfClass, deepEqual, anyNumber, capture } from 'ts-mockito';
 import MockDate from 'mockdate';
 import BigNumber from 'bignumber.js';
 
@@ -77,7 +87,7 @@ describe('BlockchainDomainsManager', () => {
             const op = await manager.setChildRecord({
                 label: 'necroskillz',
                 parent: 'tez',
-                data: {},
+                data: new RecordMetadata({ ttl: '31' }),
                 owner: 'tz1xxx',
                 address: 'tz1yyy',
                 validity: new Date(new Date(2021, 10, 11, 8).getTime() - new Date().getTimezoneOffset() * 60000),
@@ -91,6 +101,8 @@ describe('BlockchainDomainsManager', () => {
                 )
             ).called();
 
+            expect(capture(tezosClientMock.call).last()[2][1].get('ttl')).toBe('31');
+
             expect(op).toBe(instance(operation));
         });
     });
@@ -99,7 +111,7 @@ describe('BlockchainDomainsManager', () => {
         it('should call smart contract', async () => {
             const op = await manager.updateRecord({
                 name: 'necroskillz.tez',
-                data: {},
+                data: new RecordMetadata({ ttl: '31' }),
                 owner: 'tz1xxx',
                 address: 'tz1yyy',
             });
@@ -111,6 +123,7 @@ describe('BlockchainDomainsManager', () => {
                     deepEqual(['tz1yyy', anyOfClass(MichelsonMap), e('necroskillz.tez'), 'tz1xxx'])
                 )
             ).called();
+            expect(capture(tezosClientMock.call).last()[2][1].get('ttl')).toBe('31');
 
             expect(op).toBe(instance(operation));
         });

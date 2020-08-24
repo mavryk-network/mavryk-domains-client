@@ -72,77 +72,77 @@ describe('BlockchainNameResolver', () => {
         MockDate.reset();
     });
 
-    describe('resolve()', () => {
+    describe('resolveAddress()', () => {
         it('should resolve name', async () => {
-            const address = await resolver.resolve('play.necroskillz.tez');
+            const address = await resolver.resolveAddress('play.necroskillz.tez');
 
             expect(address).toBe('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i');
         });
 
         it('should return null if record does not exist', async () => {
-            const address = await resolver.resolve('404.tez');
+            const address = await resolver.resolveAddress('404.tez');
 
             expect(address).toBe(null);
         });
 
         it('should return null if record is expired', async () => {
-            const address = await resolver.resolve('expired.tez');
+            const address = await resolver.resolveAddress('expired.tez');
 
             expect(address).toBe(null);
         });
 
         it('should return null if record has no address', async () => {
-            const address = await resolver.resolve('no-address.tez');
+            const address = await resolver.resolveAddress('no-address.tez');
 
             expect(address).toBe(null);
         });
 
         it('should throw when name is null', async () => {
-            await expect(() => resolver.resolve(null as any)).rejects.toEqual(new Error(`Argument 'name' was not specified.`));
+            await expect(() => resolver.resolveAddress(null as any)).rejects.toEqual(new Error(`Argument 'name' was not specified.`));
         });
 
         it('should throw when invalid name is specified', async () => {
-            await expect(() => resolver.resolve('invalid')).rejects.toEqual(new Error(`'invalid' is not a valid domain name.`));
+            await expect(() => resolver.resolveAddress('invalid')).rejects.toEqual(new Error(`'invalid' is not a valid domain name.`));
         });
     });
 
-    describe('reverseResolve()', () => {
+    describe('reverseResolveName()', () => {
         it('should resolve address', async () => {
-            const name = await resolver.reverseResolve('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i');
+            const name = await resolver.reverseResolveName('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i');
 
             expect(name).toBe('play.necroskillz.tez');
         });
 
         it('should return null if reverse record does not exist', async () => {
-            const name = await resolver.reverseResolve('tz1R3iboWc7PWQsHvo9WMaJjKcp2a3wX6TjP');
+            const name = await resolver.reverseResolveName('tz1R3iboWc7PWQsHvo9WMaJjKcp2a3wX6TjP');
 
             expect(name).toBe(null);
         });
 
         it('should return null if associated record is expired', async () => {
-            const name = await resolver.reverseResolve('tz1NXtvKxbCpWkSmHSAirdxzPbQgicTFwWyc');
+            const name = await resolver.reverseResolveName('tz1NXtvKxbCpWkSmHSAirdxzPbQgicTFwWyc');
 
             expect(name).toBe(null);
         });
 
         it('should return null if associated record does not exist', async () => {
-            const name = await resolver.reverseResolve('tz1SdArNzLEch64rBDmMeJf23TRQ19gc4yTs');
+            const name = await resolver.reverseResolveName('tz1SdArNzLEch64rBDmMeJf23TRQ19gc4yTs');
 
             expect(name).toBe(null);
         });
 
         it('should return null if reverse record has no name', async () => {
-            const name = await resolver.reverseResolve('tz1a1qfkPhNnaUGb1mNfDsUKJi23ADet7h62');
+            const name = await resolver.reverseResolveName('tz1a1qfkPhNnaUGb1mNfDsUKJi23ADet7h62');
 
             expect(name).toBe(null);
         });
 
         it('should throw when address is null', async () => {
-            await expect(() => resolver.reverseResolve(null as any)).rejects.toEqual(new Error(`Argument 'address' was not specified.`));
+            await expect(() => resolver.reverseResolveName(null as any)).rejects.toEqual(new Error(`Argument 'address' was not specified.`));
         });
 
         it('should throw when invalid address is specified', async () => {
-            await expect(() => resolver.reverseResolve('invalid')).rejects.toEqual(new Error(`'invalid' is not a valid address.`));
+            await expect(() => resolver.reverseResolveName('invalid')).rejects.toEqual(new Error(`'invalid' is not a valid address.`));
         });
     });
 });

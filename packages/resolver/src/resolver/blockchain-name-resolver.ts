@@ -18,8 +18,8 @@ import { NameResolver } from './name-resolver';
 export class BlockchainNameResolver implements NameResolver {
     constructor(private tezos: TezosClient, private addressBook: AddressBook, private tracer: Tracer) {}
 
-    async resolve(name: string): Promise<string | null> {
-        this.tracer.trace(`=> Resolving address for '${name}'`);
+    async resolve(name: string): Promise<DomainRecord | null> {
+        this.tracer.trace(`=> Resolving record '${name}'`);
 
         if (!name) {
             throw new Error(`Argument 'name' was not specified.`);
@@ -30,19 +30,26 @@ export class BlockchainNameResolver implements NameResolver {
         }
 
         const record = await this.getValidRecord(name);
-        if (!record) {
-            return null;
-        }
 
-        const address = record.address || null;
+        this.tracer.trace(`<= Resolved record.`, record);
+
+        return record;
+    }
+
+    async resolveAddress(name: string): Promise<string | null> {
+        this.tracer.trace(`=> Resolving address for '${name}'`);
+
+        const record = await this.resolve(name);
+
+        const address = record?.address || null;
 
         this.tracer.trace(`<= Resolved address.`, address);
 
         return address;
     }
 
-    async reverseResolve(address: string): Promise<string | null> {
-        this.tracer.trace(`=> Resolving name for '${address}'`);
+    async reverseResolve(address: string): Promise<ReverseRecord | null> {
+        this.tracer.trace(`=> Resolving reverse record for '${address}'`);
 
         if (!address) {
             throw new Error(`Argument 'address' was not specified.`);
@@ -65,9 +72,23 @@ export class BlockchainNameResolver implements NameResolver {
             return null;
         }
 
+        this.tracer.trace(`<= Resolved reverse record.`, reverseRecord);
+
+        return reverseRecord;
+    }
+
+    async reverseResolveName(address: string): Promise<string | null> {
+        this.tracer.trace(`=> Resolving name for '${address}'`);
+
+        const reverseRecord = await this.reverseResolve(address);
+
+        if (!reverseRecord) {
+            return null;
+        }
+
         this.tracer.trace(`<= Resolved name.`, reverseRecord.name);
 
-        return reverseRecord.name;
+        return reverseRecord.name!;
     }
 
     private async getValidRecord(name: string) {

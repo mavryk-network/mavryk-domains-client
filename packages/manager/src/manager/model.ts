@@ -1,4 +1,4 @@
-import { RpcRequest, encoder, BytesEncoder, RpcResponse, DateEncoder, MapEncoder } from '@tezos-domains/core';
+import { RpcRequest, encoder, BytesEncoder, RpcResponse, DateEncoder, MapEncoder, RecordMetadata } from '@tezos-domains/core';
 import BigNumber from 'bignumber.js';
 
 @RpcRequest()
@@ -7,7 +7,7 @@ export class SetChildRecordRequest {
     @encoder(BytesEncoder) parent!: string;
     owner!: string;
     address?: string | null;
-    @encoder(MapEncoder) data!: Record<string, string>;
+    @encoder(MapEncoder) data!: RecordMetadata;
     @encoder(DateEncoder) validity?: Date | null;
 }
 
@@ -16,7 +16,7 @@ export class UpdateRecordRequest {
     @encoder(BytesEncoder) name!: string;
     owner!: string;
     address?: string | null;
-    @encoder(MapEncoder) data!: Record<string, string>;
+    @encoder(MapEncoder) data!: RecordMetadata;
 }
 
 @RpcRequest()

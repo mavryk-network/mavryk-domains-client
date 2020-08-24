@@ -1,4 +1,4 @@
-import { SupportedTLDs, DomainNameValidators, AlphanumericWithHyphenDomainNameValidator } from '@tezos-domains/core';
+import { SupportedTLDs, DomainNameValidators, AlphanumericWithHyphenDomainNameValidator, JsonBytesEncoder } from '@tezos-domains/core';
 import { TezosDomainsClient } from '@tezos-domains/client';
 import { TezosToolkit } from '@taquito/taquito';
 
@@ -20,10 +20,22 @@ describe('resolver', () => {
         SupportedTLDs.push('test');
         DomainNameValidators['test'] = AlphanumericWithHyphenDomainNameValidator;
 
-        client = new TezosDomainsClient({ network: 'carthagenet', tezos });
+        client = new TezosDomainsClient({ network: 'carthagenet', tezos, caching: { enabled: true } });
     });
 
     describe('resolve()', () => {
+        it('should resolve all properties of record', async () => {
+            const record = await client.resolver.resolve(DATA.ok.name);
+
+            expect(record!.address).toBe(DATA.ok.address);
+            expect(record!.owner).toBe(DATA.ok.address);
+            expect(record!.level).toBe(1);
+            expect(record!.validity_key).toBe(DATA.ok.name);
+            expect(record!.data.get('ttl', JsonBytesEncoder)).toBe(420);
+        });
+    });
+
+    describe('resolveAddress()', () => {
         const TEST_CASES: TestCase[] = [
             { description: 'should resolve address', from: DATA.ok.name, to: DATA.ok.address },
             { description: 'should return null for expired address', from: DATA.expired.name, to: null },
@@ -34,7 +46,7 @@ describe('resolver', () => {
 
         TEST_CASES.forEach(t => {
             it(t.description, async () => {
-                const address = await client.resolver.resolve(t.from);
+                const address = await client.resolver.resolveAddress(t.from);
 
                 expect(address).toBe(t.to);
             });
@@ -42,6 +54,15 @@ describe('resolver', () => {
     });
 
     describe('reverseResolve()', () => {
+        it('should resolve all properties of record', async () => {
+            const record = await client.resolver.reverseResolve(DATA.ok.address);
+
+            expect(record!.name).toBe(DATA.ok.name);
+            expect(record!.owner).toBe(DATA.ok.address);
+        });
+    });
+
+    describe('reverseResolveName()', () => {
         const TEST_CASES: TestCase[] = [
             { description: 'should resolve name', from: DATA.ok.address, to: DATA.ok.name },
             { description: 'should return null for non existent reverse record', from: DATA.expired.address, to: null },
@@ -52,7 +73,7 @@ describe('resolver', () => {
 
         TEST_CASES.forEach(t => {
             it(t.description, async () => {
-                const name = await client.resolver.reverseResolve(t.from);
+                const name = await client.resolver.reverseResolveName(t.from);
 
                 expect(name).toBe(t.to);
             });

@@ -1,10 +1,10 @@
 import { TezosToolkit } from '@taquito/taquito';
 import { InMemorySigner, importKey } from '@taquito/signer';
-import { getLabel, getTld } from '@tezos-domains/core';
+import { getLabel, getTld, RecordMetadata, JsonBytesEncoder } from '@tezos-domains/core';
 import { TezosDomainsClient } from '@tezos-domains/client';
 import chalk from 'chalk';
 
-import {  FaucetWallet, CONFIG, DATA } from '../data';
+import { FaucetWallet, CONFIG, DATA } from '../data';
 
 /**
  * Setup integration test data on carthagenet
@@ -16,9 +16,9 @@ async function setTezos(wallet: FaucetWallet | 'admin') {
     tezos.setProvider({
         rpc: CONFIG.rpcUrl,
         config: {
-            confirmationPollingIntervalSecond: 5
-        }
-    })
+            confirmationPollingIntervalSecond: 5,
+        },
+    });
 
     if (wallet === 'admin') {
         tezos.setSignerProvider(await InMemorySigner.fromSecretKey(CONFIG.adminKey));
@@ -29,10 +29,10 @@ async function setTezos(wallet: FaucetWallet | 'admin') {
     client = new TezosDomainsClient({ tezos, network: 'carthagenet' });
 }
 
-export async function createRecord(name: string, owner: string, address: string | null, validity: Date | null): Promise<void> {
+export async function createRecord(name: string, owner: string, address: string | null, validity: Date | null, data?: RecordMetadata): Promise<void> {
     const operation = await client.manager.setChildRecord({
         address,
-        data: {},
+        data: data || new RecordMetadata(),
         label: getLabel(name),
         owner,
         parent: getTld(name),
@@ -65,7 +65,10 @@ export async function commit(name: string, owner: string): Promise<void> {
 
 export async function run(): Promise<void> {
     await setTezos('admin');
-    await createRecord(DATA.ok.name, DATA.ok.address, DATA.ok.address, new Date(2100, 1, 1));
+
+    const okMetadata = new RecordMetadata();
+    okMetadata.ttl = 420;
+    await createRecord(DATA.ok.name, DATA.ok.address, DATA.ok.address, new Date(2100, 1, 1), okMetadata);
     await setTezos(DATA.ok.wallet);
     await createReverseRecord(DATA.ok.address, DATA.ok.name);
     await setTezos('admin');

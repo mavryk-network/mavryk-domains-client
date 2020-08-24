@@ -33,7 +33,7 @@ export class RpcRequestScalarData<TSource, TTarget = TSource> extends RpcRequest
             return encoderInstance.encode(this.rawValue);
         }
 
-        return (this.rawValue as unknown) as TTarget;
+        return (this.rawValue || null as unknown) as TTarget;
     }
 }
 

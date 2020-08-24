@@ -1,17 +1,11 @@
 import { Tezos } from '@taquito/taquito';
-import {
-    TezosDomainsConfig,
-    TezosClient,
-    AddressBook,
-    ConsoleTracer,
-    NoopTracer,
-} from '@tezos-domains/core';
+import { TezosDomainsConfig, TezosClient, AddressBook, ConsoleTracer, NoopTracer, DomainRecord, ReverseRecord } from '@tezos-domains/core';
 
 import { NameResolver } from './name-resolver';
 import { BlockchainNameResolver } from './blockchain-name-resolver';
 import { CachedNameResolver } from './cached-name-resolver';
 
-export type CachingConfig = { enabled: boolean; recordTtl?: number; reverseRecordTtl?: number };
+export type CachingConfig = { enabled: boolean; defaultRecordTtl?: number; defaultReverseRecordTtl?: number };
 
 export type ResolverConfig = TezosDomainsConfig & {
     caching?: CachingConfig;
@@ -27,19 +21,27 @@ export class TezosDomainsResolver implements NameResolver {
         const blockchainResolver = new BlockchainNameResolver(tezos, addressBook, tracer);
         if (config?.caching) {
             this.resolver = new CachedNameResolver(blockchainResolver, tracer, {
-                recordTtl: config.caching.recordTtl || 600,
-                reverseRecordTtl: config.caching.reverseRecordTtl || 600,
+                defaultRecordTtl: config.caching.defaultRecordTtl || 600,
+                defaultReverseRecordTtl: config.caching.defaultReverseRecordTtl || 600,
             });
         } else {
             this.resolver = blockchainResolver;
         }
     }
 
-    async resolve(name: string): Promise<string | null> {
+    async resolve(name: string): Promise<DomainRecord | null> {
         return this.resolver.resolve(name);
     }
 
-    async reverseResolve(address: string): Promise<string | null> {
+    async resolveAddress(name: string): Promise<string | null> {
+        return this.resolver.resolveAddress(name);
+    }
+
+    async reverseResolve(address: string): Promise<ReverseRecord | null> {
         return this.resolver.reverseResolve(address);
+    }
+
+    async reverseResolveName(address: string): Promise<string | null> {
+        return this.resolver.reverseResolveName(address);
     }
 }
