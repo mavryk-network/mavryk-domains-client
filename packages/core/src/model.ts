@@ -24,9 +24,13 @@ export type DefaultNetworkConfig = { network?: 'mainnet' | 'carthagenet'; contra
 
 export type TezosDomainsConfig = DefaultNetworkConfig | CustomNetworkConfig;
 
+export type ContractAddressDescriptor = {
+    address: string;
+    resolveProxyContract?: boolean;
+};
+
 export type ContractConfig = {
-    [type: string]: string;
-    nameRegistry: string;
+    [type: string]: ContractAddressDescriptor;
 };
 
 export interface NameRegistryStorage {
@@ -51,6 +55,10 @@ export interface TLDRegistrarStorage {
         owner: string;
     };
     trusted_senders: string[];
+}
+
+export interface ProxyStorage {
+    contract: string;
 }
 
 @RpcResponse()

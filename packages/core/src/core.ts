@@ -1,7 +1,19 @@
 import './rpc-data/data-encoder';
 import './tracing/tracer';
 
-export { SmartContractType, ContractConfig, NetworkType, NameRegistryStorage, DomainRecord, ReverseRecord, TezosDomainsConfig, TLDRegistrarStorage } from './model';
+export {
+    SmartContractType,
+    ContractConfig,
+    NetworkType,
+    NameRegistryStorage,
+    DomainRecord,
+    ReverseRecord,
+    TezosDomainsConfig,
+    TLDRegistrarStorage,
+    ProxyStorage,
+    DefaultNetworkConfig,
+    CustomNetworkConfig,
+} from './model';
 export { AddressBook } from './address-book/address-book';
 export { TezosClient } from './tezos-client/client';
 export { RpcRequest, RpcResponse, encoder } from './rpc-data/decorators';

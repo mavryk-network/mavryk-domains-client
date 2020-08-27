@@ -1,49 +1,67 @@
-import { AddressBook, SmartContractType } from '@tezos-domains/core';
+import { AddressBook, SmartContractType, TezosClient, CustomNetworkConfig, DefaultNetworkConfig } from '@tezos-domains/core';
+import { mock, instance, when, anyString } from 'ts-mockito';
 
 import { BuiltInAddresses } from '../../src/address-book/built-in-addresses';
 
 describe('AddressBook', () => {
     let addressBook: AddressBook;
+    let tezosClientMock: TezosClient;
+
+    beforeEach(() => {
+        tezosClientMock = mock(TezosClient);
+
+        when(tezosClientMock.storage(anyString())).thenCall((a: string) => Promise.resolve({ contract: a + '_actual' }));
+    });
+
+    function init(config?: CustomNetworkConfig | DefaultNetworkConfig) {
+        addressBook = new AddressBook(instance(tezosClientMock), config);
+    }
 
     it('should resolve built-in addresses for mainnet', async () => {
-        addressBook = new AddressBook();
+        init();
 
-        await expect(addressBook.lookup(SmartContractType.NameRegistry)).resolves.toBe(BuiltInAddresses.mainnet.nameRegistry);
-        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'tez')).resolves.toBe(BuiltInAddresses.mainnet['tldRegistrar:tez']);
+        await expect(addressBook.lookup(SmartContractType.NameRegistry)).resolves.toBe(`${BuiltInAddresses.mainnet['nameRegistry'].address}_actual`);
+        await expect(addressBook.lookup(SmartContractType.NameRegistry, 'set_child_record')).resolves.toBe(
+            BuiltInAddresses.mainnet['nameRegistry:set_child_record'].address
+        );
+        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'tez')).resolves.toBe(`${BuiltInAddresses.mainnet['tldRegistrar:tez'].address}_actual`);
+        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'tez', 'buy')).resolves.toBe(BuiltInAddresses.mainnet['tldRegistrar:tez:buy'].address);
     });
 
     it('should resolve built-in addresses for carthagenet', async () => {
-        addressBook = new AddressBook({ network: 'carthagenet' });
+        init({ network: 'carthagenet' });
 
-        await expect(addressBook.lookup(SmartContractType.NameRegistry)).resolves.toBe(BuiltInAddresses.carthagenet.nameRegistry);
-        await expect(addressBook.lookup(SmartContractType.NameRegistry, 'set_child_record')).resolves.toBe(BuiltInAddresses.carthagenet['nameRegistry:set_child_record']);
-        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'tez')).resolves.toBe(BuiltInAddresses.carthagenet['tldRegistrar:tez']);
-        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'tez', 'buy')).resolves.toBe(BuiltInAddresses.carthagenet['tldRegistrar:tez:buy']);
+        await expect(addressBook.lookup(SmartContractType.NameRegistry)).resolves.toBe(`${BuiltInAddresses.carthagenet['nameRegistry'].address}_actual`);
+        await expect(addressBook.lookup(SmartContractType.NameRegistry, 'set_child_record')).resolves.toBe(
+            BuiltInAddresses.carthagenet['nameRegistry:set_child_record'].address
+        );
+        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'tez')).resolves.toBe(`${BuiltInAddresses.carthagenet['tldRegistrar:tez'].address}_actual`);
+        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'tez', 'buy')).resolves.toBe(BuiltInAddresses.carthagenet['tldRegistrar:tez:buy'].address);
     });
 
     it('should resolve custom addresses', async () => {
-        addressBook = new AddressBook({ network: 'custom', contractAddresses: { nameRegistry: 'custom_nr' } });
+        init({ network: 'custom', contractAddresses: { nameRegistry: { address: 'custom_nr' } } });
 
         await expect(addressBook.lookup(SmartContractType.NameRegistry)).resolves.toBe('custom_nr');
     });
 
-    it('should disregarding network when resolving custom addresses', async () => {
-        addressBook = new AddressBook({ network: 'carthagenet', contractAddresses: { nameRegistry: 'custom_nr' } });
+    it('should disregard network when resolving custom addresses', async () => {
+        init({ network: 'carthagenet', contractAddresses: { nameRegistry: { address: 'custom_nr' } } });
 
         await expect(addressBook.lookup(SmartContractType.NameRegistry)).resolves.toBe('custom_nr');
     });
 
     it('should throw when no addresses are specified for custom network', () => {
-        expect(() => new AddressBook({ network: 'custom' } as any)).toThrowError();
+        expect(() => init({ network: 'custom' } as any)).toThrowError();
     });
 
     it('should when unknown option network is specified', () => {
-        expect(() => new AddressBook({ network: 'blehnet' as any })).toThrowError();
+        expect(() => init({ network: 'blehnet' as any })).toThrowError();
     });
 
     describe('lookup()', () => {
         beforeEach(() => {
-            addressBook = new AddressBook();
+            init();
         });
 
         it('should throw if address for type is not found', async () => {
@@ -51,11 +69,15 @@ describe('AddressBook', () => {
         });
 
         it('should throw if tld registrar address is not found for specified tld', async () => {
-            await expect(addressBook.lookup(SmartContractType.TLDRegistrar, '???')).rejects.toEqual(new Error('Address for contract tldRegistrar:??? is not configured.'));
+            await expect(addressBook.lookup(SmartContractType.TLDRegistrar, '???')).rejects.toEqual(
+                new Error('Address for contract tldRegistrar:??? is not configured.')
+            );
         });
 
         it('should throw if tld registrar tld is not specified', async () => {
-            await expect(addressBook.lookup(SmartContractType.TLDRegistrar)).rejects.toEqual(new Error("Lookup of address for type tldRegistrar requires at least 1 parameter(s)."));
+            await expect(addressBook.lookup(SmartContractType.TLDRegistrar)).rejects.toEqual(
+                new Error('Lookup of address for type tldRegistrar requires at least 1 parameter(s).')
+            );
         });
     });
 });

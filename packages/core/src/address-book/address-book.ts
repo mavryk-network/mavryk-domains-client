@@ -1,10 +1,11 @@
 import { BuiltInAddresses } from './built-in-addresses';
-import { ContractConfig, TezosDomainsConfig, SmartContractType } from '../model';
+import { ContractConfig, TezosDomainsConfig, SmartContractType, ProxyStorage } from '../model';
+import { TezosClient } from '../tezos-client/client';
 
 export class AddressBook {
     private config: ContractConfig;
 
-    constructor(config?: TezosDomainsConfig) {
+    constructor(private tezosClient: TezosClient, config?: TezosDomainsConfig) {
         const network = config?.network || 'mainnet';
         if (network === 'custom') {
             if (!config?.contractAddresses) {
@@ -26,13 +27,19 @@ export class AddressBook {
 
     async lookup(type: SmartContractType, ...params: string[]): Promise<string> {
         const alias = this.buildAlias(type, params, type === SmartContractType.TLDRegistrar ? 1 : 0);
-        const address = this.config[alias];
+        const addressDescriptor = this.config[alias];
 
-        if (!address) {
+        if (!addressDescriptor) {
             throw new Error(`Address for contract ${alias} is not configured.`);
         }
 
-        return Promise.resolve(address);
+        if (addressDescriptor.resolveProxyContract) {
+            const storage = await this.tezosClient.storage<ProxyStorage>(addressDescriptor.address);
+
+            return storage.contract;
+        }
+
+        return addressDescriptor.address;
     }
 
     private buildAlias(type: SmartContractType, params: string[], minParams: number) {
@@ -40,7 +47,7 @@ export class AddressBook {
         if (specifiedParameters.length < minParams) {
             throw new Error(`Lookup of address for type ${type} requires at least ${minParams} parameter(s).`);
         }
-    
+
         return [type as string].concat(specifiedParameters).join(':');
     }
 }

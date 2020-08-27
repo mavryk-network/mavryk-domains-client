@@ -15,7 +15,7 @@ export class TezosDomainsManager implements DomainsManager {
         const tracer = config?.tracing ? new ConsoleTracer() : new NoopTracer();
         const tezosToolkit = config?.tezos || Tezos;
         const tezos = new TezosClient(config?.tezos || Tezos, tracer);
-        const addressBook = new AddressBook(config);
+        const addressBook = new AddressBook(tezos, config);
         const commitmentGenerator = new CommitmentGenerator(tezosToolkit);
         this.manager = new BlockchainDomainsManager(tezos, addressBook, tracer, commitmentGenerator);
     }

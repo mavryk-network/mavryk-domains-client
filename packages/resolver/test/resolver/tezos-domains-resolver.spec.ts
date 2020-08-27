@@ -45,7 +45,7 @@ describe('TezosDomainsResolver', () => {
             new TezosDomainsResolver();
 
             expect(TezosClient).toHaveBeenCalledWith(Tezos, instance(noopTracerMock));
-            expect(AddressBook).toHaveBeenCalledWith(undefined);
+            expect(AddressBook).toHaveBeenCalledWith(instance(tezosClientMock), undefined);
             expect(BlockchainNameResolver).toHaveBeenCalledWith(instance(tezosClientMock), instance(addressBookMock), instance(noopTracerMock));
             expect(CachedNameResolver).not.toHaveBeenCalled();
         });
@@ -61,7 +61,7 @@ describe('TezosDomainsResolver', () => {
             new TezosDomainsResolver(config);
 
             expect(TezosClient).toHaveBeenCalledWith(instance(customTezosToolkit), instance(consoleTracerMock));
-            expect(AddressBook).toHaveBeenCalledWith(config);
+            expect(AddressBook).toHaveBeenCalledWith(instance(tezosClientMock), config);
             expect(BlockchainNameResolver).toHaveBeenCalledWith(instance(tezosClientMock), instance(addressBookMock), instance(consoleTracerMock));
             expect(CachedNameResolver).toHaveBeenCalledWith(instance(blockchainNameResolverMock), instance(consoleTracerMock), {
                 defaultRecordTtl: 50,

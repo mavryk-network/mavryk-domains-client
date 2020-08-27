@@ -1,6 +1,6 @@
 import { TezosToolkit } from '@taquito/taquito';
 import { InMemorySigner, importKey } from '@taquito/signer';
-import { getLabel, getTld, RecordMetadata, JsonBytesEncoder } from '@tezos-domains/core';
+import { getLabel, getTld, RecordMetadata } from '@tezos-domains/core';
 import { TezosDomainsClient } from '@tezos-domains/client';
 import chalk from 'chalk';
 

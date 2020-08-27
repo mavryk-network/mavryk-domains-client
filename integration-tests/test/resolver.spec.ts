@@ -1,4 +1,4 @@
-import { SupportedTLDs, DomainNameValidators, AlphanumericWithHyphenDomainNameValidator, JsonBytesEncoder } from '@tezos-domains/core';
+import { SupportedTLDs, DomainNameValidators, AlphanumericWithHyphenDomainNameValidator } from '@tezos-domains/core';
 import { TezosDomainsClient } from '@tezos-domains/client';
 import { TezosToolkit } from '@taquito/taquito';
 
@@ -31,7 +31,7 @@ describe('resolver', () => {
             expect(record!.owner).toBe(DATA.ok.address);
             expect(record!.level).toBe(1);
             expect(record!.validity_key).toBe(DATA.ok.name);
-            expect(record!.data.get('ttl', JsonBytesEncoder)).toBe(420);
+            expect(record!.data.ttl).toBe(420);
         });
     });
 

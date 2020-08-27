@@ -45,7 +45,7 @@ describe('TezosDomainsClient', () => {
             new TezosDomainsClient();
 
             expect(TezosClient).toHaveBeenCalledWith(Tezos, instance(noopTracerMock));
-            expect(AddressBook).toHaveBeenCalledWith(undefined);
+            expect(AddressBook).toHaveBeenCalledWith(instance(tezosClientMock),undefined);
             expect(CommitmentGenerator).toHaveBeenCalledWith(Tezos);
             expect(BlockchainDomainsManager).toHaveBeenCalledWith(
                 instance(tezosClientMock),
@@ -69,7 +69,7 @@ describe('TezosDomainsClient', () => {
             new TezosDomainsClient(config);
 
             expect(TezosClient).toHaveBeenCalledWith(instance(customTezosToolkit), instance(consoleTracerMock));
-            expect(AddressBook).toHaveBeenCalledWith(config);
+            expect(AddressBook).toHaveBeenCalledWith(instance(tezosClientMock), config);
             expect(CommitmentGenerator).toHaveBeenCalledWith(instance(customTezosToolkit));
             expect(BlockchainDomainsManager).toHaveBeenCalledWith(
                 instance(tezosClientMock),

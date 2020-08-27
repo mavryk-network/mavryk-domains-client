@@ -17,7 +17,7 @@ export class TezosDomainsResolver implements NameResolver {
     constructor(config?: ResolverConfig) {
         const tracer = config?.tracing ? new ConsoleTracer() : new NoopTracer();
         const tezos = new TezosClient(config?.tezos || Tezos, tracer);
-        const addressBook = new AddressBook(config);
+        const addressBook = new AddressBook(tezos, config);
         const blockchainResolver = new BlockchainNameResolver(tezos, addressBook, tracer);
         if (config?.caching) {
             this.resolver = new CachedNameResolver(blockchainResolver, tracer, {
