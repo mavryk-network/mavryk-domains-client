@@ -46,7 +46,11 @@ describe('CachcedNameResolver', () => {
         when(bR.address).thenReturn('bR');
         when(bR.data).thenReturn(new RecordMetadata());
         when(raR.name).thenReturn('raR');
+        const raRMeta = new RecordMetadata();
+        raRMeta.ttl = 420;
+        when(raR.data).thenReturn(raRMeta);
         when(rbR.name).thenReturn('rbR');
+        when(rbR.data).thenReturn(new RecordMetadata());
 
         when(tracerMock.trace(anything(), anything()));
         when(nameResolverMock.resolve('a')).thenReturn(paR).thenReturn(pbR);
@@ -141,6 +145,16 @@ describe('CachcedNameResolver', () => {
 
             expect(a1).toBe(instance(raR));
             expect(a2).toBe(a1);
+        });
+
+        it('should set ttl if reverse record has it in metadata', async () => {
+            const a1 = await resolver.reverseResolve('a');
+
+            verify(nameResolverMock.reverseResolve('a')).once();
+            verify(cacheMock.set('a', praR, 11)).once();
+            verify(cacheMock.ttl('a', 420)).called();
+
+            expect(a1).toBe(instance(raR));
         });
 
         it('should get result again when ttl expires', async () => {

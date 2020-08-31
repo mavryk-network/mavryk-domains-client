@@ -72,11 +72,22 @@ export class CachedNameResolver implements NameResolver {
             this.tracer.trace('!! Cache miss.');
 
             const promise = this.inner.reverseResolve(address);
-            promise.catch(() => {
-                this.tracer.trace(`!! Removing ${address} from cache because resolving failed.`);
+            promise
+                .then(r => {
+                    if (!r) {
+                        return null;
+                    }
 
-                this.cache.del(address);
-            });
+                    const ttl = r.data.ttl;
+                    if (ttl) {
+                        this.cache.ttl(address, ttl);
+                    }
+                })
+                .catch(() => {
+                    this.tracer.trace(`!! Removing ${address} from cache because resolving failed.`);
+
+                    this.cache.del(address);
+                });
 
             this.cache.set(address, promise, this.config.defaultReverseRecordTtl);
         } else {

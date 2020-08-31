@@ -38,7 +38,7 @@ export interface NameRegistryStorage {
     store: {
         records: BigMapAbstraction;
         reverse_records: BigMapAbstraction;
-        validity_map: BigMapAbstraction;
+        expiry_map: BigMapAbstraction;
         owner: string;
         validators: string[];
     };
@@ -65,11 +65,12 @@ export interface ProxyStorage {
 export class ReverseRecord {
     @encoder(BytesEncoder) name?: string;
     owner!: string;
+    @encoder(MapEncoder) data!: RecordMetadata;
 }
 
 @RpcResponse()
 export class DomainRecord {
-    @encoder(BytesEncoder) validity_key!: string;
+    @encoder(BytesEncoder) expiry_key!: string;
     @encoder(BigNumberEncoder) level!: number;
     @encoder(BigNumberEncoder) validator!: number;
     owner!: string;

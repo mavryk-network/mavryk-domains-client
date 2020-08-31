@@ -8,7 +8,7 @@ export class SetChildRecordRequest {
     owner!: string;
     address?: string | null;
     @encoder(MapEncoder) data!: RecordMetadata;
-    @encoder(DateEncoder) validity?: Date | null;
+    @encoder(DateEncoder) expiry?: Date | null;
 }
 
 @RpcRequest()
@@ -42,6 +42,7 @@ export class RenewRequest {
 export class ReverseRecordRequest {
     @encoder(BytesEncoder) name?: string | null;
     owner!: string;
+    @encoder(MapEncoder) data!: RecordMetadata;
 }
 
 @RpcRequest()
@@ -49,6 +50,7 @@ export class UpdateReverseRecordRequest {
     @encoder(BytesEncoder) name?: string | null;
     owner!: string;
     address!: string;
+    @encoder(MapEncoder) data!: RecordMetadata;
 }
 
 @RpcResponse()

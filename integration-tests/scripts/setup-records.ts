@@ -29,14 +29,14 @@ async function setTezos(wallet: FaucetWallet | 'admin') {
     client = new TezosDomainsClient({ tezos, network: 'carthagenet' });
 }
 
-export async function createRecord(name: string, owner: string, address: string | null, validity: Date | null, data?: RecordMetadata): Promise<void> {
+export async function createRecord(name: string, owner: string, address: string | null, expiry: Date | null, data?: RecordMetadata): Promise<void> {
     const operation = await client.manager.setChildRecord({
         address,
         data: data || new RecordMetadata(),
         label: getLabel(name),
         owner,
         parent: getTld(name),
-        validity,
+        expiry,
     });
 
     await operation.confirmation();
@@ -44,10 +44,11 @@ export async function createRecord(name: string, owner: string, address: string 
     console.info(chalk.green(`Set record ${name}`));
 }
 
-export async function createReverseRecord(address: string, name: string | null): Promise<void> {
+export async function createReverseRecord(address: string, name: string | null, data?: RecordMetadata): Promise<void> {
     const operation = await client.manager.claimReverseRecord({
         name,
         owner: address,
+        data: data || new RecordMetadata(),
     });
 
     await operation.confirmation();
@@ -69,8 +70,13 @@ export async function run(): Promise<void> {
     const okMetadata = new RecordMetadata();
     okMetadata.ttl = 420;
     await createRecord(DATA.ok.name, DATA.ok.address, DATA.ok.address, new Date(2100, 1, 1), okMetadata);
+
     await setTezos(DATA.ok.wallet);
-    await createReverseRecord(DATA.ok.address, DATA.ok.name);
+
+    const okReverseMetadata = new RecordMetadata();
+    okReverseMetadata.ttl = 69;
+    await createReverseRecord(DATA.ok.address, DATA.ok.name, okReverseMetadata);
+
     await setTezos('admin');
     await commit('commit.tez', CONFIG.adminAddress);
 

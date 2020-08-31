@@ -90,18 +90,18 @@ describe('BlockchainDomainsManager', () => {
                 data: new RecordMetadata({ ttl: '31' }),
                 owner: 'tz1xxx',
                 address: 'tz1yyy',
-                validity: new Date(new Date(2021, 10, 11, 8).getTime() - new Date().getTimezoneOffset() * 60000),
+                expiry: new Date(new Date(2021, 10, 11, 8).getTime() - new Date().getTimezoneOffset() * 60000),
             });
 
             verify(
                 tezosClientMock.call(
                     `${SmartContractType.NameRegistry}addrset_child_record`,
                     'set_child_record',
-                    deepEqual(['tz1yyy', anyOfClass(MichelsonMap), e('necroskillz'), 'tz1xxx', e('tez'), '2021-11-11T08:00:00.000Z'])
+                    deepEqual([e('necroskillz'), e('tez'), 'tz1yyy', 'tz1xxx', anyOfClass(MichelsonMap), '2021-11-11T08:00:00.000Z'])
                 )
             ).called();
 
-            expect(capture(tezosClientMock.call).last()[2][1].get('ttl')).toBe('31');
+            expect(capture(tezosClientMock.call).last()[2][4].get('ttl')).toBe('31');
 
             expect(op).toBe(instance(operation));
         });
@@ -120,10 +120,10 @@ describe('BlockchainDomainsManager', () => {
                 tezosClientMock.call(
                     `${SmartContractType.NameRegistry}addrupdate_record`,
                     'update_record',
-                    deepEqual(['tz1yyy', anyOfClass(MichelsonMap), e('necroskillz.tez'), 'tz1xxx'])
+                    deepEqual([e('necroskillz.tez'), 'tz1yyy', 'tz1xxx', anyOfClass(MichelsonMap)])
                 )
             ).called();
-            expect(capture(tezosClientMock.call).last()[2][1].get('ttl')).toBe('31');
+            expect(capture(tezosClientMock.call).last()[2][3].get('ttl')).toBe('31');
 
             expect(op).toBe(instance(operation));
         });
@@ -151,7 +151,7 @@ describe('BlockchainDomainsManager', () => {
                 owner: 'tz1xxx',
             });
 
-            verify(tezosClientMock.call(`${SmartContractType.TLDRegistrar}addrtezbuy`, 'buy', deepEqual([365, e('necroskillz'), 'tz1xxx']), 7300)).called();
+            verify(tezosClientMock.call(`${SmartContractType.TLDRegistrar}addrtezbuy`, 'buy', deepEqual([e('necroskillz'), 365, 'tz1xxx']), 7300)).called();
 
             expect(op).toBe(instance(operation));
         });
@@ -164,7 +164,7 @@ describe('BlockchainDomainsManager', () => {
                 label: 'necroskillz2',
             });
 
-            verify(tezosClientMock.call(`${SmartContractType.TLDRegistrar}addrtezrenew`, 'renew', deepEqual([365, e('necroskillz2')]), 1095)).called();
+            verify(tezosClientMock.call(`${SmartContractType.TLDRegistrar}addrtezrenew`, 'renew', deepEqual([e('necroskillz2'), 365]), 1095)).called();
 
             expect(op).toBe(instance(operation));
         });
@@ -175,15 +175,17 @@ describe('BlockchainDomainsManager', () => {
             const op = await manager.claimReverseRecord({
                 name: 'necroskillz.tez',
                 owner: 'tz1xxx',
+                data: new RecordMetadata({ ttl: '31' }),
             });
 
             verify(
                 tezosClientMock.call(
                     `${SmartContractType.NameRegistry}addrclaim_reverse_record`,
                     'claim_reverse_record',
-                    deepEqual([e('necroskillz.tez'), 'tz1xxx'])
+                    deepEqual([e('necroskillz.tez'), 'tz1xxx', anyOfClass(MichelsonMap)])
                 )
             ).called();
+            expect(capture(tezosClientMock.call).last()[2][2].get('ttl')).toBe('31');
 
             expect(op).toBe(instance(operation));
         });
@@ -195,15 +197,17 @@ describe('BlockchainDomainsManager', () => {
                 address: 'tz1xxx',
                 name: 'necroskillz.tez',
                 owner: 'tz1yyy',
+                data: new RecordMetadata({ ttl: '31' }),
             });
 
             verify(
                 tezosClientMock.call(
                     `${SmartContractType.NameRegistry}addrupdate_reverse_record`,
                     'update_reverse_record',
-                    deepEqual(['tz1xxx', e('necroskillz.tez'), 'tz1yyy'])
+                    deepEqual(['tz1xxx', e('necroskillz.tez'), 'tz1yyy', anyOfClass(MichelsonMap)])
                 )
             ).called();
+            expect(capture(tezosClientMock.call).last()[2][3].get('ttl')).toBe('31');
 
             expect(op).toBe(instance(operation));
         });

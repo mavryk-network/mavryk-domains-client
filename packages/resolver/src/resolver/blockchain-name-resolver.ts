@@ -99,9 +99,9 @@ export class BlockchainNameResolver implements NameResolver {
             return null;
         }
 
-        const validity = await this.getDomainValidity(record.validity_key);
+        const expiry = await this.getDomainExpiry(record.expiry_key);
 
-        if (validity && validity < new Date()) {
+        if (expiry && expiry < new Date()) {
             this.tracer.trace('!! Record is expired.');
             // expired
             return null;
@@ -125,17 +125,17 @@ export class BlockchainNameResolver implements NameResolver {
         return record;
     }
 
-    private async getDomainValidity(key: string) {
-        this.tracer.trace(`=> Getting validity with key '${key}'`);
+    private async getDomainExpiry(key: string) {
+        this.tracer.trace(`=> Getting expiry with key '${key}'`);
 
         const address = await this.addressBook.lookup(SmartContractType.NameRegistry);
-        const result = await this.tezos.getBigMapValue<NameRegistryStorage>(address, s => s.store.validity_map, RpcRequestData.fromValue(key, BytesEncoder));
+        const result = await this.tezos.getBigMapValue<NameRegistryStorage>(address, s => s.store.expiry_map, RpcRequestData.fromValue(key, BytesEncoder));
 
-        const validity = result.scalar(DateEncoder);
+        const expiry = result.scalar(DateEncoder);
 
-        this.tracer.trace('<= Received validity.', validity);
+        this.tracer.trace('<= Received expiry.', expiry);
 
-        return validity;
+        return expiry;
     }
 
     private async getReverseRecord(address: string) {

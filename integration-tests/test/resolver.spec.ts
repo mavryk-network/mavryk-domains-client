@@ -29,8 +29,8 @@ describe('resolver', () => {
 
             expect(record!.address).toBe(DATA.ok.address);
             expect(record!.owner).toBe(DATA.ok.address);
-            expect(record!.level).toBe(1);
-            expect(record!.validity_key).toBe(DATA.ok.name);
+            expect(record!.level).toBe(2);
+            expect(record!.expiry_key).toBe(DATA.ok.name);
             expect(record!.data.ttl).toBe(420);
         });
     });
@@ -59,6 +59,7 @@ describe('resolver', () => {
 
             expect(record!.name).toBe(DATA.ok.name);
             expect(record!.owner).toBe(DATA.ok.address);
+            expect(record!.data.ttl).toBe(69);
         });
     });
 

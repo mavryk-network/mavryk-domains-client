@@ -28,12 +28,12 @@ export class BlockchainDomainsManager implements DomainsManager {
         const address = await this.addressBook.lookup(SmartContractType.NameRegistry, entrypoint);
         const encodedRequest = RpcRequestData.fromObject(SetChildRecordRequest, request).encode();
         const operation = await this.tezos.call(address, entrypoint, [
-            encodedRequest.address,
-            encodedRequest.data,
             encodedRequest.label,
-            encodedRequest.owner,
             encodedRequest.parent,
-            encodedRequest.validity,
+            encodedRequest.address,
+            encodedRequest.owner,
+            encodedRequest.data,
+            encodedRequest.expiry,
         ]);
 
         this.tracer.trace('<= Executed.', operation.opHash);
@@ -46,7 +46,7 @@ export class BlockchainDomainsManager implements DomainsManager {
         this.tracer.trace(`=> Executing ${entrypoint}.`, request);
         const address = await this.addressBook.lookup(SmartContractType.NameRegistry, entrypoint);
         const encodedRequest = RpcRequestData.fromObject(UpdateRecordRequest, request).encode();
-        const operation = await this.tezos.call(address, entrypoint, [encodedRequest.address, encodedRequest.data, encodedRequest.name, encodedRequest.owner]);
+        const operation = await this.tezos.call(address, entrypoint, [encodedRequest.name, encodedRequest.address, encodedRequest.owner, encodedRequest.data]);
 
         this.tracer.trace('<= Executed.', operation.opHash);
 
@@ -73,7 +73,7 @@ export class BlockchainDomainsManager implements DomainsManager {
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
         const price = await this.getPrice(`${request.label}.${tld}`, request.duration);
         const encodedRequest = RpcRequestData.fromObject(BuyRequest, request).encode();
-        const operation = await this.tezos.call(address, entrypoint, [encodedRequest.duration, encodedRequest.label, encodedRequest.owner], price);
+        const operation = await this.tezos.call(address, entrypoint, [encodedRequest.label, encodedRequest.duration, encodedRequest.owner], price);
 
         this.tracer.trace('<= Executed.', operation.opHash);
 
@@ -88,7 +88,7 @@ export class BlockchainDomainsManager implements DomainsManager {
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
         const price = await this.getPrice(`${request.label}.${tld}`, request.duration);
         const encodedRequest = RpcRequestData.fromObject(RenewRequest, request).encode();
-        const operation = await this.tezos.call(address, entrypoint, [encodedRequest.duration, encodedRequest.label], price);
+        const operation = await this.tezos.call(address, entrypoint, [encodedRequest.label, encodedRequest.duration], price);
 
         this.tracer.trace('<= Executed.', operation.opHash);
 
@@ -102,7 +102,7 @@ export class BlockchainDomainsManager implements DomainsManager {
 
         const address = await this.addressBook.lookup(SmartContractType.NameRegistry, entrypoint);
         const encodedRequest = RpcRequestData.fromObject(ReverseRecordRequest, request).encode();
-        const operation = await this.tezos.call(address, entrypoint, [encodedRequest.name, encodedRequest.owner]);
+        const operation = await this.tezos.call(address, entrypoint, [encodedRequest.name, encodedRequest.owner, encodedRequest.data]);
 
         this.tracer.trace('<= Executed.', operation.opHash);
 
@@ -116,7 +116,7 @@ export class BlockchainDomainsManager implements DomainsManager {
 
         const address = await this.addressBook.lookup(SmartContractType.NameRegistry, entrypoint);
         const encodedRequest = RpcRequestData.fromObject(UpdateReverseRecordRequest, request).encode();
-        const operation = await this.tezos.call(address, entrypoint, [encodedRequest.address, encodedRequest.name, encodedRequest.owner]);
+        const operation = await this.tezos.call(address, entrypoint, [encodedRequest.address, encodedRequest.name, encodedRequest.owner, encodedRequest.data]);
 
         this.tracer.trace('<= Executed.', operation.opHash);
 

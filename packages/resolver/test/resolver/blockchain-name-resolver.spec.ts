@@ -1,6 +1,5 @@
 import {
     SmartContractType,
-    Exact,
     DomainRecord,
     ReverseRecord,
     RpcRequestScalarData,
@@ -16,9 +15,9 @@ import MockDate from 'mockdate';
 
 interface FakeNameRegistryStorage {
     store: {
-        records: Record<string, Pick<DomainRecord, 'validity_key' | 'address'>>;
-        reverse_records: Record<string, Exact<ReverseRecord>>;
-        validity_map: Record<string, Date>;
+        records: Record<string, Pick<DomainRecord, 'expiry_key' | 'address'>>;
+        reverse_records: Record<string, Pick<ReverseRecord, 'name' | 'owner'>>;
+        expiry_map: Record<string, Date>;
     };
 }
 
@@ -33,7 +32,7 @@ describe('BlockchainNameResolver', () => {
     const storage: FakeNameRegistryStorage = {
         store: {
             records: {},
-            validity_map: {},
+            expiry_map: {},
             reverse_records: {},
         },
     };
@@ -43,13 +42,13 @@ describe('BlockchainNameResolver', () => {
         addressBookMock = mock(AddressBook);
         tracerMock = mock<Tracer>();
 
-        storage.store.records[e('play.necroskillz.tez')] = { validity_key: e('necroskillz.tez'), address: 'tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i' };
-        storage.store.records[e('expired.tez')] = { validity_key: e('expired.tez'), address: 'tz1NXtvKxbCpWkSmHSAirdxzPbQgicTFwWyc' };
-        storage.store.records[e('no-address.tez')] = { validity_key: e('no-address.tez') };
-        
-        storage.store.validity_map[e('necroskillz.tez')] = new Date(2021, 1, 1);
-        storage.store.validity_map[e('expired.tez')] = new Date(2019, 1, 1);
-        
+        storage.store.records[e('play.necroskillz.tez')] = { expiry_key: e('necroskillz.tez'), address: 'tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i' };
+        storage.store.records[e('expired.tez')] = { expiry_key: e('expired.tez'), address: 'tz1NXtvKxbCpWkSmHSAirdxzPbQgicTFwWyc' };
+        storage.store.records[e('no-address.tez')] = { expiry_key: e('no-address.tez') };
+
+        storage.store.expiry_map[e('necroskillz.tez')] = new Date(2021, 1, 1);
+        storage.store.expiry_map[e('expired.tez')] = new Date(2019, 1, 1);
+
         storage.store.reverse_records['tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i'] = { name: e('play.necroskillz.tez'), owner: 'tz1zzz' };
         storage.store.reverse_records['tz1NXtvKxbCpWkSmHSAirdxzPbQgicTFwWyc'] = { name: e('expired.tez'), owner: 'tz1ezz' };
         storage.store.reverse_records['tz1SdArNzLEch64rBDmMeJf23TRQ19gc4yTs'] = { name: e('orphan.tez'), owner: 'tz1aaa' };
