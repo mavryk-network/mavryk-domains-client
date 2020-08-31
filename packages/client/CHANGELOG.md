@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.7](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.6...v1.0.0-beta.7) (2020-08-31)
+
+
+### Features
+
+* add record data handling ([0e9bb22](https://gitlab.com/tezos-domains/client/commit/0e9bb228498eb498ef9ae7d2cef0654cbb772f1d))
+
+
+### BREAKING CHANGES
+
+* Resolver.resolve and reverseResolve now return respective records. New methods
+resolveAddress and reverseResolveName were added that have the previous behavior.
+
+
+
+
+
 # [1.0.0-beta.6](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.5...v1.0.0-beta.6) (2020-08-21)
 
 **Note:** Version bump only for package @tezos-domains/client
