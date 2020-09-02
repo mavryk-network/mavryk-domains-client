@@ -18,4 +18,8 @@ export class NullNameResovler implements NameResolver {
     reverseResolveName(): Promise<string | null> {
         return Promise.resolve(null);
     }
+
+    clearCache(): void {
+        return void 0;
+    }
 }

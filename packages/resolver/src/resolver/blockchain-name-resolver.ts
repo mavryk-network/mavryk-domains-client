@@ -112,6 +112,10 @@ export class BlockchainNameResolver implements NameResolver {
         return record;
     }
 
+    clearCache(): void {
+        return void 0;
+    }
+
     private async getDomainRecord(name: string) {
         this.tracer.trace(`=> Getting record '${name}'.`);
 

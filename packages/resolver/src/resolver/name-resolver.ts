@@ -5,4 +5,5 @@ export interface NameResolver {
     resolveAddress(name: string): Promise<string | null>;
     reverseResolve(address: string): Promise<ReverseRecord | null>;
     reverseResolveName(address: string): Promise<string | null>;
+    clearCache(): void;
 }

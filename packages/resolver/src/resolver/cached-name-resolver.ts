@@ -114,4 +114,8 @@ export class CachedNameResolver implements NameResolver {
 
         return name;
     }
+
+    clearCache(): void {
+        this.cache.flushAll();
+    }
 }

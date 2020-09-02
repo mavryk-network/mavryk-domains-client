@@ -8,7 +8,7 @@ import { TezosClient, ConsoleTracer, NoopTracer, AddressBook } from '@tezos-doma
 import { BlockchainDomainsManager, CommitmentGenerator } from '@tezos-domains/manager';
 import { TezosDomainsClient, ClientConfig } from '@tezos-domains/client';
 import { BlockchainNameResolver, CachedNameResolver } from '@tezos-domains/resolver';
-import { mock, instance } from 'ts-mockito';
+import { mock, instance, verify } from 'ts-mockito';
 
 describe('TezosDomainsClient', () => {
     let tezosClientMock: TezosClient;
@@ -45,7 +45,7 @@ describe('TezosDomainsClient', () => {
             new TezosDomainsClient();
 
             expect(TezosClient).toHaveBeenCalledWith(Tezos, instance(noopTracerMock));
-            expect(AddressBook).toHaveBeenCalledWith(instance(tezosClientMock),undefined);
+            expect(AddressBook).toHaveBeenCalledWith(instance(tezosClientMock), undefined);
             expect(CommitmentGenerator).toHaveBeenCalledWith(Tezos);
             expect(BlockchainDomainsManager).toHaveBeenCalledWith(
                 instance(tezosClientMock),
@@ -91,7 +91,7 @@ describe('TezosDomainsClient', () => {
 
                 const newManager = mock(BlockchainDomainsManager);
                 (BlockchainDomainsManager as jest.Mock).mockReturnValue(instance(newManager));
-                
+
                 client.setConfig({ caching: { enabled: true } });
 
                 expect(client.manager).toBe(instance(newManager));
@@ -113,6 +113,24 @@ describe('TezosDomainsClient', () => {
 
         it('should expose resolver', () => {
             expect(client.resolver).toBe(instance(blockchainNameResolverMock));
+        });
+
+        describe('clearResolverCache()', () => {
+            // eslint-disable-next-line jest/expect-expect
+            it('should call clearCache() on the resolver', () => {
+                client.clearResolverCache();
+
+                verify(blockchainNameResolverMock.clearCache()).called();
+            });
+
+            // eslint-disable-next-line jest/expect-expect
+            it('should call clearCache() on the resolver (with caching)', () => {
+                client.setConfig({ caching: { enabled: true } });
+
+                client.clearResolverCache();
+
+                verify(cachedNameResolverMock.clearCache()).called();
+            });
         });
     });
 });

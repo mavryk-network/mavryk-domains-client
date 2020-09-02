@@ -5,7 +5,7 @@ import { CachedNameResolver, NameResolver } from '@tezos-domains/resolver';
 import { mock, instance, when, anything, verify, anyString, anyNumber } from 'ts-mockito';
 import NodeCache from 'node-cache';
 
-describe('CachcedNameResolver', () => {
+describe('CachedNameResolver', () => {
     let resolver: CachedNameResolver;
     let nameResolverMock: NameResolver;
     let cacheMock: NodeCache;
@@ -202,6 +202,15 @@ describe('CachcedNameResolver', () => {
             const a1 = await resolver.reverseResolveName('a');
 
             expect(a1).toBe(null);
+        });
+    });
+
+    describe('clearCache()', () => {
+        // eslint-disable-next-line jest/expect-expect
+        it('should flush cache data', () => {
+            resolver.clearCache();
+
+            verify(cacheMock.flushAll()).called();
         });
     });
 });

@@ -44,4 +44,8 @@ export class TezosDomainsResolver implements NameResolver {
     async reverseResolveName(address: string): Promise<string | null> {
         return this.resolver.reverseResolveName(address);
     }
+
+    clearCache(): void {
+        this.resolver.clearCache();
+    }
 }

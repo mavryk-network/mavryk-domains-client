@@ -40,4 +40,8 @@ export class TezosDomainsClient {
             this._resolver = blockchainResolver;
         }
     }
+
+    clearResolverCache(): void {
+        this._resolver.clearCache();
+    }
 }
