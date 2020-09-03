@@ -36,6 +36,14 @@ describe('resolver', () => {
     });
 
     describe('resolveAddress()', () => {
+        it('resolve multiple at once', async () => {
+            const x = await Promise.all([DATA.ok.name, DATA.noExpiration.name].map(a => client.resolver.resolveAddress(a)));
+
+            expect(x[0]).toBe(DATA.ok.address);
+            expect(x[1]).toBe(DATA.noExpiration.address);
+        });
+
+
         const TEST_CASES: TestCase[] = [
             { description: 'should resolve address', from: DATA.ok.name, to: DATA.ok.address },
             { description: 'should return null for expired address', from: DATA.expired.name, to: null },
@@ -64,6 +72,13 @@ describe('resolver', () => {
     });
 
     describe('reverseResolveName()', () => {
+        it('resolve multiple at once', async () => {
+            const x = await Promise.all([DATA.ok.address, DATA.noExpiration.address].map(a => client.resolver.reverseResolveName(a)));
+
+            expect(x[0]).toBe(DATA.ok.name);
+            expect(x[1]).toBe(DATA.noExpiration.name);
+        });
+
         const TEST_CASES: TestCase[] = [
             { description: 'should resolve name', from: DATA.ok.address, to: DATA.ok.name },
             { description: 'should return null for non existent reverse record', from: DATA.expired.address, to: null },
