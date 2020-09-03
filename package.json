@@ -6,7 +6,7 @@
     "build": "lerna run build",
     "test": "lerna run test",
     "watch": "lerna run --parallel watch",
-    "cut-release": "lerna version --sign-git-commit",
+    "cut-release": "lerna version --sign-git-commit --force-publish",
     "cut-prerelease": "yarn cut-release --conventional-prerelease --preid beta",
     "publish": "lerna publish from-git",
     "commit": "git-cz",
