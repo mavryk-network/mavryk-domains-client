@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.8](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.7...v1.0.0-beta.8) (2020-09-03)
+
+
+### Features
+
+* **resolver:** add clearCache api ([bd4d83b](https://gitlab.com/tezos-domains/client/commit/bd4d83b57b0a54166960b32a528354efc08c5927))
+
+
+
+
+
+
 # [1.0.0-beta.7](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.6...v1.0.0-beta.7) (2020-08-31)
 
 
