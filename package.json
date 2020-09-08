@@ -12,7 +12,8 @@
     "commit": "git-cz",
     "lint": "eslint --ext .ts ./",
     "prepare": "yarn build",
-    "version": "yarn"
+    "version": "yarn",
+    "docs": "typedoc --options .typedoc.js --plugin typedoc-plugin-lerna-packages"
   },
   "devDependencies": {
     "@commitlint/cli": "^9.1.1",
@@ -27,9 +28,12 @@
     "cz-conventional-changelog": "^3.2.0",
     "eslint": "^7.5.0",
     "eslint-plugin-jest": "^23.20.0",
+    "glob": "^7.1.6",
     "husky": "^4.2.5",
     "lerna": "^3.22.1",
     "prettier": "^2.0.5",
+    "typedoc": "^0.19.1",
+    "typedoc-plugin-lerna-packages": "^0.3.1",
     "typescript": "^3.9.7"
   },
   "dependenciesMeta": {

@@ -8,6 +8,7 @@ build:
     script:
         - yarn lint
         - yarn build
+        - yarn docs
     artifacts:
         expire_in: 1 day
         paths:
@@ -15,6 +16,7 @@ build:
             - packages/resolver/dist/
             - packages/manager/dist/
             - packages/client/dist/
+            - dist/typedoc
     tags:
         - docker
 

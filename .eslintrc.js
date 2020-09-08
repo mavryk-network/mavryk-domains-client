@@ -16,7 +16,7 @@ const commonRules = {
 module.exports = {
     root: true,
     parser: '@typescript-eslint/parser',
-    ignorePatterns: ['**/coverage', '**/dist', '**/node_modules', '**/*.config.ts', '**/*.config.js', '.eslintrc.js'],
+    ignorePatterns: ['**/coverage', '**/dist', '**/node_modules', '**/*.config.ts', '**/*.js', '.eslintrc.js'],
     parserOptions: {
         tsconfigRootDir: __dirname,
         project: ['./packages/**/tsconfig.eslint.json', './integration-tests/tsconfig.eslint.json'],

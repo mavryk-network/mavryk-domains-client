@@ -2,16 +2,21 @@
 
 Library for resolving and managing tezos domains built on top of [taquito](https://tezostaquito.io/).
 
+*WARNING: This project is in beta. We welcome users and feedback, please be aware that this project is a work in progress.*
+
 ## Getting started
 
 ### 1) Install `@tezos-domains/client` package
+
 ```
-yarn add @tezos-domains/client
+yarn add @tezos-domains/client @tezos-domains/core
 --or--
-npm install @tezos-domains/client
+npm install @tezos-domains/client @tezos-domains/core
 ```
 
 ### 2a) Use `resolver` to resolve names and addresses
+
+Example of resolving and address from domain name:
 
 ```ts
 import { TezosDomainsClient } from '@tezos-domains/client';
@@ -29,44 +34,75 @@ The above example would use the default taquito instance `Tezos` to execute requ
 
 ### 2b) Use `manager` to register and manage domains
 
+Example of registering a domain:
+
+**NOTE**: registering a domain uses [commitment scheme](https://en.wikipedia.org/wiki/Commitment_scheme).
+
 ```ts
 import { TezosDomainsClient } from '@tezos-domains/client';
+import { getTld, getLabel, validateDomainName, DomainNameValidationResult } from '@tezos-domains/core';
 
 async function main() {
     const client = new TezosDomainsClient();
 
-    const commitOperation = await client.manager.commit('tez', { label: 'necroskillz', owner: 'tz1VxMudmADssPp6FPDGRsvJXE41DD6i9g6n' });
+    const name = 'necroskillz.tez';
+
+    // Validate the domain name syntax
+    if (validateDomainName(name) !== DomainNameValidationResult.VALID) {
+        throw new Error('Domain name not valid');
+    }
+
+    // Check if the name is not taken already
+    const existing = await this.tezosDomains.resolver.resolve(name);
+    if (existing) {
+        throw new Error('Domain name taken.');
+    }
+
+    // Use utility function to parse and get parts of a domain name
+    const tld = getTld(name);
+    const label = getLabel(name);
+
+    const params = {
+        label,
+        owner: 'tz1VxMudmADssPp6FPDGRsvJXE41DD6i9g6n',
+    };
+
+    // First step of registering a domain - create a commitment for
+    const commitOperation = await client.manager.commit(tld, params);
     await commitOperation.confirmation();
 
-    // wait for min_commitment_age
-    await new Promise(resolve => setTimeout(() => resolve(), 60000));
+    // Wait until commitment is usable (usually time between blocks)
+    const commitment = await this.tezosDomains.manager.getCommitment(tld, params);
+    await new Promise(resolve => setTimeout(() => resolve(), commitment.usableFrom.getTime() - Date.now()));
 
-    const buyOperation = await client.manager.buy('tez', { label: 'necroskillz', owner: 'tz1VxMudmADssPp6FPDGRsvJXE41DD6i9g6n', duration: 365 });
+    // Final step - reveal and confirm the registration for specified duration in days
+    const buyOperation = await client.manager.buy(tld, { ...params, duration: 365 });
     await buyOperation.confirmation();
 
-    console.log('Domain necroskillz.tez has been registered.');
+    console.log(`Domain ${name} has been registered.`);
 }
 ```
 
 ## Options
+
 `TezosDomainsClient` takes options that can customize it's behavior.
 
 `network` (default: `'mainnet'`)
 
- - Specifies which contracts addresses to use. There are built in ones specified for `mainnet` and `carthagenet`. For `custom` you need to also specify `contractAddresses`. 
+-   Specifies which contracts addresses to use. There are built in ones specified for `mainnet` and `carthagenet`. For `custom` you need to also specify `contractAddresses`.
 
 `contractAddresses` (default: `undefined`)
 
- - Which tezos domains contracts to connect to to get data. Must be specified if network is `custom`. Uses built in addresses otherwise.
+-   Which tezos domains contracts to connect to to get data. Must be specified if network is `custom`. Uses built in addresses otherwise.
 
 `tezos` (default: `Tezos` from `@taquito/taquito`)
 
- - Specifies an instance of [TezosToolkit](https://tezostaquito.io/typedoc/classes/_taquito_taquito.tezostoolkit.html) to use to make rpc requests.
+-   Specifies an instance of [TezosToolkit](https://tezostaquito.io/typedoc/classes/_taquito_taquito.tezostoolkit.html) to use to make rpc requests.
 
 `tracing` (default: `false`)
 
- - Whether to output debugging information.
+-   Whether to output debugging information.
 
 `caching` (default `{ enabled: false, defaultRecordTtl: 600, defaultReverseRecordTtl: 600 }`)
 
- - Specifies how to handle caching of name and address resolution.
+-   Specifies how to handle caching of name and address resolution.
