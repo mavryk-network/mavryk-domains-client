@@ -12,6 +12,10 @@ describe('validateDomainName', () => {
             expect(validateDomainName('aa.-bb.tez')).toBe(DomainNameValidationResult.INVALID_FIRST_CHARACTER);
         });
 
+        it('should return INVALID_FIRST_CHARACTER if part of the domain is empty', () => {
+            expect(validateDomainName('.tez')).toBe(DomainNameValidationResult.INVALID_FIRST_CHARACTER);
+        });
+
         it('should return UNSUPPORTED_CHARACTERS if domain name contains invalid characters', () => {
             expect(validateDomainName('a..a.tez')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
             expect(validateDomainName('a$a.tez')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);

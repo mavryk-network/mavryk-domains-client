@@ -15,12 +15,7 @@ export enum DomainNameValidationResult {
 export type DomainNameValidator = (name: string, tld: string) => DomainNameValidationResult;
 
 export const AlphanumericWithHyphenDomainNameValidator: DomainNameValidator = (name: string) => {
-    if (!name) {
-        // tld itself
-        return DomainNameValidationResult.VALID;
-    }
-
-    const regex = new RegExp(`^([a-z0-9-]+\\.?)+$`);
+    const regex = new RegExp(`^([a-z0-9-]+\\.?)*$`);
 
     if (!regex.test(name)) {
         return DomainNameValidationResult.UNSUPPORTED_CHARACTERS;
@@ -50,6 +45,11 @@ export const DomainNameValidators: { [tld: string]: DomainNameValidator } = {
 };
 
 export function validateDomainName(name: string): DomainNameValidationResult {
+    if (SupportedTLDs.includes(name)) {
+        // tld itself
+        return DomainNameValidationResult.VALID;
+    }
+
     const tld = getTld(name);
     const nameWithoutTld = stripTld(name);
 
