@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.10](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.9...v1.0.0-beta.10) (2020-09-16)
+
+
+### Code Refactoring
+
+* **core:** remove ttl from record metadata and add setJson/getJson ([d9bb7ba](https://gitlab.com/tezos-domains/client/commit/d9bb7ba3254bb29298e2a854f38da3be42fb7719))
+
+
+### BREAKING CHANGES
+
+* **core:** ttl property was removed from RecordMetadata, replace with
+getJson(StandardRecordMetadataKey.TTL)
+
+
+
+
+
 # [1.0.0-beta.9](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.8...v1.0.0-beta.9) (2020-09-03)
 
 **Note:** Version bump only for package @tezos-domains/resolver
