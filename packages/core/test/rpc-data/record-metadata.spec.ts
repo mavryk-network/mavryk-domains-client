@@ -1,4 +1,4 @@
-import { RecordMetadata, JsonBytesEncoder } from '@tezos-domains/core';
+import { RecordMetadata, JsonBytesEncoder, StandardRecordMetadataKey } from '@tezos-domains/core';
 
 describe('RecordMetadata', () => {
     let metadata: RecordMetadata;
@@ -15,12 +15,12 @@ describe('RecordMetadata', () => {
         expect(newMetadata.get('a', JsonBytesEncoder)).toBe('val');
     });
 
-    describe('ttl', () => {
-        it('should set ttl', () => {
-            metadata.ttl = 1;
+    describe('setJson', () => {
+        it('should set value', () => {
+            metadata.setJson(StandardRecordMetadataKey.TTL, 1);
 
-            expect(metadata.ttl).toBe(1);
-            expect(metadata.raw()['ttl']).toBe('31');
+            expect(metadata.getJson(StandardRecordMetadataKey.TTL)).toBe(1);
+            expect(metadata.raw()[StandardRecordMetadataKey.TTL]).toBe('31');
         });
     });
 });

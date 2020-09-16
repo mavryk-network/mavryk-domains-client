@@ -20,7 +20,7 @@ export { RpcRequest, RpcResponse, encoder } from './rpc-data/decorators';
 export { RpcDataEncoder, TypedRpcDataEncoder } from './rpc-data/data-encoder';
 export { RpcRequestData, RpcRequestObjectData, RpcRequestScalarData } from './rpc-data/rpc-request-data';
 export { RpcResponseData } from './rpc-data/rpc-response-data';
-export { RecordMetadata } from './rpc-data/record-metadata';
+export { RecordMetadata, StandardRecordMetadataKey } from './rpc-data/record-metadata';
 export { BytesEncoder } from './rpc-data/encoders/bytes-encoder';
 export { DateEncoder } from './rpc-data/encoders/date-encoder';
 export { BigNumberEncoder } from './rpc-data/encoders/big-number-encoder';

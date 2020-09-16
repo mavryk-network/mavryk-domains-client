@@ -30,4 +30,10 @@ describe('NullNameResolver', () => {
             await expect(resolver.reverseResolveName('tz1xxx')).resolves.toBeNull();
         });
     });
+
+    describe('clearCache()', () => {
+        it('should do nothing', () => {
+            expect(() => resolver.clearCache()).not.toThrow();
+        });
+    });
 });

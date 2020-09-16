@@ -4,6 +4,30 @@ import { RpcResponseData } from './rpc-response-data';
 import { RpcRequestScalarData } from './rpc-request-data';
 import { JsonBytesEncoder } from './encoders/json-bytes-encoder';
 
+export enum StandardRecordMetadataKey {
+    TTL = 'td:ttl',
+    OPENID_SUB = 'openid:sub',
+    OPENID_NAME = 'openid:name',
+    OPENID_GIVEN_NAME = 'openid:given_name',
+    OPENID_FAMILY_NAME = 'openid:family_name',
+    OPENID_MIDDLE_NAME = 'openid:middle_name',
+    OPENID_NICKNAME = 'openid:nickname',
+    OPENID_PREFERRED_USERNAME = 'openid:preferred_username',
+    OPENID_PROFILE = 'openid:profile',
+    OPENID_PICTURE = 'openid:picture',
+    OPENID_WEBSITE = 'openid:website',
+    OPENID_EMAIL = 'openid:email',
+    OPENID_EMAIL_VERIFIED = 'openid:email_verified',
+    OPENID_GENDER = 'openid:gender',
+    OPENID_BIRTHDATE = 'openid:birthdate',
+    OPENID_ZONEINFO = 'openid:zoneinfo',
+    OPENID_LOCALE = 'openid:locale',
+    OPENID_PHONE_NUMBER = 'openid:phone_number',
+    OPENID_PHONE_NUMBER_VERIFIED = 'openid:phone_number_verified',
+    OPENID_ADDRESS = 'openid:address',
+    OPENID_UPDATED_AT = 'openid:updated_at',
+}
+
 export class RecordMetadata {
     private data: Record<string, string>;
 
@@ -20,19 +44,24 @@ export class RecordMetadata {
         return new RpcResponseData(this.data[key]).scalar(encoder);
     }
 
+    getJson<T>(key: string): T | null {
+        return this.get(key, JsonBytesEncoder);
+    }
+
     set<T>(key: string, value: T, encoder?: Constructable<TypedRpcDataEncoder<T, string>>): void {
         const encodedValue = RpcRequestScalarData.fromValue(value, encoder).encode();
         if (encodedValue) {
             this.data[key] = encodedValue;
         } else {
-            delete this.data[key];
+            this.delete(key);
         }
     }
 
-    get ttl(): number | null {
-        return this.get('ttl', JsonBytesEncoder);
+    delete(key: string): void {
+        delete this.data[key];
     }
-    set ttl(value: number | null) {
-        this.set('ttl', value, JsonBytesEncoder);
+
+    setJson<T>(key: string, value: T): void {
+        this.set(key, value, JsonBytesEncoder);
     }
 }

@@ -1,4 +1,4 @@
-import { SupportedTLDs, DomainNameValidators, AlphanumericWithHyphenDomainNameValidator } from '@tezos-domains/core';
+import { SupportedTLDs, DomainNameValidators, AlphanumericWithHyphenDomainNameValidator, StandardRecordMetadataKey } from '@tezos-domains/core';
 import { TezosDomainsClient } from '@tezos-domains/client';
 import { TezosToolkit } from '@taquito/taquito';
 
@@ -31,7 +31,7 @@ describe('resolver', () => {
             expect(record!.owner).toBe(DATA.ok.address);
             expect(record!.level).toBe(2);
             expect(record!.expiry_key).toBe(DATA.ok.name);
-            expect(record!.data.ttl).toBe(420);
+            expect(record!.data.getJson(StandardRecordMetadataKey.TTL)).toBe(420);
         });
     });
 
@@ -67,7 +67,7 @@ describe('resolver', () => {
 
             expect(record!.name).toBe(DATA.ok.name);
             expect(record!.owner).toBe(DATA.ok.address);
-            expect(record!.data.ttl).toBe(69);
+            expect(record!.data.getJson(StandardRecordMetadataKey.TTL)).toBe(69);
         });
     });
 

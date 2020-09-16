@@ -1,6 +1,6 @@
 import { TezosToolkit } from '@taquito/taquito';
 import { InMemorySigner, importKey } from '@taquito/signer';
-import { getLabel, getTld, RecordMetadata } from '@tezos-domains/core';
+import { getLabel, getTld, RecordMetadata, StandardRecordMetadataKey } from '@tezos-domains/core';
 import { TezosDomainsClient } from '@tezos-domains/client';
 import chalk from 'chalk';
 
@@ -68,13 +68,13 @@ export async function run(): Promise<void> {
     await setTezos('admin');
 
     const okMetadata = new RecordMetadata();
-    okMetadata.ttl = 420;
+    okMetadata.setJson(StandardRecordMetadataKey.TTL, 420);
     await createRecord(DATA.ok.name, DATA.ok.address, DATA.ok.address, new Date(2100, 1, 1), okMetadata);
 
     await setTezos(DATA.ok.wallet);
 
     const okReverseMetadata = new RecordMetadata();
-    okReverseMetadata.ttl = 69;
+    okReverseMetadata.setJson(StandardRecordMetadataKey.TTL, 69);
     await createReverseRecord(DATA.ok.address, DATA.ok.name, okReverseMetadata);
 
     await setTezos('admin');

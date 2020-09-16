@@ -144,4 +144,10 @@ describe('BlockchainNameResolver', () => {
             await expect(() => resolver.reverseResolveName('invalid')).rejects.toEqual(new Error(`'invalid' is not a valid address.`));
         });
     });
+    
+    describe('clearCache()', () => {
+        it('should do nothing', () => {
+            expect(() => resolver.clearCache()).not.toThrow();
+        });
+    });
 });

@@ -1,6 +1,6 @@
 jest.mock('node-cache');
 
-import { Tracer, DomainRecord, ReverseRecord, RecordMetadata } from '@tezos-domains/core';
+import { Tracer, DomainRecord, ReverseRecord, RecordMetadata, StandardRecordMetadataKey } from '@tezos-domains/core';
 import { CachedNameResolver, NameResolver } from '@tezos-domains/resolver';
 import { mock, instance, when, anything, verify, anyString, anyNumber } from 'ts-mockito';
 import NodeCache from 'node-cache';
@@ -41,13 +41,13 @@ describe('CachedNameResolver', () => {
 
         when(aR.address).thenReturn('aR');
         const aRMeta = new RecordMetadata();
-        aRMeta.ttl = 69;
+        aRMeta.setJson(StandardRecordMetadataKey.TTL, 69);
         when(aR.data).thenReturn(aRMeta);
         when(bR.address).thenReturn('bR');
         when(bR.data).thenReturn(new RecordMetadata());
         when(raR.name).thenReturn('raR');
         const raRMeta = new RecordMetadata();
-        raRMeta.ttl = 420;
+        raRMeta.setJson(StandardRecordMetadataKey.TTL, 420);
         when(raR.data).thenReturn(raRMeta);
         when(rbR.name).thenReturn('rbR');
         when(rbR.data).thenReturn(new RecordMetadata());

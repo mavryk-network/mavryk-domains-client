@@ -1,4 +1,4 @@
-import { Tracer, DomainRecord, ReverseRecord } from '@tezos-domains/core';
+import { Tracer, DomainRecord, ReverseRecord, StandardRecordMetadataKey } from '@tezos-domains/core';
 import NodeCache from 'node-cache';
 
 import { NameResolver } from './name-resolver';
@@ -28,7 +28,7 @@ export class CachedNameResolver implements NameResolver {
                         return null;
                     }
 
-                    const ttl = r.data.ttl;
+                    const ttl = r.data.getJson<number>(StandardRecordMetadataKey.TTL);
                     if (ttl) {
                         this.cache.ttl(name, ttl);
                     }
@@ -78,7 +78,7 @@ export class CachedNameResolver implements NameResolver {
                         return null;
                     }
 
-                    const ttl = r.data.ttl;
+                    const ttl = r.data.getJson<number>(StandardRecordMetadataKey.TTL);
                     if (ttl) {
                         this.cache.ttl(address, ttl);
                     }
