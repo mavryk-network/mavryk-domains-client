@@ -22,9 +22,9 @@ describe('resolver', () => {
             const commitment = await client.manager.getCommitment('tez', { label: 'commit', owner: CONFIG.adminAddress });
 
             expect(commitment).not.toBeNull();
-            expect(commitment!.created.toISOString()).toBe('2020-08-31T13:40:04.000Z');
-            expect(commitment!.usableFrom.toISOString()).toBe('2020-08-31T13:41:04.000Z');
-            expect(commitment!.usableUntil.toISOString()).toBe('2020-09-01T13:40:04.000Z');
+            expect(commitment!.created.toISOString()).toBe('2020-09-16T14:20:18.000Z');
+            expect(commitment!.usableFrom.toISOString()).toBe('2020-09-16T14:21:18.000Z');
+            expect(commitment!.usableUntil.toISOString()).toBe('2020-09-17T14:20:18.000Z');
         });
 
         it('should return null if commitment doesnt exist', async () => {
