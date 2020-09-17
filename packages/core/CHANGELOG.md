@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.11](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.10...v1.0.0-beta.11) (2020-09-17)
+
+
+### Features
+
+* **core:** add keys() method to RecordMetadata ([f0f637f](https://gitlab.com/tezos-domains/client/commit/f0f637f70b63866832c773476728cde47a6a555b))
+
+
+
+
+
 # [1.0.0-beta.10](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.9...v1.0.0-beta.10) (2020-09-16)
 
 
