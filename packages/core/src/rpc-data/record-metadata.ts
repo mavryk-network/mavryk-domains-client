@@ -64,4 +64,8 @@ export class RecordMetadata {
     setJson<T>(key: string, value: T): void {
         this.set(key, value, JsonBytesEncoder);
     }
+
+    keys(): string[] {
+        return Object.keys(this.data);
+    }
 }
