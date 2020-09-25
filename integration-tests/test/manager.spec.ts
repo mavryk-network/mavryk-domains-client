@@ -1,6 +1,8 @@
 import { SupportedTLDs, DomainNameValidators, AlphanumericWithHyphenDomainNameValidator } from '@tezos-domains/core';
 import { TezosDomainsClient } from '@tezos-domains/client';
 import { TezosToolkit } from '@taquito/taquito';
+import fs from 'fs-extra';
+import path from 'path';
 
 import { CONFIG } from '../data';
 
@@ -20,11 +22,13 @@ describe('resolver', () => {
     describe('getCommitment()', () => {
         it('should get existing commitment and return info', async () => {
             const commitment = await client.manager.getCommitment('tez', { label: 'commit', owner: CONFIG.adminAddress });
+            const db = await fs.readJSON(path.join(__dirname, './data.json'));
+            const expectedCommitment = db['carthagenet']['commitment'];
 
             expect(commitment).not.toBeNull();
-            expect(commitment!.created.toISOString()).toBe('2020-09-16T14:20:18.000Z');
-            expect(commitment!.usableFrom.toISOString()).toBe('2020-09-16T14:21:18.000Z');
-            expect(commitment!.usableUntil.toISOString()).toBe('2020-09-17T14:20:18.000Z');
+            expect(commitment!.created.toISOString()).toBe(expectedCommitment.created);
+            expect(commitment!.usableFrom.toISOString()).toBe(expectedCommitment.usableFrom);
+            expect(commitment!.usableUntil.toISOString()).toBe(expectedCommitment.usableUntil);
         });
 
         it('should return null if commitment doesnt exist', async () => {

@@ -2642,6 +2642,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@types/fs-extra", [
+        ["npm:9.0.1", {
+          "packageLocation": "./.yarn/cache/@types-fs-extra-npm-9.0.1-655e67e711-a7c0f73736.zip/node_modules/@types/fs-extra/",
+          "packageDependencies": [
+            ["@types/fs-extra", "npm:9.0.1"],
+            ["@types/node", "npm:14.0.24"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@types/glob", [
         ["npm:7.1.3", {
           "packageLocation": "./.yarn/cache/@types-glob-npm-7.1.3-44516e2aab-633bf1dda9.zip/node_modules/@types/glob/",
@@ -7379,10 +7389,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@taquito/utils", "npm:6.3.5-beta.0"],
             ["@tezos-domains/client", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/client"],
             ["@tezos-domains/core", "virtual:1ac54d8b3a5d6dce318b32867a57eb63ffdb7a1dd84bfc063e0b7bbccafef27cc43a7854ec437effee7407a274c6c382e69e2fbb33c1229f3491cebb5f630435#workspace:packages/core"],
+            ["@types/fs-extra", "npm:9.0.1"],
+            ["@types/minimist", "npm:1.2.0"],
             ["@types/node", "npm:14.0.27"],
             ["chalk", "npm:4.1.0"],
+            ["fs-extra", "npm:9.0.1"],
             ["jest", "npm:26.1.0"],
             ["jest-junit", "npm:11.1.0"],
+            ["minimist", "npm:1.2.5"],
             ["ts-jest", "virtual:1ac54d8b3a5d6dce318b32867a57eb63ffdb7a1dd84bfc063e0b7bbccafef27cc43a7854ec437effee7407a274c6c382e69e2fbb33c1229f3491cebb5f630435#npm:26.1.3"],
             ["ts-node", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#npm:8.10.2"],
             ["tslib", "npm:2.0.0"],

@@ -3,6 +3,18 @@ import { InMemorySigner, importKey } from '@taquito/signer';
 import { getLabel, getTld, RecordMetadata, StandardRecordMetadataKey } from '@tezos-domains/core';
 import { TezosDomainsClient } from '@tezos-domains/client';
 import chalk from 'chalk';
+import minimist from 'minimist';
+import fs from 'fs-extra';
+import path from 'path';
+
+const args = minimist(process.argv.slice(2), {
+    alias: {
+        network: ['n'],
+    },
+    string: ['network'],
+});
+
+const network = args.network || 'carthagenet';
 
 import { FaucetWallet, CONFIG, DATA } from '../data';
 
@@ -26,7 +38,7 @@ async function setTezos(wallet: FaucetWallet | 'admin') {
         await importKey(tezos, wallet.email, wallet.password, wallet.mnemonic.join(' '), wallet.secret);
     }
 
-    client = new TezosDomainsClient({ tezos, network: 'carthagenet' });
+    client = new TezosDomainsClient({ tezos, network });
 }
 
 export async function createRecord(name: string, owner: string, address: string | null, expiry: Date | null, data?: RecordMetadata): Promise<void> {
@@ -66,7 +78,6 @@ export async function commit(name: string, owner: string): Promise<void> {
 
 export async function run(): Promise<void> {
     await setTezos('admin');
-
     const okMetadata = new RecordMetadata();
     okMetadata.setJson(StandardRecordMetadataKey.TTL, 420);
     await createRecord(DATA.ok.name, DATA.ok.address, DATA.ok.address, new Date(2100, 1, 1), okMetadata);
@@ -79,6 +90,8 @@ export async function run(): Promise<void> {
 
     await setTezos('admin');
     await commit('commit.tez', CONFIG.adminAddress);
+    const commitment = await client.manager.getCommitment('tez', { label: 'commit', owner: CONFIG.adminAddress });
+    await writeData('commitment', commitment);
 
     await createRecord(DATA.expired.name, DATA.expired.address, DATA.expired.address, null);
     await setTezos(DATA.expired.wallet);
@@ -95,6 +108,22 @@ export async function run(): Promise<void> {
 
     await setTezos(DATA.emptyReverseRecord.wallet);
     await createReverseRecord(DATA.emptyReverseRecord.address, DATA.emptyReverseRecord.name);
+}
+
+async function writeData(section: string, data: any) {
+    const dataFile = path.join(__dirname, '../test/data.json');
+    let db: any = {};
+    if (fs.existsSync(dataFile)) {
+        db = await fs.readJSON(dataFile);
+    }
+
+    if (!db[network]) {
+        db[network] = {};
+    }
+
+    db[network][section] = data;
+
+    await fs.writeJSON(dataFile, db);
 }
 
 void run().catch(err => {
