@@ -70,7 +70,7 @@ export class ReverseRecord {
 
 @RpcResponse()
 export class DomainRecord {
-    @encoder(BytesEncoder) expiry_key!: string;
+    @encoder(BytesEncoder) expiry_key!: string | null;
     @encoder(BigNumberEncoder) level!: number;
     @encoder(BigNumberEncoder) validator!: number;
     owner!: string;

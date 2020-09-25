@@ -129,8 +129,13 @@ export class BlockchainNameResolver implements NameResolver {
         return record;
     }
 
-    private async getDomainExpiry(key: string) {
-        this.tracer.trace(`=> Getting expiry with key '${key}'`);
+    private async getDomainExpiry(key: string | null) {
+        this.tracer.trace(`=> Getting expiry with key '${key || 'null'}'`);
+
+        if (!key) {
+            this.tracer.trace(`!! Validity key is null, record never expires.`);
+            return null;
+        }
 
         const address = await this.addressBook.lookup(SmartContractType.NameRegistry);
         const result = await this.tezos.getBigMapValue<NameRegistryStorage>(address, s => s.store.expiry_map, RpcRequestData.fromValue(key, BytesEncoder));

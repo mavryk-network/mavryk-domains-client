@@ -45,6 +45,7 @@ describe('BlockchainNameResolver', () => {
         storage.store.records[e('play.necroskillz.tez')] = { expiry_key: e('necroskillz.tez'), address: 'tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i' };
         storage.store.records[e('expired.tez')] = { expiry_key: e('expired.tez'), address: 'tz1NXtvKxbCpWkSmHSAirdxzPbQgicTFwWyc' };
         storage.store.records[e('no-address.tez')] = { expiry_key: e('no-address.tez') };
+        storage.store.records[e('no-expiry-key.tez')] = { expiry_key: null, address: 'tz1S8U7XJU8vj2SEyLDXH25fhLuEsk4Yr1wZ' };
 
         storage.store.expiry_map[e('necroskillz.tez')] = new Date(2021, 1, 1);
         storage.store.expiry_map[e('expired.tez')] = new Date(2019, 1, 1);
@@ -52,15 +53,22 @@ describe('BlockchainNameResolver', () => {
         storage.store.reverse_records['tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i'] = { name: e('play.necroskillz.tez'), owner: 'tz1zzz' };
         storage.store.reverse_records['tz1NXtvKxbCpWkSmHSAirdxzPbQgicTFwWyc'] = { name: e('expired.tez'), owner: 'tz1ezz' };
         storage.store.reverse_records['tz1SdArNzLEch64rBDmMeJf23TRQ19gc4yTs'] = { name: e('orphan.tez'), owner: 'tz1aaa' };
+        storage.store.reverse_records['tz1S8U7XJU8vj2SEyLDXH25fhLuEsk4Yr1wZ'] = { name: e('no-expiry-key.tez'), owner: 'tz1aaa' };
         storage.store.reverse_records['tz1a1qfkPhNnaUGb1mNfDsUKJi23ADet7h62'] = { owner: 'tz1aaa' };
 
         when(tracerMock.trace(anything(), anything()));
 
         when(addressBookMock.lookup(anything())).thenCall(type => Promise.resolve(`${type}addr`));
 
-        when(
-            tezosClientMock.getBigMapValue(`${SmartContractType.NameRegistry}addr`, anyFunction(), anything())
-        ).thenCall((_, selector, key: RpcRequestScalarData<string>) => Promise.resolve(new RpcResponseData(selector(storage)[key.encode()!])));
+        when(tezosClientMock.getBigMapValue(`${SmartContractType.NameRegistry}addr`, anyFunction(), anything())).thenCall(
+            (_, selector, key: RpcRequestScalarData<string>) => {
+                const encodedKey = key.encode();
+                if (!encodedKey) {
+                    throw new Error('Key must be specified.');
+                }
+                return Promise.resolve(new RpcResponseData(selector(storage)[encodedKey]));
+            }
+        );
 
         MockDate.set(new Date(2020, 10, 11, 20, 0, 0));
 
@@ -76,6 +84,12 @@ describe('BlockchainNameResolver', () => {
             const address = await resolver.resolveAddress('play.necroskillz.tez');
 
             expect(address).toBe('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i');
+        });
+
+        it('should resolve name if record has no expiry', async () => {
+            const name = await resolver.resolveAddress('no-expiry-key.tez');
+
+            expect(name).toBe('tz1S8U7XJU8vj2SEyLDXH25fhLuEsk4Yr1wZ');
         });
 
         it('should return null if record does not exist', async () => {
@@ -112,6 +126,12 @@ describe('BlockchainNameResolver', () => {
             expect(name).toBe('play.necroskillz.tez');
         });
 
+        it('should resolve address if associated record has no expiry', async () => {
+            const name = await resolver.reverseResolveName('tz1S8U7XJU8vj2SEyLDXH25fhLuEsk4Yr1wZ');
+
+            expect(name).toBe('no-expiry-key.tez');
+        });
+
         it('should return null if reverse record does not exist', async () => {
             const name = await resolver.reverseResolveName('tz1R3iboWc7PWQsHvo9WMaJjKcp2a3wX6TjP');
 
@@ -144,7 +164,7 @@ describe('BlockchainNameResolver', () => {
             await expect(() => resolver.reverseResolveName('invalid')).rejects.toEqual(new Error(`'invalid' is not a valid address.`));
         });
     });
-    
+
     describe('clearCache()', () => {
         it('should do nothing', () => {
             expect(() => resolver.clearCache()).not.toThrow();
