@@ -21,5 +21,16 @@ export const BuiltInAddresses = {
         'tldRegistrar:tez:buy': { address: 'KT1L2nZ5EWpWZpZvU1b5fHGcEvcPS67DxqHL' },
         'tldRegistrar:tez:renew': { address: 'KT1H4q441PEh1oryHm5E32Fn3NTBCYkmC5W7' },
     },
+    delphinet: {
+        'nameRegistry': { address: 'KT1KG53Q4hgwRj9qNTTuWD6iRnCC9f3h6pXa', resolveProxyContract: true },
+        'nameRegistry:set_child_record': { address: 'KT1BNcjCYXRcgCQMTu23ihf8kgD5KL7mKdxS' },
+        'nameRegistry:update_record': { address: 'KT1UJGJzYUdvVzdeNiy8vnxavuTGBufXEPAq' },
+        'nameRegistry:claim_reverse_record': { address: 'KT1Bc1GH1NxbuFigZ4MKhPKAK5xmbpKRHedV' },
+        'nameRegistry:update_reverse_record': { address: 'KT1UJaxt3xpGGXZMKAxiw3QWZ7VbFCDVprTP' },
+        'tldRegistrar:tez': { address: 'KT1ECrhpceLzhr1vcdjydbwANboaN28jx5YG', resolveProxyContract: true },
+        'tldRegistrar:tez:commit': { address: 'KT1ECrhpceLzhr1vcdjydbwANboaN28jx5YG' },
+        'tldRegistrar:tez:buy': { address: 'KT1PXC5DW7AQesEpiEdS2z7rUM7PfLPwDHoW' },
+        'tldRegistrar:tez:renew': { address: 'KT1JU8KmwrpexBZfVCghLAZHg8uj5DwSXBqv' },
+    },
     custom: null,
 };

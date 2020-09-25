@@ -21,9 +21,7 @@ interface FakeTLDRegistrarStorage {
     store: {
         records: Record<string, Exact<TLDRecord>>;
         commitments: Record<string, string>;
-        min_bid_per_day: BigNumber;
-        min_commitment_age: BigNumber;
-        max_commitment_age: BigNumber;
+        config: MichelsonMap<string, any>;
     };
 }
 
@@ -37,13 +35,16 @@ describe('BlockchainDomainsManager', () => {
     let commitmentGeneratorMock: CommitmentGenerator;
     let operation: TransactionWalletOperation;
 
+    const config = new MichelsonMap<string, any>();
+    config.set('min_bid_per_day', new BigNumber(3 * 1e12));
+    config.set('min_commitment_age', new BigNumber(60));
+    config.set('max_commitment_age', new BigNumber(60 * 60));
+
     const storage: FakeTLDRegistrarStorage = {
         store: {
             records: {},
             commitments: {},
-            min_bid_per_day: new BigNumber(3 * 1e12),
-            min_commitment_age: new BigNumber(60),
-            max_commitment_age: new BigNumber(60 * 60),
+            config
         },
     };
 

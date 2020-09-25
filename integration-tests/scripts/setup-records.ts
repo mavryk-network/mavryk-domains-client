@@ -3,23 +3,13 @@ import { InMemorySigner, importKey } from '@taquito/signer';
 import { getLabel, getTld, RecordMetadata, StandardRecordMetadataKey } from '@tezos-domains/core';
 import { TezosDomainsClient } from '@tezos-domains/client';
 import chalk from 'chalk';
-import minimist from 'minimist';
 import fs from 'fs-extra';
 import path from 'path';
-
-const args = minimist(process.argv.slice(2), {
-    alias: {
-        network: ['n'],
-    },
-    string: ['network'],
-});
-
-const network = args.network || 'carthagenet';
 
 import { FaucetWallet, CONFIG, DATA } from '../data';
 
 /**
- * Setup integration test data on carthagenet
+ * Setup integration test data on specified network
  */
 let client: TezosDomainsClient;
 
@@ -38,7 +28,7 @@ async function setTezos(wallet: FaucetWallet | 'admin') {
         await importKey(tezos, wallet.email, wallet.password, wallet.mnemonic.join(' '), wallet.secret);
     }
 
-    client = new TezosDomainsClient({ tezos, network });
+    client = new TezosDomainsClient({ tezos, network: CONFIG.network });
 }
 
 export async function createRecord(name: string, owner: string, address: string | null, expiry: Date | null, data?: RecordMetadata): Promise<void> {
@@ -117,11 +107,11 @@ async function writeData(section: string, data: any) {
         db = await fs.readJSON(dataFile);
     }
 
-    if (!db[network]) {
-        db[network] = {};
+    if (!db[CONFIG.network]) {
+        db[CONFIG.network] = {};
     }
 
-    db[network][section] = data;
+    db[CONFIG.network][section] = data;
 
     await fs.writeJSON(dataFile, db);
 }

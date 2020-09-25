@@ -1,5 +1,18 @@
 import { TransactionWalletOperation } from '@taquito/taquito';
-import { Tracer, TezosClient, AddressBook, Exact, SmartContractType, RpcRequestData, TLDRegistrarStorage, DateEncoder, getTld } from '@tezos-domains/core';
+import {
+    Tracer,
+    TezosClient,
+    AddressBook,
+    Exact,
+    SmartContractType,
+    RpcRequestData,
+    TLDRegistrarStorage,
+    DateEncoder,
+    getTld,
+    MapEncoder,
+    RpcResponseData,
+    BigNumberEncoder,
+} from '@tezos-domains/core';
 import { BytesEncoder } from '@tezos-domains/core';
 import BigNumber from 'bignumber.js';
 
@@ -145,8 +158,10 @@ export class BlockchainDomainsManager implements DomainsManager {
         }
 
         const tldStorage = await this.tezos.storage<TLDRegistrarStorage>(address);
-        const minAge = tldStorage.store.min_commitment_age.toNumber();
-        const maxAge = tldStorage.store.max_commitment_age.toNumber();
+        const config = new RpcResponseData(tldStorage.store.config).scalar(MapEncoder);
+        // TODO: remove fallback to legacy value
+        const minAge = config ? config.get('min_commitment_age', BigNumberEncoder)! : tldStorage.store.min_commitment_age.toNumber();
+        const maxAge = config ? config.get('max_commitment_age', BigNumberEncoder)! : tldStorage.store.max_commitment_age.toNumber();
 
         const usableFrom = new Date(commitment.getTime() + minAge * 1000);
         const usableUntil = new Date(commitment.getTime() + maxAge * 1000);
@@ -174,12 +189,13 @@ export class BlockchainDomainsManager implements DomainsManager {
             pricePerDay = tldRecord.price_per_day;
         } else {
             const tldStorage = await this.tezos.storage<TLDRegistrarStorage>(address);
+            const config = new RpcResponseData(tldStorage.store.config).scalar(MapEncoder);
+            // TODO: remove fallback to legacy value
+            const minBidPerDay = config ? config.get<BigNumber>('min_bid_per_day')! : tldStorage.store.min_bid_per_day;
 
-            this.tracer.trace(
-                `!! Existing record not found, falling back to TLDRegistrar default price ${tldStorage.store.min_bid_per_day.toNumber()} XTZ per day.`
-            );
+            this.tracer.trace(`!! Existing record not found, falling back to TLDRegistrar default price ${minBidPerDay.toNumber()} XTZ per day.`);
 
-            pricePerDay = tldStorage.store.min_bid_per_day;
+            pricePerDay = minBidPerDay;
         }
 
         const price = pricePerDay.dividedBy(1e12).multipliedBy(duration).precision(6).toNumber();

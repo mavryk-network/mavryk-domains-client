@@ -1,4 +1,4 @@
-import { BigMapAbstraction, TezosToolkit } from '@taquito/taquito';
+import { BigMapAbstraction, TezosToolkit, MichelsonMap } from '@taquito/taquito';
 import BigNumber from 'bignumber.js';
 
 import { RpcResponse, encoder } from './rpc-data/decorators';
@@ -20,7 +20,7 @@ export type CommonConfig = {
 };
 
 export type CustomNetworkConfig = { network?: 'custom'; contractAddresses: ContractConfig } & CommonConfig;
-export type DefaultNetworkConfig = { network?: 'mainnet' | 'carthagenet'; contractAddresses?: ContractConfig } & CommonConfig;
+export type DefaultNetworkConfig = { network?: 'mainnet' | 'carthagenet' | 'delphinet'; contractAddresses?: ContractConfig } & CommonConfig;
 
 export type TezosDomainsConfig = DefaultNetworkConfig | CustomNetworkConfig;
 
@@ -49,10 +49,14 @@ export interface TLDRegistrarStorage {
     store: {
         records: BigMapAbstraction;
         commitments: BigMapAbstraction;
-        max_commitment_age: BigNumber;
-        min_commitment_age: BigNumber;
-        min_bid_per_day: BigNumber;
         owner: string;
+        /** @deprecated carthagenet legacy */
+        max_commitment_age: BigNumber;
+        /** @deprecated carthagenet legacy */
+        min_commitment_age: BigNumber;
+        /** @deprecated carthagenet legacy */
+        min_bid_per_day: BigNumber;
+        config: MichelsonMap<string, any>
     };
     trusted_senders: string[];
 }

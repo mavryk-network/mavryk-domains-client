@@ -2,7 +2,7 @@ import { SupportedTLDs, DomainNameValidators, AlphanumericWithHyphenDomainNameVa
 import { TezosDomainsClient } from '@tezos-domains/client';
 import { TezosToolkit } from '@taquito/taquito';
 
-import { DATA } from '../data';
+import { DATA, CONFIG } from '../data';
 
 interface TestCase {
     description: string;
@@ -15,12 +15,12 @@ describe('resolver', () => {
 
     beforeAll(() => {
         const tezos = new TezosToolkit();
-        tezos.setRpcProvider(process.env.TD_RPC_URL || 'https://testnet-tezos.giganode.io');
+        tezos.setRpcProvider(CONFIG.rpcUrl);
 
         SupportedTLDs.push('test');
         DomainNameValidators['test'] = AlphanumericWithHyphenDomainNameValidator;
 
-        client = new TezosDomainsClient({ network: 'carthagenet', tezos, caching: { enabled: true } });
+        client = new TezosDomainsClient({ network: CONFIG.network, tezos, caching: { enabled: true } });
     });
 
     describe('resolve()', () => {
