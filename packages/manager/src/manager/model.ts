@@ -6,7 +6,7 @@ export class SetChildRecordRequest {
     @encoder(BytesEncoder) label!: string;
     @encoder(BytesEncoder) parent!: string;
     owner!: string;
-    address?: string | null;
+    address!: string | null;
     @encoder(MapEncoder) data!: RecordMetadata;
     @encoder(DateEncoder) expiry?: Date | null;
 }
@@ -15,7 +15,7 @@ export class SetChildRecordRequest {
 export class UpdateRecordRequest {
     @encoder(BytesEncoder) name!: string;
     owner!: string;
-    address?: string | null;
+    address!: string | null;
     @encoder(MapEncoder) data!: RecordMetadata;
 }
 
@@ -30,6 +30,8 @@ export class BuyRequest {
     @encoder(BytesEncoder) label!: string;
     owner!: string;
     duration!: number;
+    address!: string | null;
+    @encoder(MapEncoder) data!: RecordMetadata;
 }
 
 @RpcRequest()

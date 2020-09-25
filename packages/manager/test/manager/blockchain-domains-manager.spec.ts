@@ -150,9 +150,13 @@ describe('BlockchainDomainsManager', () => {
                 duration: 365,
                 label: 'necroskillz',
                 owner: 'tz1xxx',
+                address: 'tz1yyy',
+                data: new RecordMetadata({ ttl: '31' }),
             });
 
-            verify(tezosClientMock.call(`${SmartContractType.TLDRegistrar}addrtezbuy`, 'buy', deepEqual([e('necroskillz'), 365, 'tz1xxx']), 7300)).called();
+            verify(tezosClientMock.call(`${SmartContractType.TLDRegistrar}addrtezbuy`, 'buy', deepEqual([e('necroskillz'), 365, 'tz1xxx', 'tz1yyy', anyOfClass(MichelsonMap)]), 7300)).called();
+            
+            expect(capture(tezosClientMock.call).last()[2][4].get('ttl')).toBe('31');
 
             expect(op).toBe(instance(operation));
         });

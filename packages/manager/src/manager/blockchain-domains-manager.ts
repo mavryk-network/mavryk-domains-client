@@ -1,4 +1,4 @@
-import { TransactionWalletOperation } from '@taquito/taquito';
+import { TransactionWalletOperation, InvalidParameterError } from '@taquito/taquito';
 import {
     Tracer,
     TezosClient,
@@ -86,7 +86,23 @@ export class BlockchainDomainsManager implements DomainsManager {
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
         const price = await this.getPrice(`${request.label}.${tld}`, request.duration);
         const encodedRequest = RpcRequestData.fromObject(BuyRequest, request).encode();
-        const operation = await this.tezos.call(address, entrypoint, [encodedRequest.label, encodedRequest.duration, encodedRequest.owner], price);
+
+        let operation: TransactionWalletOperation;
+
+        try {
+            operation = await this.tezos.call(
+                address,
+                entrypoint,
+                [encodedRequest.label, encodedRequest.duration, encodedRequest.owner, encodedRequest.address, encodedRequest.data],
+                price
+            );
+        } catch (err) {
+            if (err instanceof InvalidParameterError) {
+                operation = await this.tezos.call(address, entrypoint, [encodedRequest.label, encodedRequest.duration, encodedRequest.owner], price);
+            } else {
+                throw err;
+            }
+        }
 
         this.tracer.trace('<= Executed.', operation.opHash);
 
