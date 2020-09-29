@@ -1,9 +1,8 @@
-import { DomainRecord, ReverseRecord } from '@tezos-domains/core';
-
 import { NameResolver } from './name-resolver';
+import { DomainInfo, ReverseRecordInfo } from './model';
 
 export class NullNameResovler implements NameResolver {
-    resolve(): Promise<DomainRecord | null> {
+    resolve(): Promise<DomainInfo | null> {
         return Promise.resolve(null);
     }
 
@@ -11,7 +10,7 @@ export class NullNameResovler implements NameResolver {
         return Promise.resolve(null);
     }
 
-    reverseResolve(): Promise<ReverseRecord | null> {
+    reverseResolve(): Promise<ReverseRecordInfo | null> {
         return Promise.resolve(null);
     }
 

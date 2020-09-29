@@ -6,10 +6,13 @@ import path from 'path';
 
 import { CONFIG } from '../data';
 
-describe('resolver', () => {
+const db = fs.readJSONSync(path.join(__dirname, './data.json'));
+
+describe('manager', () => {
     let client: TezosDomainsClient;
 
     beforeAll(() => {
+        jest.setTimeout(30 * 60 * 1000);
         const tezos = new TezosToolkit();
         tezos.setRpcProvider(CONFIG.rpcUrl);
 
@@ -22,7 +25,6 @@ describe('resolver', () => {
     describe('getCommitment()', () => {
         it('should get existing commitment and return info', async () => {
             const commitment = await client.manager.getCommitment('tez', { label: 'commit', owner: CONFIG.adminAddress });
-            const db = await fs.readJSON(path.join(__dirname, './data.json'));
             const expectedCommitment = db[CONFIG.network]['commitment'];
 
             expect(commitment).not.toBeNull();
@@ -42,7 +44,7 @@ describe('resolver', () => {
         it('should get price for unowned domain', async () => {
             const price = await client.manager.getPrice(`integration_test_new${Date.now().toString()}.tez`, 365);
 
-            expect(price).toBe(1);
+            expect(price).toBe(db[CONFIG.network].price);
         });
     });
 });

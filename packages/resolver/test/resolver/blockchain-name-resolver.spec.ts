@@ -11,7 +11,10 @@ import {
 } from '@tezos-domains/core';
 import { NameResolver, BlockchainNameResolver } from '@tezos-domains/resolver';
 import { mock, when, anyFunction, anything, instance } from 'ts-mockito';
+import { StandardRecordMetadataKey } from '@tezos-domains/core';
+import { MichelsonMap } from '@taquito/taquito';
 import MockDate from 'mockdate';
+import BigNumber from 'bignumber.js';
 
 interface FakeNameRegistryStorage {
     store: {
@@ -42,15 +45,31 @@ describe('BlockchainNameResolver', () => {
         addressBookMock = mock(AddressBook);
         tracerMock = mock<Tracer>();
 
-        storage.store.records[e('play.necroskillz.tez')] = { expiry_key: e('necroskillz.tez'), address: 'tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i' };
+        const domainData = new MichelsonMap();
+        domainData.set(StandardRecordMetadataKey.TTL, e('420'));
+
+        storage.store.records[e('play.necroskillz.tez')] = {
+            expiry_key: e('necroskillz.tez'),
+            address: 'tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i',
+            owner: 'tz1OWN',
+            level: new BigNumber(3),
+            data: domainData,
+        } as any;
         storage.store.records[e('expired.tez')] = { expiry_key: e('expired.tez'), address: 'tz1NXtvKxbCpWkSmHSAirdxzPbQgicTFwWyc' };
-        storage.store.records[e('no-address.tez')] = { expiry_key: e('no-address.tez') };
+        storage.store.records[e('no-address.tez')] = { expiry_key: e('no-address.tez'), address: null };
         storage.store.records[e('no-expiry-key.tez')] = { expiry_key: null, address: 'tz1S8U7XJU8vj2SEyLDXH25fhLuEsk4Yr1wZ' };
 
         storage.store.expiry_map[e('necroskillz.tez')] = new Date(2021, 1, 1);
         storage.store.expiry_map[e('expired.tez')] = new Date(2019, 1, 1);
 
-        storage.store.reverse_records['tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i'] = { name: e('play.necroskillz.tez'), owner: 'tz1zzz' };
+        const reverseRecordData = new MichelsonMap();
+        reverseRecordData.set(StandardRecordMetadataKey.TTL, e('69'));
+
+        storage.store.reverse_records['tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i'] = {
+            name: e('play.necroskillz.tez'),
+            owner: 'tz1zzz',
+            data: reverseRecordData,
+        } as any;
         storage.store.reverse_records['tz1NXtvKxbCpWkSmHSAirdxzPbQgicTFwWyc'] = { name: e('expired.tez'), owner: 'tz1ezz' };
         storage.store.reverse_records['tz1SdArNzLEch64rBDmMeJf23TRQ19gc4yTs'] = { name: e('orphan.tez'), owner: 'tz1aaa' };
         storage.store.reverse_records['tz1S8U7XJU8vj2SEyLDXH25fhLuEsk4Yr1wZ'] = { name: e('no-expiry-key.tez'), owner: 'tz1aaa' };
@@ -77,6 +96,18 @@ describe('BlockchainNameResolver', () => {
 
     afterEach(() => {
         MockDate.reset();
+    });
+
+    describe('resolve()', () => {
+        it('should return info about a domain', async () => {
+            const domain = await resolver.resolve('play.necroskillz.tez');
+
+            expect(domain?.address).toBe('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i');
+            expect(domain?.expiry).toStrictEqual(new Date(2021, 1, 1));
+            expect(domain?.owner).toBe('tz1OWN');
+            expect(domain?.level).toBe(3);
+            expect(domain?.data.getJson(StandardRecordMetadataKey.TTL)).toBe(420);
+        });
     });
 
     describe('resolveAddress()', () => {
@@ -116,6 +147,16 @@ describe('BlockchainNameResolver', () => {
 
         it('should throw when invalid name is specified', async () => {
             await expect(() => resolver.resolveAddress('invalid')).rejects.toEqual(new Error(`'invalid' is not a valid domain name.`));
+        });
+    });
+
+    describe('reverseResolve()', () => {
+        it('should return info about a reverse record', async () => {
+            const reverseRecord = await resolver.reverseResolve('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i');
+
+            expect(reverseRecord?.name).toBe('play.necroskillz.tez');
+            expect(reverseRecord?.owner).toBe('tz1zzz');
+            expect(reverseRecord?.data.getJson(StandardRecordMetadataKey.TTL)).toBe(69);
         });
     });
 

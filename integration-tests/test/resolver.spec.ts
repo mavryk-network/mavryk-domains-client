@@ -14,6 +14,8 @@ describe('resolver', () => {
     let client: TezosDomainsClient;
 
     beforeAll(() => {
+        jest.setTimeout(30 * 60 * 1000);
+
         const tezos = new TezosToolkit();
         tezos.setRpcProvider(CONFIG.rpcUrl);
 
@@ -30,7 +32,7 @@ describe('resolver', () => {
             expect(record!.address).toBe(DATA.ok.address);
             expect(record!.owner).toBe(DATA.ok.address);
             expect(record!.level).toBe(2);
-            expect(record!.expiry_key).toBe(DATA.ok.name);
+            expect(record!.expiry).toBeInstanceOf(Date);
             expect(record!.data.getJson(StandardRecordMetadataKey.TTL)).toBe(420);
         });
     });
@@ -42,7 +44,6 @@ describe('resolver', () => {
             expect(x[0]).toBe(DATA.ok.address);
             expect(x[1]).toBe(DATA.noExpiration.address);
         });
-
 
         const TEST_CASES: TestCase[] = [
             { description: 'should resolve address', from: DATA.ok.name, to: DATA.ok.address },

@@ -13,12 +13,14 @@ import {
     TezosClient,
     AddressBook,
 } from '@tezos-domains/core';
+
 import { NameResolver } from './name-resolver';
+import { DomainInfo, ReverseRecordInfo } from './model';
 
 export class BlockchainNameResolver implements NameResolver {
     constructor(private tezos: TezosClient, private addressBook: AddressBook, private tracer: Tracer) {}
 
-    async resolve(name: string): Promise<DomainRecord | null> {
+    async resolve(name: string): Promise<DomainInfo | null> {
         this.tracer.trace(`=> Resolving record '${name}'`);
 
         if (!name) {
@@ -29,11 +31,21 @@ export class BlockchainNameResolver implements NameResolver {
             throw new Error(`'${name}' is not a valid domain name.`);
         }
 
-        const record = await this.getValidRecord(name);
+        const info = await this.getValidRecord(name);
 
-        this.tracer.trace(`<= Resolved record.`, record);
+        this.tracer.trace(`<= Resolved record.`, info?.record);
 
-        return record;
+        if (!info) {
+            return null;
+        }
+
+        return {
+            address: info.record.address,
+            data: info.record.data,
+            owner: info.record.owner,
+            level: info.record.level,
+            expiry: info.expiry,
+        };
     }
 
     async resolveAddress(name: string): Promise<string | null> {
@@ -48,7 +60,7 @@ export class BlockchainNameResolver implements NameResolver {
         return address;
     }
 
-    async reverseResolve(address: string): Promise<ReverseRecord | null> {
+    async reverseResolve(address: string): Promise<ReverseRecordInfo | null> {
         this.tracer.trace(`=> Resolving reverse record for '${address}'`);
 
         if (!address) {
@@ -74,7 +86,11 @@ export class BlockchainNameResolver implements NameResolver {
 
         this.tracer.trace(`<= Resolved reverse record.`, reverseRecord);
 
-        return reverseRecord;
+        return {
+            name: reverseRecord.name,
+            owner: reverseRecord.owner,
+            data: reverseRecord.data,
+        };
     }
 
     async reverseResolveName(address: string): Promise<string | null> {
@@ -109,7 +125,7 @@ export class BlockchainNameResolver implements NameResolver {
 
         this.tracer.trace('!! Record is valid.');
 
-        return record;
+        return { record, expiry };
     }
 
     clearCache(): void {

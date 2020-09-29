@@ -79,5 +79,5 @@ export class DomainRecord {
     @encoder(BigNumberEncoder) validator!: number;
     owner!: string;
     @encoder(MapEncoder) data!: RecordMetadata;
-    address?: string;
+    address!: string | null;
 }

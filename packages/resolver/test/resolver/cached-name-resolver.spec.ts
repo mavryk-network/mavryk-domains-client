@@ -1,7 +1,7 @@
 jest.mock('node-cache');
 
-import { Tracer, DomainRecord, ReverseRecord, RecordMetadata, StandardRecordMetadataKey } from '@tezos-domains/core';
-import { CachedNameResolver, NameResolver } from '@tezos-domains/resolver';
+import { Tracer, RecordMetadata, StandardRecordMetadataKey } from '@tezos-domains/core';
+import { CachedNameResolver, NameResolver, DomainInfo, ReverseRecordInfo } from '@tezos-domains/resolver';
 import { mock, instance, when, anything, verify, anyString, anyNumber } from 'ts-mockito';
 import NodeCache from 'node-cache';
 
@@ -11,15 +11,15 @@ describe('CachedNameResolver', () => {
     let cacheMock: NodeCache;
     let tracerMock: Tracer;
 
-    let aR: DomainRecord;
-    let bR: DomainRecord;
-    let raR: ReverseRecord;
-    let rbR: ReverseRecord;
+    let aR: DomainInfo;
+    let bR: DomainInfo;
+    let raR: ReverseRecordInfo;
+    let rbR: ReverseRecordInfo;
 
-    let paR: Promise<DomainRecord>;
-    let pbR: Promise<DomainRecord>;
-    let praR: Promise<ReverseRecord>;
-    let prbR: Promise<ReverseRecord>;
+    let paR: Promise<DomainInfo>;
+    let pbR: Promise<DomainInfo>;
+    let praR: Promise<ReverseRecordInfo>;
+    let prbR: Promise<ReverseRecordInfo>;
 
     let fakeCache: Record<string, Promise<string>>;
 
@@ -29,28 +29,19 @@ describe('CachedNameResolver', () => {
         cacheMock = mock(NodeCache);
         fakeCache = {};
 
-        aR = mock(DomainRecord);
-        bR = mock(DomainRecord);
-        raR = mock(ReverseRecord);
-        rbR = mock(ReverseRecord);
-
-        paR = Promise.resolve(instance(aR));
-        pbR = Promise.resolve(instance(bR));
-        praR = Promise.resolve(instance(raR));
-        prbR = Promise.resolve(instance(rbR));
-
-        when(aR.address).thenReturn('aR');
         const aRMeta = new RecordMetadata();
         aRMeta.setJson(StandardRecordMetadataKey.TTL, 69);
-        when(aR.data).thenReturn(aRMeta);
-        when(bR.address).thenReturn('bR');
-        when(bR.data).thenReturn(new RecordMetadata());
-        when(raR.name).thenReturn('raR');
+        aR = { address: 'aR', data: aRMeta } as DomainInfo;
+        bR = { address: 'bR', data: new RecordMetadata() } as DomainInfo;
         const raRMeta = new RecordMetadata();
         raRMeta.setJson(StandardRecordMetadataKey.TTL, 420);
-        when(raR.data).thenReturn(raRMeta);
-        when(rbR.name).thenReturn('rbR');
-        when(rbR.data).thenReturn(new RecordMetadata());
+        raR = { name: 'raR', data: raRMeta } as ReverseRecordInfo;
+        rbR = { name: 'rbR', data: new RecordMetadata() } as ReverseRecordInfo;
+
+        paR = Promise.resolve(aR);
+        pbR = Promise.resolve(bR);
+        praR = Promise.resolve(raR);
+        prbR = Promise.resolve(rbR);
 
         when(tracerMock.trace(anything(), anything()));
         when(nameResolverMock.resolve('a')).thenReturn(paR).thenReturn(pbR);
@@ -73,7 +64,7 @@ describe('CachedNameResolver', () => {
             verify(nameResolverMock.resolve('a')).once();
             verify(cacheMock.set('a', paR, 10)).once();
 
-            expect(a1).toBe(instance(aR));
+            expect(a1).toBe(aR);
             expect(a2).toBe(a1);
         });
 
@@ -84,7 +75,7 @@ describe('CachedNameResolver', () => {
             verify(cacheMock.set('a', paR, 10)).once();
             verify(cacheMock.ttl('a', 69)).called();
 
-            expect(a1).toBe(instance(aR));
+            expect(a1).toBe(aR);
         });
 
         it('should get result again when ttl expires', async () => {
@@ -98,8 +89,8 @@ describe('CachedNameResolver', () => {
             verify(cacheMock.set('a', paR, 10)).once();
             verify(cacheMock.set('a', pbR, 10)).once();
 
-            expect(a1).toBe(instance(aR));
-            expect(a2).toBe(instance(bR));
+            expect(a1).toBe(aR);
+            expect(a2).toBe(bR);
         });
 
         it('should evict from cache if resolve fails', async () => {
@@ -143,7 +134,7 @@ describe('CachedNameResolver', () => {
             verify(nameResolverMock.reverseResolve('a')).once();
             verify(cacheMock.set('a', praR, 11)).called();
 
-            expect(a1).toBe(instance(raR));
+            expect(a1).toBe(raR);
             expect(a2).toBe(a1);
         });
 
@@ -154,7 +145,7 @@ describe('CachedNameResolver', () => {
             verify(cacheMock.set('a', praR, 11)).once();
             verify(cacheMock.ttl('a', 420)).called();
 
-            expect(a1).toBe(instance(raR));
+            expect(a1).toBe(raR);
         });
 
         it('should get result again when ttl expires', async () => {
@@ -168,8 +159,8 @@ describe('CachedNameResolver', () => {
             verify(cacheMock.set('a', praR, 11)).once();
             verify(cacheMock.set('a', prbR, 11)).once();
 
-            expect(a1).toBe(instance(raR));
-            expect(a2).toBe(instance(rbR));
+            expect(a1).toBe(raR);
+            expect(a2).toBe(rbR);
         });
 
         it('should evict from cache if resolve fails', async () => {

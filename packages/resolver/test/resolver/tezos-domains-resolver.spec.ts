@@ -4,11 +4,10 @@ jest.mock('../../src/resolver/cached-name-resolver');
 jest.mock('@taquito/taquito');
 
 import { TezosClient, ConsoleTracer, NoopTracer, AddressBook } from '@tezos-domains/core';
-import { TezosDomainsResolver, BlockchainNameResolver, CachedNameResolver, ResolverConfig } from '@tezos-domains/resolver';
+import { TezosDomainsResolver, BlockchainNameResolver, CachedNameResolver, ResolverConfig, DomainInfo, ReverseRecordInfo } from '@tezos-domains/resolver';
 import { mock, instance, when, anyString, verify } from 'ts-mockito';
 import { Tezos, TezosToolkit } from '@taquito/taquito';
 import FakePromise from 'fake-promise';
-import { DomainRecord, ReverseRecord } from '@tezos-domains/core';
 
 describe('TezosDomainsResolver', () => {
     let resolver: TezosDomainsResolver;
@@ -66,12 +65,12 @@ describe('TezosDomainsResolver', () => {
     });
 
     describe('functionality', () => {
-        let resolve: FakePromise<DomainRecord | null>;
+        let resolve: FakePromise<DomainInfo | null>;
         let resolveAddress: FakePromise<string | null>;
-        let reverseResolve: FakePromise<ReverseRecord | null>;
+        let reverseResolve: FakePromise<ReverseRecordInfo | null>;
         let reverseResolveName: FakePromise<string | null>;
-        let record: DomainRecord;
-        let reverseRecord: ReverseRecord;
+        let record: DomainInfo;
+        let reverseRecord: ReverseRecordInfo;
 
         beforeEach(() => {
             resolve = new FakePromise();
@@ -79,8 +78,8 @@ describe('TezosDomainsResolver', () => {
             reverseResolve = new FakePromise();
             reverseResolveName = new FakePromise();
 
-            record = mock(DomainRecord);
-            reverseRecord = mock(ReverseRecord);
+            record = { address: 'tz1xxx' } as DomainInfo;
+            reverseRecord = { name: 'rr.tez' } as ReverseRecordInfo;
 
             when(blockchainNameResolverMock.resolve(anyString())).thenReturn(resolve);
             when(blockchainNameResolverMock.resolveAddress(anyString())).thenReturn(resolveAddress);
@@ -100,9 +99,9 @@ describe('TezosDomainsResolver', () => {
 
                 verify(blockchainNameResolverMock.resolve('necroskillz.tez'));
 
-                resolve.resolve(instance(record));
+                resolve.resolve(record);
 
-                await expect(address).resolves.toBe(instance(record));
+                await expect(address).resolves.toBe(record);
             });
 
             it('should call actual resolver (with caching)', async () => {
@@ -112,9 +111,9 @@ describe('TezosDomainsResolver', () => {
 
                 verify(cachedNameResolverMock.resolve('necroskillz.tez'));
 
-                resolve.resolve(instance(record));
+                resolve.resolve(record);
 
-                await expect(address).resolves.toBe(instance(record));
+                await expect(address).resolves.toBe(record);
             });
         });
 
@@ -148,9 +147,9 @@ describe('TezosDomainsResolver', () => {
 
                 verify(blockchainNameResolverMock.reverseResolve('tz1xxx'));
 
-                reverseResolve.resolve(instance(reverseRecord));
+                reverseResolve.resolve(reverseRecord);
 
-                await expect(address).resolves.toBe(instance(reverseRecord));
+                await expect(address).resolves.toBe(reverseRecord);
             });
 
             it('should call actual resolver (with caching)', async () => {
@@ -160,9 +159,9 @@ describe('TezosDomainsResolver', () => {
 
                 verify(cachedNameResolverMock.reverseResolve('tz1xxx'));
 
-                reverseResolve.resolve(instance(reverseRecord));
+                reverseResolve.resolve(reverseRecord);
 
-                await expect(address).resolves.toBe(instance(reverseRecord));
+                await expect(address).resolves.toBe(reverseRecord);
             });
         });
 

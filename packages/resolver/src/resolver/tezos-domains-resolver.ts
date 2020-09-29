@@ -1,9 +1,10 @@
 import { Tezos } from '@taquito/taquito';
-import { TezosDomainsConfig, TezosClient, AddressBook, ConsoleTracer, NoopTracer, DomainRecord, ReverseRecord } from '@tezos-domains/core';
+import { TezosDomainsConfig, TezosClient, AddressBook, ConsoleTracer, NoopTracer } from '@tezos-domains/core';
 
 import { NameResolver } from './name-resolver';
 import { BlockchainNameResolver } from './blockchain-name-resolver';
 import { CachedNameResolver } from './cached-name-resolver';
+import { DomainInfo, ReverseRecordInfo } from './model';
 
 export type CachingConfig = { enabled: boolean; defaultRecordTtl?: number; defaultReverseRecordTtl?: number };
 
@@ -29,7 +30,7 @@ export class TezosDomainsResolver implements NameResolver {
         }
     }
 
-    async resolve(name: string): Promise<DomainRecord | null> {
+    async resolve(name: string): Promise<DomainInfo | null> {
         return this.resolver.resolve(name);
     }
 
@@ -37,7 +38,7 @@ export class TezosDomainsResolver implements NameResolver {
         return this.resolver.resolveAddress(name);
     }
 
-    async reverseResolve(address: string): Promise<ReverseRecord | null> {
+    async reverseResolve(address: string): Promise<ReverseRecordInfo | null> {
         return this.resolver.reverseResolve(address);
     }
 

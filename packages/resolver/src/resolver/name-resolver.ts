@@ -1,4 +1,4 @@
-import { DomainRecord, ReverseRecord } from '@tezos-domains/core';
+import { DomainInfo, ReverseRecordInfo } from './model';
 
 /**
  * An interface that defines functions for resolving names and addresses.
@@ -9,7 +9,7 @@ export interface NameResolver {
      *
      *  - Associated contract: [NameRegistry](https://docs.tezos.domains/deployed-contracts)
      */
-    resolve(name: string): Promise<DomainRecord | null>;
+    resolve(name: string): Promise<DomainInfo | null>;
     /**
      * Resolves a domain name to an address.
      * 
@@ -35,7 +35,7 @@ export interface NameResolver {
      *
      *  - Associated contract: [NameRegistry](https://docs.tezos.domains/deployed-contracts)
      */
-    reverseResolve(address: string): Promise<ReverseRecord | null>;
+    reverseResolve(address: string): Promise<ReverseRecordInfo | null>;
     /**
      * Resolves an address to a name.
      *

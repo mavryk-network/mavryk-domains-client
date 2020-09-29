@@ -84,11 +84,20 @@ test:client:
     tags:
         - docker
 
-test:integration:
+test:integration:carthagenet:
     stage: test
     image: node:alpine3.12
     allow_failure: false
     script:
-        - yarn workspace integration-tests integration-test
+        - TD_NETWORK=carthagenet; TD_RPC_URL=${RPC_URL_CARTHAGENET}; yarn workspace integration-tests integration-test
+    tags:
+        - docker
+
+test:integration:delphinet:
+    stage: test
+    image: node:alpine3.12
+    allow_failure: false
+    script:
+        - TD_NETWORK=delphinet; TD_RPC_URL=${RPC_URL_DELPHINET}; yarn workspace integration-tests integration-test
     tags:
         - docker

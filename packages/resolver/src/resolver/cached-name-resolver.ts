@@ -1,8 +1,9 @@
-import { Tracer, DomainRecord, ReverseRecord, StandardRecordMetadataKey } from '@tezos-domains/core';
+import { Tracer, StandardRecordMetadataKey } from '@tezos-domains/core';
 import NodeCache from 'node-cache';
 
 import { NameResolver } from './name-resolver';
-import { CachingConfig } from '../resolver';
+import { DomainInfo, ReverseRecordInfo } from './model';
+import { CachingConfig } from './tezos-domains-resolver';
 
 export class CachedNameResolver implements NameResolver {
     private cache: NodeCache;
@@ -15,7 +16,7 @@ export class CachedNameResolver implements NameResolver {
         this.cache = new NodeCache({ useClones: false });
     }
 
-    async resolve(name: string): Promise<DomainRecord | null> {
+    async resolve(name: string): Promise<DomainInfo | null> {
         this.tracer.trace(`=> Cache decorator: Resolving record '${name}'.`);
 
         if (!this.cache.has(name)) {
@@ -44,7 +45,7 @@ export class CachedNameResolver implements NameResolver {
             this.tracer.trace('!! Cache hit.');
         }
 
-        const promise = this.cache.get<Promise<DomainRecord | null>>(name)!;
+        const promise = this.cache.get<Promise<DomainInfo | null>>(name)!;
 
         const record = await promise;
 
@@ -65,7 +66,7 @@ export class CachedNameResolver implements NameResolver {
         return address;
     }
 
-    async reverseResolve(address: string): Promise<ReverseRecord | null> {
+    async reverseResolve(address: string): Promise<ReverseRecordInfo | null> {
         this.tracer.trace(`=> Cache decorator Resolving reverse record '${address}'`);
 
         if (!this.cache.has(address)) {
@@ -94,7 +95,7 @@ export class CachedNameResolver implements NameResolver {
             this.tracer.trace('!! Cache hit.');
         }
 
-        const promise = this.cache.get<Promise<ReverseRecord | null>>(address)!;
+        const promise = this.cache.get<Promise<ReverseRecordInfo | null>>(address)!;
 
         const reverseRecord = await promise;
 
