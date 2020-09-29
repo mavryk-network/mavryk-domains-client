@@ -20,7 +20,7 @@ describe('manager', () => {
 
     describe('getCommitment()', () => {
         it('should get existing commitment and return info', async () => {
-            const commitment = await client.manager.getCommitment('tez', { label: 'commit', owner: CONFIG.adminAddress });
+            const commitment = await client.manager.getCommitment(client.validator.supportedTLDs[0], { label: 'commit', owner: CONFIG.adminAddress });
             const expectedCommitment = db[CONFIG.network]['commitment'];
 
             expect(commitment).not.toBeNull();
@@ -30,7 +30,7 @@ describe('manager', () => {
         });
 
         it('should return null if commitment doesnt exist', async () => {
-            const commitment = await client.manager.getCommitment('tez', { label: 'bleh', owner: CONFIG.adminAddress });
+            const commitment = await client.manager.getCommitment(client.validator.supportedTLDs[0], { label: 'bleh', owner: CONFIG.adminAddress });
 
             expect(commitment).toBeNull();
         });
@@ -38,7 +38,7 @@ describe('manager', () => {
 
     describe('getPrice()', () => {
         it('should get price for unowned domain', async () => {
-            const price = await client.manager.getPrice(`integration_test_new${Date.now().toString()}.tez`, 365);
+            const price = await client.manager.getPrice(`integration_test_new${Date.now().toString()}.${client.validator.supportedTLDs[0]}`, 365);
 
             expect(price).toBe(db[CONFIG.network].price);
         });
