@@ -22,7 +22,7 @@ Example of resolving and address from domain name:
 import { TezosDomainsClient } from '@tezos-domains/client';
 
 async function main() {
-    const client = new TezosDomainsClient();
+    const client = new TezosDomainsClient({ network: 'carthagenet', caching: { enabled: true } });
 
     const address = await client.resolver.resolveAddress('alice.tez');
 
@@ -43,7 +43,7 @@ import { TezosDomainsClient } from '@tezos-domains/client';
 import { getTld, getLabel, validateDomainName, DomainNameValidationResult } from '@tezos-domains/core';
 
 async function main() {
-    const client = new TezosDomainsClient();
+    const client = new TezosDomainsClient({ network: 'carthagenet' });
 
     const name = 'necroskillz.tez';
 

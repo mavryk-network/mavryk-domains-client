@@ -44,6 +44,9 @@ export const DomainNameValidators: { [tld: string]: DomainNameValidator } = {
     tez: AlphanumericWithHyphenDomainNameValidator,
 };
 
+/**
+ * Validates whether the specified domain name is valid.
+ */
 export function validateDomainName(name: string): DomainNameValidationResult {
     if (SupportedTLDs.includes(name)) {
         // tld itself
