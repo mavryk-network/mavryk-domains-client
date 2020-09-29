@@ -23,8 +23,6 @@ describe('resolver', () => {
         DomainNameValidators['test'] = AlphanumericWithHyphenDomainNameValidator;
 
         client = new TezosDomainsClient({ network: CONFIG.network, tezos, caching: { enabled: true } });
-        
-        console.log(`Running resolver tests on ${CONFIG.network}, ${CONFIG.rpcUrl}`);
     });
 
     describe('resolve()', () => {
