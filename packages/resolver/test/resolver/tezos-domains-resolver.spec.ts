@@ -3,7 +3,7 @@ jest.mock('../../src/resolver/blockchain-name-resolver');
 jest.mock('../../src/resolver/cached-name-resolver');
 jest.mock('@taquito/taquito');
 
-import { TezosClient, ConsoleTracer, NoopTracer, AddressBook } from '@tezos-domains/core';
+import { TezosClient, ConsoleTracer, NoopTracer, AddressBook, DomainNameValidator } from '@tezos-domains/core';
 import { TezosDomainsResolver, BlockchainNameResolver, CachedNameResolver, ResolverConfig, DomainInfo, ReverseRecordInfo } from '@tezos-domains/resolver';
 import { mock, instance, when, anyString, verify } from 'ts-mockito';
 import { Tezos, TezosToolkit } from '@taquito/taquito';
@@ -17,6 +17,7 @@ describe('TezosDomainsResolver', () => {
     let consoleTracerMock: ConsoleTracer;
     let blockchainNameResolverMock: BlockchainNameResolver;
     let cachedNameResolverMock: CachedNameResolver;
+    let domainNameValidator: DomainNameValidator;
 
     beforeEach(() => {
         tezosClientMock = mock(TezosClient);
@@ -25,6 +26,7 @@ describe('TezosDomainsResolver', () => {
         consoleTracerMock = mock(ConsoleTracer);
         blockchainNameResolverMock = mock(BlockchainNameResolver);
         cachedNameResolverMock = mock(CachedNameResolver);
+        domainNameValidator = mock(DomainNameValidator);
 
         (TezosClient as jest.Mock).mockReturnValue(instance(tezosClientMock));
         (AddressBook as jest.Mock).mockReturnValue(instance(addressBookMock));
@@ -32,6 +34,7 @@ describe('TezosDomainsResolver', () => {
         (NoopTracer as jest.Mock).mockReturnValue(instance(noopTracerMock));
         (BlockchainNameResolver as jest.Mock).mockReturnValue(instance(blockchainNameResolverMock));
         (CachedNameResolver as jest.Mock).mockReturnValue(instance(cachedNameResolverMock));
+        (DomainNameValidator as jest.Mock).mockReturnValue(instance(domainNameValidator));
     });
 
     describe('config', () => {
@@ -40,7 +43,7 @@ describe('TezosDomainsResolver', () => {
 
             expect(TezosClient).toHaveBeenCalledWith(Tezos, instance(noopTracerMock));
             expect(AddressBook).toHaveBeenCalledWith(instance(tezosClientMock), undefined);
-            expect(BlockchainNameResolver).toHaveBeenCalledWith(instance(tezosClientMock), instance(addressBookMock), instance(noopTracerMock));
+            expect(BlockchainNameResolver).toHaveBeenCalledWith(instance(tezosClientMock), instance(addressBookMock), instance(noopTracerMock), instance(domainNameValidator));
             expect(CachedNameResolver).not.toHaveBeenCalled();
         });
 
@@ -56,7 +59,7 @@ describe('TezosDomainsResolver', () => {
 
             expect(TezosClient).toHaveBeenCalledWith(instance(customTezosToolkit), instance(consoleTracerMock));
             expect(AddressBook).toHaveBeenCalledWith(instance(tezosClientMock), config);
-            expect(BlockchainNameResolver).toHaveBeenCalledWith(instance(tezosClientMock), instance(addressBookMock), instance(consoleTracerMock));
+            expect(BlockchainNameResolver).toHaveBeenCalledWith(instance(tezosClientMock), instance(addressBookMock), instance(consoleTracerMock), instance(domainNameValidator));
             expect(CachedNameResolver).toHaveBeenCalledWith(instance(blockchainNameResolverMock), instance(consoleTracerMock), {
                 defaultRecordTtl: 50,
                 defaultReverseRecordTtl: 60,

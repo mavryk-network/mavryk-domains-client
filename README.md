@@ -2,7 +2,7 @@
 
 Library for resolving and managing tezos domains built on top of [taquito](https://tezostaquito.io/).
 
-*WARNING: This project is in beta. We welcome users and feedback, please be aware that this project is a work in progress.*
+_WARNING: This project is in beta. We welcome users and feedback, please be aware that this project is a work in progress._
 
 ## Getting started
 
@@ -40,7 +40,7 @@ Example of registering a domain:
 
 ```ts
 import { TezosDomainsClient } from '@tezos-domains/client';
-import { getTld, getLabel, validateDomainName, DomainNameValidationResult } from '@tezos-domains/core';
+import { getTld, getLabel, DomainNameValidationResult } from '@tezos-domains/core';
 
 async function main() {
     const client = new TezosDomainsClient({ network: 'carthagenet' });
@@ -48,7 +48,7 @@ async function main() {
     const name = 'necroskillz.tez';
 
     // Validate the domain name syntax
-    if (validateDomainName(name) !== DomainNameValidationResult.VALID) {
+    if (client.validator.validateDomainName(name) !== DomainNameValidationResult.VALID) {
         throw new Error('Domain name not valid');
     }
 
@@ -94,6 +94,10 @@ async function main() {
 `contractAddresses` (default: `undefined`)
 
 -   Which tezos domains contracts to connect to to get data. Must be specified if network is `custom`. Uses built in addresses otherwise.
+
+`tlds` (default: `undefined`)
+
+-   Which top level domains are supported and the validator function to use to validate domain names of each tld. Must be specified if network is `custom`. Uses built in tlds otherwise.
 
 `tezos` (default: `Tezos` from `@taquito/taquito`)
 

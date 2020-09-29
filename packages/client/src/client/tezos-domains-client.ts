@@ -1,6 +1,6 @@
 import { ManagerConfig, DomainsManager, CommitmentGenerator, BlockchainDomainsManager } from '@tezos-domains/manager';
 import { ResolverConfig, NameResolver, BlockchainNameResolver, CachedNameResolver } from '@tezos-domains/resolver';
-import { TezosClient, AddressBook, ConsoleTracer, NoopTracer } from '@tezos-domains/core';
+import { TezosClient, AddressBook, ConsoleTracer, NoopTracer, DomainNameValidator } from '@tezos-domains/core';
 import { Tezos } from '@taquito/taquito';
 
 export type ClientConfig = ManagerConfig & ResolverConfig;
@@ -11,6 +11,7 @@ export type ClientConfig = ManagerConfig & ResolverConfig;
 export class TezosDomainsClient {
     private _manager!: DomainsManager;
     private _resolver!: NameResolver;
+    private _validator!: DomainNameValidator;
 
     /**
      * Gets the manager instance. The manager contains functions for buying and updating domains and reverse records.
@@ -27,8 +28,15 @@ export class TezosDomainsClient {
     }
 
     /**
+     * Gets the validator instance. The validator contains functions for validating domain names.
+     */
+    get validator(): DomainNameValidator {
+        return this._validator;
+    }
+
+    /**
      * Creates a new instance of the `TezosDomainsClient` class with the specified `config`.
-     * 
+     *
      * @example
      * ```
      * const tezosDomains = new TezosDomainsClient({ network: 'carthagenet', caching: { enabled: true } });
@@ -48,9 +56,10 @@ export class TezosDomainsClient {
         const addressBook = new AddressBook(tezos, config);
         const commitmentGenerator = new CommitmentGenerator(tezosToolkit);
 
+        this._validator = new DomainNameValidator(config);
         this._manager = new BlockchainDomainsManager(tezos, addressBook, tracer, commitmentGenerator);
 
-        const blockchainResolver = new BlockchainNameResolver(tezos, addressBook, tracer);
+        const blockchainResolver = new BlockchainNameResolver(tezos, addressBook, tracer, this._validator);
         if (config?.caching) {
             this._resolver = new CachedNameResolver(blockchainResolver, tracer, {
                 defaultRecordTtl: config.caching.defaultRecordTtl || 600,

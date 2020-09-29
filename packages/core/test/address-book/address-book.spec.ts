@@ -40,7 +40,7 @@ describe('AddressBook', () => {
     });
 
     it('should resolve custom addresses', async () => {
-        init({ network: 'custom', contractAddresses: { nameRegistry: { address: 'custom_nr' } } });
+        init({ network: 'custom', contractAddresses: { nameRegistry: { address: 'custom_nr' } }, tlds: [] });
 
         await expect(addressBook.lookup(SmartContractType.NameRegistry)).resolves.toBe('custom_nr');
     });

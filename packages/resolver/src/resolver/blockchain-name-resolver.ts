@@ -8,17 +8,17 @@ import {
     DateEncoder,
     RpcRequestData,
     BytesEncoder,
-    validateDomainName,
     DomainNameValidationResult,
     TezosClient,
     AddressBook,
+    DomainNameValidator
 } from '@tezos-domains/core';
 
 import { NameResolver } from './name-resolver';
 import { DomainInfo, ReverseRecordInfo } from './model';
 
 export class BlockchainNameResolver implements NameResolver {
-    constructor(private tezos: TezosClient, private addressBook: AddressBook, private tracer: Tracer) {}
+    constructor(private tezos: TezosClient, private addressBook: AddressBook, private tracer: Tracer, private validator: DomainNameValidator) {}
 
     async resolve(name: string): Promise<DomainInfo | null> {
         this.tracer.trace(`=> Resolving record '${name}'`);
@@ -27,7 +27,7 @@ export class BlockchainNameResolver implements NameResolver {
             throw new Error(`Argument 'name' was not specified.`);
         }
 
-        if (validateDomainName(name) !== DomainNameValidationResult.VALID) {
+        if (this.validator.validateDomainName(name) !== DomainNameValidationResult.VALID) {
             throw new Error(`'${name}' is not a valid domain name.`);
         }
 

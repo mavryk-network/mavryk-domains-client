@@ -80,7 +80,7 @@ export async function run(): Promise<void> {
 
     await setTezos('admin');
     await commit('commit.tez', CONFIG.adminAddress);
-    const commitment = await client.manager.getCommitment('tez', { label: 'commit', owner: CONFIG.adminAddress });
+    const commitment = await client.manager.getCommitment(client.validator.supportedTLDs[0], { label: 'commit', owner: CONFIG.adminAddress });
     await writeData('commitment', commitment);
 
     await createRecord(DATA.expired.name, DATA.expired.address, DATA.expired.address, null);

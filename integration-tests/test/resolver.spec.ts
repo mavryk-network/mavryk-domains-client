@@ -1,4 +1,4 @@
-import { SupportedTLDs, DomainNameValidators, AlphanumericWithHyphenDomainNameValidator, StandardRecordMetadataKey } from '@tezos-domains/core';
+import { LatinDomainNameValidator, StandardRecordMetadataKey } from '@tezos-domains/core';
 import { TezosDomainsClient } from '@tezos-domains/client';
 import { TezosToolkit } from '@taquito/taquito';
 
@@ -19,10 +19,13 @@ describe('resolver', () => {
         const tezos = new TezosToolkit();
         tezos.setRpcProvider(CONFIG.rpcUrl);
 
-        SupportedTLDs.push('test');
-        DomainNameValidators['test'] = AlphanumericWithHyphenDomainNameValidator;
+        client = new TezosDomainsClient({
+            network: CONFIG.network,
+            tezos,
+            caching: { enabled: true },
+        });
 
-        client = new TezosDomainsClient({ network: CONFIG.network, tezos, caching: { enabled: true } });
+        client.validator.addSupportedTld('test', LatinDomainNameValidator);
     });
 
     describe('resolve()', () => {

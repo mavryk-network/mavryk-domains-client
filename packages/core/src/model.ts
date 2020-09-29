@@ -6,6 +6,7 @@ import { BigNumberEncoder } from './rpc-data/encoders/big-number-encoder';
 import { BytesEncoder } from './rpc-data/encoders/bytes-encoder';
 import { MapEncoder } from './rpc-data/encoders/map-encoder';
 import { RecordMetadata } from './rpc-data/record-metadata';
+import { DomainNameValidatorFn } from './validator/validators';
 
 export type NetworkType = 'mainnet' | 'carthagenet' | 'custom';
 
@@ -19,8 +20,13 @@ export type CommonConfig = {
     tracing?: boolean;
 };
 
-export type CustomNetworkConfig = { network?: 'custom'; contractAddresses: ContractConfig } & CommonConfig;
-export type DefaultNetworkConfig = { network?: 'mainnet' | 'carthagenet' | 'delphinet'; contractAddresses?: ContractConfig } & CommonConfig;
+export type TLDConfig = {
+    name: string,
+    validator: DomainNameValidatorFn;
+}
+
+export type CustomNetworkConfig = { network?: 'custom'; contractAddresses: ContractConfig, tlds: TLDConfig[] } & CommonConfig;
+export type DefaultNetworkConfig = { network?: 'mainnet' | 'carthagenet' | 'delphinet'; contractAddresses?: ContractConfig, tlds?: TLDConfig[] } & CommonConfig;
 
 export type TezosDomainsConfig = DefaultNetworkConfig | CustomNetworkConfig;
 

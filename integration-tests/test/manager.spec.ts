@@ -1,4 +1,3 @@
-import { SupportedTLDs, DomainNameValidators, AlphanumericWithHyphenDomainNameValidator } from '@tezos-domains/core';
 import { TezosDomainsClient } from '@tezos-domains/client';
 import { TezosToolkit } from '@taquito/taquito';
 import fs from 'fs-extra';
@@ -15,9 +14,6 @@ describe('manager', () => {
         jest.setTimeout(30 * 60 * 1000);
         const tezos = new TezosToolkit();
         tezos.setRpcProvider(CONFIG.rpcUrl);
-
-        SupportedTLDs.push('test');
-        DomainNameValidators['test'] = AlphanumericWithHyphenDomainNameValidator;
 
         client = new TezosDomainsClient({ network: CONFIG.network, tezos });
     });

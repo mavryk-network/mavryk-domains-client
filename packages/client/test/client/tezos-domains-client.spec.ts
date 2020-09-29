@@ -4,7 +4,7 @@ jest.mock('@tezos-domains/manager');
 jest.mock('@taquito/taquito');
 
 import { Tezos, TezosToolkit } from '@taquito/taquito';
-import { TezosClient, ConsoleTracer, NoopTracer, AddressBook } from '@tezos-domains/core';
+import { TezosClient, ConsoleTracer, NoopTracer, AddressBook, DomainNameValidator } from '@tezos-domains/core';
 import { BlockchainDomainsManager, CommitmentGenerator } from '@tezos-domains/manager';
 import { TezosDomainsClient, ClientConfig } from '@tezos-domains/client';
 import { BlockchainNameResolver, CachedNameResolver } from '@tezos-domains/resolver';
@@ -19,6 +19,7 @@ describe('TezosDomainsClient', () => {
     let commitmentGeneratorMock: CommitmentGenerator;
     let blockchainNameResolverMock: BlockchainNameResolver;
     let cachedNameResolverMock: CachedNameResolver;
+    let domainNameValidator: DomainNameValidator;
 
     beforeEach(() => {
         tezosClientMock = mock(TezosClient);
@@ -29,6 +30,7 @@ describe('TezosDomainsClient', () => {
         commitmentGeneratorMock = mock(CommitmentGenerator);
         blockchainNameResolverMock = mock(BlockchainNameResolver);
         cachedNameResolverMock = mock(CachedNameResolver);
+        domainNameValidator = mock(DomainNameValidator);
 
         (TezosClient as jest.Mock).mockReturnValue(instance(tezosClientMock));
         (AddressBook as jest.Mock).mockReturnValue(instance(addressBookMock));
@@ -38,6 +40,7 @@ describe('TezosDomainsClient', () => {
         (CommitmentGenerator as jest.Mock).mockReturnValue(instance(commitmentGeneratorMock));
         (BlockchainNameResolver as jest.Mock).mockReturnValue(instance(blockchainNameResolverMock));
         (CachedNameResolver as jest.Mock).mockReturnValue(instance(cachedNameResolverMock));
+        (DomainNameValidator as jest.Mock).mockReturnValue(instance(domainNameValidator));
     });
 
     describe('config', () => {
@@ -54,7 +57,12 @@ describe('TezosDomainsClient', () => {
                 instance(commitmentGeneratorMock)
             );
 
-            expect(BlockchainNameResolver).toHaveBeenCalledWith(instance(tezosClientMock), instance(addressBookMock), instance(noopTracerMock));
+            expect(BlockchainNameResolver).toHaveBeenCalledWith(
+                instance(tezosClientMock),
+                instance(addressBookMock),
+                instance(noopTracerMock),
+                instance(domainNameValidator)
+            );
             expect(CachedNameResolver).not.toHaveBeenCalled();
         });
 
@@ -78,7 +86,12 @@ describe('TezosDomainsClient', () => {
                 instance(commitmentGeneratorMock)
             );
 
-            expect(BlockchainNameResolver).toHaveBeenCalledWith(instance(tezosClientMock), instance(addressBookMock), instance(consoleTracerMock));
+            expect(BlockchainNameResolver).toHaveBeenCalledWith(
+                instance(tezosClientMock),
+                instance(addressBookMock),
+                instance(consoleTracerMock),
+                instance(domainNameValidator)
+            );
             expect(CachedNameResolver).toHaveBeenCalledWith(instance(blockchainNameResolverMock), instance(consoleTracerMock), {
                 defaultRecordTtl: 50,
                 defaultReverseRecordTtl: 60,
@@ -113,6 +126,10 @@ describe('TezosDomainsClient', () => {
 
         it('should expose resolver', () => {
             expect(client.resolver).toBe(instance(blockchainNameResolverMock));
+        });
+
+        it('should expose validator', () => {
+            expect(client.validator).toBe(instance(domainNameValidator));
         });
 
         describe('clearResolverCache()', () => {
