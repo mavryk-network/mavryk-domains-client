@@ -8,7 +8,10 @@ export const BuiltInTLDs = {
         { name: 'tez', validator: LatinDomainNameValidator }
     ],
     delphinet: [
-        { name: 'tez', validator: LatinDomainNameValidator }
+        { name: 'delphi', validator: LatinDomainNameValidator },
+        { name: 'a1', validator: LatinDomainNameValidator },
+        { name: 'a2', validator: LatinDomainNameValidator },
+        { name: 'a3', validator: LatinDomainNameValidator },
     ],
     custom: null,
 };

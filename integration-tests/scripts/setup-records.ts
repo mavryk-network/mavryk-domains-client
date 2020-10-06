@@ -79,7 +79,7 @@ export async function run(): Promise<void> {
     await createReverseRecord(DATA.ok.address, DATA.ok.name, okReverseMetadata);
 
     await setTezos('admin');
-    await commit('commit.tez', CONFIG.adminAddress);
+    await commit(`commit.${client.validator.supportedTLDs[0]}`, CONFIG.adminAddress);
     const commitment = await client.manager.getCommitment(client.validator.supportedTLDs[0], { label: 'commit', owner: CONFIG.adminAddress });
     await writeData('commitment', commitment);
 
