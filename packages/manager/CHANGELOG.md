@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.12](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.11...v1.0.0-beta.12) (2020-10-06)
+
+
+### Features
+
+* **core:** support delphinet ([66f516c](https://gitlab.com/tezos-domains/client/commit/66f516cf18518db3ac0e7e082a69786bcfe48e33))
+* **manager:** support new buy (with address and data parameters) ([1ebbdde](https://gitlab.com/tezos-domains/client/commit/1ebbdde0e44258dbf57b875cb86376b7cc284e46))
+
+
+
+
+
 # [1.0.0-beta.11](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.10...v1.0.0-beta.11) (2020-09-17)
 
 **Note:** Version bump only for package @tezos-domains/manager

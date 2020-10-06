@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.12](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.11...v1.0.0-beta.12) (2020-10-06)
+
+
+### Bug Fixes
+
+* **resolver:** handle case where expiry_key is null ([5672c1b](https://gitlab.com/tezos-domains/client/commit/5672c1bc4fa75a20242f8b1dada4b2648e4da6ea))
+
+
+### Features
+
+* **core:** add support for different tlds on different networks ([6878933](https://gitlab.com/tezos-domains/client/commit/687893380e92f35c53513a35e9d55b4242d1f0c7))
+* **resolver:** add expiration date to resolve ([ed0e844](https://gitlab.com/tezos-domains/client/commit/ed0e84475667d55318bdf23d63bfcd76f0783db9))
+
+
+### BREAKING CHANGES
+
+* **core:** `validateDomainName` function was removed, use
+`client.validator.validateDomainName` instead.
+`AlphanumericWithHypenDomainNameValidator` was renamed to `LatinDomainNameValidator`.
+
+
+
+
+
 # [1.0.0-beta.11](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.10...v1.0.0-beta.11) (2020-09-17)
 
 **Note:** Version bump only for package @tezos-domains/resolver
