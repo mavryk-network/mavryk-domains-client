@@ -1,4 +1,5 @@
 import './resolver/name-resolver';
+import './resolver/model';
 
 export { TezosDomainsResolver, ResolverConfig, CachingConfig } from './resolver/tezos-domains-resolver';
 export { NullNameResovler } from './resolver/null-name-resolver';
