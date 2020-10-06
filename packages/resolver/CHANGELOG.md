@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.13](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.12...v1.0.0-beta.13) (2020-10-06)
+
+
+### Bug Fixes
+
+* add missing typescript export ([cf3ef8d](https://gitlab.com/tezos-domains/client/commit/cf3ef8de72a7fe73e75615f871e5a1c97b5c72bf))
+
+
+
+
+
 # [1.0.0-beta.12](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.11...v1.0.0-beta.12) (2020-10-06)
 
 
