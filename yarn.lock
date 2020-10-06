@@ -2270,6 +2270,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/lodash@npm:^4.14.161":
+  version: 4.14.161
+  resolution: "@types/lodash@npm:4.14.161"
+  checksum: c3657517dab1a23059d86ae379c4e7538212f05ba9c3e108ab694167f086118a5b44ed04bcb6e5cd0a89778c29909668302a755df576e3597df16fda8b603443
+  languageName: node
+  linkType: hard
+
 "@types/minimatch@npm:*":
   version: 3.0.3
   resolution: "@types/minimatch@npm:3.0.3"
@@ -2309,6 +2316,13 @@ __metadata:
   version: 14.0.27
   resolution: "@types/node@npm:14.0.27"
   checksum: 54ecf408eb94f44685e12ef395d8d9d5789cb9e209f171153b6b951272af6b8da099778d09d66454aa5d35ce246f3922ebd7476ed768bf3bd4267306c12a6703
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^14.11.5":
+  version: 14.11.5
+  resolution: "@types/node@npm:14.11.5"
+  checksum: 974f9dbebf83593b3fcd3ef2266cef2be033b33ccfe24a37b265abfe1340eee0e3967824819a099ec336182758b07a816798a7cdecbaf1b5a8c714d8e663ba82
   languageName: node
   linkType: hard
 
@@ -10429,7 +10443,11 @@ __metadata:
     "@commitlint/config-conventional": ^9.1.1
     "@commitlint/config-lerna-scopes": ^9.1.1
     "@lerna/project": ^3.21.0
+    "@types/fs-extra": ^9.0.1
     "@types/jest": ^26.0.7
+    "@types/lodash": ^4.14.161
+    "@types/minimist": ^1.2.0
+    "@types/node": ^14.11.5
     "@typescript-eslint/eslint-plugin": ^3.7.0
     "@typescript-eslint/parser": ^3.7.0
     "@yarnpkg/pnpify": ^2.1.0
@@ -10437,10 +10455,14 @@ __metadata:
     cz-conventional-changelog: ^3.2.0
     eslint: ^7.5.0
     eslint-plugin-jest: ^23.20.0
+    fs-extra: ^9.0.1
     glob: ^7.1.6
     husky: ^4.2.5
     lerna: ^3.22.1
+    lodash: ^4.17.20
+    minimist: ^1.2.5
     prettier: ^2.0.5
+    ts-node: ^9.0.0
     typedoc: ^0.19.1
     typedoc-plugin-lerna-packages: ^0.3.1
     typescript: ^3.9.7
@@ -11626,6 +11648,26 @@ __metadata:
     ts-node-transpile-only: dist/bin-transpile.js
     ts-script: dist/bin-script-deprecated.js
   checksum: cd6e023e073d65ea346cf4a5b70bfd1e7c7f342c967a23a83038fd3462067558a4dda4fc8b238e6709db69aca3847590a93b4c52ae001e23ed9fef3b4fecbc71
+  languageName: node
+  linkType: hard
+
+"ts-node@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "ts-node@npm:9.0.0"
+  dependencies:
+    arg: ^4.1.0
+    diff: ^4.0.1
+    make-error: ^1.1.1
+    source-map-support: ^0.5.17
+    yn: 3.1.1
+  peerDependencies:
+    typescript: ">=2.7"
+  bin:
+    ts-node: dist/bin.js
+    ts-node-script: dist/bin-script.js
+    ts-node-transpile-only: dist/bin-transpile.js
+    ts-script: dist/bin-script-deprecated.js
+  checksum: 49d2ab087fc4b93f0a292e426ea6d242a80d1a4809ac008758bb0170aea1a85cd4182792c1d70889285fe5328cd8bd1ffb1e5108d1c4f31c39dbe9151ea4cabe
   languageName: node
   linkType: hard
 

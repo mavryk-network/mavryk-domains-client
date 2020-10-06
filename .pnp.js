@@ -71,8 +71,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "npm:3.21.0"
       ],
       [
+        "@types/fs-extra",
+        "npm:9.0.1"
+      ],
+      [
         "@types/jest",
         "npm:26.0.7"
+      ],
+      [
+        "@types/lodash",
+        "npm:4.14.161"
+      ],
+      [
+        "@types/minimist",
+        "npm:1.2.0"
+      ],
+      [
+        "@types/node",
+        "npm:14.11.5"
       ],
       [
         "@typescript-eslint/eslint-plugin",
@@ -103,6 +119,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:23.20.0"
       ],
       [
+        "fs-extra",
+        "npm:9.0.1"
+      ],
+      [
         "glob",
         "npm:7.1.6"
       ],
@@ -115,8 +135,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "npm:3.22.1"
       ],
       [
+        "lodash",
+        "npm:4.17.20"
+      ],
+      [
+        "minimist",
+        "npm:1.2.5"
+      ],
+      [
         "prettier",
         "npm:2.0.5"
+      ],
+      [
+        "ts-node",
+        "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:9.0.0"
       ],
       [
         "typedoc",
@@ -142,7 +174,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@commitlint/config-conventional", "npm:9.1.2"],
             ["@commitlint/config-lerna-scopes", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:9.1.2"],
             ["@lerna/project", "npm:3.21.0"],
+            ["@types/fs-extra", "npm:9.0.1"],
             ["@types/jest", "npm:26.0.7"],
+            ["@types/lodash", "npm:4.14.161"],
+            ["@types/minimist", "npm:1.2.0"],
+            ["@types/node", "npm:14.11.5"],
             ["@typescript-eslint/eslint-plugin", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:3.7.0"],
             ["@typescript-eslint/parser", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:3.7.0"],
             ["@yarnpkg/pnpify", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:2.1.0"],
@@ -150,10 +186,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["cz-conventional-changelog", "npm:3.2.0"],
             ["eslint", "npm:7.5.0"],
             ["eslint-plugin-jest", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:23.20.0"],
+            ["fs-extra", "npm:9.0.1"],
             ["glob", "npm:7.1.6"],
             ["husky", "npm:4.2.5"],
             ["lerna", "npm:3.22.1"],
+            ["lodash", "npm:4.17.20"],
+            ["minimist", "npm:1.2.5"],
             ["prettier", "npm:2.0.5"],
+            ["ts-node", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:9.0.0"],
             ["typedoc", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:0.19.1"],
             ["typedoc-plugin-lerna-packages", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:0.3.1"],
             ["typescript", "patch:typescript@npm%3A3.9.7#builtin<compat/typescript>::version=3.9.7&hash=5b02a2"]
@@ -2744,6 +2784,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@types/lodash", [
+        ["npm:4.14.161", {
+          "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.161-3f926592cc-c3657517da.zip/node_modules/@types/lodash/",
+          "packageDependencies": [
+            ["@types/lodash", "npm:4.14.161"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@types/minimatch", [
         ["npm:3.0.3", {
           "packageLocation": "./.yarn/cache/@types-minimatch-npm-3.0.3-c8b0625f84-672ccdac19.zip/node_modules/@types/minimatch/",
@@ -2788,6 +2837,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-node-npm-14.0.27-d33df6dc81-54ecf408eb.zip/node_modules/@types/node/",
           "packageDependencies": [
             ["@types/node", "npm:14.0.27"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:14.11.5", {
+          "packageLocation": "./.yarn/cache/@types-node-npm-14.11.5-e1c7c07324-974f9dbebf.zip/node_modules/@types/node/",
+          "packageDependencies": [
+            ["@types/node", "npm:14.11.5"]
           ],
           "linkType": "HARD",
         }]
@@ -11674,7 +11730,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@commitlint/config-conventional", "npm:9.1.2"],
             ["@commitlint/config-lerna-scopes", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:9.1.2"],
             ["@lerna/project", "npm:3.21.0"],
+            ["@types/fs-extra", "npm:9.0.1"],
             ["@types/jest", "npm:26.0.7"],
+            ["@types/lodash", "npm:4.14.161"],
+            ["@types/minimist", "npm:1.2.0"],
+            ["@types/node", "npm:14.11.5"],
             ["@typescript-eslint/eslint-plugin", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:3.7.0"],
             ["@typescript-eslint/parser", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:3.7.0"],
             ["@yarnpkg/pnpify", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:2.1.0"],
@@ -11682,10 +11742,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["cz-conventional-changelog", "npm:3.2.0"],
             ["eslint", "npm:7.5.0"],
             ["eslint-plugin-jest", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:23.20.0"],
+            ["fs-extra", "npm:9.0.1"],
             ["glob", "npm:7.1.6"],
             ["husky", "npm:4.2.5"],
             ["lerna", "npm:3.22.1"],
+            ["lodash", "npm:4.17.20"],
+            ["minimist", "npm:1.2.5"],
             ["prettier", "npm:2.0.5"],
+            ["ts-node", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:9.0.0"],
             ["typedoc", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:0.19.1"],
             ["typedoc-plugin-lerna-packages", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:0.3.1"],
             ["typescript", "patch:typescript@npm%3A3.9.7#builtin<compat/typescript>::version=3.9.7&hash=5b02a2"]
@@ -12954,6 +13018,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["ts-node", [
+        ["virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:9.0.0", {
+          "packageLocation": "./.yarn/$$virtual/ts-node-virtual-2121521a97/0/cache/ts-node-npm-9.0.0-7f58a021c2-49d2ab087f.zip/node_modules/ts-node/",
+          "packageDependencies": [
+            ["ts-node", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:9.0.0"],
+            ["arg", "npm:4.1.3"],
+            ["diff", "npm:4.0.2"],
+            ["make-error", "npm:1.3.6"],
+            ["source-map-support", "npm:0.5.19"],
+            ["typescript", "patch:typescript@npm%3A3.9.7#builtin<compat/typescript>::version=3.9.7&hash=5b02a2"],
+            ["yn", "npm:3.1.1"]
+          ],
+          "packagePeers": [
+            "typescript"
+          ],
+          "linkType": "HARD",
+        }],
         ["virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#npm:8.10.2", {
           "packageLocation": "./.yarn/$$virtual/ts-node-virtual-c40f4cb736/0/cache/ts-node-npm-8.10.2-b4fe5a56b0-cd6e023e07.zip/node_modules/ts-node/",
           "packageDependencies": [
