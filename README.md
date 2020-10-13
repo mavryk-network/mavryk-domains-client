@@ -9,9 +9,9 @@ _WARNING: This project is in beta. We welcome users and feedback, please be awar
 ### 1) Install `@tezos-domains/client` package
 
 ```
-yarn add @tezos-domains/client @tezos-domains/core
+yarn add @tezos-domains/client @tezos-domains/core @taquito/taquito
 --or--
-npm install @tezos-domains/client @tezos-domains/core
+npm install @tezos-domains/client @tezos-domains/core @taquito/taquito
 ```
 
 ### 2a) Use `resolver` to resolve names and addresses
@@ -19,12 +19,15 @@ npm install @tezos-domains/client @tezos-domains/core
 Example of resolving and address from domain name:
 
 ```ts
+import { TezosToolkit } from '@taquito/taquito';
 import { TezosDomainsClient } from '@tezos-domains/client';
 
 async function main() {
-    const client = new TezosDomainsClient({ network: 'carthagenet', caching: { enabled: true } });
+    const tezos = new TezosToolkit();
+    tezos.setRpcProvider('https://testnet-tezos.giganode.io');
+    const client = new TezosDomainsClient({ tezos, network: 'carthagenet', caching: { enabled: true } });
 
-    const address = await client.resolver.resolveAddress('alice.tez');
+    const address = await client.resolver.resolveAddress('bob.tez');
 
     console.log(address);
 }
@@ -39,13 +42,18 @@ Example of registering a domain:
 **NOTE**: registering a domain uses [commitment scheme](https://en.wikipedia.org/wiki/Commitment_scheme).
 
 ```ts
+import { InMemorySigner } from '@taquito/signer';
+import { TezosToolkit } from '@taquito/taquito';
 import { TezosDomainsClient } from '@tezos-domains/client';
-import { getTld, getLabel, DomainNameValidationResult } from '@tezos-domains/core';
+import { getTld, getLabel, DomainNameValidationResult, RecordMetadata } from '@tezos-domains/core';
 
 async function main() {
-    const client = new TezosDomainsClient({ network: 'carthagenet' });
+    const tezos = new TezosToolkit();
+    tezos.setRpcProvider('https://testnet-tezos.giganode.io');
+    tezos.setSignerProvider(new InMemorySigner('<your signing key>'));
+    const client = new TezosDomainsClient({ tezos, network: 'carthagenet' });
 
-    const name = 'necroskillz.tez';
+    const name = 'foobar.tez';
 
     // Validate the domain name syntax
     if (client.validator.validateDomainName(name) !== DomainNameValidationResult.VALID) {
@@ -53,7 +61,7 @@ async function main() {
     }
 
     // Check if the name is not taken already
-    const existing = await this.tezosDomains.resolver.resolve(name);
+    const existing = await client.resolver.resolve(name);
     if (existing) {
         throw new Error('Domain name taken.');
     }
@@ -72,11 +80,11 @@ async function main() {
     await commitOperation.confirmation();
 
     // Wait until commitment is usable (usually time between blocks)
-    const commitment = await this.tezosDomains.manager.getCommitment(tld, params);
+    const commitment = await client.manager.getCommitment(tld, params);
     await new Promise(resolve => setTimeout(() => resolve(), commitment.usableFrom.getTime() - Date.now()));
 
     // Final step - reveal and confirm the registration for specified duration in days
-    const buyOperation = await client.manager.buy(tld, { ...params, duration: 365 });
+    const buyOperation = await client.manager.buy(tld, { ...params, duration: 365, address: 'tz1VxMudmADssPp6FPDGRsvJXE41DD6i9g6n', data: new RecordMetadata() });
     await buyOperation.confirmation();
 
     console.log(`Domain ${name} has been registered.`);
