@@ -186,7 +186,7 @@ export class BlockchainDomainsManager implements DomainsManager {
             `<= Commitment found with timestamp ${commitment.toISOString()}. Based on TLDRegistrar it's usable from ${usableFrom.toISOString()} to ${usableUntil.toISOString()}.`
         );
 
-        return { usableFrom, usableUntil, created: commitment };
+        return new CommitmentInfo(commitment, usableFrom, usableUntil);
     }
 
     async getPrice(name: string, duration: number): Promise<number> {

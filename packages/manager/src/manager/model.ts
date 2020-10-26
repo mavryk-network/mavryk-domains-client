@@ -87,17 +87,31 @@ export class TLDRecord {
     @encoder(DateEncoder) expiration_date!: Date;
 }
 
-export interface CommitmentInfo {
-    /**
-     * Date and time when the commitment was created.
-     */
-    usableFrom: Date;
+export class CommitmentInfo {
     /**
      * Date and time when it becomes possible to buy the domain by the commitment sender
      */
-    usableUntil: Date;
+    get usableFrom(): Date {
+        return this._usableFrom;
+    }
+
     /**
      * Date and time when the commitment is expired and can no longer be used.
      */
-    created: Date;
+    get usableUntil(): Date {
+        return this._usableUntil;
+    }
+
+    /**
+     * Date and time when the commitment was created.
+     */
+    get created(): Date {
+        return this._created;
+    }
+
+    constructor(private _created: Date, private _usableFrom: Date, private _usableUntil: Date) {}
+
+    async waitUntilUsable(): Promise<void> {
+        await new Promise(resolve => setTimeout(() => resolve(), this._usableFrom.getTime() - Date.now()));
+    }
 }

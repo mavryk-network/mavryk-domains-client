@@ -15,7 +15,7 @@ import { mock, when, anyFunction, anything, instance, anyString, verify, anyOfCl
 import MockDate from 'mockdate';
 import BigNumber from 'bignumber.js';
 
-import { TLDRecord, CommitmentRequest } from './../../src/manager/model';
+import { TLDRecord, CommitmentRequest } from '../../src/manager/model';
 
 interface FakeTLDRegistrarStorage {
     store: {

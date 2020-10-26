@@ -81,7 +81,7 @@ async function main() {
 
     // Wait until commitment is usable (usually time between blocks)
     const commitment = await client.manager.getCommitment(tld, params);
-    await new Promise(resolve => setTimeout(() => resolve(), commitment.usableFrom.getTime() - Date.now()));
+    await commitment.waitUntilUsable();
 
     // Final step - reveal and confirm the registration for specified duration in days
     const buyOperation = await client.manager.buy(tld, { ...params, duration: 365, address: 'tz1VxMudmADssPp6FPDGRsvJXE41DD6i9g6n', data: new RecordMetadata() });

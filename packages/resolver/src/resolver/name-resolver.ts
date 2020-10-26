@@ -10,9 +10,10 @@ export interface NameResolver {
      *  - Associated contract: [NameRegistry](https://docs.tezos.domains/deployed-contracts)
      */
     resolve(name: string): Promise<DomainInfo | null>;
+
     /**
      * Resolves a domain name to an address.
-     * 
+     *
      * Throws an error under following conditions:
      *  - name is not a valid domain name
      *
@@ -30,18 +31,20 @@ export interface NameResolver {
      *  - Associated contract: [NameRegistry](https://docs.tezos.domains/deployed-contracts)
      */
     resolveAddress(name: string): Promise<string | null>;
+
     /**
      * Gets all information about a reverse record by it's address. If you only need to resolve the name, use [[`reverseResolveName`]] instead.
      *
      *  - Associated contract: [NameRegistry](https://docs.tezos.domains/deployed-contracts)
      */
     reverseResolve(address: string): Promise<ReverseRecordInfo | null>;
+
     /**
      * Resolves an address to a name.
      *
      * Throws an error under following conditions:
      *  - address is not a valid tezos address
-     * 
+     *
      * Returns null under following conditions:
      *  - reverse record with the specified address does not exist
      *  - reverse record with the specified address does not specify a name
@@ -57,6 +60,7 @@ export interface NameResolver {
      *  - Associated contract: [NameRegistry](https://docs.tezos.domains/deployed-contracts)
      */
     reverseResolveName(address: string): Promise<string | null>;
+
     /**
      * Clears the cache. Only applies if caching is enabled.
      */
