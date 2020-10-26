@@ -7,7 +7,7 @@ import { Tezos, TezosToolkit } from '@taquito/taquito';
 import { TezosClient, ConsoleTracer, NoopTracer, AddressBook, DomainNameValidator } from '@tezos-domains/core';
 import { BlockchainDomainsManager, CommitmentGenerator } from '@tezos-domains/manager';
 import { TezosDomainsClient, ClientConfig } from '@tezos-domains/client';
-import { BlockchainNameResolver, CachedNameResolver } from '@tezos-domains/resolver';
+import { BlockchainNameResolver, CachedNameResolver, NameNormalizingNameResolver } from '@tezos-domains/resolver';
 import { mock, instance, verify } from 'ts-mockito';
 
 describe('TezosDomainsClient', () => {
@@ -19,6 +19,7 @@ describe('TezosDomainsClient', () => {
     let commitmentGeneratorMock: CommitmentGenerator;
     let blockchainNameResolverMock: BlockchainNameResolver;
     let cachedNameResolverMock: CachedNameResolver;
+    let nameNormalizingNameResolver: NameNormalizingNameResolver;
     let domainNameValidator: DomainNameValidator;
 
     beforeEach(() => {
@@ -30,6 +31,7 @@ describe('TezosDomainsClient', () => {
         commitmentGeneratorMock = mock(CommitmentGenerator);
         blockchainNameResolverMock = mock(BlockchainNameResolver);
         cachedNameResolverMock = mock(CachedNameResolver);
+        nameNormalizingNameResolver = mock(NameNormalizingNameResolver);
         domainNameValidator = mock(DomainNameValidator);
 
         (TezosClient as jest.Mock).mockReturnValue(instance(tezosClientMock));
@@ -40,6 +42,7 @@ describe('TezosDomainsClient', () => {
         (CommitmentGenerator as jest.Mock).mockReturnValue(instance(commitmentGeneratorMock));
         (BlockchainNameResolver as jest.Mock).mockReturnValue(instance(blockchainNameResolverMock));
         (CachedNameResolver as jest.Mock).mockReturnValue(instance(cachedNameResolverMock));
+        (NameNormalizingNameResolver as jest.Mock).mockReturnValue(instance(nameNormalizingNameResolver));
         (DomainNameValidator as jest.Mock).mockReturnValue(instance(domainNameValidator));
     });
 
@@ -64,6 +67,7 @@ describe('TezosDomainsClient', () => {
                 instance(domainNameValidator)
             );
             expect(CachedNameResolver).not.toHaveBeenCalled();
+            expect(NameNormalizingNameResolver).toHaveBeenCalledWith(instance(blockchainNameResolverMock), instance(noopTracerMock));
         });
 
         it('should setup with custom config', () => {
@@ -96,6 +100,7 @@ describe('TezosDomainsClient', () => {
                 defaultRecordTtl: 50,
                 defaultReverseRecordTtl: 60,
             });
+            expect(NameNormalizingNameResolver).toHaveBeenCalledWith(instance(cachedNameResolverMock), instance(consoleTracerMock));
         });
 
         describe('setConfig()', () => {
@@ -103,12 +108,14 @@ describe('TezosDomainsClient', () => {
                 const client = new TezosDomainsClient();
 
                 const newManager = mock(BlockchainDomainsManager);
+                const newResolver = mock(NameNormalizingNameResolver);
                 (BlockchainDomainsManager as jest.Mock).mockReturnValue(instance(newManager));
+                (NameNormalizingNameResolver as jest.Mock).mockReturnValue(instance(newResolver));
 
                 client.setConfig({ caching: { enabled: true } });
 
                 expect(client.manager).toBe(instance(newManager));
-                expect(client.resolver).toBe(instance(cachedNameResolverMock));
+                expect(client.resolver).toBe(instance(newResolver));
             });
         });
     });
@@ -125,7 +132,7 @@ describe('TezosDomainsClient', () => {
         });
 
         it('should expose resolver', () => {
-            expect(client.resolver).toBe(instance(blockchainNameResolverMock));
+            expect(client.resolver).toBe(instance(nameNormalizingNameResolver));
         });
 
         it('should expose validator', () => {
@@ -137,16 +144,7 @@ describe('TezosDomainsClient', () => {
             it('should call clearCache() on the resolver', () => {
                 client.clearResolverCache();
 
-                verify(blockchainNameResolverMock.clearCache()).called();
-            });
-
-            // eslint-disable-next-line jest/expect-expect
-            it('should call clearCache() on the resolver (with caching)', () => {
-                client.setConfig({ caching: { enabled: true } });
-
-                client.clearResolverCache();
-
-                verify(cachedNameResolverMock.clearCache()).called();
+                verify(nameNormalizingNameResolver.clearCache()).called();
             });
         });
     });

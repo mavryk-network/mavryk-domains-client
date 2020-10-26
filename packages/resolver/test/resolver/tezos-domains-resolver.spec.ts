@@ -1,10 +1,11 @@
 jest.mock('@tezos-domains/core');
 jest.mock('../../src/resolver/blockchain-name-resolver');
 jest.mock('../../src/resolver/cached-name-resolver');
+jest.mock('../../src/resolver/name-normalizing-name-resolver');
 jest.mock('@taquito/taquito');
 
 import { TezosClient, ConsoleTracer, NoopTracer, AddressBook, DomainNameValidator } from '@tezos-domains/core';
-import { TezosDomainsResolver, BlockchainNameResolver, CachedNameResolver, ResolverConfig, DomainInfo, ReverseRecordInfo } from '@tezos-domains/resolver';
+import { TezosDomainsResolver, BlockchainNameResolver, CachedNameResolver, ResolverConfig, DomainInfo, ReverseRecordInfo, NameNormalizingNameResolver } from '@tezos-domains/resolver';
 import { mock, instance, when, anyString, verify } from 'ts-mockito';
 import { Tezos, TezosToolkit } from '@taquito/taquito';
 import FakePromise from 'fake-promise';
@@ -17,6 +18,7 @@ describe('TezosDomainsResolver', () => {
     let consoleTracerMock: ConsoleTracer;
     let blockchainNameResolverMock: BlockchainNameResolver;
     let cachedNameResolverMock: CachedNameResolver;
+    let nameNormalizingNameResolver: NameNormalizingNameResolver;
     let domainNameValidator: DomainNameValidator;
 
     beforeEach(() => {
@@ -26,6 +28,7 @@ describe('TezosDomainsResolver', () => {
         consoleTracerMock = mock(ConsoleTracer);
         blockchainNameResolverMock = mock(BlockchainNameResolver);
         cachedNameResolverMock = mock(CachedNameResolver);
+        nameNormalizingNameResolver = mock(NameNormalizingNameResolver);
         domainNameValidator = mock(DomainNameValidator);
 
         (TezosClient as jest.Mock).mockReturnValue(instance(tezosClientMock));
@@ -34,6 +37,7 @@ describe('TezosDomainsResolver', () => {
         (NoopTracer as jest.Mock).mockReturnValue(instance(noopTracerMock));
         (BlockchainNameResolver as jest.Mock).mockReturnValue(instance(blockchainNameResolverMock));
         (CachedNameResolver as jest.Mock).mockReturnValue(instance(cachedNameResolverMock));
+        (NameNormalizingNameResolver as jest.Mock).mockReturnValue(instance(nameNormalizingNameResolver));
         (DomainNameValidator as jest.Mock).mockReturnValue(instance(domainNameValidator));
     });
 
@@ -45,6 +49,7 @@ describe('TezosDomainsResolver', () => {
             expect(AddressBook).toHaveBeenCalledWith(instance(tezosClientMock), undefined);
             expect(BlockchainNameResolver).toHaveBeenCalledWith(instance(tezosClientMock), instance(addressBookMock), instance(noopTracerMock), instance(domainNameValidator));
             expect(CachedNameResolver).not.toHaveBeenCalled();
+            expect(NameNormalizingNameResolver).toHaveBeenCalledWith(instance(blockchainNameResolverMock), instance(noopTracerMock));
         });
 
         it('should setup with custom config', () => {
@@ -64,6 +69,7 @@ describe('TezosDomainsResolver', () => {
                 defaultRecordTtl: 50,
                 defaultReverseRecordTtl: 60,
             });
+            expect(NameNormalizingNameResolver).toHaveBeenCalledWith(instance(cachedNameResolverMock), instance(consoleTracerMock));
         });
     });
 
@@ -84,14 +90,10 @@ describe('TezosDomainsResolver', () => {
             record = { address: 'tz1xxx' } as DomainInfo;
             reverseRecord = { name: 'rr.tez' } as ReverseRecordInfo;
 
-            when(blockchainNameResolverMock.resolve(anyString())).thenReturn(resolve);
-            when(blockchainNameResolverMock.resolveAddress(anyString())).thenReturn(resolveAddress);
-            when(blockchainNameResolverMock.reverseResolve(anyString())).thenReturn(reverseResolve);
-            when(blockchainNameResolverMock.reverseResolveName(anyString())).thenReturn(reverseResolveName);
-            when(cachedNameResolverMock.resolve(anyString())).thenReturn(resolve);
-            when(cachedNameResolverMock.resolveAddress(anyString())).thenReturn(resolveAddress);
-            when(cachedNameResolverMock.reverseResolve(anyString())).thenReturn(reverseResolve);
-            when(cachedNameResolverMock.reverseResolveName(anyString())).thenReturn(reverseResolveName);
+            when(nameNormalizingNameResolver.resolve(anyString())).thenReturn(resolve);
+            when(nameNormalizingNameResolver.resolveAddress(anyString())).thenReturn(resolveAddress);
+            when(nameNormalizingNameResolver.reverseResolve(anyString())).thenReturn(reverseResolve);
+            when(nameNormalizingNameResolver.reverseResolveName(anyString())).thenReturn(reverseResolveName);
 
             resolver = new TezosDomainsResolver();
         });
@@ -100,19 +102,7 @@ describe('TezosDomainsResolver', () => {
             it('should call actual resolver', async () => {
                 const address = resolver.resolve('necroskillz.tez');
 
-                verify(blockchainNameResolverMock.resolve('necroskillz.tez'));
-
-                resolve.resolve(record);
-
-                await expect(address).resolves.toBe(record);
-            });
-
-            it('should call actual resolver (with caching)', async () => {
-                resolver = new TezosDomainsResolver({ caching: { enabled: true } });
-
-                const address = resolver.resolve('necroskillz.tez');
-
-                verify(cachedNameResolverMock.resolve('necroskillz.tez'));
+                verify(nameNormalizingNameResolver.resolve('necroskillz.tez'));
 
                 resolve.resolve(record);
 
@@ -124,19 +114,7 @@ describe('TezosDomainsResolver', () => {
             it('should call actual resolver', async () => {
                 const address = resolver.resolveAddress('necroskillz.tez');
 
-                verify(blockchainNameResolverMock.resolveAddress('necroskillz.tez'));
-
-                resolveAddress.resolve('tz1xxx');
-
-                await expect(address).resolves.toBe('tz1xxx');
-            });
-
-            it('should call actual resolver (with caching)', async () => {
-                resolver = new TezosDomainsResolver({ caching: { enabled: true } });
-
-                const address = resolver.resolveAddress('necroskillz.tez');
-
-                verify(cachedNameResolverMock.resolve('necroskillz.tez'));
+                verify(nameNormalizingNameResolver.resolveAddress('necroskillz.tez'));
 
                 resolveAddress.resolve('tz1xxx');
 
@@ -148,19 +126,7 @@ describe('TezosDomainsResolver', () => {
             it('should call actual resolver', async () => {
                 const address = resolver.reverseResolve('tz1xxx');
 
-                verify(blockchainNameResolverMock.reverseResolve('tz1xxx'));
-
-                reverseResolve.resolve(reverseRecord);
-
-                await expect(address).resolves.toBe(reverseRecord);
-            });
-
-            it('should call actual resolver (with caching)', async () => {
-                resolver = new TezosDomainsResolver({ caching: { enabled: true } });
-
-                const address = resolver.reverseResolve('tz1xxx');
-
-                verify(cachedNameResolverMock.reverseResolve('tz1xxx'));
+                verify(nameNormalizingNameResolver.reverseResolve('tz1xxx'));
 
                 reverseResolve.resolve(reverseRecord);
 
@@ -172,19 +138,7 @@ describe('TezosDomainsResolver', () => {
             it('should call actual resolver', async () => {
                 const address = resolver.reverseResolveName('tz1xxx');
 
-                verify(blockchainNameResolverMock.reverseResolveName('tz1xxx'));
-
-                reverseResolveName.resolve('necroskillz.tez');
-
-                await expect(address).resolves.toBe('necroskillz.tez');
-            });
-
-            it('should call actual resolver (with caching)', async () => {
-                resolver = new TezosDomainsResolver({ caching: { enabled: true } });
-
-                const address = resolver.reverseResolveName('tz1xxx');
-
-                verify(cachedNameResolverMock.reverseResolveName('tz1xxx'));
+                verify(nameNormalizingNameResolver.reverseResolveName('tz1xxx'));
 
                 reverseResolveName.resolve('necroskillz.tez');
 
@@ -197,16 +151,7 @@ describe('TezosDomainsResolver', () => {
             it('should call actual resolver', () => {
                 resolver.clearCache();
 
-                verify(blockchainNameResolverMock.clearCache()).called();
-            });
-
-            // eslint-disable-next-line jest/expect-expect
-            it('should call actual resolver (with caching)', () => {
-                resolver = new TezosDomainsResolver({ caching: { enabled: true } });
-
-                resolver.clearCache();
-
-                verify(cachedNameResolverMock.clearCache()).called();
+                verify(nameNormalizingNameResolver.clearCache()).called();
             });
         });
     });

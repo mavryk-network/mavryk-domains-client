@@ -5,6 +5,7 @@ import { NameResolver } from './name-resolver';
 import { BlockchainNameResolver } from './blockchain-name-resolver';
 import { CachedNameResolver } from './cached-name-resolver';
 import { DomainInfo, ReverseRecordInfo } from './model';
+import { NameNormalizingNameResolver } from './name-normalizing-name-resolver';
 
 export type CachingConfig = { enabled: boolean; defaultRecordTtl?: number; defaultReverseRecordTtl?: number };
 
@@ -29,6 +30,8 @@ export class TezosDomainsResolver implements NameResolver {
         } else {
             this.resolver = blockchainResolver;
         }
+
+        this.resolver = new NameNormalizingNameResolver(this.resolver, tracer);
     }
 
     async resolve(name: string): Promise<DomainInfo | null> {

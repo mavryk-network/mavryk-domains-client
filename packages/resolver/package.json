@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@tezos-domains/core": "^1.0.0-beta.13",
+    "idna-uts46-hx": "^3.3.0",
     "node-cache": "^5.1.2"
   },
   "devDependencies": {

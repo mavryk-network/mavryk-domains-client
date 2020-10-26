@@ -10,7 +10,8 @@ describe('Tracer', () => {
         beforeEach(() => {
             consoleSpy = jest.spyOn(global.console, 'debug').mockImplementation(void 0);
 
-            MockDate.set(new Date(new Date(2020, 9, 11, 20, 10, 35).getTime() - new Date().getTimezoneOffset() * 60000));
+            const date = new Date(2020, 9, 11, 20, 10, 35);
+            MockDate.set(new Date(date.getTime() - date.getTimezoneOffset() * 60000));
 
             tracer = new ConsoleTracer();
         });

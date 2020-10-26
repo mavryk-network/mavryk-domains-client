@@ -1,5 +1,5 @@
 import { ManagerConfig, DomainsManager, CommitmentGenerator, BlockchainDomainsManager } from '@tezos-domains/manager';
-import { ResolverConfig, NameResolver, BlockchainNameResolver, CachedNameResolver } from '@tezos-domains/resolver';
+import { ResolverConfig, NameResolver, BlockchainNameResolver, CachedNameResolver, NameNormalizingNameResolver } from '@tezos-domains/resolver';
 import { TezosClient, AddressBook, ConsoleTracer, NoopTracer, DomainNameValidator } from '@tezos-domains/core';
 import { Tezos } from '@taquito/taquito';
 
@@ -68,6 +68,8 @@ export class TezosDomainsClient {
         } else {
             this._resolver = blockchainResolver;
         }
+
+        this._resolver = new NameNormalizingNameResolver(this._resolver, tracer);
     }
 
     /**
