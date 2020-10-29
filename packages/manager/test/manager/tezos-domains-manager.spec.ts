@@ -6,7 +6,7 @@ jest.mock('@taquito/taquito');
 import { TezosClient, ConsoleTracer, NoopTracer, AddressBook } from '@tezos-domains/core';
 import { TezosDomainsManager, BlockchainDomainsManager, CommitmentGenerator, ManagerConfig } from '@tezos-domains/manager';
 import { mock, instance, when } from 'ts-mockito';
-import { Tezos, TezosToolkit, TransactionWalletOperation } from '@taquito/taquito';
+import { TezosToolkit, TransactionWalletOperation } from '@taquito/taquito';
 
 describe('TezosDomainsManager', () => {
     let manager: TezosDomainsManager;
@@ -18,6 +18,7 @@ describe('TezosDomainsManager', () => {
     let commitmentGeneratorMock: CommitmentGenerator;
     let data: any;
     let operation: TransactionWalletOperation;
+    let tezosToolkitMock: TezosToolkit;
 
     beforeEach(() => {
         tezosClientMock = mock(TezosClient);
@@ -27,6 +28,7 @@ describe('TezosDomainsManager', () => {
         blockchainDomainsManagerMock = mock(BlockchainDomainsManager);
         commitmentGeneratorMock = mock(CommitmentGenerator);
         operation = mock(TransactionWalletOperation);
+        tezosToolkitMock = mock(TezosToolkit);
 
         data = { a: 1 };
 
@@ -40,11 +42,12 @@ describe('TezosDomainsManager', () => {
 
     describe('config', () => {
         it('should setup with default config', () => {
-            new TezosDomainsManager();
+            const config = { tezos: instance(tezosToolkitMock) };
+            new TezosDomainsManager(config);
 
-            expect(TezosClient).toHaveBeenCalledWith(Tezos, instance(noopTracerMock));
-            expect(AddressBook).toHaveBeenCalledWith(instance(tezosClientMock), undefined);
-            expect(CommitmentGenerator).toHaveBeenCalledWith(Tezos);
+            expect(TezosClient).toHaveBeenCalledWith(instance(tezosToolkitMock), instance(noopTracerMock));
+            expect(AddressBook).toHaveBeenCalledWith(instance(tezosClientMock), config);
+            expect(CommitmentGenerator).toHaveBeenCalledWith(instance(tezosToolkitMock));
             expect(BlockchainDomainsManager).toHaveBeenCalledWith(
                 instance(tezosClientMock),
                 instance(addressBookMock),
@@ -54,17 +57,16 @@ describe('TezosDomainsManager', () => {
         });
 
         it('should setup with custom config', () => {
-            const customTezosToolkit = mock(TezosToolkit);
             const config: ManagerConfig = {
-                tezos: instance(customTezosToolkit),
+                tezos: instance(tezosToolkitMock),
                 network: 'delphinet',
                 tracing: true,
             };
             new TezosDomainsManager(config);
 
-            expect(TezosClient).toHaveBeenCalledWith(instance(customTezosToolkit), instance(consoleTracerMock));
+            expect(TezosClient).toHaveBeenCalledWith(instance(tezosToolkitMock), instance(consoleTracerMock));
             expect(AddressBook).toHaveBeenCalledWith(instance(tezosClientMock), config);
-            expect(CommitmentGenerator).toHaveBeenCalledWith(instance(customTezosToolkit));
+            expect(CommitmentGenerator).toHaveBeenCalledWith(instance(tezosToolkitMock));
             expect(BlockchainDomainsManager).toHaveBeenCalledWith(
                 instance(tezosClientMock),
                 instance(addressBookMock),
@@ -76,7 +78,7 @@ describe('TezosDomainsManager', () => {
 
     describe('functionality', () => {
         beforeEach(() => {
-            manager = new TezosDomainsManager();
+            manager = new TezosDomainsManager({ tezos: instance(tezosToolkitMock) });
         });
 
         describe('setChildRecord()', () => {

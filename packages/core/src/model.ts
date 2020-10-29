@@ -15,17 +15,17 @@ export enum SmartContractType {
 }
 
 export type CommonConfig = {
-    tezos?: TezosToolkit;
+    tezos: TezosToolkit;
     tracing?: boolean;
 };
 
 export type TLDConfig = {
-    name: string,
+    name: string;
     validator: DomainNameValidatorFn;
-}
+};
 
-export type CustomNetworkConfig = { network?: 'custom'; contractAddresses: ContractConfig, tlds: TLDConfig[] } & CommonConfig;
-export type DefaultNetworkConfig = { network?: 'mainnet' | 'carthagenet' | 'delphinet'; contractAddresses?: ContractConfig, tlds?: TLDConfig[] } & CommonConfig;
+export type CustomNetworkConfig = { network?: 'custom'; contractAddresses: ContractConfig; tlds: TLDConfig[] } & CommonConfig;
+export type DefaultNetworkConfig = { network?: 'mainnet' | 'carthagenet' | 'delphinet'; contractAddresses?: ContractConfig; tlds?: TLDConfig[] } & CommonConfig;
 
 export type TezosDomainsConfig = DefaultNetworkConfig | CustomNetworkConfig;
 
@@ -54,8 +54,11 @@ export interface TLDRegistrarStorage {
     store: {
         records: BigMapAbstraction;
         commitments: BigMapAbstraction;
+        bidder_balances: BigMapAbstraction;
+        auctions: BigMapAbstraction;
         owner: string;
-        config: MichelsonMap<string, any>
+        enabled: boolean;
+        config: MichelsonMap<string, any>;
     };
     trusted_senders: string[];
 }

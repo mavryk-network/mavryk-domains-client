@@ -1,4 +1,4 @@
-import { Tezos, TransactionWalletOperation } from '@taquito/taquito';
+import { TransactionWalletOperation } from '@taquito/taquito';
 import { TezosDomainsConfig, TezosClient, AddressBook, ConsoleTracer, NoopTracer, Exact } from '@tezos-domains/core';
 
 import { BlockchainDomainsManager } from './blockchain-domains-manager';
@@ -23,10 +23,10 @@ export type ManagerConfig = TezosDomainsConfig;
 export class TezosDomainsManager implements DomainsManager {
     private manager: DomainsManager;
 
-    constructor(config?: ManagerConfig) {
-        const tracer = config?.tracing ? new ConsoleTracer() : new NoopTracer();
-        const tezosToolkit = config?.tezos || Tezos;
-        const tezos = new TezosClient(config?.tezos || Tezos, tracer);
+    constructor(config: ManagerConfig) {
+        const tracer = config.tracing ? new ConsoleTracer() : new NoopTracer();
+        const tezosToolkit = config.tezos;
+        const tezos = new TezosClient(config.tezos, tracer);
         const addressBook = new AddressBook(tezos, config);
         const commitmentGenerator = new CommitmentGenerator(tezosToolkit);
         this.manager = new BlockchainDomainsManager(tezos, addressBook, tracer, commitmentGenerator);

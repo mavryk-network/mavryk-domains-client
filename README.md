@@ -23,8 +23,7 @@ import { TezosToolkit } from '@taquito/taquito';
 import { TezosDomainsClient } from '@tezos-domains/client';
 
 async function main() {
-    const tezos = new TezosToolkit();
-    tezos.setRpcProvider('https://delphinet-tezos.giganode.io/');
+    const tezos = new TezosToolkit('https://delphinet-tezos.giganode.io/');
     const client = new TezosDomainsClient({ tezos, network: 'delphinet', caching: { enabled: true } });
 
     const address = await client.resolver.resolveNameToAddress('bob.tez');
@@ -48,8 +47,7 @@ import { TezosDomainsClient } from '@tezos-domains/client';
 import { getTld, getLabel, DomainNameValidationResult, RecordMetadata } from '@tezos-domains/core';
 
 async function main() {
-    const tezos = new TezosToolkit();
-    tezos.setRpcProvider('https://delphinet-tezos.giganode.io/');
+    const tezos = new TezosToolkit('https://delphinet-tezos.giganode.io/');
     tezos.setSignerProvider(new InMemorySigner('<your signing key>'));
     const client = new TezosDomainsClient({ tezos, network: 'delphinet' });
 

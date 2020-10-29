@@ -3,7 +3,7 @@ jest.mock('@tezos-domains/resolver');
 jest.mock('@tezos-domains/manager');
 jest.mock('@taquito/taquito');
 
-import { Tezos, TezosToolkit } from '@taquito/taquito';
+import { TezosToolkit } from '@taquito/taquito';
 import { TezosClient, ConsoleTracer, NoopTracer, AddressBook, DomainNameValidator } from '@tezos-domains/core';
 import { BlockchainDomainsManager, CommitmentGenerator } from '@tezos-domains/manager';
 import { TezosDomainsClient, ClientConfig } from '@tezos-domains/client';
@@ -21,6 +21,7 @@ describe('TezosDomainsClient', () => {
     let cachedNameResolverMock: CachedNameResolver;
     let nameNormalizingNameResolver: NameNormalizingNameResolver;
     let domainNameValidator: DomainNameValidator;
+    let tezosToolkitMock: TezosToolkit;
 
     beforeEach(() => {
         tezosClientMock = mock(TezosClient);
@@ -33,6 +34,7 @@ describe('TezosDomainsClient', () => {
         cachedNameResolverMock = mock(CachedNameResolver);
         nameNormalizingNameResolver = mock(NameNormalizingNameResolver);
         domainNameValidator = mock(DomainNameValidator);
+        tezosToolkitMock = mock(TezosToolkit);
 
         (TezosClient as jest.Mock).mockReturnValue(instance(tezosClientMock));
         (AddressBook as jest.Mock).mockReturnValue(instance(addressBookMock));
@@ -48,11 +50,12 @@ describe('TezosDomainsClient', () => {
 
     describe('config', () => {
         it('should setup with default config', () => {
-            new TezosDomainsClient();
+            const config = { tezos: instance(tezosToolkitMock) };
+            new TezosDomainsClient(config);
 
-            expect(TezosClient).toHaveBeenCalledWith(Tezos, instance(noopTracerMock));
-            expect(AddressBook).toHaveBeenCalledWith(instance(tezosClientMock), undefined);
-            expect(CommitmentGenerator).toHaveBeenCalledWith(Tezos);
+            expect(TezosClient).toHaveBeenCalledWith(instance(tezosToolkitMock), instance(noopTracerMock));
+            expect(AddressBook).toHaveBeenCalledWith(instance(tezosClientMock), config);
+            expect(CommitmentGenerator).toHaveBeenCalledWith(instance(tezosToolkitMock));
             expect(BlockchainDomainsManager).toHaveBeenCalledWith(
                 instance(tezosClientMock),
                 instance(addressBookMock),
@@ -71,18 +74,17 @@ describe('TezosDomainsClient', () => {
         });
 
         it('should setup with custom config', () => {
-            const customTezosToolkit = mock(TezosToolkit);
             const config: ClientConfig = {
-                tezos: instance(customTezosToolkit),
+                tezos: instance(tezosToolkitMock),
                 network: 'delphinet',
                 tracing: true,
                 caching: { enabled: true, defaultRecordTtl: 50, defaultReverseRecordTtl: 60 },
             };
             new TezosDomainsClient(config);
 
-            expect(TezosClient).toHaveBeenCalledWith(instance(customTezosToolkit), instance(consoleTracerMock));
+            expect(TezosClient).toHaveBeenCalledWith(instance(tezosToolkitMock), instance(consoleTracerMock));
             expect(AddressBook).toHaveBeenCalledWith(instance(tezosClientMock), config);
-            expect(CommitmentGenerator).toHaveBeenCalledWith(instance(customTezosToolkit));
+            expect(CommitmentGenerator).toHaveBeenCalledWith(instance(tezosToolkitMock));
             expect(BlockchainDomainsManager).toHaveBeenCalledWith(
                 instance(tezosClientMock),
                 instance(addressBookMock),
@@ -105,14 +107,14 @@ describe('TezosDomainsClient', () => {
 
         describe('setConfig()', () => {
             it('should recreate parts', () => {
-                const client = new TezosDomainsClient();
+                const client = new TezosDomainsClient({ tezos: instance(tezosToolkitMock) });
 
                 const newManager = mock(BlockchainDomainsManager);
                 const newResolver = mock(NameNormalizingNameResolver);
                 (BlockchainDomainsManager as jest.Mock).mockReturnValue(instance(newManager));
                 (NameNormalizingNameResolver as jest.Mock).mockReturnValue(instance(newResolver));
 
-                client.setConfig({ caching: { enabled: true } });
+                client.setConfig({ tezos: instance(tezosToolkitMock), caching: { enabled: true } });
 
                 expect(client.manager).toBe(instance(newManager));
                 expect(client.resolver).toBe(instance(newResolver));
@@ -124,7 +126,7 @@ describe('TezosDomainsClient', () => {
         let client: TezosDomainsClient;
 
         beforeEach(() => {
-            client = new TezosDomainsClient();
+            client = new TezosDomainsClient({ tezos: instance(tezosToolkitMock) });
         });
 
         it('should expose manager', () => {

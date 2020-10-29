@@ -7,7 +7,7 @@ jest.mock('@taquito/taquito');
 import { TezosClient, ConsoleTracer, NoopTracer, AddressBook, DomainNameValidator } from '@tezos-domains/core';
 import { TezosDomainsResolver, BlockchainNameResolver, CachedNameResolver, ResolverConfig, DomainInfo, ReverseRecordInfo, NameNormalizingNameResolver } from '@tezos-domains/resolver';
 import { mock, instance, when, anyString, verify } from 'ts-mockito';
-import { Tezos, TezosToolkit } from '@taquito/taquito';
+import { TezosToolkit } from '@taquito/taquito';
 import FakePromise from 'fake-promise';
 
 describe('TezosDomainsResolver', () => {
@@ -20,6 +20,7 @@ describe('TezosDomainsResolver', () => {
     let cachedNameResolverMock: CachedNameResolver;
     let nameNormalizingNameResolver: NameNormalizingNameResolver;
     let domainNameValidator: DomainNameValidator;
+    let tezosToolkitMock: TezosToolkit;
 
     beforeEach(() => {
         tezosClientMock = mock(TezosClient);
@@ -30,6 +31,7 @@ describe('TezosDomainsResolver', () => {
         cachedNameResolverMock = mock(CachedNameResolver);
         nameNormalizingNameResolver = mock(NameNormalizingNameResolver);
         domainNameValidator = mock(DomainNameValidator);
+        tezosToolkitMock = mock(TezosToolkit);
 
         (TezosClient as jest.Mock).mockReturnValue(instance(tezosClientMock));
         (AddressBook as jest.Mock).mockReturnValue(instance(addressBookMock));
@@ -43,26 +45,26 @@ describe('TezosDomainsResolver', () => {
 
     describe('config', () => {
         it('should setup with default config', () => {
-            new TezosDomainsResolver();
+            const config = { tezos: instance(tezosToolkitMock) };
+            new TezosDomainsResolver(config);
 
-            expect(TezosClient).toHaveBeenCalledWith(Tezos, instance(noopTracerMock));
-            expect(AddressBook).toHaveBeenCalledWith(instance(tezosClientMock), undefined);
+            expect(TezosClient).toHaveBeenCalledWith(instance(tezosToolkitMock), instance(noopTracerMock));
+            expect(AddressBook).toHaveBeenCalledWith(instance(tezosClientMock), config);
             expect(BlockchainNameResolver).toHaveBeenCalledWith(instance(tezosClientMock), instance(addressBookMock), instance(noopTracerMock), instance(domainNameValidator));
             expect(CachedNameResolver).not.toHaveBeenCalled();
             expect(NameNormalizingNameResolver).toHaveBeenCalledWith(instance(blockchainNameResolverMock), instance(noopTracerMock));
         });
 
         it('should setup with custom config', () => {
-            const customTezosToolkit = mock(TezosToolkit);
             const config: ResolverConfig = {
-                tezos: instance(customTezosToolkit),
+                tezos: instance(tezosToolkitMock),
                 network: 'delphinet',
                 tracing: true,
                 caching: { enabled: true, defaultRecordTtl: 50, defaultReverseRecordTtl: 60 },
             };
             new TezosDomainsResolver(config);
 
-            expect(TezosClient).toHaveBeenCalledWith(instance(customTezosToolkit), instance(consoleTracerMock));
+            expect(TezosClient).toHaveBeenCalledWith(instance(tezosToolkitMock), instance(consoleTracerMock));
             expect(AddressBook).toHaveBeenCalledWith(instance(tezosClientMock), config);
             expect(BlockchainNameResolver).toHaveBeenCalledWith(instance(tezosClientMock), instance(addressBookMock), instance(consoleTracerMock), instance(domainNameValidator));
             expect(CachedNameResolver).toHaveBeenCalledWith(instance(blockchainNameResolverMock), instance(consoleTracerMock), {
@@ -95,7 +97,7 @@ describe('TezosDomainsResolver', () => {
             when(nameNormalizingNameResolver.resolveReverseRecord(anyString())).thenReturn(resolveReverseRecord);
             when(nameNormalizingNameResolver.resolveAddressToName(anyString())).thenReturn(resolveAddressToName);
 
-            resolver = new TezosDomainsResolver();
+            resolver = new TezosDomainsResolver({ tezos: instance(tezosToolkitMock) });
         });
 
         describe('resolveDomainRecord()', () => {

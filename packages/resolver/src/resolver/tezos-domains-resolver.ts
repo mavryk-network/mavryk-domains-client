@@ -1,4 +1,3 @@
-import { Tezos } from '@taquito/taquito';
 import { TezosDomainsConfig, TezosClient, AddressBook, ConsoleTracer, NoopTracer, DomainNameValidator } from '@tezos-domains/core';
 
 import { NameResolver } from './name-resolver';
@@ -16,13 +15,13 @@ export type ResolverConfig = TezosDomainsConfig & {
 export class TezosDomainsResolver implements NameResolver {
     private resolver: NameResolver;
 
-    constructor(config?: ResolverConfig) {
-        const tracer = config?.tracing ? new ConsoleTracer() : new NoopTracer();
-        const tezos = new TezosClient(config?.tezos || Tezos, tracer);
+    constructor(config: ResolverConfig) {
+        const tracer = config.tracing ? new ConsoleTracer() : new NoopTracer();
+        const tezos = new TezosClient(config.tezos, tracer);
         const addressBook = new AddressBook(tezos, config);
         const validator = new DomainNameValidator(config);
         const blockchainResolver = new BlockchainNameResolver(tezos, addressBook, tracer, validator);
-        if (config?.caching) {
+        if (config.caching) {
             this.resolver = new CachedNameResolver(blockchainResolver, tracer, {
                 defaultRecordTtl: config.caching.defaultRecordTtl || 600,
                 defaultReverseRecordTtl: config.caching.defaultReverseRecordTtl || 600,

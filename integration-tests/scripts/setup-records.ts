@@ -14,9 +14,8 @@ import { FaucetWallet, CONFIG, DATA } from '../data';
 let client: TezosDomainsClient;
 
 async function setTezos(wallet: FaucetWallet | 'admin') {
-    const tezos = new TezosToolkit();
+    const tezos = new TezosToolkit(CONFIG.rpcUrl);
     tezos.setProvider({
-        rpc: CONFIG.rpcUrl,
         config: {
             confirmationPollingIntervalSecond: 5,
         },

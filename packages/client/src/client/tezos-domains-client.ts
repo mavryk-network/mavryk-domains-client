@@ -1,7 +1,6 @@
 import { ManagerConfig, DomainsManager, CommitmentGenerator, BlockchainDomainsManager } from '@tezos-domains/manager';
 import { ResolverConfig, NameResolver, BlockchainNameResolver, CachedNameResolver, NameNormalizingNameResolver } from '@tezos-domains/resolver';
 import { TezosClient, AddressBook, ConsoleTracer, NoopTracer, DomainNameValidator } from '@tezos-domains/core';
-import { Tezos } from '@taquito/taquito';
 
 export type ClientConfig = ManagerConfig & ResolverConfig;
 
@@ -42,17 +41,17 @@ export class TezosDomainsClient {
      * const tezosDomains = new TezosDomainsClient({ network: 'delphinet', caching: { enabled: true } });
      * ```
      */
-    constructor(config?: ClientConfig) {
+    constructor(config: ClientConfig) {
         this.setConfig(config);
     }
 
     /**
      * Sets a new configuration for this instance. All components are recreated with the new `config`.
      */
-    setConfig(config?: ClientConfig): void {
-        const tracer = config?.tracing ? new ConsoleTracer() : new NoopTracer();
-        const tezosToolkit = config?.tezos || Tezos;
-        const tezos = new TezosClient(config?.tezos || Tezos, tracer);
+    setConfig(config: ClientConfig): void {
+        const tracer = config.tracing ? new ConsoleTracer() : new NoopTracer();
+        const tezosToolkit = config.tezos;
+        const tezos = new TezosClient(config.tezos, tracer);
         const addressBook = new AddressBook(tezos, config);
         const commitmentGenerator = new CommitmentGenerator(tezosToolkit);
 
@@ -60,7 +59,7 @@ export class TezosDomainsClient {
         this._manager = new BlockchainDomainsManager(tezos, addressBook, tracer, commitmentGenerator);
 
         const blockchainResolver = new BlockchainNameResolver(tezos, addressBook, tracer, this._validator);
-        if (config?.caching) {
+        if (config.caching) {
             this._resolver = new CachedNameResolver(blockchainResolver, tracer, {
                 defaultRecordTtl: config.caching.defaultRecordTtl || 600,
                 defaultReverseRecordTtl: config.caching.defaultReverseRecordTtl || 600,

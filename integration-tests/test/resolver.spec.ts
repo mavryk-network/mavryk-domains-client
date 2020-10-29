@@ -16,8 +16,7 @@ describe('resolver', () => {
     beforeAll(() => {
         jest.setTimeout(30 * 60 * 1000);
 
-        const tezos = new TezosToolkit();
-        tezos.setRpcProvider(CONFIG.rpcUrl);
+        const tezos = new TezosToolkit(CONFIG.rpcUrl);
 
         client = new TezosDomainsClient({
             network: CONFIG.network,
@@ -58,6 +57,7 @@ describe('resolver', () => {
         ];
 
         TEST_CASES.forEach(t => {
+            // eslint-disable-next-line jest/valid-title
             it(t.description, async () => {
                 const address = await client.resolver.resolveNameToAddress(t.from);
 
@@ -93,6 +93,7 @@ describe('resolver', () => {
         ];
 
         TEST_CASES.forEach(t => {
+            // eslint-disable-next-line jest/valid-title
             it(t.description, async () => {
                 const name = await client.resolver.resolveAddressToName(t.from);
 

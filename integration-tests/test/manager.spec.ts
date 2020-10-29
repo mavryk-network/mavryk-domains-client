@@ -15,8 +15,7 @@ if (CONFIG.network !== 'carthagenet') {
 
         beforeAll(() => {
             jest.setTimeout(30 * 60 * 1000);
-            const tezos = new TezosToolkit();
-            tezos.setRpcProvider(CONFIG.rpcUrl);
+            const tezos = new TezosToolkit(CONFIG.rpcUrl);
 
             client = new TezosDomainsClient({ network: CONFIG.network, tezos });
         });
