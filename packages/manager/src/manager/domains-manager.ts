@@ -83,16 +83,71 @@ export interface DomainsManager {
     updateReverseRecord(request: Exact<UpdateReverseRecordRequest>): Promise<TransactionWalletOperation>;
 
     /**
-     * Gets information about an existing commitment created via [[`commit`]].
+     * Gets the information about an existing commitment created via [[`commit`]].
      *
      * @param tld The name of the top level domain (e.g. `tez`).
      */
     getCommitment(tld: string, request: Exact<CommitmentRequest>): Promise<CommitmentInfo | null>;
 
+    /**
+     * Gets the information about how domain can be acquired.
+     *
+     * Possible states are:
+     *  - `Unobtainable` - TLD is disabled or auctions weren't launched yet
+     *  - `Taken` - The domain is already owned by someone
+     *  - `CanBeAuctioned` - An auction for this domain can be started
+     *  - `AuctionInProgress` - An auction for this domain is in progress (at least 1 bid has been placed)
+     *  - `CanBeSettled` - An auction for this domain has ended and the owner of the winning bid can claim it
+     *  - `CanBeBought` - This domain can be bought directly
+     *
+     * The return value of this method also contains additional information about auction or buy/renewal
+     * where applicable.
+     *
+     * @param name The name of the domain (e.g. `alice.tez`)
+     */
     getAcquisitionInfo(name: string): Promise<DomainAcquisitionInfo>;
+
+    /**
+     * Gets so called 'bidder balance' of the specified address.
+     *
+     * When a bid is placed in an auction and then outbid by another bid, the former bid amount is stored in the contract
+     * under it's senders address. The original bidder can then use this balance for another bid, or withdraw it by calling
+     * [[`withdraw`]].
+     *
+     * @param tld The name of the top level domain (e.g. `tez`).
+     * @param address The address for which to get the balance.
+     */
     getBidderBalance(tld: string, address: string): Promise<number | null>;
 
+    /**
+     * Placed a bid on the specified domain label in an auction.
+     *
+     *  - Associated contract: [TLDRegistrar.Bid](https://docs.tezos.domains/deployed-contracts)
+     *  - Associated endpoint: `bid`
+     *
+     * @param tld The name of the top level domain (e.g. `tez`).
+     */
     bid(tld: string, request: Exact<BidRequest>): Promise<TransactionWalletOperation>;
+
+    /**
+     * Claims the specified domain after an auction was won.
+     *
+     *  - Associated contract: [TLDRegistrar.Settle](https://docs.tezos.domains/deployed-contracts)
+     *  - Associated endpoint: `settle`
+     *
+     * @param tld The name of the top level domain (e.g. `tez`).
+     */
     settle(tld: string, request: Exact<SettleRequest>): Promise<TransactionWalletOperation>;
+
+    /**
+     * Withdraws all funds stored in the contract under the senders balance (see [[`getBidderBalance`]]) and
+     * sends them to the specified recipient address.
+     *
+     *  - Associated contract: [TLDRegistrar.Withdraw](https://docs.tezos.domains/deployed-contracts)
+     *  - Associated endpoint: `withdraw`
+     *
+     * @param tld The name of the top level domain (e.g. `tez`).
+     * @param recipient The address of the recipient of the withdrawn funds.
+     */
     withdraw(tld: string, recipient: string): Promise<TransactionWalletOperation>;
 }

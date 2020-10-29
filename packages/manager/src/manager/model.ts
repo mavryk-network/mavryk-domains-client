@@ -125,15 +125,22 @@ export enum DomainAcquisitionState {
 }
 
 export interface DomainAcquisitionAuctionInfo {
+    /** The amount of the last bid in mutez. */
     lastBid: number;
+    /** The address of the sender of the last bid. */
     lastBidder: string | null;
+    /** The minimum amount to outbid the current bid in mutez. (Value is `NaN` when auction is ended and waiting to be settled) */
     nextMinimumBid: number;
+    /** The date at which the auction will end. This may change when bids are added towards the end of an auction. */
     auctionEnd: Date;
+    /** The number of days that the domain will be registered for after an auction is settled. */
     registrationDuration: number;
 }
 
 export interface DomainAcquisitionBuyOrRenewInfo {
+    /** The price to buy or renew the domain for the minimum period [[`minDuration`]]. */
     pricePerMinDuration: number;
+    /** The minimum duration in days for which it is possible to register or renew a domain. */
     minDuration: number;
 }
 
@@ -206,6 +213,9 @@ export class CommitmentInfo {
 
     constructor(private _created: Date, private _usableFrom: Date, private _usableUntil: Date) {}
 
+    /** 
+     * Returns a promise that is resolved when commitment can be spent to buy a domain.
+     */
     async waitUntilUsable(): Promise<void> {
         await new Promise(resolve => setTimeout(() => resolve(), this._usableFrom.getTime() - Date.now()));
     }
