@@ -1,5 +1,4 @@
 import { BigMapAbstraction, TezosToolkit, MichelsonMap } from '@taquito/taquito';
-import BigNumber from 'bignumber.js';
 
 import { RpcResponse, encoder } from './rpc-data/decorators';
 import { BigNumberEncoder } from './rpc-data/encoders/big-number-encoder';
@@ -8,7 +7,7 @@ import { MapEncoder } from './rpc-data/encoders/map-encoder';
 import { RecordMetadata } from './rpc-data/record-metadata';
 import { DomainNameValidatorFn } from './validator/validators';
 
-export type NetworkType = 'mainnet' | 'carthagenet' | 'custom';
+export type NetworkType = 'mainnet' | 'custom';
 
 export enum SmartContractType {
     TLDRegistrar = 'tldRegistrar',
@@ -26,7 +25,7 @@ export type TLDConfig = {
 }
 
 export type CustomNetworkConfig = { network?: 'custom'; contractAddresses: ContractConfig, tlds: TLDConfig[] } & CommonConfig;
-export type DefaultNetworkConfig = { network?: 'mainnet' | 'carthagenet' | 'delphinet'; contractAddresses?: ContractConfig, tlds?: TLDConfig[] } & CommonConfig;
+export type DefaultNetworkConfig = { network?: 'mainnet' | 'delphinet'; contractAddresses?: ContractConfig, tlds?: TLDConfig[] } & CommonConfig;
 
 export type TezosDomainsConfig = DefaultNetworkConfig | CustomNetworkConfig;
 
@@ -55,13 +54,10 @@ export interface TLDRegistrarStorage {
     store: {
         records: BigMapAbstraction;
         commitments: BigMapAbstraction;
+        bidder_balances: BigMapAbstraction;
+        auctions: BigMapAbstraction;
         owner: string;
-        /** @deprecated carthagenet legacy */
-        max_commitment_age: BigNumber;
-        /** @deprecated carthagenet legacy */
-        min_commitment_age: BigNumber;
-        /** @deprecated carthagenet legacy */
-        min_bid_per_day: BigNumber;
+        enabled: boolean;
         config: MichelsonMap<string, any>
     };
     trusted_senders: string[];

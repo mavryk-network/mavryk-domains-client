@@ -24,8 +24,8 @@ import { TezosDomainsClient } from '@tezos-domains/client';
 
 async function main() {
     const tezos = new TezosToolkit();
-    tezos.setRpcProvider('https://testnet-tezos.giganode.io');
-    const client = new TezosDomainsClient({ tezos, network: 'carthagenet', caching: { enabled: true } });
+    tezos.setRpcProvider('https://delphinet-tezos.giganode.io/');
+    const client = new TezosDomainsClient({ tezos, network: 'delphinet', caching: { enabled: true } });
 
     const address = await client.resolver.resolveAddress('bob.tez');
 
@@ -49,9 +49,9 @@ import { getTld, getLabel, DomainNameValidationResult, RecordMetadata } from '@t
 
 async function main() {
     const tezos = new TezosToolkit();
-    tezos.setRpcProvider('https://testnet-tezos.giganode.io');
+    tezos.setRpcProvider('https://delphinet-tezos.giganode.io/');
     tezos.setSignerProvider(new InMemorySigner('<your signing key>'));
-    const client = new TezosDomainsClient({ tezos, network: 'carthagenet' });
+    const client = new TezosDomainsClient({ tezos, network: 'delphinet' });
 
     const name = 'foobar.tez';
 
@@ -97,7 +97,7 @@ async function main() {
 
 `network` (default: `'mainnet'`)
 
--   Specifies which contracts addresses to use. There are built in ones specified for `mainnet` and `carthagenet`. For `custom` you need to also specify `contractAddresses`.
+-   Specifies which contracts addresses to use. There are built in ones specified for `mainnet` and `delphinet`. For `custom` you need to also specify `contractAddresses`.
 
 `contractAddresses` (default: `undefined`)
 

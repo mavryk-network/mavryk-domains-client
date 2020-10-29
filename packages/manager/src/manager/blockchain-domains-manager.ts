@@ -1,4 +1,4 @@
-import { TransactionWalletOperation, InvalidParameterError } from '@taquito/taquito';
+import { TransactionWalletOperation } from '@taquito/taquito';
 import {
     Tracer,
     TezosClient,
@@ -13,7 +13,7 @@ import {
     RpcResponseData,
     BigNumberEncoder,
 } from '@tezos-domains/core';
-import { BytesEncoder } from '@tezos-domains/core';
+import { BytesEncoder, getLabel } from '@tezos-domains/core';
 import BigNumber from 'bignumber.js';
 
 import {
@@ -26,6 +26,11 @@ import {
     CommitmentInfo,
     TLDRecord,
     UpdateReverseRecordRequest,
+    BidRequest,
+    SettleRequest,
+    DomainAcquisitionState,
+    AuctionState,
+    DomainAcquisitionInfo,
 } from './model';
 import { DomainsManager } from './domains-manager';
 import { CommitmentGenerator } from './commitment-generator';
@@ -57,6 +62,7 @@ export class BlockchainDomainsManager implements DomainsManager {
     async updateRecord(request: Exact<UpdateRecordRequest>): Promise<TransactionWalletOperation> {
         const entrypoint = 'update_record';
         this.tracer.trace(`=> Executing ${entrypoint}.`, request);
+
         const address = await this.addressBook.lookup(SmartContractType.NameRegistry, entrypoint);
         const encodedRequest = RpcRequestData.fromObject(UpdateRecordRequest, request).encode();
         const operation = await this.tezos.call(address, entrypoint, [encodedRequest.name, encodedRequest.address, encodedRequest.owner, encodedRequest.data]);
@@ -69,6 +75,7 @@ export class BlockchainDomainsManager implements DomainsManager {
     async commit(tld: string, request: Exact<CommitmentRequest>): Promise<TransactionWalletOperation> {
         const entrypoint = 'commit';
         this.tracer.trace(`=> Executing ${entrypoint}.`, request);
+
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
         const commitmentHash = await this.commitmentGenerator.generate(request);
         const operation = await this.tezos.call(address, entrypoint, [commitmentHash]);
@@ -80,29 +87,19 @@ export class BlockchainDomainsManager implements DomainsManager {
 
     async buy(tld: string, request: Exact<BuyRequest>): Promise<TransactionWalletOperation> {
         const entrypoint = 'buy';
-
         this.tracer.trace(`=> Executing ${entrypoint}.`, request);
 
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
-        const price = await this.getPrice(`${request.label}.${tld}`, request.duration);
+        const info = await this.getAcquisitionInfo(`${request.label}.${tld}`);
+        const price = Math.ceil(info.buyOrRenewDetails.pricePerMinDuration * (request.duration / info.buyOrRenewDetails.minDuration));
         const encodedRequest = RpcRequestData.fromObject(BuyRequest, request).encode();
 
-        let operation: TransactionWalletOperation;
-
-        try {
-            operation = await this.tezos.call(
-                address,
-                entrypoint,
-                [encodedRequest.label, encodedRequest.duration, encodedRequest.owner, encodedRequest.address, encodedRequest.data],
-                price
-            );
-        } catch (err) {
-            if (err instanceof InvalidParameterError) {
-                operation = await this.tezos.call(address, entrypoint, [encodedRequest.label, encodedRequest.duration, encodedRequest.owner], price);
-            } else {
-                throw err;
-            }
-        }
+        const operation = await this.tezos.call(
+            address,
+            entrypoint,
+            [encodedRequest.label, encodedRequest.duration, encodedRequest.owner, encodedRequest.address, encodedRequest.data],
+            price
+        );
 
         this.tracer.trace('<= Executed.', operation.opHash);
 
@@ -115,7 +112,8 @@ export class BlockchainDomainsManager implements DomainsManager {
         this.tracer.trace(`=> Executing ${entrypoint}.`, request);
 
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
-        const price = await this.getPrice(`${request.label}.${tld}`, request.duration);
+        const info = await this.getAcquisitionInfo(`${request.label}.${tld}`);
+        const price = Math.ceil(info.buyOrRenewDetails.pricePerMinDuration * (request.duration / info.buyOrRenewDetails.minDuration));
         const encodedRequest = RpcRequestData.fromObject(RenewRequest, request).encode();
         const operation = await this.tezos.call(address, entrypoint, [encodedRequest.label, encodedRequest.duration], price);
 
@@ -174,10 +172,9 @@ export class BlockchainDomainsManager implements DomainsManager {
         }
 
         const tldStorage = await this.tezos.storage<TLDRegistrarStorage>(address);
-        const config = new RpcResponseData(tldStorage.store.config).scalar(MapEncoder);
-        // TODO: remove fallback to legacy value
-        const minAge = config ? config.get('min_commitment_age', BigNumberEncoder)! : tldStorage.store.min_commitment_age.toNumber();
-        const maxAge = config ? config.get('max_commitment_age', BigNumberEncoder)! : tldStorage.store.max_commitment_age.toNumber();
+        const config = new RpcResponseData(tldStorage.store.config).scalar(MapEncoder)!;
+        const minAge = config.get('min_commitment_age', BigNumberEncoder)!;
+        const maxAge = config.get('max_commitment_age', BigNumberEncoder)!;
 
         const usableFrom = new Date(commitment.getTime() + minAge * 1000);
         const usableUntil = new Date(commitment.getTime() + maxAge * 1000);
@@ -189,35 +186,145 @@ export class BlockchainDomainsManager implements DomainsManager {
         return new CommitmentInfo(commitment, usableFrom, usableUntil);
     }
 
-    async getPrice(name: string, duration: number): Promise<number> {
-        this.tracer.trace(`=> Calculating price for '${name}' for duration of ${duration} days.`);
-
+    async getAcquisitionInfo(name: string): Promise<DomainAcquisitionInfo> {
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, getTld(name));
+        const tldStorage = await this.tezos.storage<TLDRegistrarStorage>(address);
+        const now = new Date();
 
-        const response = await this.tezos.getBigMapValue<TLDRegistrarStorage>(address, s => s.store.records, RpcRequestData.fromValue(name, BytesEncoder));
-        const tldRecord = response.decode(TLDRecord);
-
-        let pricePerDay: BigNumber;
-
-        if (tldRecord && tldRecord.expiration_date > new Date()) {
-            this.tracer.trace(`!! Found existing record in TLDRegistrar with price ${tldRecord.price_per_day.toNumber()} XTZ per day.`);
-
-            pricePerDay = tldRecord.price_per_day;
-        } else {
-            const tldStorage = await this.tezos.storage<TLDRegistrarStorage>(address);
-            const config = new RpcResponseData(tldStorage.store.config).scalar(MapEncoder);
-            // TODO: remove fallback to legacy value
-            const minBidPerDay = config ? config.get<BigNumber>('min_bid_per_day')! : tldStorage.store.min_bid_per_day;
-
-            this.tracer.trace(`!! Existing record not found, falling back to TLDRegistrar default price ${minBidPerDay.toNumber()} XTZ per day.`);
-
-            pricePerDay = minBidPerDay;
+        if (!tldStorage.store.enabled) {
+            return DomainAcquisitionInfo.create(DomainAcquisitionState.Unobtainable);
         }
 
-        const price = pricePerDay.dividedBy(1e12).multipliedBy(duration).precision(6).toNumber();
+        const label = getLabel(name);
+        const tldRecordResponse = await this.tezos.getBigMapValue<TLDRegistrarStorage>(
+            address,
+            s => s.store.records,
+            RpcRequestData.fromValue(label, BytesEncoder)
+        );
+        const tldRecord = tldRecordResponse.decode(TLDRecord);
+        const config = new RpcResponseData(tldStorage.store.config).scalar(MapEncoder)!;
+        const minDuration = config.get<BigNumber>('min_duration')!.toNumber();
+        const minBid = config.get<BigNumber>('min_bid_per_day')!.dividedBy(1e6).multipliedBy(minDuration).decimalPlaces(0, BigNumber.ROUND_HALF_UP).toNumber();
 
-        this.tracer.trace('<= Price calculated.', price);
+        if (tldRecord && tldRecord.expiry > now) {
+            return createBuyOrRenewInfo(DomainAcquisitionState.Taken);
+        }
 
-        return price;
+        const auctionStateResponse = await this.tezos.getBigMapValue<TLDRegistrarStorage>(
+            address,
+            s => s.store.auctions,
+            RpcRequestData.fromValue(label, BytesEncoder)
+        );
+        const auctionState = auctionStateResponse.decode(AuctionState);
+        const minAuctionPeriod = config.get<BigNumber>('min_auction_period')!.toNumber() * 1000;
+        const minBidIncreaseCoef = config.get<BigNumber>('min_bid_increase_ratio')!.dividedBy(100).plus(1).toNumber();
+
+        if (auctionState) {
+            const maxSettlementDate = new Date(auctionState.ends_at.getTime() + auctionState.ownership_period * 24 * 60 * 60 * 1000);
+            if (now >= maxSettlementDate) {
+                const maxNewAuctionDate = new Date(maxSettlementDate.getTime() + minAuctionPeriod);
+                if (now < maxNewAuctionDate) {
+                    return createAuctionInfo(DomainAcquisitionState.CanBeAuctioned, maxNewAuctionDate, minBid);
+                } else {
+                    return createBuyOrRenewInfo(DomainAcquisitionState.CanBeBought);
+                }
+            } else if (now < auctionState.ends_at) {
+                return createAuctionInfo(
+                    DomainAcquisitionState.AuctionInProgress,
+                    auctionState.ends_at,
+                    Math.ceil((auctionState.last_bid * minBidIncreaseCoef) / 1e6) * 1e6,
+                    auctionState.last_bid,
+                    auctionState.last_bidder
+                );
+            } else {
+                return createAuctionInfo(DomainAcquisitionState.CanBeSettled, auctionState.ends_at, NaN, auctionState.last_bid, auctionState.last_bidder);
+            }
+        } else {
+            const launchDate = new Date(config.get<BigNumber>('launch_date')!.toNumber() * 1000);
+            if (now < launchDate) {
+                return DomainAcquisitionInfo.create(DomainAcquisitionState.Unobtainable);
+            }
+
+            const periodEndDate = new Date(launchDate.getTime() + minAuctionPeriod);
+            if (now < periodEndDate) {
+                return createAuctionInfo(DomainAcquisitionState.CanBeAuctioned, periodEndDate, minBid);
+            } else {
+                return createBuyOrRenewInfo(DomainAcquisitionState.CanBeBought);
+            }
+        }
+
+        function createAuctionInfo(
+            state: DomainAcquisitionState.CanBeAuctioned | DomainAcquisitionState.AuctionInProgress | DomainAcquisitionState.CanBeSettled,
+            auctionEnd: Date,
+            nextMinimumBid: number,
+            lastBid?: number,
+            lastBidder?: string
+        ) {
+            return DomainAcquisitionInfo.createAuction(state, {
+                auctionEnd,
+                nextMinimumBid,
+                registrationDuration: minDuration,
+                lastBid: lastBid == null ? 0 : lastBid,
+                lastBidder: lastBidder || null,
+            });
+        }
+
+        function createBuyOrRenewInfo(state: DomainAcquisitionState.CanBeBought | DomainAcquisitionState.Taken) {
+            return DomainAcquisitionInfo.createBuyOrRenew(state, { pricePerMinDuration: minBid, minDuration });
+        }
+    }
+
+    async getBidderBalance(tld: string, address: string): Promise<number> {
+        const contractAddress = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld);
+
+        const balanceResponse = await this.tezos.getBigMapValue<TLDRegistrarStorage>(
+            contractAddress,
+            s => s.store.bidder_balances,
+            RpcRequestData.fromValue(address)
+        );
+
+        return balanceResponse.scalar(BigNumberEncoder) || 0;
+    }
+
+    async bid(tld: string, request: Exact<BidRequest>): Promise<TransactionWalletOperation> {
+        const entrypoint = 'bid';
+
+        this.tracer.trace(`=> Executing ${entrypoint}.`, request);
+
+        const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
+        const balance = await this.getBidderBalance(tld, await this.tezos.getPkh());
+        const encodedRequest = RpcRequestData.fromObject(BidRequest, request).encode();
+        const operation = await this.tezos.call(address, entrypoint, [encodedRequest.label, encodedRequest.bid], encodedRequest.bid - balance);
+
+        this.tracer.trace('<= Executed.', operation.opHash);
+
+        return operation;
+    }
+
+    async settle(tld: string, request: Exact<SettleRequest>): Promise<TransactionWalletOperation> {
+        const entrypoint = 'settle';
+
+        this.tracer.trace(`=> Executing ${entrypoint}.`, request);
+
+        const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
+        const encodedRequest = RpcRequestData.fromObject(SettleRequest, request).encode();
+        const operation = await this.tezos.call(address, entrypoint, [encodedRequest.label, encodedRequest.owner, encodedRequest.address, encodedRequest.data]);
+
+        this.tracer.trace('<= Executed.', operation.opHash);
+
+        return operation;
+    }
+
+    async withdraw(tld: string, recipient: string): Promise<TransactionWalletOperation> {
+        const entrypoint = 'withdraw';
+
+        this.tracer.trace(`=> Executing ${entrypoint}.`, recipient);
+
+        const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
+        const operation = await this.tezos.call(address, entrypoint, [recipient]);
+
+        this.tracer.trace('<= Executed.', operation.opHash);
+
+        return operation;
     }
 }

@@ -91,15 +91,25 @@ describe('TezosClient', () => {
         });
     });
 
-    describe('call', () => {
-        it('should', async () => {
+    describe('call()', () => {
+        it('should call contract method', async () => {
             const op = await client.call('KT1xxx', 'method', ['p1', 'p2'], 1);
 
             expect(methods.method).toHaveBeenCalledWith('p1', 'p2');
 
-            verify(method.send(deepEqual({ amount: 1 }))).called();
+            verify(method.send(deepEqual({ amount: 1, mutez: true }))).called();
 
             expect(op).toBe(instance(operation));
+        });
+    });
+
+    describe('getPkh()', () => {
+        it('should get pkh', async () => {
+            when(walletProviderMock.pkh()).thenResolve('pkh');
+
+            const pkh = await client.getPkh();
+
+            expect(pkh).toBe('pkh');
         });
     });
 });

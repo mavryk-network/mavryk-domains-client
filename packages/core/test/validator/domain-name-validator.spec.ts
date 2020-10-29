@@ -62,7 +62,7 @@ describe('DomainNameValidator', () => {
 
         it('should override tlds for known network', () => {
             init({
-                network: 'carthagenet',
+                network: 'delphinet',
                 tlds: [{ name: 'test', validator: testValidatorFn }],
             });
 

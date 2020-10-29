@@ -74,7 +74,7 @@ describe('TezosDomainsClient', () => {
             const customTezosToolkit = mock(TezosToolkit);
             const config: ClientConfig = {
                 tezos: instance(customTezosToolkit),
-                network: 'carthagenet',
+                network: 'delphinet',
                 tracing: true,
                 caching: { enabled: true, defaultRecordTtl: 50, defaultReverseRecordTtl: 60 },
             };

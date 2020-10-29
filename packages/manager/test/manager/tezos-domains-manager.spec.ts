@@ -57,7 +57,7 @@ describe('TezosDomainsManager', () => {
             const customTezosToolkit = mock(TezosToolkit);
             const config: ManagerConfig = {
                 tezos: instance(customTezosToolkit),
-                network: 'carthagenet',
+                network: 'delphinet',
                 tracing: true,
             };
             new TezosDomainsManager(config);
@@ -160,13 +160,54 @@ describe('TezosDomainsManager', () => {
             });
         });
 
-        describe('getPrice()', () => {
+        describe('getAcquisitionInfo()', () => {
             it('should call actual manager', async () => {
-                when(blockchainDomainsManagerMock.getPrice('necroskillz.tez', 365)).thenResolve(10);
+                const info: any = { b: 1 };
+                when(blockchainDomainsManagerMock.getAcquisitionInfo('necroskillz.tez')).thenResolve(info);
 
-                const result = await manager.getPrice('necroskillz.tez', 365);
+                const result = await manager.getAcquisitionInfo('necroskillz.tez');
 
-                expect(result).toBe(10);
+                expect(result).toBe(info);
+            });
+        });
+
+        describe('getBidderBalance()', () => {
+            it('should call actual manager', async () => {
+                when(blockchainDomainsManagerMock.getBidderBalance('tez', 'tz1xxx')).thenResolve(2);
+
+                const result = await manager.getBidderBalance('tez', 'tz1xxx');
+
+                expect(result).toBe(2);
+            });
+        });
+
+        describe('bid()', () => {
+            it('should call actual manager', async () => {
+                when(blockchainDomainsManagerMock.bid('tez', data)).thenResolve(instance(operation));
+
+                const op = await manager.bid('tez', data);
+
+                expect(op).toBe(instance(operation));
+            });
+        });
+
+        describe('settle()', () => {
+            it('should call actual manager', async () => {
+                when(blockchainDomainsManagerMock.settle('tez', data)).thenResolve(instance(operation));
+
+                const op = await manager.settle('tez', data);
+
+                expect(op).toBe(instance(operation));
+            });
+        });
+
+        describe('withdraw()', () => {
+            it('should call actual manager', async () => {
+                when(blockchainDomainsManagerMock.withdraw('tez', data)).thenResolve(instance(operation));
+
+                const op = await manager.withdraw('tez', data);
+
+                expect(op).toBe(instance(operation));
             });
         });
     });

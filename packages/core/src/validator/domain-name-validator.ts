@@ -26,7 +26,7 @@ export class DomainNameValidator {
             tlds = BuiltInTLDs[network];
             if (!tlds) {
                 throw new Error(
-                    `Built in tlds configuration for network ${network} not found. Supported built-in networks are: 'mainnet', 'carthagenet', 'delphinet'.`
+                    `Built in tlds configuration for network ${network} not found. Supported built-in networks are: 'mainnet', 'delphinet'.`
                 );
             }
         }

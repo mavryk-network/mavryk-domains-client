@@ -65,10 +65,14 @@ export class TezosClient {
         );
 
         const contract = await this.tezos.wallet.at(contractAddress);
-        const operation = await contract.methods[method](...parameters).send({ amount });
+        const operation = await contract.methods[method](...parameters).send({ amount, mutez: true });
 
         this.tracer.trace('<= Operation sent.', operation.opHash);
 
         return operation;
+    }
+
+    async getPkh(): Promise<string> {
+        return this.tezos.wallet.pkh();
     }
 }

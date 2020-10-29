@@ -3,7 +3,19 @@ import { TezosDomainsConfig, TezosClient, AddressBook, ConsoleTracer, NoopTracer
 
 import { BlockchainDomainsManager } from './blockchain-domains-manager';
 import { DomainsManager } from './domains-manager';
-import { SetChildRecordRequest, UpdateRecordRequest, CommitmentRequest, BuyRequest, RenewRequest, ReverseRecordRequest, CommitmentInfo, UpdateReverseRecordRequest } from './model';
+import {
+    SetChildRecordRequest,
+    UpdateRecordRequest,
+    CommitmentRequest,
+    BuyRequest,
+    RenewRequest,
+    ReverseRecordRequest,
+    CommitmentInfo,
+    UpdateReverseRecordRequest,
+    DomainAcquisitionInfo,
+    BidRequest,
+    SettleRequest,
+} from './model';
 import { CommitmentGenerator } from './commitment-generator';
 
 export type ManagerConfig = TezosDomainsConfig;
@@ -43,7 +55,7 @@ export class TezosDomainsManager implements DomainsManager {
     claimReverseRecord(request: Exact<ReverseRecordRequest>): Promise<TransactionWalletOperation> {
         return this.manager.claimReverseRecord(request);
     }
-    
+
     updateReverseRecord(request: Exact<UpdateReverseRecordRequest>): Promise<TransactionWalletOperation> {
         return this.manager.updateReverseRecord(request);
     }
@@ -52,7 +64,23 @@ export class TezosDomainsManager implements DomainsManager {
         return this.manager.getCommitment(tld, request);
     }
 
-    getPrice(name: string, duration: number): Promise<number> {
-        return this.manager.getPrice(name, duration);
+    getAcquisitionInfo(name: string): Promise<DomainAcquisitionInfo> {
+        return this.manager.getAcquisitionInfo(name);
+    }
+
+    getBidderBalance(tld: string, address: string): Promise<number | null> {
+        return this.manager.getBidderBalance(tld, address);
+    }
+
+    bid(tld: string, request: Exact<BidRequest>): Promise<TransactionWalletOperation> {
+        return this.manager.bid(tld, request);
+    }
+
+    settle(tld: string, request: Exact<SettleRequest>): Promise<TransactionWalletOperation> {
+        return this.manager.settle(tld, request);
+    }
+
+    withdraw(tld: string, recipient: string): Promise<TransactionWalletOperation> {
+        return this.manager.withdraw(tld, recipient);
     }
 }

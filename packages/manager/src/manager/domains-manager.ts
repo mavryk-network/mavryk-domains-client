@@ -1,5 +1,6 @@
 import { TransactionWalletOperation } from '@taquito/taquito';
 import { Exact } from '@tezos-domains/core';
+import { DomainAcquisitionInfo } from './model';
 
 import {
     SetChildRecordRequest,
@@ -10,6 +11,8 @@ import {
     RenewRequest,
     ReverseRecordRequest,
     UpdateReverseRecordRequest,
+    BidRequest,
+    SettleRequest,
 } from './model';
 
 /**
@@ -86,13 +89,10 @@ export interface DomainsManager {
      */
     getCommitment(tld: string, request: Exact<CommitmentRequest>): Promise<CommitmentInfo | null>;
 
-    /**
-     * Gets the price of a domain (i.e. how much it costs to either buy or renew it for the specified period of time).
-     *
-     * The price is returned as a number in `TZX`.
-     *
-     * @param name The name of the domain (e.g. `alice.tez`)
-     * @param duration The duration of registration/renewal in days.
-     */
-    getPrice(name: string, duration: number): Promise<number>;
+    getAcquisitionInfo(name: string): Promise<DomainAcquisitionInfo>;
+    getBidderBalance(tld: string, address: string): Promise<number | null>;
+
+    bid(tld: string, request: Exact<BidRequest>): Promise<TransactionWalletOperation>;
+    settle(tld: string, request: Exact<SettleRequest>): Promise<TransactionWalletOperation>;
+    withdraw(tld: string, recipient: string): Promise<TransactionWalletOperation>;
 }

@@ -1,4 +1,4 @@
-import { RpcRequest, encoder, BytesEncoder, RpcResponse, DateEncoder, MapEncoder, RecordMetadata } from '@tezos-domains/core';
+import { RpcRequest, encoder, BytesEncoder, RpcResponse, DateEncoder, MapEncoder, RecordMetadata, BigNumberEncoder } from '@tezos-domains/core';
 import BigNumber from 'bignumber.js';
 
 @RpcRequest()
@@ -81,10 +81,105 @@ export class UpdateReverseRecordRequest {
     @encoder(MapEncoder) data!: RecordMetadata;
 }
 
+@RpcRequest()
+export class BidRequest {
+    /** The first part of the domain name (e.g. `alice` if full domain name is `alice.tez`) */
+    @encoder(BytesEncoder) label!: string;
+    /** The new amount to bid in mutez. */
+    bid!: number;
+}
+
+@RpcRequest()
+export class SettleRequest {
+    /** The first part of the domain name (e.g. `alice` if full domain name is `alice.tez`) */
+    @encoder(BytesEncoder) label!: string;
+    /** The address of the buyer. */
+    owner!: string;
+    /** The address that is resolved when resolving the domain name. */
+    address!: string | null;
+    /** Additional metadata. */
+    @encoder(MapEncoder) data!: RecordMetadata;
+}
+
 @RpcResponse()
 export class TLDRecord {
     price_per_day!: BigNumber;
-    @encoder(DateEncoder) expiration_date!: Date;
+    @encoder(DateEncoder) expiry!: Date;
+}
+
+@RpcResponse()
+export class AuctionState {
+    @encoder(BigNumberEncoder) last_bid!: number;
+    last_bidder!: string;
+    @encoder(DateEncoder) ends_at!: Date;
+    ownership_period!: number;
+}
+
+export enum DomainAcquisitionState {
+    Unobtainable = 'Unobtainable',
+    Taken = 'Taken',
+    CanBeBought = 'CanBeBought',
+    CanBeAuctioned = 'CanBeAuctioned',
+    AuctionInProgress = 'AuctionInProgress',
+    CanBeSettled = 'CanBeSettled',
+}
+
+export interface DomainAcquisitionAuctionInfo {
+    lastBid: number;
+    lastBidder: string | null;
+    nextMinimumBid: number;
+    auctionEnd: Date;
+    registrationDuration: number;
+}
+
+export interface DomainAcquisitionBuyOrRenewInfo {
+    pricePerMinDuration: number;
+    minDuration: number;
+}
+
+export class DomainAcquisitionInfo {
+    get acquisitionState(): DomainAcquisitionState {
+        return this._state;
+    }
+
+    get auctionDetails(): DomainAcquisitionAuctionInfo {
+        const states = [DomainAcquisitionState.CanBeAuctioned, DomainAcquisitionState.AuctionInProgress, DomainAcquisitionState.CanBeSettled];
+        if (states.includes(this._state)) {
+            return this._auctionInfo!;
+        }
+
+        throw new Error(`Auction info is only available for states ${states.join(', ')}.`);
+    }
+
+    get buyOrRenewDetails(): DomainAcquisitionBuyOrRenewInfo {
+        const states = [DomainAcquisitionState.CanBeBought, DomainAcquisitionState.Taken];
+        if (states.includes(this._state)) {
+            return this._buyOrRenewInfo!;
+        }
+
+        throw new Error(`BuyOrRenew info is only available for states ${states.join(', ')}.`);
+    }
+
+    private constructor(
+        private _state: DomainAcquisitionState,
+        private _auctionInfo?: DomainAcquisitionAuctionInfo,
+        private _buyOrRenewInfo?: DomainAcquisitionBuyOrRenewInfo
+    ) {}
+
+    /** @internal */
+    static create(state: DomainAcquisitionState): DomainAcquisitionInfo {
+        return new DomainAcquisitionInfo(state);
+    }
+
+    /** @internal */
+    static createAuction(state: DomainAcquisitionState, auctionInfo: DomainAcquisitionAuctionInfo): DomainAcquisitionInfo {
+        return new DomainAcquisitionInfo(state, auctionInfo);
+    }
+
+    /** @internal */
+    static createBuyOrRenew(state: DomainAcquisitionState, fifsInfo: DomainAcquisitionBuyOrRenewInfo): DomainAcquisitionInfo {
+        return new DomainAcquisitionInfo(state, undefined, fifsInfo);
+    }
 }
 
 export class CommitmentInfo {

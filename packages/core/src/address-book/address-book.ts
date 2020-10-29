@@ -18,7 +18,7 @@ export class AddressBook {
         } else {
             const addresses = BuiltInAddresses[network];
             if (!addresses) {
-                throw new Error(`Built in address configuration for network ${network} not found. Supported built-in networks are: 'mainnet', 'carthagenet', 'delphinet'.`);
+                throw new Error(`Built in address configuration for network ${network} not found. Supported built-in networks are: 'mainnet', 'delphinet'.`);
             }
 
             this.config = addresses;

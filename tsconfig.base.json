@@ -34,7 +34,7 @@
       ],
       "@tezos-domains/client": [
         "client/public_api.ts"
-      ]
+      ],
     }
   }
 }

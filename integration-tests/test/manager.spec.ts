@@ -1,4 +1,5 @@
 import { TezosDomainsClient } from '@tezos-domains/client';
+import { DomainAcquisitionState } from '@tezos-domains/manager';
 import { TezosToolkit } from '@taquito/taquito';
 import fs from 'fs-extra';
 import path from 'path';
@@ -36,11 +37,21 @@ describe('manager', () => {
         });
     });
 
-    describe('getPrice()', () => {
+    describe('getAcquisitionInfo()', () => {
         it('should get price for unowned domain', async () => {
-            const price = await client.manager.getPrice(`integration_test_new${Date.now().toString()}.${client.validator.supportedTLDs[0]}`, 365);
+            const info = await client.manager.getAcquisitionInfo(`integration_test_new${Date.now().toString()}.${client.validator.supportedTLDs[0]}`);
 
-            expect(price).toBe(db[CONFIG.network].price);
+            expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeBought);
+            expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(db[CONFIG.network].price);
+            expect(info.buyOrRenewDetails.minDuration).toBe(365);
+        });
+
+        it('should get price for renewing owned domain', async () => {
+            const info = await client.manager.getAcquisitionInfo(`necroskillz.${client.validator.supportedTLDs[0]}`);
+
+            expect(info.acquisitionState).toBe(DomainAcquisitionState.Taken);
+            expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(db[CONFIG.network].price);
+            expect(info.buyOrRenewDetails.minDuration).toBe(365);
         });
     });
 });

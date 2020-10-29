@@ -39,7 +39,7 @@ export class TezosDomainsClient {
      *
      * @example
      * ```
-     * const tezosDomains = new TezosDomainsClient({ network: 'carthagenet', caching: { enabled: true } });
+     * const tezosDomains = new TezosDomainsClient({ network: 'delphinet', caching: { enabled: true } });
      * ```
      */
     constructor(config?: ClientConfig) {

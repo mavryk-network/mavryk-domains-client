@@ -21,6 +21,7 @@
     "@taquito/utils": "^6.3.5-beta.0",
     "@tezos-domains/client": "^1.0.0-beta.13",
     "@tezos-domains/core": "^1.0.0-beta.13",
+    "@tezos-domains/manager": "^1.0.0-beta.13",
     "@types/fs-extra": "^9.0.1",
     "@types/minimist": "^1.2.0",
     "@types/node": "^14.0.27",

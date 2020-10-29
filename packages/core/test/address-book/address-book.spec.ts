@@ -28,15 +28,15 @@ describe('AddressBook', () => {
         await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'tez', 'buy')).resolves.toBe(BuiltInAddresses.mainnet['tldRegistrar:tez:buy'].address);
     });
 
-    it('should resolve built-in addresses for carthagenet', async () => {
-        init({ network: 'carthagenet' });
+    it('should resolve built-in addresses for delphinet', async () => {
+        init({ network: 'delphinet' });
 
-        await expect(addressBook.lookup(SmartContractType.NameRegistry)).resolves.toBe(`${BuiltInAddresses.carthagenet['nameRegistry'].address}_actual`);
+        await expect(addressBook.lookup(SmartContractType.NameRegistry)).resolves.toBe(`${BuiltInAddresses.delphinet['nameRegistry'].address}_actual`);
         await expect(addressBook.lookup(SmartContractType.NameRegistry, 'set_child_record')).resolves.toBe(
-            BuiltInAddresses.carthagenet['nameRegistry:set_child_record'].address
+            BuiltInAddresses.delphinet['nameRegistry:set_child_record'].address
         );
-        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'tez')).resolves.toBe(`${BuiltInAddresses.carthagenet['tldRegistrar:tez'].address}_actual`);
-        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'tez', 'buy')).resolves.toBe(BuiltInAddresses.carthagenet['tldRegistrar:tez:buy'].address);
+        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'delphi')).resolves.toBe(`${BuiltInAddresses.delphinet['tldRegistrar:delphi'].address}_actual`);
+        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'delphi', 'buy')).resolves.toBe(BuiltInAddresses.delphinet['tldRegistrar:delphi:buy'].address);
     });
 
     it('should resolve custom addresses', async () => {
@@ -46,7 +46,7 @@ describe('AddressBook', () => {
     });
 
     it('should disregard network when resolving custom addresses', async () => {
-        init({ network: 'carthagenet', contractAddresses: { nameRegistry: { address: 'custom_nr' } } });
+        init({ network: 'delphinet', contractAddresses: { nameRegistry: { address: 'custom_nr' } } });
 
         await expect(addressBook.lookup(SmartContractType.NameRegistry)).resolves.toBe('custom_nr');
     });
