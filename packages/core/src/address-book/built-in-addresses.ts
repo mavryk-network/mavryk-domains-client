@@ -39,6 +39,37 @@ export const BuiltInAddresses = {
             address: 'TODO',
         },
     },
+    carthagenet: {
+        nameRegistry: {
+            address: 'KT1HzWDntzwBXJKPaGvzQuziwVtcZkyvtqjp',
+            resolveProxyContract: true,
+        },
+        'nameRegistry:set_child_record': {
+            address: 'KT1G9gA9jMMuBin3LG3eUj6cAvLiy2xi6LPH',
+        },
+        'nameRegistry:update_record': {
+            address: 'KT1QkgCPDmTWkfttGuFAtgfdvQkm2PkTdMYR',
+        },
+        'nameRegistry:claim_reverse_record': {
+            address: 'KT1UbVen5H9pgeGujtDKfA9YwYN42MBzomSN',
+        },
+        'nameRegistry:update_reverse_record': {
+            address: 'KT1Jh4NCGXiuDcEDYGjqQabdjFe5LPyA1oRo',
+        },
+        'tldRegistrar:tez': {
+            address: 'KT19Anf7UUDmMRLzAXN624Z8gWe5KhVPp7vT',
+            resolveProxyContract: true,
+        },
+        'tldRegistrar:tez:commit': {
+            address: 'KT19Anf7UUDmMRLzAXN624Z8gWe5KhVPp7vT',
+        },
+        'tldRegistrar:tez:buy': {
+            address: 'KT1L2nZ5EWpWZpZvU1b5fHGcEvcPS67DxqHL',
+        },
+        'tldRegistrar:tez:renew': {
+            address: 'KT1H4q441PEh1oryHm5E32Fn3NTBCYkmC5W7',
+        },
+    },
     delphinet: {
         'nameRegistry:set_child_record': {
             address: 'KT1Ew5ui1D53sAv25qbN78AWsLS6RxGtdpW4',

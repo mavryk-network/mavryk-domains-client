@@ -7,7 +7,7 @@ import { MapEncoder } from './rpc-data/encoders/map-encoder';
 import { RecordMetadata } from './rpc-data/record-metadata';
 import { DomainNameValidatorFn } from './validator/validators';
 
-export type NetworkType = 'mainnet' | 'custom';
+export type NetworkType = 'mainnet' | 'carthagenet' | 'custom';
 
 export enum SmartContractType {
     TLDRegistrar = 'tldRegistrar',
@@ -25,7 +25,7 @@ export type TLDConfig = {
 }
 
 export type CustomNetworkConfig = { network?: 'custom'; contractAddresses: ContractConfig, tlds: TLDConfig[] } & CommonConfig;
-export type DefaultNetworkConfig = { network?: 'mainnet' | 'delphinet'; contractAddresses?: ContractConfig, tlds?: TLDConfig[] } & CommonConfig;
+export type DefaultNetworkConfig = { network?: 'mainnet' | 'carthagenet' | 'delphinet'; contractAddresses?: ContractConfig, tlds?: TLDConfig[] } & CommonConfig;
 
 export type TezosDomainsConfig = DefaultNetworkConfig | CustomNetworkConfig;
 
@@ -54,10 +54,7 @@ export interface TLDRegistrarStorage {
     store: {
         records: BigMapAbstraction;
         commitments: BigMapAbstraction;
-        bidder_balances: BigMapAbstraction;
-        auctions: BigMapAbstraction;
         owner: string;
-        enabled: boolean;
         config: MichelsonMap<string, any>
     };
     trusted_senders: string[];
