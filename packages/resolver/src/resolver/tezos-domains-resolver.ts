@@ -34,20 +34,20 @@ export class TezosDomainsResolver implements NameResolver {
         this.resolver = new NameNormalizingNameResolver(this.resolver, tracer);
     }
 
-    async resolve(name: string): Promise<DomainInfo | null> {
-        return this.resolver.resolve(name);
+    async resolveDomainRecord(name: string): Promise<DomainInfo | null> {
+        return this.resolver.resolveDomainRecord(name);
     }
 
-    async resolveAddress(name: string): Promise<string | null> {
-        return this.resolver.resolveAddress(name);
+    async resolveNameToAddress(name: string): Promise<string | null> {
+        return this.resolver.resolveNameToAddress(name);
     }
 
-    async reverseResolve(address: string): Promise<ReverseRecordInfo | null> {
-        return this.resolver.reverseResolve(address);
+    async resolveReverseRecord(address: string): Promise<ReverseRecordInfo | null> {
+        return this.resolver.resolveReverseRecord(address);
     }
 
-    async reverseResolveName(address: string): Promise<string | null> {
-        return this.resolver.reverseResolveName(address);
+    async resolveAddressToName(address: string): Promise<string | null> {
+        return this.resolver.resolveAddressToName(address);
     }
 
     clearCache(): void {

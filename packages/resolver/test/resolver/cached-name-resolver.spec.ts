@@ -44,8 +44,8 @@ describe('CachedNameResolver', () => {
         prbR = Promise.resolve(rbR);
 
         when(tracerMock.trace(anything(), anything()));
-        when(nameResolverMock.resolve('a')).thenReturn(paR).thenReturn(pbR);
-        when(nameResolverMock.reverseResolve('a')).thenReturn(praR).thenReturn(prbR);
+        when(nameResolverMock.resolveDomainRecord('a')).thenReturn(paR).thenReturn(pbR);
+        when(nameResolverMock.resolveReverseRecord('a')).thenReturn(praR).thenReturn(prbR);
         when(cacheMock.has(anyString())).thenCall(key => Boolean(fakeCache[key]));
         when(cacheMock.get(anyString())).thenCall(key => fakeCache[key]);
         when(cacheMock.del(anyString())).thenCall(key => delete fakeCache[key]);
@@ -56,12 +56,12 @@ describe('CachedNameResolver', () => {
         resolver = new CachedNameResolver(instance(nameResolverMock), instance(tracerMock), { defaultRecordTtl: 10, defaultReverseRecordTtl: 11 });
     });
 
-    describe('resolve()', () => {
+    describe('resolveDomainRecord()', () => {
         it('should cache result and return it', async () => {
-            const a1 = await resolver.resolve('a');
-            const a2 = await resolver.resolve('a');
+            const a1 = await resolver.resolveDomainRecord('a');
+            const a2 = await resolver.resolveDomainRecord('a');
 
-            verify(nameResolverMock.resolve('a')).once();
+            verify(nameResolverMock.resolveDomainRecord('a')).once();
             verify(cacheMock.set('a', paR, 10)).once();
 
             expect(a1).toBe(aR);
@@ -69,9 +69,9 @@ describe('CachedNameResolver', () => {
         });
 
         it('should set ttl if domain has it in metadata', async () => {
-            const a1 = await resolver.resolve('a');
+            const a1 = await resolver.resolveDomainRecord('a');
 
-            verify(nameResolverMock.resolve('a')).once();
+            verify(nameResolverMock.resolveDomainRecord('a')).once();
             verify(cacheMock.set('a', paR, 10)).once();
             verify(cacheMock.ttl('a', 69)).called();
 
@@ -79,13 +79,13 @@ describe('CachedNameResolver', () => {
         });
 
         it('should get result again when ttl expires', async () => {
-            const a1 = await resolver.resolve('a');
+            const a1 = await resolver.resolveDomainRecord('a');
 
             fakeCache = {};
 
-            const a2 = await resolver.resolve('a');
+            const a2 = await resolver.resolveDomainRecord('a');
 
-            verify(nameResolverMock.resolve('a')).twice();
+            verify(nameResolverMock.resolveDomainRecord('a')).twice();
             verify(cacheMock.set('a', paR, 10)).once();
             verify(cacheMock.set('a', pbR, 10)).once();
 
@@ -94,9 +94,9 @@ describe('CachedNameResolver', () => {
         });
 
         it('should evict from cache if resolve fails', async () => {
-            when(nameResolverMock.resolve('a')).thenReject(new Error('e'));
+            when(nameResolverMock.resolveDomainRecord('a')).thenReject(new Error('e'));
 
-            const a = resolver.resolve('a');
+            const a = resolver.resolveDomainRecord('a');
             expect(fakeCache['a']).toBeDefined();
 
             await expect(a).rejects.toEqual(new Error('e'));
@@ -105,12 +105,12 @@ describe('CachedNameResolver', () => {
         });
     });
 
-    describe('resolveAddress()', () => {
+    describe('resolveNameToAddress()', () => {
         it('should cache result and return address', async () => {
-            const a1 = await resolver.resolveAddress('a');
-            const a2 = await resolver.resolveAddress('a');
+            const a1 = await resolver.resolveNameToAddress('a');
+            const a2 = await resolver.resolveNameToAddress('a');
 
-            verify(nameResolverMock.resolve('a')).once();
+            verify(nameResolverMock.resolveDomainRecord('a')).once();
             verify(cacheMock.set('a', paR, 10)).once();
 
             expect(a1).toBe('aR');
@@ -118,20 +118,20 @@ describe('CachedNameResolver', () => {
         });
 
         it('should return null if record is null', async () => {
-            when(nameResolverMock.resolve('a')).thenResolve(null);
+            when(nameResolverMock.resolveDomainRecord('a')).thenResolve(null);
 
-            const a1 = await resolver.resolveAddress('a');
+            const a1 = await resolver.resolveNameToAddress('a');
 
             expect(a1).toBe(null);
         });
     });
 
-    describe('reverseResolve()', () => {
+    describe('resolveReverseRecord()', () => {
         it('should cache result and return it', async () => {
-            const a1 = await resolver.reverseResolve('a');
-            const a2 = await resolver.reverseResolve('a');
+            const a1 = await resolver.resolveReverseRecord('a');
+            const a2 = await resolver.resolveReverseRecord('a');
 
-            verify(nameResolverMock.reverseResolve('a')).once();
+            verify(nameResolverMock.resolveReverseRecord('a')).once();
             verify(cacheMock.set('a', praR, 11)).called();
 
             expect(a1).toBe(raR);
@@ -139,9 +139,9 @@ describe('CachedNameResolver', () => {
         });
 
         it('should set ttl if reverse record has it in metadata', async () => {
-            const a1 = await resolver.reverseResolve('a');
+            const a1 = await resolver.resolveReverseRecord('a');
 
-            verify(nameResolverMock.reverseResolve('a')).once();
+            verify(nameResolverMock.resolveReverseRecord('a')).once();
             verify(cacheMock.set('a', praR, 11)).once();
             verify(cacheMock.ttl('a', 420)).called();
 
@@ -149,13 +149,13 @@ describe('CachedNameResolver', () => {
         });
 
         it('should get result again when ttl expires', async () => {
-            const a1 = await resolver.reverseResolve('a');
+            const a1 = await resolver.resolveReverseRecord('a');
 
             fakeCache = {};
 
-            const a2 = await resolver.reverseResolve('a');
+            const a2 = await resolver.resolveReverseRecord('a');
 
-            verify(nameResolverMock.reverseResolve('a')).twice();
+            verify(nameResolverMock.resolveReverseRecord('a')).twice();
             verify(cacheMock.set('a', praR, 11)).once();
             verify(cacheMock.set('a', prbR, 11)).once();
 
@@ -164,9 +164,9 @@ describe('CachedNameResolver', () => {
         });
 
         it('should evict from cache if resolve fails', async () => {
-            when(nameResolverMock.reverseResolve('a')).thenReject(new Error('e'));
+            when(nameResolverMock.resolveReverseRecord('a')).thenReject(new Error('e'));
 
-            const a = resolver.reverseResolve('a');
+            const a = resolver.resolveReverseRecord('a');
             expect(fakeCache['a']).toBeDefined();
 
             await expect(a).rejects.toEqual(new Error('e'));
@@ -175,12 +175,12 @@ describe('CachedNameResolver', () => {
         });
     });
 
-    describe('reverseResolveName()', () => {
+    describe('resolveAddressToName()', () => {
         it('should cache result and return name', async () => {
-            const a1 = await resolver.reverseResolveName('a');
-            const a2 = await resolver.reverseResolveName('a');
+            const a1 = await resolver.resolveAddressToName('a');
+            const a2 = await resolver.resolveAddressToName('a');
 
-            verify(nameResolverMock.reverseResolve('a')).once();
+            verify(nameResolverMock.resolveReverseRecord('a')).once();
             verify(cacheMock.set('a', praR, 11)).once();
 
             expect(a1).toBe('raR');
@@ -188,9 +188,9 @@ describe('CachedNameResolver', () => {
         });
 
         it('should return null if record is null', async () => {
-            when(nameResolverMock.reverseResolve('a')).thenResolve(null);
+            when(nameResolverMock.resolveReverseRecord('a')).thenResolve(null);
 
-            const a1 = await resolver.reverseResolveName('a');
+            const a1 = await resolver.resolveAddressToName('a');
 
             expect(a1).toBe(null);
         });

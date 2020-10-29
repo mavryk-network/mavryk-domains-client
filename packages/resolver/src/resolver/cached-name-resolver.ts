@@ -16,13 +16,13 @@ export class CachedNameResolver implements NameResolver {
         this.cache = new NodeCache({ useClones: false });
     }
 
-    async resolve(name: string): Promise<DomainInfo | null> {
+    async resolveDomainRecord(name: string): Promise<DomainInfo | null> {
         this.tracer.trace(`=> Cache decorator: Resolving record '${name}'.`);
 
         if (!this.cache.has(name)) {
             this.tracer.trace('!! Cache miss.');
 
-            const promise = this.inner.resolve(name);
+            const promise = this.inner.resolveDomainRecord(name);
             promise
                 .then(r => {
                     if (!r) {
@@ -54,10 +54,10 @@ export class CachedNameResolver implements NameResolver {
         return record;
     }
 
-    async resolveAddress(name: string): Promise<string | null> {
+    async resolveNameToAddress(name: string): Promise<string | null> {
         this.tracer.trace(`=> Cache decorator: Resolving address for '${name}'`);
 
-        const record = await this.resolve(name);
+        const record = await this.resolveDomainRecord(name);
 
         const address = record?.address || null;
 
@@ -66,13 +66,13 @@ export class CachedNameResolver implements NameResolver {
         return address;
     }
 
-    async reverseResolve(address: string): Promise<ReverseRecordInfo | null> {
+    async resolveReverseRecord(address: string): Promise<ReverseRecordInfo | null> {
         this.tracer.trace(`=> Cache decorator Resolving reverse record '${address}'`);
 
         if (!this.cache.has(address)) {
             this.tracer.trace('!! Cache miss.');
 
-            const promise = this.inner.reverseResolve(address);
+            const promise = this.inner.resolveReverseRecord(address);
             promise
                 .then(r => {
                     if (!r) {
@@ -104,10 +104,10 @@ export class CachedNameResolver implements NameResolver {
         return reverseRecord;
     }
 
-    async reverseResolveName(address: string): Promise<string | null> {
+    async resolveAddressToName(address: string): Promise<string | null> {
         this.tracer.trace(`=> Cache decorator: Resolving name for '${address}'`);
 
-        const reverseRecord = await this.reverseResolve(address);
+        const reverseRecord = await this.resolveReverseRecord(address);
 
         const name = reverseRecord?.name || null;
 

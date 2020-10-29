@@ -7,27 +7,27 @@ describe('NullNameResolver', () => {
         resolver = new NullNameResovler();
     })
 
-    describe('resolve()', () => {
+    describe('resolveDomainRecord()', () => {
         it('should return null', async () => {
-            await expect(resolver.resolve('necroskillz.tez')).resolves.toBeNull();
+            await expect(resolver.resolveDomainRecord('necroskillz.tez')).resolves.toBeNull();
         });
     });
 
-    describe('resolveAddress()', () => {
+    describe('resolveNameToAddress()', () => {
         it('should return null', async () => {
-            await expect(resolver.resolveAddress('necroskillz.tez')).resolves.toBeNull();
+            await expect(resolver.resolveNameToAddress('necroskillz.tez')).resolves.toBeNull();
         });
     });
 
-    describe('reverseResolve()', () => {
+    describe('resolveReverseRecord()', () => {
         it('should return null', async () => {
-            await expect(resolver.reverseResolve('tz1xxx')).resolves.toBeNull();
+            await expect(resolver.resolveReverseRecord('tz1xxx')).resolves.toBeNull();
         });
     });
 
-    describe('reverseResolveName()', () => {
+    describe('resolveAddressToName()', () => {
         it('should return null', async () => {
-            await expect(resolver.reverseResolveName('tz1xxx')).resolves.toBeNull();
+            await expect(resolver.resolveAddressToName('tz1xxx')).resolves.toBeNull();
         });
     });
 

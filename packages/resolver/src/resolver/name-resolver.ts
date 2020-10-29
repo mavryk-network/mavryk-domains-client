@@ -5,11 +5,11 @@ import { DomainInfo, ReverseRecordInfo } from './model';
  */
 export interface NameResolver {
     /**
-     * Gets all information about a domain by it's name. If you only need to resolve the address, use [[`resolveAddress`]] instead.
+     * Gets all information about a domain by it's name. If you only need to resolve the address, use [[`resolveNameToAddress`]] instead.
      *
      *  - Associated contract: [NameRegistry](https://docs.tezos.domains/deployed-contracts)
      */
-    resolve(name: string): Promise<DomainInfo | null>;
+    resolveDomainRecord(name: string): Promise<DomainInfo | null>;
 
     /**
      * Resolves a domain name to an address.
@@ -24,20 +24,20 @@ export interface NameResolver {
      *
      * @example
      * ```
-     * const address = await resolver.resolveAddress('alice.tez');
+     * const address = await resolver.resolveNameToAddress('alice.tez');
      * console.log(address); // 'tz1...'
      * ```
      *
      *  - Associated contract: [NameRegistry](https://docs.tezos.domains/deployed-contracts)
      */
-    resolveAddress(name: string): Promise<string | null>;
+    resolveNameToAddress(name: string): Promise<string | null>;
 
     /**
-     * Gets all information about a reverse record by it's address. If you only need to resolve the name, use [[`reverseResolveName`]] instead.
+     * Gets all information about a reverse record by it's address. If you only need to resolve the name, use [[`resolveAddressToName`]] instead.
      *
      *  - Associated contract: [NameRegistry](https://docs.tezos.domains/deployed-contracts)
      */
-    reverseResolve(address: string): Promise<ReverseRecordInfo | null>;
+    resolveReverseRecord(address: string): Promise<ReverseRecordInfo | null>;
 
     /**
      * Resolves an address to a name.
@@ -53,13 +53,13 @@ export interface NameResolver {
      *
      * @example
      * ```
-     * const name = await resolver.reverseResolveName('tz1...');
+     * const name = await resolver.resolveAddressToName('tz1...');
      * console.log(name); // 'alice.tez'
      * ```
      *
      *  - Associated contract: [NameRegistry](https://docs.tezos.domains/deployed-contracts)
      */
-    reverseResolveName(address: string): Promise<string | null>;
+    resolveAddressToName(address: string): Promise<string | null>;
 
     /**
      * Clears the cache. Only applies if caching is enabled.

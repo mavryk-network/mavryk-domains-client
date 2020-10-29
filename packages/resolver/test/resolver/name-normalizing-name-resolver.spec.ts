@@ -21,10 +21,10 @@ describe('NameNormalizingNameResolver', () => {
         rrp = new FakePromise();
 
         when(tracerMock.trace(anything()));
-        when(nameResolverMock.resolve(anyString())).thenReturn(dp);
-        when(nameResolverMock.resolveAddress(anyString())).thenReturn(ap);
-        when(nameResolverMock.reverseResolve(anyString())).thenReturn(rrp);
-        when(nameResolverMock.reverseResolveName(anyString())).thenReturn(np);
+        when(nameResolverMock.resolveDomainRecord(anyString())).thenReturn(dp);
+        when(nameResolverMock.resolveNameToAddress(anyString())).thenReturn(ap);
+        when(nameResolverMock.resolveReverseRecord(anyString())).thenReturn(rrp);
+        when(nameResolverMock.resolveAddressToName(anyString())).thenReturn(np);
 
         resolver = new NameNormalizingNameResolver(instance(nameResolverMock), instance(tracerMock));
     });
@@ -38,51 +38,51 @@ describe('NameNormalizingNameResolver', () => {
         { description: 'keep japanese', input: 'クソ食らえ.tez', normalized: 'クソ食らえ.tez' },
     ];
 
-    describe('resolve()', () => {
+    describe('resolveDomainRecord()', () => {
         it('should proxy call to decorated resolver', () => {
-            const p = resolver.resolve('a');
+            const p = resolver.resolveDomainRecord('a');
 
             expect(p).toBe(dp);
         });
 
         TEST_CASES.forEach(test => {
             it(`should normalize domain name: ${test.description}`, () => {
-                const p = resolver.resolve(test.input);
+                const p = resolver.resolveDomainRecord(test.input);
 
-                verify(nameResolverMock.resolve(test.normalized)).called();
+                verify(nameResolverMock.resolveDomainRecord(test.normalized)).called();
                 expect(p).toBe(dp);
             });
         });
     });
 
-    describe('resolveAddress()', () => {
+    describe('resolveNameToAddress()', () => {
         it('should proxy call to decorated resolver', () => {
-            const p = resolver.resolveAddress('a');
+            const p = resolver.resolveNameToAddress('a');
 
             expect(p).toBe(ap);
         });
 
         TEST_CASES.forEach(test => {
             it(`should normalize domain name: ${test.description}`, () => {
-                const p = resolver.resolveAddress(test.input);
+                const p = resolver.resolveNameToAddress(test.input);
 
-                verify(nameResolverMock.resolveAddress(test.normalized)).called();
+                verify(nameResolverMock.resolveNameToAddress(test.normalized)).called();
                 expect(p).toBe(ap);
             });
         });
     });
 
-    describe('reverseResolve()', () => {
+    describe('resolveReverseRecord()', () => {
         it('should proxy call to decorated resolver', () => {
-            const p = resolver.reverseResolve('a');
+            const p = resolver.resolveReverseRecord('a');
 
             expect(p).toBe(rrp);
         });
     });
 
-    describe('reverseResolveName()', () => {
+    describe('resolveAddressToName()', () => {
         it('should proxy call to decorated resolver', () => {
-            const p = resolver.reverseResolveName('a');
+            const p = resolver.resolveAddressToName('a');
 
             expect(p).toBe(np);
         });

@@ -6,20 +6,20 @@ import { NameResolver, DomainInfo, ReverseRecordInfo } from '../resolver';
 export class NameNormalizingNameResolver implements NameResolver {
     constructor(private inner: NameResolver, private tracer: Tracer) {}
 
-    resolve(name: string): Promise<DomainInfo | null> {
-        return this.inner.resolve(this.normalizeName(name));
+    resolveDomainRecord(name: string): Promise<DomainInfo | null> {
+        return this.inner.resolveDomainRecord(this.normalizeName(name));
     }
 
-    resolveAddress(name: string): Promise<string | null> {
-        return this.inner.resolveAddress(this.normalizeName(name));
+    resolveNameToAddress(name: string): Promise<string | null> {
+        return this.inner.resolveNameToAddress(this.normalizeName(name));
     }
 
-    reverseResolve(address: string): Promise<ReverseRecordInfo | null> {
-        return this.inner.reverseResolve(address);
+    resolveReverseRecord(address: string): Promise<ReverseRecordInfo | null> {
+        return this.inner.resolveReverseRecord(address);
     }
 
-    reverseResolveName(address: string): Promise<string | null> {
-        return this.inner.reverseResolveName(address);
+    resolveAddressToName(address: string): Promise<string | null> {
+        return this.inner.resolveAddressToName(address);
     }
 
     clearCache(): void {

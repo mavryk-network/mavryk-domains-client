@@ -27,7 +27,7 @@ async function main() {
     tezos.setRpcProvider('https://delphinet-tezos.giganode.io/');
     const client = new TezosDomainsClient({ tezos, network: 'delphinet', caching: { enabled: true } });
 
-    const address = await client.resolver.resolveAddress('bob.tez');
+    const address = await client.resolver.resolveNameToAddress('bob.tez');
 
     console.log(address);
 }

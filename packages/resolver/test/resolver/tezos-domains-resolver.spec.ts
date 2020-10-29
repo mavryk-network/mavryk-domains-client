@@ -74,73 +74,73 @@ describe('TezosDomainsResolver', () => {
     });
 
     describe('functionality', () => {
-        let resolve: FakePromise<DomainInfo | null>;
-        let resolveAddress: FakePromise<string | null>;
-        let reverseResolve: FakePromise<ReverseRecordInfo | null>;
-        let reverseResolveName: FakePromise<string | null>;
+        let resolveDomainRecord: FakePromise<DomainInfo | null>;
+        let resolveNameToAddress: FakePromise<string | null>;
+        let resolveReverseRecord: FakePromise<ReverseRecordInfo | null>;
+        let resolveAddressToName: FakePromise<string | null>;
         let record: DomainInfo;
         let reverseRecord: ReverseRecordInfo;
 
         beforeEach(() => {
-            resolve = new FakePromise();
-            resolveAddress = new FakePromise();
-            reverseResolve = new FakePromise();
-            reverseResolveName = new FakePromise();
+            resolveDomainRecord = new FakePromise();
+            resolveNameToAddress = new FakePromise();
+            resolveReverseRecord = new FakePromise();
+            resolveAddressToName = new FakePromise();
 
             record = { address: 'tz1xxx' } as DomainInfo;
             reverseRecord = { name: 'rr.tez' } as ReverseRecordInfo;
 
-            when(nameNormalizingNameResolver.resolve(anyString())).thenReturn(resolve);
-            when(nameNormalizingNameResolver.resolveAddress(anyString())).thenReturn(resolveAddress);
-            when(nameNormalizingNameResolver.reverseResolve(anyString())).thenReturn(reverseResolve);
-            when(nameNormalizingNameResolver.reverseResolveName(anyString())).thenReturn(reverseResolveName);
+            when(nameNormalizingNameResolver.resolveDomainRecord(anyString())).thenReturn(resolveDomainRecord);
+            when(nameNormalizingNameResolver.resolveNameToAddress(anyString())).thenReturn(resolveNameToAddress);
+            when(nameNormalizingNameResolver.resolveReverseRecord(anyString())).thenReturn(resolveReverseRecord);
+            when(nameNormalizingNameResolver.resolveAddressToName(anyString())).thenReturn(resolveAddressToName);
 
             resolver = new TezosDomainsResolver();
         });
 
-        describe('resolve()', () => {
+        describe('resolveDomainRecord()', () => {
             it('should call actual resolver', async () => {
-                const address = resolver.resolve('necroskillz.tez');
+                const address = resolver.resolveDomainRecord('necroskillz.tez');
 
-                verify(nameNormalizingNameResolver.resolve('necroskillz.tez'));
+                verify(nameNormalizingNameResolver.resolveDomainRecord('necroskillz.tez'));
 
-                resolve.resolve(record);
+                resolveDomainRecord.resolve(record);
 
                 await expect(address).resolves.toBe(record);
             });
         });
 
-        describe('resolveAddress()', () => {
+        describe('resolveNameToAddress()', () => {
             it('should call actual resolver', async () => {
-                const address = resolver.resolveAddress('necroskillz.tez');
+                const address = resolver.resolveNameToAddress('necroskillz.tez');
 
-                verify(nameNormalizingNameResolver.resolveAddress('necroskillz.tez'));
+                verify(nameNormalizingNameResolver.resolveNameToAddress('necroskillz.tez'));
 
-                resolveAddress.resolve('tz1xxx');
+                resolveNameToAddress.resolve('tz1xxx');
 
                 await expect(address).resolves.toBe('tz1xxx');
             });
         });
 
-        describe('reverseResolve()', () => {
+        describe('resolveReverseRecord()', () => {
             it('should call actual resolver', async () => {
-                const address = resolver.reverseResolve('tz1xxx');
+                const address = resolver.resolveReverseRecord('tz1xxx');
 
-                verify(nameNormalizingNameResolver.reverseResolve('tz1xxx'));
+                verify(nameNormalizingNameResolver.resolveReverseRecord('tz1xxx'));
 
-                reverseResolve.resolve(reverseRecord);
+                resolveReverseRecord.resolve(reverseRecord);
 
                 await expect(address).resolves.toBe(reverseRecord);
             });
         });
 
-        describe('reverseResolveName()', () => {
+        describe('resolveAddressToName()', () => {
             it('should call actual resolver', async () => {
-                const address = resolver.reverseResolveName('tz1xxx');
+                const address = resolver.resolveAddressToName('tz1xxx');
 
-                verify(nameNormalizingNameResolver.reverseResolveName('tz1xxx'));
+                verify(nameNormalizingNameResolver.resolveAddressToName('tz1xxx'));
 
-                reverseResolveName.resolve('necroskillz.tez');
+                resolveAddressToName.resolve('necroskillz.tez');
 
                 await expect(address).resolves.toBe('necroskillz.tez');
             });

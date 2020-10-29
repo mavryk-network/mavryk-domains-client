@@ -28,9 +28,9 @@ describe('resolver', () => {
         client.validator.addSupportedTld('test', LatinDomainNameValidator);
     });
 
-    describe('resolve()', () => {
+    describe('resolveDomainRecord()', () => {
         it('should resolve all properties of record', async () => {
-            const record = await client.resolver.resolve(DATA.ok.name);
+            const record = await client.resolver.resolveDomainRecord(DATA.ok.name);
 
             expect(record!.address).toBe(DATA.ok.address);
             expect(record!.owner).toBe(DATA.ok.address);
@@ -40,9 +40,9 @@ describe('resolver', () => {
         });
     });
 
-    describe('resolveAddress()', () => {
+    describe('resolveNameToAddress()', () => {
         it('resolve multiple at once', async () => {
-            const x = await Promise.all([DATA.ok.name, DATA.noExpiration.name].map(a => client.resolver.resolveAddress(a)));
+            const x = await Promise.all([DATA.ok.name, DATA.noExpiration.name].map(a => client.resolver.resolveNameToAddress(a)));
 
             expect(x[0]).toBe(DATA.ok.address);
             expect(x[1]).toBe(DATA.noExpiration.address);
@@ -59,16 +59,16 @@ describe('resolver', () => {
 
         TEST_CASES.forEach(t => {
             it(t.description, async () => {
-                const address = await client.resolver.resolveAddress(t.from);
+                const address = await client.resolver.resolveNameToAddress(t.from);
 
                 expect(address).toBe(t.to);
             });
         });
     });
 
-    describe('reverseResolve()', () => {
+    describe('resolveReverseRecord()', () => {
         it('should resolve all properties of record', async () => {
-            const record = await client.resolver.reverseResolve(DATA.ok.address);
+            const record = await client.resolver.resolveReverseRecord(DATA.ok.address);
 
             expect(record!.name).toBe(DATA.ok.name);
             expect(record!.owner).toBe(DATA.ok.address);
@@ -76,9 +76,9 @@ describe('resolver', () => {
         });
     });
 
-    describe('reverseResolveName()', () => {
+    describe('resolveAddressToName()', () => {
         it('resolve multiple at once', async () => {
-            const x = await Promise.all([DATA.ok.address, DATA.noExpiration.address].map(a => client.resolver.reverseResolveName(a)));
+            const x = await Promise.all([DATA.ok.address, DATA.noExpiration.address].map(a => client.resolver.resolveAddressToName(a)));
 
             expect(x[0]).toBe(DATA.ok.name);
             expect(x[1]).toBe(DATA.noExpiration.name);
@@ -94,7 +94,7 @@ describe('resolver', () => {
 
         TEST_CASES.forEach(t => {
             it(t.description, async () => {
-                const name = await client.resolver.reverseResolveName(t.from);
+                const name = await client.resolver.resolveAddressToName(t.from);
 
                 expect(name).toBe(t.to);
             });

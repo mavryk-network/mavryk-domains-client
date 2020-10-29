@@ -20,7 +20,7 @@ import { DomainInfo, ReverseRecordInfo } from './model';
 export class BlockchainNameResolver implements NameResolver {
     constructor(private tezos: TezosClient, private addressBook: AddressBook, private tracer: Tracer, private validator: DomainNameValidator) {}
 
-    async resolve(name: string): Promise<DomainInfo | null> {
+    async resolveDomainRecord(name: string): Promise<DomainInfo | null> {
         this.tracer.trace(`=> Resolving record '${name}'`);
 
         if (!name) {
@@ -48,10 +48,10 @@ export class BlockchainNameResolver implements NameResolver {
         };
     }
 
-    async resolveAddress(name: string): Promise<string | null> {
+    async resolveNameToAddress(name: string): Promise<string | null> {
         this.tracer.trace(`=> Resolving address for '${name}'`);
 
-        const record = await this.resolve(name);
+        const record = await this.resolveDomainRecord(name);
 
         const address = record?.address || null;
 
@@ -60,7 +60,7 @@ export class BlockchainNameResolver implements NameResolver {
         return address;
     }
 
-    async reverseResolve(address: string): Promise<ReverseRecordInfo | null> {
+    async resolveReverseRecord(address: string): Promise<ReverseRecordInfo | null> {
         this.tracer.trace(`=> Resolving reverse record for '${address}'`);
 
         if (!address) {
@@ -93,10 +93,10 @@ export class BlockchainNameResolver implements NameResolver {
         };
     }
 
-    async reverseResolveName(address: string): Promise<string | null> {
+    async resolveAddressToName(address: string): Promise<string | null> {
         this.tracer.trace(`=> Resolving name for '${address}'`);
 
-        const reverseRecord = await this.reverseResolve(address);
+        const reverseRecord = await this.resolveReverseRecord(address);
 
         if (!reverseRecord) {
             return null;
