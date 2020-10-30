@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.15](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.14...v1.0.0-beta.15) (2020-10-30)
+
+
+### Bug Fixes
+
+* **manager:** respect current price for renewal of owned domains in getAcquisitionInfo ([00ee583](https://gitlab.com/tezos-domains/client/commit/00ee5835dd6d40c3311e1e9544fb411daf7ea057))
+
+
+
+
+
 # [1.0.0-beta.14](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.13...v1.0.0-beta.14) (2020-10-30)
 
 
