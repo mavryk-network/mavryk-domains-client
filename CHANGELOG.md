@@ -14,23 +14,18 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **resolver:** add name normalization before resolving a domain name ([e583bcb](https://gitlab.com/tezos-domains/client/commit/e583bcbf02c00d60a2bc05e8008de4e5efcb296a)), closes [#1](https://gitlab.com/tezos-domains/client/issues/1)
 * **resolver:** rename resolver public api methods so its more clear what they do ([5a28000](https://gitlab.com/tezos-domains/client/commit/5a28000fcbfd15fe50080794e0d81b5eba85a8be))
 
-
-### Reverts
-
-* add back carthagenet addresses, since resolver still works ([f661ed5](https://gitlab.com/tezos-domains/client/commit/f661ed5e69f0d9c52bf5884271edf872b2b077ca))
-
-
 ### BREAKING CHANGES
 
 * `tezos` parameter is now required (instance `Tezos` was removed from taquito)
 * **resolver:** Renamed `resolver` methods:
- - `resolve` => `resolveDomainRecord`
- - `resolveAddress` => `resolveNameToAddress`
- - `reverseResolve` => `resolveReverseRecord`
- - `reverseResolveName` => `resolveAddressToName`
-* **manager:** - `getPrice()` method was removed from the `manager`, use `getAcquisitionInfo` instead.
-- `carthagenet` network is currently not supported
-- all TEZ amounts are now in mutez
+  - `resolve` => `resolveDomainRecord`
+  - `resolveAddress` => `resolveNameToAddress`
+  - `reverseResolve` => `resolveReverseRecord`
+  - `reverseResolveName` => `resolveAddressToName`
+* **manager:** 
+  - `getPrice()` method was removed from the `manager`, use `getAcquisitionInfo` instead.
+  - `carthagenet` network is currently not supported for managing domains
+  - all TEZ amounts are now in mutez
 
 
 
