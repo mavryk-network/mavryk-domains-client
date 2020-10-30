@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.14](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.13...v1.0.0-beta.14) (2020-10-30)
+
+
+### Features
+
+* update to taquito 7 ([33c7d59](https://gitlab.com/tezos-domains/client/commit/33c7d596cf2cad71b7eb5099c833c3f20a72bc68))
+* **manager:** add auction methods ([70ee802](https://gitlab.com/tezos-domains/client/commit/70ee8027f2da589cf074b09be10951252ea71fcf))
+* **resolver:** add name normalization before resolving a domain name ([e583bcb](https://gitlab.com/tezos-domains/client/commit/e583bcbf02c00d60a2bc05e8008de4e5efcb296a)), closes [#1](https://gitlab.com/tezos-domains/client/issues/1)
+
+
+### BREAKING CHANGES
+
+* `tezos` parameter is now required (instance `Tezos` was removed from taquito)
+* **manager:** - `getPrice()` method was removed from the `manager`, use `getAcquisitionInfo` instead.
+- `carthagenet` network is currently not supported
+- all TEZ amounts are now in mutez
+
+
+
+
+
 # [1.0.0-beta.13](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.12...v1.0.0-beta.13) (2020-10-06)
 
 **Note:** Version bump only for package @tezos-domains/client

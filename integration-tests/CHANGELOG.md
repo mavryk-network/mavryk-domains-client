@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.14](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.13...v1.0.0-beta.14) (2020-10-30)
+
+
+### Features
+
+* update to taquito 7 ([33c7d59](https://gitlab.com/tezos-domains/client/commit/33c7d596cf2cad71b7eb5099c833c3f20a72bc68))
+* **manager:** add auction methods ([70ee802](https://gitlab.com/tezos-domains/client/commit/70ee8027f2da589cf074b09be10951252ea71fcf))
+* **resolver:** rename resolver public api methods so its more clear what they do ([5a28000](https://gitlab.com/tezos-domains/client/commit/5a28000fcbfd15fe50080794e0d81b5eba85a8be))
+
+
+### Reverts
+
+* add back carthagenet addresses, since resolver still works ([f661ed5](https://gitlab.com/tezos-domains/client/commit/f661ed5e69f0d9c52bf5884271edf872b2b077ca))
+
+
+### BREAKING CHANGES
+
+* `tezos` parameter is now required (instance `Tezos` was removed from taquito)
+* **resolver:** Renamed `resolver` methods:
+ - `resolve` => `resolveDomainRecord`
+ - `resolveAddress` => `resolveNameToAddress`
+ - `reverseResolve` => `resolveReverseRecord`
+ - `reverseResolveName` => `resolveAddressToName`
+* **manager:** - `getPrice()` method was removed from the `manager`, use `getAcquisitionInfo` instead.
+- `carthagenet` network is currently not supported
+- all TEZ amounts are now in mutez
+
+
+
+
+
 # [1.0.0-beta.13](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.12...v1.0.0-beta.13) (2020-10-06)
 
 **Note:** Version bump only for package integration-tests
