@@ -170,7 +170,7 @@ describe('BlockchainDomainsManager', () => {
         it('should call smart contract with price', async () => {
             const op = await manager.buy('tez', {
                 duration: 365,
-                label: 'necroskillz',
+                label: 'alice',
                 owner: 'tz1xxx',
                 address: 'tz1yyy',
                 data: new RecordMetadata({ ttl: '31' }),
@@ -180,7 +180,7 @@ describe('BlockchainDomainsManager', () => {
                 tezosClientMock.call(
                     `${SmartContractType.TLDRegistrar}addrtezbuy`,
                     'buy',
-                    deepEqual([e('necroskillz'), 365, 'tz1xxx', 'tz1yyy', anyOfClass(MichelsonMap)]),
+                    deepEqual([e('alice'), 365, 'tz1xxx', 'tz1yyy', anyOfClass(MichelsonMap)]),
                     1e6 * 365
                 )
             ).called();
@@ -295,7 +295,7 @@ describe('BlockchainDomainsManager', () => {
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.Taken);
             expect(info.buyOrRenewDetails.minDuration).toBe(5);
-            expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(5e6);
+            expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(1e8);
             expect(() => info.auctionDetails).toThrowError();
         });
 

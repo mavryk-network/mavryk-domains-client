@@ -51,7 +51,7 @@ if (CONFIG.network !== 'carthagenet') {
                 const info = await client.manager.getAcquisitionInfo(`necroskillz.${client.validator.supportedTLDs[0]}`);
 
                 expect(info.acquisitionState).toBe(DomainAcquisitionState.Taken);
-                expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(db[CONFIG.network].price);
+                expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(1e6);
                 expect(info.buyOrRenewDetails.minDuration).toBe(365);
             });
         });

@@ -204,10 +204,10 @@ export class BlockchainDomainsManager implements DomainsManager {
         const tldRecord = tldRecordResponse.decode(TLDRecord);
         const config = new RpcResponseData(tldStorage.store.config).scalar(MapEncoder)!;
         const minDuration = config.get<BigNumber>('min_duration')!.toNumber();
-        const minBid = config.get<BigNumber>('min_bid_per_day')!.dividedBy(1e6).multipliedBy(minDuration).decimalPlaces(0, BigNumber.ROUND_HALF_UP).toNumber();
+        const minBid = getPricePerMinDuration(config.get<BigNumber>('min_bid_per_day')!);
 
         if (tldRecord && tldRecord.expiry > now) {
-            return createBuyOrRenewInfo(DomainAcquisitionState.Taken);
+            return createBuyOrRenewInfo(DomainAcquisitionState.Taken, getPricePerMinDuration(tldRecord.price_per_day));
         }
 
         const auctionStateResponse = await this.tezos.getBigMapValue<TLDRegistrarStorage>(
@@ -226,7 +226,7 @@ export class BlockchainDomainsManager implements DomainsManager {
                 if (now < maxNewAuctionDate) {
                     return createAuctionInfo(DomainAcquisitionState.CanBeAuctioned, maxNewAuctionDate, minBid);
                 } else {
-                    return createBuyOrRenewInfo(DomainAcquisitionState.CanBeBought);
+                    return createBuyOrRenewInfo(DomainAcquisitionState.CanBeBought, minBid);
                 }
             } else if (now < auctionState.ends_at) {
                 return createAuctionInfo(
@@ -249,7 +249,7 @@ export class BlockchainDomainsManager implements DomainsManager {
             if (now < periodEndDate) {
                 return createAuctionInfo(DomainAcquisitionState.CanBeAuctioned, periodEndDate, minBid);
             } else {
-                return createBuyOrRenewInfo(DomainAcquisitionState.CanBeBought);
+                return createBuyOrRenewInfo(DomainAcquisitionState.CanBeBought, minBid);
             }
         }
 
@@ -269,8 +269,12 @@ export class BlockchainDomainsManager implements DomainsManager {
             });
         }
 
-        function createBuyOrRenewInfo(state: DomainAcquisitionState.CanBeBought | DomainAcquisitionState.Taken) {
-            return DomainAcquisitionInfo.createBuyOrRenew(state, { pricePerMinDuration: minBid, minDuration });
+        function createBuyOrRenewInfo(state: DomainAcquisitionState.CanBeBought | DomainAcquisitionState.Taken, pricePerMinDuration: number) {
+            return DomainAcquisitionInfo.createBuyOrRenew(state, { pricePerMinDuration, minDuration });
+        }
+
+        function getPricePerMinDuration(pricePerDay: BigNumber) {
+            return pricePerDay.dividedBy(1e6).multipliedBy(minDuration).decimalPlaces(0, BigNumber.ROUND_HALF_UP).toNumber();
         }
     }
 
