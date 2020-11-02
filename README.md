@@ -39,6 +39,7 @@ The above example would use the default taquito instance `Tezos` to execute requ
 Example of registering a domain:
 
 **NOTE**: registering a domain uses [commitment scheme](https://en.wikipedia.org/wiki/Commitment_scheme).
+**NOTE**: You also need to install `@taquito/signer` npm package for this example.
 
 ```ts
 import { InMemorySigner } from '@taquito/signer';
