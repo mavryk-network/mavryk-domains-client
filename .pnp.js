@@ -2455,12 +2455,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@taquito/michelson-encoder", [
-        ["npm:7.0.0-beta-RC.0", {
-          "packageLocation": "./.yarn/cache/@taquito-michelson-encoder-npm-7.0.0-beta-RC.0-5e75018196-1f4fcbb54f.zip/node_modules/@taquito/michelson-encoder/",
+        ["npm:7.0.0-beta.0", {
+          "packageLocation": "./.yarn/cache/@taquito-michelson-encoder-npm-7.0.0-beta.0-ab7da03f0f-7d83ec3803.zip/node_modules/@taquito/michelson-encoder/",
           "packageDependencies": [
-            ["@taquito/michelson-encoder", "npm:7.0.0-beta-RC.0"],
-            ["@taquito/rpc", "npm:7.0.0-beta-RC.0"],
-            ["@taquito/utils", "npm:7.0.0-beta-RC.0"],
+            ["@taquito/michelson-encoder", "npm:7.0.0-beta.0"],
+            ["@taquito/rpc", "npm:7.0.0-beta.0"],
+            ["@taquito/utils", "npm:7.0.0-beta.0"],
             ["bignumber.js", "npm:9.0.1"],
             ["fast-json-stable-stringify", "npm:2.1.0"]
           ],
@@ -2468,10 +2468,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@taquito/rpc", [
-        ["npm:7.0.0-beta-RC.0", {
-          "packageLocation": "./.yarn/cache/@taquito-rpc-npm-7.0.0-beta-RC.0-0eaa8c4283-d4799cfeb0.zip/node_modules/@taquito/rpc/",
+        ["npm:7.0.0-beta.0", {
+          "packageLocation": "./.yarn/cache/@taquito-rpc-npm-7.0.0-beta.0-f3ed5ad6cb-218e884100.zip/node_modules/@taquito/rpc/",
           "packageDependencies": [
-            ["@taquito/rpc", "npm:7.0.0-beta-RC.0"],
+            ["@taquito/rpc", "npm:7.0.0-beta.0"],
             ["@taquito/http-utils", "npm:7.0.0-beta-RC.0"],
             ["bignumber.js", "npm:9.0.1"],
             ["lodash", "npm:4.17.20"]
@@ -2480,12 +2480,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@taquito/signer", [
-        ["npm:7.0.0-beta-RC.0", {
-          "packageLocation": "./.yarn/cache/@taquito-signer-npm-7.0.0-beta-RC.0-9d18a42c7c-4f9507e03b.zip/node_modules/@taquito/signer/",
+        ["npm:7.0.0-beta.0", {
+          "packageLocation": "./.yarn/cache/@taquito-signer-npm-7.0.0-beta.0-cf379c66d3-4a61a7b643.zip/node_modules/@taquito/signer/",
           "packageDependencies": [
-            ["@taquito/signer", "npm:7.0.0-beta-RC.0"],
-            ["@taquito/taquito", "npm:7.0.0-beta-RC.0"],
-            ["@taquito/utils", "npm:7.0.0-beta-RC.0"],
+            ["@taquito/signer", "npm:7.0.0-beta.0"],
+            ["@taquito/taquito", "npm:7.0.0-beta.0"],
+            ["@taquito/utils", "npm:7.0.0-beta.0"],
             ["bignumber.js", "npm:9.0.1"],
             ["bip39", "npm:3.0.2"],
             ["elliptic", "npm:6.5.3"],
@@ -2497,27 +2497,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@taquito/taquito", [
-        ["npm:7.0.0-beta-RC.0", {
-          "packageLocation": "./.yarn/cache/@taquito-taquito-npm-7.0.0-beta-RC.0-d054ddbcba-684b85ad5a.zip/node_modules/@taquito/taquito/",
+        ["npm:7.0.0-beta.0", {
+          "packageLocation": "./.yarn/cache/@taquito-taquito-npm-7.0.0-beta.0-e96d43775a-f05cab2b83.zip/node_modules/@taquito/taquito/",
           "packageDependencies": [
-            ["@taquito/taquito", "npm:7.0.0-beta-RC.0"],
+            ["@taquito/taquito", "npm:7.0.0-beta.0"],
             ["@taquito/http-utils", "npm:7.0.0-beta-RC.0"],
             ["@taquito/michel-codec", "npm:7.0.0-beta-RC.0"],
-            ["@taquito/michelson-encoder", "npm:7.0.0-beta-RC.0"],
-            ["@taquito/rpc", "npm:7.0.0-beta-RC.0"],
-            ["@taquito/utils", "npm:7.0.0-beta-RC.0"],
+            ["@taquito/michelson-encoder", "npm:7.0.0-beta.0"],
+            ["@taquito/rpc", "npm:7.0.0-beta.0"],
+            ["@taquito/utils", "npm:7.0.0-beta.0"],
             ["bignumber.js", "npm:9.0.1"],
-            ["rx-sandbox", "virtual:d054ddbcba0531558b3e021618174269b072747b88fb51b65e68fb11a05d88f9041160ff28fd0025bae66d302c3bfc94e0eae6195902c96ceae55a8153b56f0b#npm:1.0.3"],
+            ["rx-sandbox", "virtual:e96d43775aa4dd982c89c4049b096e9cac56d3711f095b9fb858da9db11670a3af1991d7a714add4b8f0ad6070b30d4ddc9a4d87f8c5c1da96c48474013f7a51#npm:1.0.3"],
             ["rxjs", "npm:6.6.3"]
           ],
           "linkType": "HARD",
         }]
       ]],
       ["@taquito/utils", [
-        ["npm:7.0.0-beta-RC.0", {
-          "packageLocation": "./.yarn/cache/@taquito-utils-npm-7.0.0-beta-RC.0-2e901f9296-7c8d8b8fd5.zip/node_modules/@taquito/utils/",
+        ["npm:7.0.0-beta.0", {
+          "packageLocation": "./.yarn/cache/@taquito-utils-npm-7.0.0-beta.0-c86c9f1c09-b7ccf52cf2.zip/node_modules/@taquito/utils/",
           "packageDependencies": [
-            ["@taquito/utils", "npm:7.0.0-beta-RC.0"],
+            ["@taquito/utils", "npm:7.0.0-beta.0"],
             ["blakejs", "npm:1.1.0"],
             ["bs58check", "npm:2.1.2"],
             ["buffer", "npm:5.6.0"]
@@ -2530,7 +2530,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/$$virtual/@tezos-domains-client-virtual-ff93206cef/1/packages/client/",
           "packageDependencies": [
             ["@tezos-domains/client", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/client"],
-            ["@taquito/taquito", "npm:7.0.0-beta-RC.0"],
+            ["@taquito/taquito", "npm:7.0.0-beta.0"],
             ["@tezos-domains/core", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/core"],
             ["@tezos-domains/manager", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/manager"],
             ["@tezos-domains/resolver", "virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#workspace:packages/resolver"],
@@ -2558,7 +2558,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/client/",
           "packageDependencies": [
             ["@tezos-domains/client", "workspace:packages/client"],
-            ["@taquito/taquito", "npm:7.0.0-beta-RC.0"],
+            ["@taquito/taquito", "npm:7.0.0-beta.0"],
             ["@tezos-domains/core", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/core"],
             ["@tezos-domains/manager", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/manager"],
             ["@tezos-domains/resolver", "virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#workspace:packages/resolver"],
@@ -2583,8 +2583,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/$$virtual/@tezos-domains-core-virtual-f249976404/1/packages/core/",
           "packageDependencies": [
             ["@tezos-domains/core", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/core"],
-            ["@taquito/taquito", "npm:7.0.0-beta-RC.0"],
-            ["@taquito/utils", "npm:7.0.0-beta-RC.0"],
+            ["@taquito/taquito", "npm:7.0.0-beta.0"],
+            ["@taquito/utils", "npm:7.0.0-beta.0"],
             ["@types/node", "npm:14.14.6"],
             ["@types/taquito__taquito", null],
             ["@types/taquito__utils", null],
@@ -2615,8 +2615,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/core/",
           "packageDependencies": [
             ["@tezos-domains/core", "workspace:packages/core"],
-            ["@taquito/taquito", "npm:7.0.0-beta-RC.0"],
-            ["@taquito/utils", "npm:7.0.0-beta-RC.0"],
+            ["@taquito/taquito", "npm:7.0.0-beta.0"],
+            ["@taquito/utils", "npm:7.0.0-beta.0"],
             ["@types/node", "npm:14.14.6"],
             ["bignumber.js", "npm:9.0.1"],
             ["fake-promise", "npm:2.5.41"],
@@ -2641,14 +2641,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/$$virtual/@tezos-domains-manager-virtual-0df0a5fea2/1/packages/manager/",
           "packageDependencies": [
             ["@tezos-domains/manager", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/manager"],
-            ["@taquito/michelson-encoder", "npm:7.0.0-beta-RC.0"],
-            ["@taquito/rpc", "npm:7.0.0-beta-RC.0"],
-            ["@taquito/taquito", "npm:7.0.0-beta-RC.0"],
-            ["@taquito/utils", "npm:7.0.0-beta-RC.0"],
+            ["@taquito/michelson-encoder", "npm:7.0.0-beta.0"],
+            ["@taquito/rpc", "npm:7.0.0-beta.0"],
+            ["@taquito/taquito", "npm:7.0.0-beta.0"],
+            ["@taquito/utils", "npm:7.0.0-beta.0"],
             ["@tezos-domains/core", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/core"],
             ["@types/node", "npm:14.14.6"],
             ["@types/sha.js", "npm:2.4.0"],
             ["@types/taquito__michelson-encoder", null],
+            ["@types/taquito__rpc", null],
             ["@types/taquito__taquito", null],
             ["@types/taquito__utils", null],
             ["bignumber.js", "npm:9.0.1"],
@@ -2671,6 +2672,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             "@taquito/taquito",
             "@taquito/utils",
             "@types/taquito__michelson-encoder",
+            "@types/taquito__rpc",
             "@types/taquito__taquito",
             "@types/taquito__utils"
           ],
@@ -2680,10 +2682,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/manager/",
           "packageDependencies": [
             ["@tezos-domains/manager", "workspace:packages/manager"],
-            ["@taquito/michelson-encoder", "npm:7.0.0-beta-RC.0"],
-            ["@taquito/rpc", "npm:7.0.0-beta-RC.0"],
-            ["@taquito/taquito", "npm:7.0.0-beta-RC.0"],
-            ["@taquito/utils", "npm:7.0.0-beta-RC.0"],
+            ["@taquito/michelson-encoder", "npm:7.0.0-beta.0"],
+            ["@taquito/rpc", "npm:7.0.0-beta.0"],
+            ["@taquito/taquito", "npm:7.0.0-beta.0"],
+            ["@taquito/utils", "npm:7.0.0-beta.0"],
             ["@tezos-domains/core", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/core"],
             ["@types/node", "npm:14.14.6"],
             ["@types/sha.js", "npm:2.4.0"],
@@ -2710,8 +2712,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/$$virtual/@tezos-domains-resolver-virtual-db4b0ef210/1/packages/resolver/",
           "packageDependencies": [
             ["@tezos-domains/resolver", "virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#workspace:packages/resolver"],
-            ["@taquito/taquito", "npm:7.0.0-beta-RC.0"],
-            ["@taquito/utils", "npm:7.0.0-beta-RC.0"],
+            ["@taquito/taquito", "npm:7.0.0-beta.0"],
+            ["@taquito/utils", "npm:7.0.0-beta.0"],
             ["@tezos-domains/core", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/core"],
             ["@types/node", "npm:14.14.6"],
             ["@types/taquito__taquito", null],
@@ -2743,8 +2745,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/resolver/",
           "packageDependencies": [
             ["@tezos-domains/resolver", "workspace:packages/resolver"],
-            ["@taquito/taquito", "npm:7.0.0-beta-RC.0"],
-            ["@taquito/utils", "npm:7.0.0-beta-RC.0"],
+            ["@taquito/taquito", "npm:7.0.0-beta.0"],
+            ["@taquito/utils", "npm:7.0.0-beta.0"],
             ["@tezos-domains/core", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/core"],
             ["@types/node", "npm:14.14.6"],
             ["bignumber.js", "npm:9.0.1"],
@@ -8042,10 +8044,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./integration-tests/",
           "packageDependencies": [
             ["integration-tests", "workspace:integration-tests"],
-            ["@taquito/michelson-encoder", "npm:7.0.0-beta-RC.0"],
-            ["@taquito/signer", "npm:7.0.0-beta-RC.0"],
-            ["@taquito/taquito", "npm:7.0.0-beta-RC.0"],
-            ["@taquito/utils", "npm:7.0.0-beta-RC.0"],
+            ["@taquito/michelson-encoder", "npm:7.0.0-beta.0"],
+            ["@taquito/signer", "npm:7.0.0-beta.0"],
+            ["@taquito/taquito", "npm:7.0.0-beta.0"],
+            ["@taquito/utils", "npm:7.0.0-beta.0"],
             ["@tezos-domains/client", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/client"],
             ["@tezos-domains/core", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/core"],
             ["@tezos-domains/manager", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/manager"],
@@ -13077,10 +13079,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["rx-sandbox", [
-        ["virtual:d054ddbcba0531558b3e021618174269b072747b88fb51b65e68fb11a05d88f9041160ff28fd0025bae66d302c3bfc94e0eae6195902c96ceae55a8153b56f0b#npm:1.0.3", {
-          "packageLocation": "./.yarn/$$virtual/rx-sandbox-virtual-7aa30bf117/0/cache/rx-sandbox-npm-1.0.3-afa9d57db9-f8d245801f.zip/node_modules/rx-sandbox/",
+        ["virtual:e96d43775aa4dd982c89c4049b096e9cac56d3711f095b9fb858da9db11670a3af1991d7a714add4b8f0ad6070b30d4ddc9a4d87f8c5c1da96c48474013f7a51#npm:1.0.3", {
+          "packageLocation": "./.yarn/$$virtual/rx-sandbox-virtual-f176f9e843/0/cache/rx-sandbox-npm-1.0.3-afa9d57db9-f8d245801f.zip/node_modules/rx-sandbox/",
           "packageDependencies": [
-            ["rx-sandbox", "virtual:d054ddbcba0531558b3e021618174269b072747b88fb51b65e68fb11a05d88f9041160ff28fd0025bae66d302c3bfc94e0eae6195902c96ceae55a8153b56f0b#npm:1.0.3"],
+            ["rx-sandbox", "virtual:e96d43775aa4dd982c89c4049b096e9cac56d3711f095b9fb858da9db11670a3af1991d7a714add4b8f0ad6070b30d4ddc9a4d87f8c5c1da96c48474013f7a51#npm:1.0.3"],
             ["@types/rxjs", null],
             ["jest-matcher-utils", "npm:24.9.0"],
             ["jest-matchers", "npm:20.0.3"],
