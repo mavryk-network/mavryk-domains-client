@@ -427,6 +427,19 @@ describe('BlockchainDomainsManager', () => {
 
             expect(op).toBe(instance(operation));
         });
+
+        it('should call smart contract with 0 amount if bidder balance is more than the bid', async () => {
+            when(tezosClientMock.getPkh()).thenResolve('tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix');
+
+            const op = await manager.bid('tez', {
+                label: 'necroskillz',
+                bid: 1e6,
+            });
+
+            verify(tezosClientMock.call(`${SmartContractType.TLDRegistrar}addrtezbid`, 'bid', deepEqual([e('necroskillz'), 1e6]), 0)).called();
+
+            expect(op).toBe(instance(operation));
+        });
     });
 
     describe('settle()', () => {

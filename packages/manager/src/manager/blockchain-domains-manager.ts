@@ -298,7 +298,7 @@ export class BlockchainDomainsManager implements DomainsManager {
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
         const balance = await this.getBidderBalance(tld, await this.tezos.getPkh());
         const encodedRequest = RpcRequestData.fromObject(BidRequest, request).encode();
-        const operation = await this.tezos.call(address, entrypoint, [encodedRequest.label, encodedRequest.bid], encodedRequest.bid - balance);
+        const operation = await this.tezos.call(address, entrypoint, [encodedRequest.label, encodedRequest.bid], Math.max(0, encodedRequest.bid - balance));
 
         this.tracer.trace('<= Executed.', operation.opHash);
 
