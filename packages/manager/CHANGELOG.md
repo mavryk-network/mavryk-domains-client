@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.18](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.17...v1.0.0-beta.18) (2020-11-03)
+
+
+### Bug Fixes
+
+* remove null from return type of getBidderBalance ([ae8d346](https://gitlab.com/tezos-domains/client/commit/ae8d3464a31d0d24ad5e47dc5cec2a6d4b475581))
+
+
+
+
+
 # [1.0.0-beta.17](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.16...v1.0.0-beta.17) (2020-11-03)
 
 **Note:** Version bump only for package @tezos-domains/manager
