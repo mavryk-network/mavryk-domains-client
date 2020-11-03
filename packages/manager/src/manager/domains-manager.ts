@@ -117,7 +117,7 @@ export interface DomainsManager {
      * @param tld The name of the top level domain (e.g. `tez`).
      * @param address The address for which to get the balance.
      */
-    getBidderBalance(tld: string, address: string): Promise<number | null>;
+    getBidderBalance(tld: string, address: string): Promise<number>;
 
     /**
      * Placed a bid on the specified domain label in an auction.

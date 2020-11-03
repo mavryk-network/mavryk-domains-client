@@ -68,7 +68,7 @@ export class TezosDomainsManager implements DomainsManager {
         return this.manager.getAcquisitionInfo(name);
     }
 
-    getBidderBalance(tld: string, address: string): Promise<number | null> {
+    getBidderBalance(tld: string, address: string): Promise<number> {
         return this.manager.getBidderBalance(tld, address);
     }
 
