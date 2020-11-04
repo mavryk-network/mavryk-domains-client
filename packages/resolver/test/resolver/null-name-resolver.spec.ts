@@ -1,10 +1,10 @@
-import { NullNameResovler, NameResolver } from '@tezos-domains/resolver';
+import { NullNameResolver, NameResolver } from '@tezos-domains/resolver';
 
 describe('NullNameResolver', () => {
     let resolver: NameResolver;
 
     beforeEach(() => {
-        resolver = new NullNameResovler();
+        resolver = new NullNameResolver();
     })
 
     describe('resolveDomainRecord()', () => {

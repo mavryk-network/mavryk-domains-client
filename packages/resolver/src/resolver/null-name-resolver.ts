@@ -1,7 +1,7 @@
 import { NameResolver } from './name-resolver';
 import { DomainInfo, ReverseRecordInfo } from './model';
 
-export class NullNameResovler implements NameResolver {
+export class NullNameResolver implements NameResolver {
     resolveDomainRecord(): Promise<DomainInfo | null> {
         return Promise.resolve(null);
     }
