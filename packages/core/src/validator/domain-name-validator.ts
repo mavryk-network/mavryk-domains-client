@@ -1,72 +1,26 @@
-import { TezosDomainsConfig, TLDConfig } from '../model';
-import { BuiltInTLDs } from './built-in-tlds';
-import { DomainNameValidatorFn, DomainNameValidationResult } from './validators';
-import { getTld, stripTld } from '../utils/domains';
+import { DomainNameValidationResult, DomainNameValidatorFn } from './validators';
 
 /**
- * Validation logic for domain names.
+ * An interface that defines functions for validating domain names.
  */
-export class DomainNameValidator {
-    private validators: Map<string, DomainNameValidatorFn> = new Map();
-    private tlds: string[] = [];
-
-    constructor(config?: TezosDomainsConfig) {
-        const network = config?.network || 'mainnet';
-        if (network === 'custom') {
-            if (!config?.tlds) {
-                throw new Error(`When network type is 'custom', it is required to specify 'tlds'.`);
-            }
-        }
-
-        let tlds: TLDConfig[] | null;
-
-        if (config?.tlds) {
-            tlds = config.tlds;
-        } else {
-            tlds = BuiltInTLDs[network];
-            if (!tlds) {
-                throw new Error(
-                    `Built in tlds configuration for network ${network} not found. Supported built-in networks are: 'mainnet', 'carthagenet', 'delphinet'.`
-                );
-            }
-        }
-
-        tlds.forEach(tld => this.addSupportedTld(tld.name, tld.validator));
-    }
-
+export interface DomainNameValidator {
     /**
      * Gets an array of supported top level domains.
      */
-    get supportedTLDs(): string[] {
-        return this.tlds;
-    }
+    supportedTLDs: string[];
 
     /**
      * Validates whether the specified domain name is valid.
      */
-    validateDomainName(name: string): DomainNameValidationResult {
-        if (this.tlds.includes(name)) {
-            // tld itself
-            return DomainNameValidationResult.VALID;
-        }
+    validateDomainName(name: string): DomainNameValidationResult;
 
-        const tld = getTld(name);
-        const nameWithoutTld = stripTld(name);
-
-        if (!this.supportedTLDs.includes(tld)) {
-            return DomainNameValidationResult.INVALID_TLD;
-        }
-
-        return this.validators.get(tld)!(nameWithoutTld, tld);
-    }
-
-    addSupportedTld(name: string, validator: DomainNameValidatorFn): void {
-        this.tlds.push(name);
-        this.validators.set(name, validator);
-    }
-
-    removeSupportedTld(name: string): void {
-        this.tlds = this.tlds.filter(tld => name !== tld);
-        this.validators.delete(name);
-    }
+    /**
+     * Adds a supported tld. You don't need to call this in most cases.
+     */
+    addSupportedTld(name: string, validator: DomainNameValidatorFn): void;
+    
+    /**
+     * Removes a supported tld. You don't need to call this in most cases.
+     */
+    removeSupportedTld(name: string): void;
 }

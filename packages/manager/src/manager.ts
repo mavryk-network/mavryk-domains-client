@@ -20,3 +20,4 @@ export {
     UpdateReverseRecordRequest,
 } from './manager/model';
 export { CommitmentGenerator } from './manager/commitment-generator';
+export { UnsupportedDomainsManager } from './manager/unsupported-domains-manager';

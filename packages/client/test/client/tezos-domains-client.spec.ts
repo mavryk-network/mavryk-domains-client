@@ -4,10 +4,10 @@ jest.mock('@tezos-domains/manager');
 jest.mock('@taquito/taquito');
 
 import { TezosToolkit } from '@taquito/taquito';
-import { TezosClient, ConsoleTracer, NoopTracer, AddressBook, DomainNameValidator } from '@tezos-domains/core';
-import { BlockchainDomainsManager, CommitmentGenerator } from '@tezos-domains/manager';
+import { TezosClient, ConsoleTracer, NoopTracer, AddressBook, TezosDomainsValidator, UnsupportedDomainNameValidator } from '@tezos-domains/core';
+import { BlockchainDomainsManager, CommitmentGenerator, UnsupportedDomainsManager } from '@tezos-domains/manager';
 import { TezosDomainsClient, ClientConfig } from '@tezos-domains/client';
-import { BlockchainNameResolver, CachedNameResolver, NameNormalizingNameResolver } from '@tezos-domains/resolver';
+import { BlockchainNameResolver, CachedNameResolver, NameNormalizingNameResolver, NullNameResolver } from '@tezos-domains/resolver';
 import { mock, instance, verify } from 'ts-mockito';
 
 describe('TezosDomainsClient', () => {
@@ -20,8 +20,11 @@ describe('TezosDomainsClient', () => {
     let blockchainNameResolverMock: BlockchainNameResolver;
     let cachedNameResolverMock: CachedNameResolver;
     let nameNormalizingNameResolver: NameNormalizingNameResolver;
-    let domainNameValidator: DomainNameValidator;
+    let domainNameValidator: TezosDomainsValidator;
     let tezosToolkitMock: TezosToolkit;
+    let nullNameResolver: NullNameResolver;
+    let unsupportedDomainNameValidator: UnsupportedDomainNameValidator;
+    let unsupportedDomainsManager: UnsupportedDomainsManager;
 
     beforeEach(() => {
         tezosClientMock = mock(TezosClient);
@@ -33,8 +36,11 @@ describe('TezosDomainsClient', () => {
         blockchainNameResolverMock = mock(BlockchainNameResolver);
         cachedNameResolverMock = mock(CachedNameResolver);
         nameNormalizingNameResolver = mock(NameNormalizingNameResolver);
-        domainNameValidator = mock(DomainNameValidator);
+        domainNameValidator = mock(TezosDomainsValidator);
         tezosToolkitMock = mock(TezosToolkit);
+        nullNameResolver = mock(NullNameResolver);
+        unsupportedDomainNameValidator = mock(UnsupportedDomainNameValidator);
+        unsupportedDomainsManager = mock(UnsupportedDomainsManager);
 
         (TezosClient as jest.Mock).mockReturnValue(instance(tezosClientMock));
         (AddressBook as jest.Mock).mockReturnValue(instance(addressBookMock));
@@ -45,7 +51,10 @@ describe('TezosDomainsClient', () => {
         (BlockchainNameResolver as jest.Mock).mockReturnValue(instance(blockchainNameResolverMock));
         (CachedNameResolver as jest.Mock).mockReturnValue(instance(cachedNameResolverMock));
         (NameNormalizingNameResolver as jest.Mock).mockReturnValue(instance(nameNormalizingNameResolver));
-        (DomainNameValidator as jest.Mock).mockReturnValue(instance(domainNameValidator));
+        (TezosDomainsValidator as jest.Mock).mockReturnValue(instance(domainNameValidator));
+        (NullNameResolver as jest.Mock).mockReturnValue(instance(nullNameResolver));
+        (UnsupportedDomainNameValidator as jest.Mock).mockReturnValue(instance(unsupportedDomainNameValidator));
+        (UnsupportedDomainsManager as jest.Mock).mockReturnValue(instance(unsupportedDomainsManager));
     });
 
     describe('config', () => {
@@ -141,12 +150,32 @@ describe('TezosDomainsClient', () => {
             expect(client.validator).toBe(instance(domainNameValidator));
         });
 
+        it('should be supported', () => {
+            expect(client.isSupported).toBe(true);
+        });
+
         describe('clearResolverCache()', () => {
             // eslint-disable-next-line jest/expect-expect
             it('should call clearCache() on the resolver', () => {
                 client.clearResolverCache();
 
                 verify(nameNormalizingNameResolver.clearCache()).called();
+            });
+        });
+
+        describe('Unsupported', () => {
+            it('should provide unsupported instance', () => {
+                client = TezosDomainsClient.Unsupported;
+
+                expect(client.isSupported).toBe(false);
+
+                expect(client.manager).toBe(instance(unsupportedDomainsManager));
+                expect(client.resolver).toBe(instance(nullNameResolver));
+                expect(client.validator).toBe(instance(unsupportedDomainNameValidator));
+            });
+
+            it('should not allow to change config', () => {
+                expect(() => TezosDomainsClient.Unsupported.setConfig({ tezos: instance(tezosToolkitMock) })).toThrowError();
             });
         });
     });

@@ -4,7 +4,7 @@ jest.mock('../../src/resolver/cached-name-resolver');
 jest.mock('../../src/resolver/name-normalizing-name-resolver');
 jest.mock('@taquito/taquito');
 
-import { TezosClient, ConsoleTracer, NoopTracer, AddressBook, DomainNameValidator } from '@tezos-domains/core';
+import { TezosClient, ConsoleTracer, NoopTracer, AddressBook, TezosDomainsValidator } from '@tezos-domains/core';
 import { TezosDomainsResolver, BlockchainNameResolver, CachedNameResolver, ResolverConfig, DomainInfo, ReverseRecordInfo, NameNormalizingNameResolver } from '@tezos-domains/resolver';
 import { mock, instance, when, anyString, verify } from 'ts-mockito';
 import { TezosToolkit } from '@taquito/taquito';
@@ -19,7 +19,7 @@ describe('TezosDomainsResolver', () => {
     let blockchainNameResolverMock: BlockchainNameResolver;
     let cachedNameResolverMock: CachedNameResolver;
     let nameNormalizingNameResolver: NameNormalizingNameResolver;
-    let domainNameValidator: DomainNameValidator;
+    let domainNameValidator: TezosDomainsValidator;
     let tezosToolkitMock: TezosToolkit;
 
     beforeEach(() => {
@@ -30,7 +30,7 @@ describe('TezosDomainsResolver', () => {
         blockchainNameResolverMock = mock(BlockchainNameResolver);
         cachedNameResolverMock = mock(CachedNameResolver);
         nameNormalizingNameResolver = mock(NameNormalizingNameResolver);
-        domainNameValidator = mock(DomainNameValidator);
+        domainNameValidator = mock(TezosDomainsValidator);
         tezosToolkitMock = mock(TezosToolkit);
 
         (TezosClient as jest.Mock).mockReturnValue(instance(tezosClientMock));
@@ -40,7 +40,7 @@ describe('TezosDomainsResolver', () => {
         (BlockchainNameResolver as jest.Mock).mockReturnValue(instance(blockchainNameResolverMock));
         (CachedNameResolver as jest.Mock).mockReturnValue(instance(cachedNameResolverMock));
         (NameNormalizingNameResolver as jest.Mock).mockReturnValue(instance(nameNormalizingNameResolver));
-        (DomainNameValidator as jest.Mock).mockReturnValue(instance(domainNameValidator));
+        (TezosDomainsValidator as jest.Mock).mockReturnValue(instance(domainNameValidator));
     });
 
     describe('config', () => {

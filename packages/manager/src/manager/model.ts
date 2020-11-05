@@ -14,7 +14,7 @@ export class SetChildRecordRequest {
     /** Additional metadata. */
     @encoder(MapEncoder) data!: RecordMetadata;
     /** The expiry of the record. Only used by the TLD registrar to set expiry for 2nd level domains. Should not be used for subdomains. */
-    @encoder(DateEncoder) expiry?: Date | null;
+    @encoder(DateEncoder) expiry!: Date | null;
 }
 
 @RpcRequest()
@@ -62,7 +62,7 @@ export class RenewRequest {
 @RpcRequest()
 export class ReverseRecordRequest {
     /** The name that is resolved when resolving the senders address. */
-    @encoder(BytesEncoder) name?: string | null;
+    @encoder(BytesEncoder) name!: string | null;
     /** The address that should be set as the owner of the reverse record. */
     owner!: string;
     /** Additional metadata. */
@@ -72,7 +72,7 @@ export class ReverseRecordRequest {
 @RpcRequest()
 export class UpdateReverseRecordRequest {
     /** The name that is resolved when resolving the [[`address`]]. */
-    @encoder(BytesEncoder) name?: string | null;
+    @encoder(BytesEncoder) name!: string | null;
     /** The address that should be set as the owner of the reverse record. */
     owner!: string;
     /** The address that the reverse record is associated with. */

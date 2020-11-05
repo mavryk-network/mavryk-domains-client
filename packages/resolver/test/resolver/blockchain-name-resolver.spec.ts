@@ -11,7 +11,7 @@ import {
 } from '@tezos-domains/core';
 import { NameResolver, BlockchainNameResolver } from '@tezos-domains/resolver';
 import { mock, when, anyFunction, anything, instance } from 'ts-mockito';
-import { StandardRecordMetadataKey, DomainNameValidator } from '@tezos-domains/core';
+import { StandardRecordMetadataKey, DomainNameValidator, TezosDomainsValidator } from '@tezos-domains/core';
 import { MichelsonMap } from '@taquito/taquito';
 import MockDate from 'mockdate';
 import BigNumber from 'bignumber.js';
@@ -45,7 +45,7 @@ describe('BlockchainNameResolver', () => {
         tezosClientMock = mock(TezosClient);
         addressBookMock = mock(AddressBook);
         tracerMock = mock<Tracer>();
-        validator = new DomainNameValidator();
+        validator = new TezosDomainsValidator();
 
         const domainData = new MichelsonMap();
         domainData.set(StandardRecordMetadataKey.TTL, e('420'));

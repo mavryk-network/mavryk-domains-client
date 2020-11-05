@@ -1,11 +1,11 @@
-import { DomainNameValidator, CustomNetworkConfig, DefaultNetworkConfig, DomainNameValidationResult, DomainNameValidatorFn } from '@tezos-domains/core';
+import { TezosDomainsValidator, CustomNetworkConfig, DefaultNetworkConfig, DomainNameValidationResult, DomainNameValidatorFn } from '@tezos-domains/core';
 
-describe('DomainNameValidator', () => {
-    let validator: DomainNameValidator;
+describe('TezosDomainsValidator', () => {
+    let validator: TezosDomainsValidator;
     const tezos: any = {};
 
     function init(config?: CustomNetworkConfig | DefaultNetworkConfig) {
-        validator = new DomainNameValidator(config);
+        validator = new TezosDomainsValidator(config);
     }
 
     describe('supportedTLDs', () => {

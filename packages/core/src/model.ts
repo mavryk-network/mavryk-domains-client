@@ -7,8 +7,6 @@ import { MapEncoder } from './rpc-data/encoders/map-encoder';
 import { RecordMetadata } from './rpc-data/record-metadata';
 import { DomainNameValidatorFn } from './validator/validators';
 
-export type NetworkType = 'mainnet' | 'carthagenet' | 'custom';
-
 export enum SmartContractType {
     TLDRegistrar = 'tldRegistrar',
     NameRegistry = 'nameRegistry',

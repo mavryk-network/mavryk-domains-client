@@ -1,10 +1,10 @@
 import './rpc-data/data-encoder';
 import './tracing/tracer';
+import './validator/domain-name-validator';
 
 export {
     SmartContractType,
     ContractConfig,
-    NetworkType,
     NameRegistryStorage,
     DomainRecord,
     ReverseRecord,
@@ -28,7 +28,10 @@ export { JsonBytesEncoder } from './rpc-data/encoders/json-bytes-encoder';
 export { MapEncoder } from './rpc-data/encoders/map-encoder';
 export { Tracer, ConsoleTracer, NoopTracer } from './tracing/tracer';
 export { DomainNameValidator } from './validator/domain-name-validator';
+export { TezosDomainsValidator } from './validator/tezos-domains-validator';
+export { UnsupportedDomainNameValidator } from './validator/unsupported-domain-name-validator';
 export { DomainNameValidationResult, DomainNameValidatorFn, LatinDomainNameValidator } from './validator/validators';
 export * from './utils/domains';
 export * from './utils/types';
+export * from './utils/support';
 export { hexToArray } from './utils/convert';

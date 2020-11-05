@@ -1,4 +1,4 @@
-import { TezosDomainsConfig, TezosClient, AddressBook, ConsoleTracer, NoopTracer, DomainNameValidator } from '@tezos-domains/core';
+import { TezosDomainsConfig, TezosClient, AddressBook, ConsoleTracer, NoopTracer, TezosDomainsValidator } from '@tezos-domains/core';
 
 import { NameResolver } from './name-resolver';
 import { BlockchainNameResolver } from './blockchain-name-resolver';
@@ -19,7 +19,7 @@ export class TezosDomainsResolver implements NameResolver {
         const tracer = config.tracing ? new ConsoleTracer() : new NoopTracer();
         const tezos = new TezosClient(config.tezos, tracer);
         const addressBook = new AddressBook(tezos, config);
-        const validator = new DomainNameValidator(config);
+        const validator = new TezosDomainsValidator(config);
         const blockchainResolver = new BlockchainNameResolver(tezos, addressBook, tracer, validator);
         if (config.caching) {
             this.resolver = new CachedNameResolver(blockchainResolver, tracer, {
