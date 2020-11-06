@@ -1,9 +1,9 @@
 import { BuiltInAddresses } from '../address-book/built-in-addresses';
 
-export type SupportedNetworkType = 'carthagenet' | 'delphinet' | 'custom';
+export type SupportedNetworkType = 'carthagenet' | 'delphinet';
 
 // TODO: dont filter mainnet when the contracts are deployed
-const SUPPORTED_NETWORKS = Object.keys(BuiltInAddresses).filter(n => n !== 'mainnet');
+const SUPPORTED_NETWORKS = Object.keys(BuiltInAddresses).filter(n => n !== 'mainnet' && n !== 'custom');
 
 /**
  * Can be used for feature toggles.

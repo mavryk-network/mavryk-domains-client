@@ -109,7 +109,7 @@ export class TezosDomainsClient {
      * Gets a singleton instance with method that are stubbed and return null or default value, or throw an exception.
      * This instance can be used in an app that supports multiple networks where on some of them Tezos Domains are supported
      * and on other not supported (contracts are not deployed etc.).
-     * 
+     *
      * @example
      * ```
      * function getClient(network: string) {
@@ -119,13 +119,13 @@ export class TezosDomainsClient {
      *          return TezosDomainsClient.Unsupported;
      *     }
      * }
-     * 
+     *
      * const client = getClient('unsupportednetwork');
-     * 
+     *
      * if (client.isSupported) { // not executed
      *     console.log(await client.manager.getAcquisitionInfo('alice.tez'));
      * }
-     * 
+     *
      * await client.resolver.resolveNameToAddress('alice.tez'); // returns null
      * ```
      */
