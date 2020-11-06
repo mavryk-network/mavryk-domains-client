@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.21](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.20...v1.0.0-beta.21) (2020-11-06)
+
+
+### Reverts
+
+* make expiry from setChildRecord optional ([ca24e67](https://gitlab.com/tezos-domains/client/commit/ca24e67d50616f5f1f5adca121db0e11a97d5324))
+
+
+
+
+
 # [1.0.0-beta.20](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.19...v1.0.0-beta.20) (2020-11-06)
 
 **Note:** Version bump only for package @tezos-domains/manager
