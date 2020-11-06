@@ -14,7 +14,7 @@ export class SetChildRecordRequest {
     /** Additional metadata. */
     @encoder(MapEncoder) data!: RecordMetadata;
     /** The expiry of the record. Only used by the TLD registrar to set expiry for 2nd level domains. Should not be used for subdomains. */
-    @encoder(DateEncoder) expiry!: Date | null;
+    @encoder(DateEncoder) expiry?: Date | null;
 }
 
 @RpcRequest()
