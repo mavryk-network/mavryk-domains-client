@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.20](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.19...v1.0.0-beta.20) (2020-11-06)
+
+
+### Bug Fixes
+
+* **core:** remove custom from supported networks (its a special case) ([6385bc4](https://gitlab.com/tezos-domains/client/commit/6385bc4eb517da10c2a4a3c38beac4c9df9f7ada))
+
+
+
+
+
+
 # [1.0.0-beta.19](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.18...v1.0.0-beta.19) (2020-11-06)
 
 
