@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.19](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.18...v1.0.0-beta.19) (2020-11-06)
+
+
+### Bug Fixes
+
+* **resolver:** fix a typo in NullNameResolver ([02396d0](https://gitlab.com/tezos-domains/client/commit/02396d0d5eccc91b4e5ba1f042ac0ba8a86149d6))
+
+
+### Features
+
+* add "unsupported" implementations of validator and manager, add TezosDomainsClient.Unsupported, add isTezosDomainsSupportedNetwork function ([c9aebdb](https://gitlab.com/tezos-domains/client/commit/c9aebdb2a6bfa50e603fe6b03233ecfa9c70d3d8))
+
+
+### BREAKING CHANGES
+
+* **resolver:** `NullNameResovler` renamed to correct name `NullNameResolver`
+
+
+
+
+
+
 # [1.0.0-beta.18](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.17...v1.0.0-beta.18) (2020-11-03)
 
 **Note:** Version bump only for package @tezos-domains/resolver
