@@ -42,7 +42,7 @@ export class TaquitoTezosDomainsClient {
         return this._resolver;
     }
 
-    /** Whether this is supported instance of `TezosDomainsClient` (as opposed to `TezosDomainsClient.Unsupported`) */
+    /** Whether this is supported instance of `TaquitoTezosDomainsClient` (as opposed to `TaquitoTezosDomainsClient.Unsupported`) */
     get isSupported(): boolean {
         return this._supported;
     }

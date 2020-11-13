@@ -4,14 +4,14 @@ Library for resolving and managing tezos domains built on top of [taquito](https
 
 _WARNING: This project is in beta. We welcome users and feedback, please be aware that this project is a work in progress._
 
-## Getting started
+## Getting started with taquito
 
-### 1) Install `@tezos-domains/client` package
+### 1) Install `@tezos-domains/taquito-client` package
 
 ```
-yarn add @tezos-domains/client @tezos-domains/core @taquito/taquito
+yarn add @tezos-domains/taquito-client @tezos-domains/core @taquito/taquito
 --or--
-npm install @tezos-domains/client @tezos-domains/core @taquito/taquito
+npm install @tezos-domains/taquito-client @tezos-domains/core @taquito/taquito
 ```
 
 ### 2a) Use `resolver` to resolve names and addresses
@@ -20,11 +20,11 @@ Example of resolving and address from domain name:
 
 ```ts
 import { TezosToolkit } from '@taquito/taquito';
-import { TezosDomainsClient } from '@tezos-domains/client';
+import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
 
 async function main() {
     const tezos = new TezosToolkit('https://delphinet-tezos.giganode.io/');
-    const client = new TezosDomainsClient({ tezos, network: 'delphinet', caching: { enabled: true } });
+    const client = new TaquitoTezosDomainsClient({ tezos, network: 'delphinet', caching: { enabled: true } });
 
     const address = await client.resolver.resolveNameToAddress('bob.tez');
 
@@ -44,13 +44,13 @@ Example of registering a domain:
 ```ts
 import { InMemorySigner } from '@taquito/signer';
 import { TezosToolkit } from '@taquito/taquito';
-import { TezosDomainsClient } from '@tezos-domains/client';
+import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
 import { getTld, getLabel, DomainNameValidationResult, RecordMetadata } from '@tezos-domains/core';
 
 async function main() {
     const tezos = new TezosToolkit('https://delphinet-tezos.giganode.io/');
     tezos.setSignerProvider(new InMemorySigner('<your signing key>'));
-    const client = new TezosDomainsClient({ tezos, network: 'delphinet' });
+    const client = new TaquitoTezosDomainsClient({ tezos, network: 'delphinet' });
 
     const name = 'foobar.tez';
 
@@ -92,7 +92,7 @@ async function main() {
 
 ## Options
 
-`TezosDomainsClient` takes options that can customize it's behavior.
+`TaquitoTezosDomainsClient` takes options that can customize it's behavior.
 
 `network` (default: `'mainnet'`)
 

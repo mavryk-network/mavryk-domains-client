@@ -16,7 +16,7 @@ import { mock, instance } from 'ts-mockito';
 import { TaquitoTezosDomainsDataProvider } from '../src/taquito-data-provider';
 import { TaquitoTezosDomainsProxyContractAddressResolver } from '../src/taquito-proxy-contract-address-resolver';
 
-describe('TezosDomainsClient', () => {
+describe('TaquitoTezosDomainsClient', () => {
     let taquitoClientMock: TaquitoClient;
     let addressBookMock: AddressBook;
     let noopTracerMock: NoopTracer;
