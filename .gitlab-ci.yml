@@ -15,7 +15,8 @@ build:
             - packages/core/dist/
             - packages/resolver/dist/
             - packages/manager/dist/
-            - packages/client/dist/
+            - packages/taquito/dist/
+            - packages/taquito-client/dist/
             - dist/typedoc
     tags:
         - docker
@@ -68,19 +69,35 @@ test:manager:
     tags:
         - docker
 
-test:client:
+test:taquito:
     stage: test
     image: node:alpine3.12
     allow_failure: false
     script:
-        - yarn workspace @tezos-domains/client test
+        - yarn workspace @tezos-domains/taquito test
     coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
     artifacts:
         paths:
-            - packages/client/coverage/
+            - packages/taquito/coverage/
         reports:
             junit:
-                - ./packages/client/coverage/junit.xml
+                - ./packages/taquito/coverage/junit.xml
+    tags:
+        - docker
+
+test:taquito-client:
+    stage: test
+    image: node:alpine3.12
+    allow_failure: false
+    script:
+        - yarn workspace @tezos-domains/taquito-client test
+    coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+    artifacts:
+        paths:
+            - packages/taquito-client/coverage/
+        reports:
+            junit:
+                - ./packages/taquito-client/coverage/junit.xml
     tags:
         - docker
 
