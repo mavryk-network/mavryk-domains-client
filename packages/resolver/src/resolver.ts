@@ -1,7 +1,6 @@
 import './resolver/name-resolver';
 import './resolver/model';
 
-export { TezosDomainsResolver, ResolverConfig, CachingConfig } from './resolver/tezos-domains-resolver';
 export { NullNameResolver } from './resolver/null-name-resolver';
 export { BlockchainNameResolver } from './resolver/blockchain-name-resolver';
 export { CachedNameResolver } from './resolver/cached-name-resolver';

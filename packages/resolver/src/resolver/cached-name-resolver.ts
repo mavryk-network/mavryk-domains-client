@@ -1,9 +1,8 @@
-import { Tracer, StandardRecordMetadataKey } from '@tezos-domains/core';
+import { Tracer, StandardRecordMetadataKey, CachingConfig } from '@tezos-domains/core';
 import NodeCache from 'node-cache';
 
 import { NameResolver } from './name-resolver';
 import { DomainInfo, ReverseRecordInfo } from './model';
-import { CachingConfig } from './tezos-domains-resolver';
 
 export class CachedNameResolver implements NameResolver {
     private cache: NodeCache;

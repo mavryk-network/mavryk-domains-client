@@ -1,5 +1,6 @@
-import { RpcRequest, encoder, BytesEncoder, RpcResponse, DateEncoder, MapEncoder, RecordMetadata, BigNumberEncoder } from '@tezos-domains/core';
+import { RpcRequest, encoder, BytesEncoder, RpcResponse, DateEncoder, RecordMetadata } from '@tezos-domains/core';
 import BigNumber from 'bignumber.js';
+import { MapEncoder, BigNumberEncoder } from '@tezos-domains/taquito';
 
 @RpcRequest()
 export class SetChildRecordRequest {

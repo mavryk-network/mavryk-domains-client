@@ -23,18 +23,12 @@
   "bugs": {
     "url": "https://gitlab.com/tezos-domains/client/issues"
   },
-  "peerDependencies": {
-    "@taquito/taquito": "^7.0.0-beta.0",
-    "@taquito/utils": "^7.0.0-beta.0"
-  },
   "dependencies": {
     "@tezos-domains/core": "^1.0.0-beta.21",
     "idna-uts46-hx": "^3.3.0",
     "node-cache": "^5.1.2"
   },
   "devDependencies": {
-    "@taquito/taquito": "7.0.0-beta.0",
-    "@taquito/utils": "7.0.0-beta.0",
     "@types/node": "^14.14.6",
     "bignumber.js": "9.0.1",
     "fake-promise": "^2.5.41",

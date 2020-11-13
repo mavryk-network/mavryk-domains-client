@@ -32,8 +32,11 @@
       "@tezos-domains/manager": [
         "manager/public_api.ts"
       ],
-      "@tezos-domains/client": [
-        "client/public_api.ts"
+      "@tezos-domains/taquito-client": [
+        "taquito-client/public_api.ts"
+      ],
+      "@tezos-domains/taquito": [
+        "taquito/public_api.ts"
       ],
     }
   }

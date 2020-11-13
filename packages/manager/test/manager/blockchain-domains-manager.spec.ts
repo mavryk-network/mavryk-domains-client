@@ -6,10 +6,10 @@ import {
     RpcResponseData,
     Tracer,
     AddressBook,
-    TezosClient,
     BytesEncoder,
     RecordMetadata,
 } from '@tezos-domains/core';
+import { TaquitoClient } from '@tezos-domains/taquito';
 import { DomainsManager, CommitmentGenerator, BlockchainDomainsManager, DomainAcquisitionState, CommitmentRequest } from '@tezos-domains/manager';
 import { mock, when, anyFunction, anything, instance, anyString, verify, anyOfClass, deepEqual, anyNumber, capture } from 'ts-mockito';
 import MockDate from 'mockdate';
@@ -32,7 +32,7 @@ const e = (s: string) => new BytesEncoder().encode(s)!;
 
 describe('BlockchainDomainsManager', () => {
     let manager: DomainsManager;
-    let tezosClientMock: TezosClient;
+    let taquitoClientMock: TaquitoClient;
     let addressBookMock: AddressBook;
     let tracerMock: Tracer;
     let commitmentGeneratorMock: CommitmentGenerator;
@@ -51,7 +51,7 @@ describe('BlockchainDomainsManager', () => {
     let storage: FakeTLDRegistrarStorage;
 
     beforeEach(() => {
-        tezosClientMock = mock(TezosClient);
+        taquitoClientMock = mock(TaquitoClient);
         addressBookMock = mock(AddressBook);
         tracerMock = mock<Tracer>();
         commitmentGeneratorMock = mock(CommitmentGenerator);
@@ -88,17 +88,17 @@ describe('BlockchainDomainsManager', () => {
         when(addressBookMock.lookup(anything(), anything(), anything())).thenCall((type, p1, p2) => Promise.resolve(`${type}addr${p1 || ''}${p2 || ''}`));
 
         when(
-            tezosClientMock.getBigMapValue(`${SmartContractType.TLDRegistrar}addrtez`, anyFunction(), anything())
+            taquitoClientMock.getBigMapValue(`${SmartContractType.TLDRegistrar}addrtez`, anyFunction(), anything())
         ).thenCall((_, selector, key: RpcRequestScalarData<string>) => Promise.resolve(new RpcResponseData(selector(storage)[key.encode()!])));
-        when(tezosClientMock.storage(`${SmartContractType.TLDRegistrar}addrtez`)).thenResolve(storage);
-        when(tezosClientMock.call(anyString(), anyString(), anything())).thenResolve(instance(operation));
-        when(tezosClientMock.call(anyString(), anyString(), anything(), anyNumber())).thenResolve(instance(operation));
+        when(taquitoClientMock.storage(`${SmartContractType.TLDRegistrar}addrtez`)).thenResolve(storage);
+        when(taquitoClientMock.call(anyString(), anyString(), anything())).thenResolve(instance(operation));
+        when(taquitoClientMock.call(anyString(), anyString(), anything(), anyNumber())).thenResolve(instance(operation));
 
         when(operation.opHash).thenReturn('op_hash');
 
         MockDate.set(now);
 
-        manager = new BlockchainDomainsManager(instance(tezosClientMock), instance(addressBookMock), instance(tracerMock), instance(commitmentGeneratorMock));
+        manager = new BlockchainDomainsManager(instance(taquitoClientMock), instance(addressBookMock), instance(tracerMock), instance(commitmentGeneratorMock));
     });
 
     afterEach(() => {
@@ -117,14 +117,14 @@ describe('BlockchainDomainsManager', () => {
             });
 
             verify(
-                tezosClientMock.call(
+                taquitoClientMock.call(
                     `${SmartContractType.NameRegistry}addrset_child_record`,
                     'set_child_record',
                     deepEqual([e('necroskillz'), e('tez'), 'tz1yyy', 'tz1xxx', anyOfClass(MichelsonMap), '2021-11-11T08:00:00.000Z'])
                 )
             ).called();
 
-            expect(capture(tezosClientMock.call).last()[2][4].get('ttl')).toBe('31');
+            expect(capture(taquitoClientMock.call).last()[2][4].get('ttl')).toBe('31');
 
             expect(op).toBe(instance(operation));
         });
@@ -140,13 +140,13 @@ describe('BlockchainDomainsManager', () => {
             });
 
             verify(
-                tezosClientMock.call(
+                taquitoClientMock.call(
                     `${SmartContractType.NameRegistry}addrupdate_record`,
                     'update_record',
                     deepEqual([e('necroskillz.tez'), 'tz1yyy', 'tz1xxx', anyOfClass(MichelsonMap)])
                 )
             ).called();
-            expect(capture(tezosClientMock.call).last()[2][3].get('ttl')).toBe('31');
+            expect(capture(taquitoClientMock.call).last()[2][3].get('ttl')).toBe('31');
 
             expect(op).toBe(instance(operation));
         });
@@ -160,7 +160,7 @@ describe('BlockchainDomainsManager', () => {
 
             const op = await manager.commit('tez', params);
 
-            verify(tezosClientMock.call(`${SmartContractType.TLDRegistrar}addrtezcommit`, 'commit', deepEqual(['commitment']))).called();
+            verify(taquitoClientMock.call(`${SmartContractType.TLDRegistrar}addrtezcommit`, 'commit', deepEqual(['commitment']))).called();
 
             expect(op).toBe(instance(operation));
         });
@@ -177,7 +177,7 @@ describe('BlockchainDomainsManager', () => {
             });
 
             verify(
-                tezosClientMock.call(
+                taquitoClientMock.call(
                     `${SmartContractType.TLDRegistrar}addrtezbuy`,
                     'buy',
                     deepEqual([e('alice'), 365, 'tz1xxx', 'tz1yyy', anyOfClass(MichelsonMap)]),
@@ -185,7 +185,7 @@ describe('BlockchainDomainsManager', () => {
                 )
             ).called();
 
-            expect(capture(tezosClientMock.call).last()[2][4].get('ttl')).toBe('31');
+            expect(capture(taquitoClientMock.call).last()[2][4].get('ttl')).toBe('31');
 
             expect(op).toBe(instance(operation));
         });
@@ -198,7 +198,7 @@ describe('BlockchainDomainsManager', () => {
                 label: 'necroskillz2',
             });
 
-            verify(tezosClientMock.call(`${SmartContractType.TLDRegistrar}addrtezrenew`, 'renew', deepEqual([e('necroskillz2'), 365]), 365 * 1e6)).called();
+            verify(taquitoClientMock.call(`${SmartContractType.TLDRegistrar}addrtezrenew`, 'renew', deepEqual([e('necroskillz2'), 365]), 365 * 1e6)).called();
 
             expect(op).toBe(instance(operation));
         });
@@ -213,13 +213,13 @@ describe('BlockchainDomainsManager', () => {
             });
 
             verify(
-                tezosClientMock.call(
+                taquitoClientMock.call(
                     `${SmartContractType.NameRegistry}addrclaim_reverse_record`,
                     'claim_reverse_record',
                     deepEqual([e('necroskillz.tez'), 'tz1xxx', anyOfClass(MichelsonMap)])
                 )
             ).called();
-            expect(capture(tezosClientMock.call).last()[2][2].get('ttl')).toBe('31');
+            expect(capture(taquitoClientMock.call).last()[2][2].get('ttl')).toBe('31');
 
             expect(op).toBe(instance(operation));
         });
@@ -235,13 +235,13 @@ describe('BlockchainDomainsManager', () => {
             });
 
             verify(
-                tezosClientMock.call(
+                taquitoClientMock.call(
                     `${SmartContractType.NameRegistry}addrupdate_reverse_record`,
                     'update_reverse_record',
                     deepEqual(['tz1xxx', e('necroskillz.tez'), 'tz1yyy', anyOfClass(MichelsonMap)])
                 )
             ).called();
-            expect(capture(tezosClientMock.call).last()[2][3].get('ttl')).toBe('31');
+            expect(capture(taquitoClientMock.call).last()[2][3].get('ttl')).toBe('31');
 
             expect(op).toBe(instance(operation));
         });
@@ -410,33 +410,33 @@ describe('BlockchainDomainsManager', () => {
                 bid: 5e6,
             });
 
-            verify(tezosClientMock.call(`${SmartContractType.TLDRegistrar}addrtezbid`, 'bid', deepEqual([e('necroskillz'), 5e6]), 5e6)).called();
+            verify(taquitoClientMock.call(`${SmartContractType.TLDRegistrar}addrtezbid`, 'bid', deepEqual([e('necroskillz'), 5e6]), 5e6)).called();
 
             expect(op).toBe(instance(operation));
         });
 
         it('should call smart contract bid with subtracted bidder balance', async () => {
-            when(tezosClientMock.getPkh()).thenResolve('tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix');
+            when(taquitoClientMock.getPkh()).thenResolve('tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix');
 
             const op = await manager.bid('tez', {
                 label: 'necroskillz',
                 bid: 5e6,
             });
 
-            verify(tezosClientMock.call(`${SmartContractType.TLDRegistrar}addrtezbid`, 'bid', deepEqual([e('necroskillz'), 5e6]), 3e6)).called();
+            verify(taquitoClientMock.call(`${SmartContractType.TLDRegistrar}addrtezbid`, 'bid', deepEqual([e('necroskillz'), 5e6]), 3e6)).called();
 
             expect(op).toBe(instance(operation));
         });
 
         it('should call smart contract with 0 amount if bidder balance is more than the bid', async () => {
-            when(tezosClientMock.getPkh()).thenResolve('tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix');
+            when(taquitoClientMock.getPkh()).thenResolve('tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix');
 
             const op = await manager.bid('tez', {
                 label: 'necroskillz',
                 bid: 1e6,
             });
 
-            verify(tezosClientMock.call(`${SmartContractType.TLDRegistrar}addrtezbid`, 'bid', deepEqual([e('necroskillz'), 1e6]), 0)).called();
+            verify(taquitoClientMock.call(`${SmartContractType.TLDRegistrar}addrtezbid`, 'bid', deepEqual([e('necroskillz'), 1e6]), 0)).called();
 
             expect(op).toBe(instance(operation));
         });
@@ -452,14 +452,14 @@ describe('BlockchainDomainsManager', () => {
             });
 
             verify(
-                tezosClientMock.call(
+                taquitoClientMock.call(
                     `${SmartContractType.TLDRegistrar}addrtezsettle`,
                     'settle',
                     deepEqual([e('necroskillz'), 'tz1xxx', 'tz1yyy', anyOfClass(MichelsonMap)])
                 )
             ).called();
 
-            expect(capture(tezosClientMock.call).last()[2][3].get('ttl')).toBe('31');
+            expect(capture(taquitoClientMock.call).last()[2][3].get('ttl')).toBe('31');
 
             expect(op).toBe(instance(operation));
         });
@@ -470,7 +470,7 @@ describe('BlockchainDomainsManager', () => {
             const op = await manager.withdraw('tez', 'tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix');
 
             verify(
-                tezosClientMock.call(`${SmartContractType.TLDRegistrar}addrtezwithdraw`, 'withdraw', deepEqual(['tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix']))
+                taquitoClientMock.call(`${SmartContractType.TLDRegistrar}addrtezwithdraw`, 'withdraw', deepEqual(['tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix']))
             ).called();
 
             expect(op).toBe(instance(operation));

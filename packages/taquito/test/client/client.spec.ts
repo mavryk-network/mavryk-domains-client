@@ -1,10 +1,11 @@
-import { TezosClient, Tracer, RpcRequestData, BytesEncoder } from '@tezos-domains/core';
+import { Tracer, RpcRequestData, BytesEncoder } from '@tezos-domains/core';
+import { TaquitoClient } from '@tezos-domains/taquito';
 import { TezosToolkit, BigMapAbstraction, ContractAbstraction, Wallet, WalletContract, ContractMethod, TransactionWalletOperation } from '@taquito/taquito';
 import { mock, instance, when, verify, anything, deepEqual } from 'ts-mockito';
 import FakePromise from 'fake-promise';
 
-describe('TezosClient', () => {
-    let client: TezosClient;
+describe('TaquitoClient', () => {
+    let client: TaquitoClient;
     let tezosToolkitMock: TezosToolkit;
     let walletProviderMock: Wallet;
     let contractMock: WalletContract;
@@ -48,7 +49,7 @@ describe('TezosClient', () => {
         when(contractMock.methods).thenReturn(methods)
         when(tracerMock.trace(anything(), anything()));
 
-        client = new TezosClient(instance(tezosToolkitMock), instance(tracerMock));
+        client = new TaquitoClient(instance(tezosToolkitMock), instance(tracerMock));
     });
 
     describe('storage()', () => {

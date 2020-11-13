@@ -1,7 +1,7 @@
 import { TezosToolkit } from '@taquito/taquito';
 import { InMemorySigner, importKey } from '@taquito/signer';
 import { getLabel, getTld, RecordMetadata, StandardRecordMetadataKey } from '@tezos-domains/core';
-import { TezosDomainsClient } from '@tezos-domains/client';
+import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import path from 'path';
@@ -11,7 +11,7 @@ import { FaucetWallet, CONFIG, DATA } from '../data';
 /**
  * Setup integration test data on specified network
  */
-let client: TezosDomainsClient;
+let client: TaquitoTezosDomainsClient;
 
 async function setTezos(wallet: FaucetWallet | 'admin') {
     const tezos = new TezosToolkit(CONFIG.rpcUrl);
@@ -27,7 +27,7 @@ async function setTezos(wallet: FaucetWallet | 'admin') {
         await importKey(tezos, wallet.email, wallet.password, wallet.mnemonic.join(' '), wallet.secret);
     }
 
-    client = new TezosDomainsClient({ tezos, network: CONFIG.network });
+    client = new TaquitoTezosDomainsClient({ tezos, network: CONFIG.network });
 }
 
 export async function createRecord(name: string, owner: string, address: string | null, expiry: Date | null, data?: RecordMetadata): Promise<void> {

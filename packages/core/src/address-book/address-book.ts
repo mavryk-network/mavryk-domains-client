@@ -1,11 +1,11 @@
 import { BuiltInAddresses } from './built-in-addresses';
-import { ContractConfig, TezosDomainsConfig, SmartContractType, ProxyStorage } from '../model';
-import { TezosClient } from '../tezos-client/client';
+import { ContractConfig, TezosDomainsConfig, SmartContractType } from '../model';
+import { TezosDomainsProxyContractAddressResolver } from '../tezos/tezos-domains-proxy-contract-address-resolver';
 
 export class AddressBook {
     private config: ContractConfig;
 
-    constructor(private tezosClient: TezosClient, config?: TezosDomainsConfig) {
+    constructor(private proxyContractAddressResolver: TezosDomainsProxyContractAddressResolver, config?: TezosDomainsConfig) {
         const network = config?.network || 'mainnet';
         if (network === 'custom') {
             if (!config?.contractAddresses) {
@@ -34,9 +34,7 @@ export class AddressBook {
         }
 
         if (addressDescriptor.resolveProxyContract) {
-            const storage = await this.tezosClient.storage<ProxyStorage>(addressDescriptor.address);
-
-            return storage.contract;
+            return await this.proxyContractAddressResolver.getAddress(addressDescriptor.address);
         }
 
         return addressDescriptor.address;

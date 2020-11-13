@@ -1,32 +1,32 @@
-import { ManagerConfig, DomainsManager, CommitmentGenerator, BlockchainDomainsManager, UnsupportedDomainsManager } from '@tezos-domains/manager';
-import {
-    ResolverConfig,
-    NameResolver,
-    BlockchainNameResolver,
-    CachedNameResolver,
-    NameNormalizingNameResolver,
-    NullNameResolver,
-} from '@tezos-domains/resolver';
-import {
-    TezosClient,
-    AddressBook,
-    ConsoleTracer,
-    NoopTracer,
-    DomainNameValidator,
-    TezosDomainsValidator,
-    UnsupportedDomainNameValidator,
-} from '@tezos-domains/core';
+import { TezosDomainsConfig, NoopTracer, ConsoleTracer, AddressBook, TezosDomainsValidator } from '@tezos-domains/core';
+import { TezosToolkit } from '@taquito/taquito';
+import { BlockchainNameResolver, NameResolver, CachedNameResolver, NameNormalizingNameResolver, NullNameResolver } from '@tezos-domains/resolver';
+import { DomainsManager, CommitmentGenerator, BlockchainDomainsManager, UnsupportedDomainsManager } from '@tezos-domains/manager';
+import { TaquitoClient } from '@tezos-domains/taquito';
 
-export type ClientConfig = ManagerConfig & ResolverConfig;
+import { TaquitoTezosDomainsProxyContractAddressResolver } from './taquito-proxy-contract-address-resolver';
+import { TaquitoTezosDomainsDataProvider } from './taquito-data-provider';
+import { DomainNameValidator } from '@tezos-domains/core';
+import { UnsupportedDomainNameValidator } from '@tezos-domains/core';
+
+export type TaquitoTezosDomainsConfig = TezosDomainsConfig & { tezos: TezosToolkit };
 
 /**
  * Facade class that surfaces all of the libraries capability and allow it's configuration.
+ * Uses taquito framework.
  */
-export class TezosDomainsClient {
+export class TaquitoTezosDomainsClient {
     private _manager!: DomainsManager;
     private _resolver!: NameResolver;
     private _validator!: DomainNameValidator;
     private _supported = true;
+
+    /**
+     * Gets the validator instance. The validator contains functions for validating domain names.
+     */
+    get validator(): DomainNameValidator {
+        return this._validator;
+    }
 
     /**
      * Gets the manager instance. The manager contains functions for buying and updating domains and reverse records.
@@ -42,50 +42,34 @@ export class TezosDomainsClient {
         return this._resolver;
     }
 
-    /**
-     * Gets the validator instance. The validator contains functions for validating domain names.
-     */
-    get validator(): DomainNameValidator {
-        return this._validator;
-    }
-
     /** Whether this is supported instance of `TezosDomainsClient` (as opposed to `TezosDomainsClient.Unsupported`) */
     get isSupported(): boolean {
         return this._supported;
     }
 
-    /**
-     * Creates a new instance of the `TezosDomainsClient` class with the specified `config`.
-     *
-     * @example
-     * ```
-     * const tezosDomains = new TezosDomainsClient({ network: 'delphinet', caching: { enabled: true } });
-     * ```
-     */
-    constructor(config: ClientConfig) {
+    constructor(config: TaquitoTezosDomainsConfig) {
         if (config) {
             this.setConfig(config);
         }
     }
 
-    /**
-     * Sets a new configuration for this instance. All components are recreated with the new `config`.
-     */
-    setConfig(config: ClientConfig): void {
+    setConfig(config: TaquitoTezosDomainsConfig): void {
         if (!this._supported) {
             throw new Error('Invalid operation. Unsupported client cannot be modified.');
         }
 
-        const tracer = config.tracing ? new ConsoleTracer() : new NoopTracer();
-        const tezosToolkit = config.tezos;
-        const tezos = new TezosClient(config.tezos, tracer);
-        const addressBook = new AddressBook(tezos, config);
-        const commitmentGenerator = new CommitmentGenerator(tezosToolkit);
-
         this._validator = new TezosDomainsValidator(config);
+
+        const tracer = config.tracing ? new ConsoleTracer() : new NoopTracer();
+        const tezos = new TaquitoClient(config.tezos, tracer);
+        const proxyContractAddressResolver = new TaquitoTezosDomainsProxyContractAddressResolver(tezos);
+        const addressBook = new AddressBook(proxyContractAddressResolver, config);
+        const dataProvider = new TaquitoTezosDomainsDataProvider(tezos, addressBook, tracer);
+        const commitmentGenerator = new CommitmentGenerator(config.tezos);
+
         this._manager = new BlockchainDomainsManager(tezos, addressBook, tracer, commitmentGenerator);
 
-        const blockchainResolver = new BlockchainNameResolver(tezos, addressBook, tracer, this._validator);
+        const blockchainResolver = new BlockchainNameResolver(dataProvider, tracer, this.validator);
         if (config.caching) {
             this._resolver = new CachedNameResolver(blockchainResolver, tracer, {
                 defaultRecordTtl: config.caching.defaultRecordTtl || 600,
@@ -99,13 +83,6 @@ export class TezosDomainsClient {
     }
 
     /**
-     * Clears the name/address resolution cache. (Only applies when `caching` is set to `true`).
-     */
-    clearResolverCache(): void {
-        this._resolver.clearCache();
-    }
-
-    /**
      * Gets a singleton instance with method that are stubbed and return null or default value, or throw an exception.
      * This instance can be used in an app that supports multiple networks where on some of them Tezos Domains are supported
      * and on other not supported (contracts are not deployed etc.).
@@ -114,9 +91,9 @@ export class TezosDomainsClient {
      * ```
      * function getClient(network: string) {
      *     if(isTezosDomainsSupportedNetwork(network)) {
-     *          return new TezosDomainsClient({ network, tezos });
+     *          return new TaquitoTezosDomainsClient({ network, tezos });
      *     } else {
-     *          return TezosDomainsClient.Unsupported;
+     *          return TaquitoTezosDomainsClient.Unsupported;
      *     }
      * }
      *
@@ -129,17 +106,16 @@ export class TezosDomainsClient {
      * await client.resolver.resolveNameToAddress('alice.tez'); // returns null
      * ```
      */
-    static get Unsupported(): TezosDomainsClient {
-        const client = new TezosDomainsClient(null as any);
+    static get Unsupported(): TaquitoTezosDomainsClient {
+        const client = new TaquitoTezosDomainsClient(null as any);
         client.setUnsupported();
         return client;
     }
 
-    /** @internal */
-    setUnsupported(): void {
-        this._validator = new UnsupportedDomainNameValidator();
+    private setUnsupported(): void {
+        this._supported = false;
         this._manager = new UnsupportedDomainsManager();
         this._resolver = new NullNameResolver();
-        this._supported = false;
+        this._validator = new UnsupportedDomainNameValidator();
     }
 }

@@ -1,1 +1,0 @@
-export { TezosDomainsClient, ClientConfig } from './client/tezos-domains-client';

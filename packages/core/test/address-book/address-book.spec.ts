@@ -1,21 +1,20 @@
-import { AddressBook, SmartContractType, TezosClient, CustomNetworkConfig, DefaultNetworkConfig } from '@tezos-domains/core';
+import { AddressBook, SmartContractType, TezosDomainsProxyContractAddressResolver, CustomNetworkConfig, DefaultNetworkConfig } from '@tezos-domains/core';
 import { mock, instance, when, anyString } from 'ts-mockito';
 
 import { BuiltInAddresses } from '../../src/address-book/built-in-addresses';
 
 describe('AddressBook', () => {
     let addressBook: AddressBook;
-    let tezosClientMock: TezosClient;
-    const tezos: any = {};
+    let contractAddressResolverMock: TezosDomainsProxyContractAddressResolver;
 
     beforeEach(() => {
-        tezosClientMock = mock(TezosClient);
+        contractAddressResolverMock = mock<TezosDomainsProxyContractAddressResolver>();
 
-        when(tezosClientMock.storage(anyString())).thenCall((a: string) => Promise.resolve({ contract: a + '_actual' }));
+        when(contractAddressResolverMock.getAddress(anyString())).thenCall((a: string) => Promise.resolve(a + '_actual'));
     });
 
     function init(config?: CustomNetworkConfig | DefaultNetworkConfig) {
-        addressBook = new AddressBook(instance(tezosClientMock), config);
+        addressBook = new AddressBook(instance(contractAddressResolverMock), config);
     }
 
     it('should resolve built-in addresses for mainnet', async () => {
@@ -30,7 +29,7 @@ describe('AddressBook', () => {
     });
 
     it('should resolve built-in addresses for delphinet', async () => {
-        init({ tezos, network: 'delphinet' });
+        init({ network: 'delphinet' });
 
         await expect(addressBook.lookup(SmartContractType.NameRegistry)).resolves.toBe(`${BuiltInAddresses.delphinet['nameRegistry'].address}_actual`);
         await expect(addressBook.lookup(SmartContractType.NameRegistry, 'set_child_record')).resolves.toBe(
@@ -45,13 +44,13 @@ describe('AddressBook', () => {
     });
 
     it('should resolve custom addresses', async () => {
-        init({ tezos, network: 'custom', contractAddresses: { nameRegistry: { address: 'custom_nr' } }, tlds: [] });
+        init({ network: 'custom', contractAddresses: { nameRegistry: { address: 'custom_nr' } }, tlds: [] });
 
         await expect(addressBook.lookup(SmartContractType.NameRegistry)).resolves.toBe('custom_nr');
     });
 
     it('should disregard network when resolving custom addresses', async () => {
-        init({ tezos, network: 'delphinet', contractAddresses: { nameRegistry: { address: 'custom_nr' } } });
+        init({ network: 'delphinet', contractAddresses: { nameRegistry: { address: 'custom_nr' } } });
 
         await expect(addressBook.lookup(SmartContractType.NameRegistry)).resolves.toBe('custom_nr');
     });
@@ -61,7 +60,7 @@ describe('AddressBook', () => {
     });
 
     it('should when unknown option network is specified', () => {
-        expect(() => init({ tezos, network: 'blehnet' as any })).toThrowError();
+        expect(() => init({ network: 'blehnet' as any })).toThrowError();
     });
 
     describe('lookup()', () => {

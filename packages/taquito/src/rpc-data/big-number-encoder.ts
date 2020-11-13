@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
+import { TypedRpcDataEncoder } from '@tezos-domains/core';
 
-import { TypedRpcDataEncoder } from '../data-encoder';
 
 export class BigNumberEncoder implements TypedRpcDataEncoder<number, BigNumber> {
     encode(value: number | null): BigNumber | null {

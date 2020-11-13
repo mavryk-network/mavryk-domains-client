@@ -1,5 +1,5 @@
 import { LatinDomainNameValidator, StandardRecordMetadataKey } from '@tezos-domains/core';
-import { TezosDomainsClient } from '@tezos-domains/client';
+import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
 import { TezosToolkit } from '@taquito/taquito';
 
 import { DATA, CONFIG } from '../data';
@@ -11,14 +11,14 @@ interface TestCase {
 }
 
 describe('resolver', () => {
-    let client: TezosDomainsClient;
+    let client: TaquitoTezosDomainsClient;
 
     beforeAll(() => {
         jest.setTimeout(30 * 60 * 1000);
 
         const tezos = new TezosToolkit(CONFIG.rpcUrl);
 
-        client = new TezosDomainsClient({
+        client = new TaquitoTezosDomainsClient({
             network: CONFIG.network,
             tezos,
             caching: { enabled: true },
@@ -33,7 +33,6 @@ describe('resolver', () => {
 
             expect(record!.address).toBe(DATA.ok.address);
             expect(record!.owner).toBe(DATA.ok.address);
-            expect(record!.level).toBe(2);
             expect(record!.expiry).toBeInstanceOf(Date);
             expect(record!.data.getJson(StandardRecordMetadataKey.TTL)).toBe(420);
         });

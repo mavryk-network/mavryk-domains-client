@@ -1,4 +1,5 @@
-import { MapEncoder, RecordMetadata, JsonBytesEncoder, BytesEncoder } from '@tezos-domains/core';
+import { RecordMetadata, JsonBytesEncoder, BytesEncoder } from '@tezos-domains/core';
+import { MapEncoder } from '@tezos-domains/taquito';
 import { MichelsonMap } from '@taquito/taquito';
 
 describe('MapEncoder', () => {

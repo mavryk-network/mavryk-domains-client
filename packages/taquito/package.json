@@ -1,5 +1,5 @@
 {
-  "name": "@tezos-domains/core",
+  "name": "@tezos-domains/taquito",
   "scripts": {
     "build": "rimraf dist && rollup -c rollup.config.ts",
     "watch": "rollup -c rollup.config.ts -w",
@@ -10,11 +10,11 @@
     "dist"
   ],
   "version": "1.0.0-beta.21",
-  "description": "Base library for interacting with tezos domains smart contracts.",
+  "description": "A library for interacting with tezos blockchain using taquito.",
   "author": "Necroskillz <necroskillz@gmail.com>",
   "license": "MIT",
-  "main": "dist/core.umd.js",
-  "module": "dist/core.es2015.js",
+  "main": "dist/taquito.umd.js",
+  "module": "dist/taquito.es2015.js",
   "typings": "dist/public_api.d.ts",
   "repository": {
     "type": "git",
@@ -23,7 +23,16 @@
   "bugs": {
     "url": "https://gitlab.com/tezos-domains/client/issues"
   },
+  "peerDependencies": {
+    "@taquito/taquito": "^7.0.0-beta.0"
+  },
+  "dependencies": {
+    "@tezos-domains/core": "^1.0.0-beta.21",
+    "bignumber.js": "^9.0.1",
+    "node-cache": "^5.1.2"
+  },
   "devDependencies": {
+    "@taquito/taquito": "7.0.0-beta.0",
     "@types/node": "^14.14.6",
     "fake-promise": "^2.5.41",
     "jest": "^26.6.1",

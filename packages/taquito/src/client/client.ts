@@ -1,11 +1,8 @@
 import { TezosToolkit, BigMapAbstraction, TransactionWalletOperation } from '@taquito/taquito';
+import { Tracer, RpcResponseData, RpcRequestScalarData } from '@tezos-domains/core';
 import NodeCache from 'node-cache';
 
-import { RpcResponseData } from '../rpc-data/rpc-response-data';
-import { RpcRequestScalarData } from '../rpc-data/rpc-request-data';
-import { Tracer } from '../tracing/tracer';
-
-export class TezosClient {
+export class TaquitoClient {
     private storageCache = new NodeCache({ stdTTL: 60 * 60, checkperiod: 0, useClones: false });
 
     constructor(private tezos: TezosToolkit, private tracer: Tracer) {}

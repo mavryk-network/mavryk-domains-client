@@ -1,7 +1,6 @@
 import { MichelsonMap } from '@taquito/taquito';
+import { TypedRpcDataEncoder, RecordMetadata } from '@tezos-domains/core';
 
-import { TypedRpcDataEncoder } from '../data-encoder';
-import { RecordMetadata } from '../record-metadata';
 
 export class MapEncoder implements TypedRpcDataEncoder<RecordMetadata, MichelsonMap<string, string>> {
     encode(value: RecordMetadata | null): MichelsonMap<string, string> | null {

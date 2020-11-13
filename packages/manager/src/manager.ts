@@ -1,7 +1,6 @@
 import './manager/domains-manager';
 
 export { BlockchainDomainsManager } from './manager/blockchain-domains-manager';
-export { TezosDomainsManager, ManagerConfig } from './manager/tezos-domains-manager';
 export { DomainsManager } from './manager/domains-manager';
 export {
     BuyRequest,

@@ -1,4 +1,4 @@
-import { TezosDomainsClient } from '@tezos-domains/client';
+import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
 import { DomainAcquisitionState } from '@tezos-domains/manager';
 import { TezosToolkit } from '@taquito/taquito';
 import fs from 'fs-extra';
@@ -11,13 +11,13 @@ const db = fs.readJSONSync(path.join(__dirname, './data.json'));
 // only resolver works for carthagenet because of old contracts
 if (CONFIG.network !== 'carthagenet') {
     describe('manager', () => {
-        let client: TezosDomainsClient;
+        let client: TaquitoTezosDomainsClient;
 
         beforeAll(() => {
             jest.setTimeout(30 * 60 * 1000);
             const tezos = new TezosToolkit(CONFIG.rpcUrl);
 
-            client = new TezosDomainsClient({ network: CONFIG.network, tezos });
+            client = new TaquitoTezosDomainsClient({ network: CONFIG.network, tezos });
         });
 
         describe('getCommitment()', () => {

@@ -1,5 +1,5 @@
 {
-  "name": "@tezos-domains/client",
+  "name": "@tezos-domains/taquito-client",
   "scripts": {
     "build": "rimraf dist && rollup -c rollup.config.ts",
     "watch": "rollup -c rollup.config.ts -w",
@@ -10,11 +10,11 @@
     "dist"
   ],
   "version": "1.0.0-beta.21",
-  "description": "A library for interacting with tezos domains.",
+  "description": "A library for interacting with tezos blockchain using taquito.",
   "author": "Necroskillz <necroskillz@gmail.com>",
   "license": "MIT",
-  "main": "dist/client.umd.js",
-  "module": "dist/client.es2015.js",
+  "main": "dist/taquito-client.umd.js",
+  "module": "dist/taquito-client.es2015.js",
   "typings": "dist/public_api.d.ts",
   "repository": {
     "type": "git",
@@ -29,7 +29,10 @@
   "dependencies": {
     "@tezos-domains/core": "^1.0.0-beta.21",
     "@tezos-domains/manager": "^1.0.0-beta.21",
-    "@tezos-domains/resolver": "^1.0.0-beta.21"
+    "@tezos-domains/resolver": "^1.0.0-beta.21",
+    "@tezos-domains/taquito": "^1.0.0-beta.21",
+    "bignumber.js": "^9.0.1",
+    "node-cache": "^5.1.2"
   },
   "devDependencies": {
     "@taquito/taquito": "7.0.0-beta.0",
@@ -37,6 +40,7 @@
     "fake-promise": "^2.5.41",
     "jest": "^26.6.1",
     "jest-junit": "^12.0.0",
+    "mockdate": "^3.0.2",
     "rimraf": "^3.0.2",
     "rollup": "^2.33.1",
     "rollup-plugin-sourcemaps": "^0.6.3",

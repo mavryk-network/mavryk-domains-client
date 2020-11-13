@@ -6,11 +6,11 @@ const pkg = require('./package.json');
 export default {
     input: `public_api.ts`,
     output: [
-        { file: pkg.main, name: 'tezosDomainsClient', format: 'umd', sourcemap: true },
+        { file: pkg.main, name: 'tezosDomainsTaquitoClient', format: 'umd', sourcemap: true },
         { file: pkg.module, format: 'es', sourcemap: true },
     ],
     // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
-    external: ['@tezos-domains/core', '@tezos-domains/manager', '@tezos-domains/resolver', '@taquito/taquito'],
+    external: ['@taquito/utils', '@taquito/taquito', 'node-cache', 'bignumber.js'],
     watch: {
         include: 'src/**',
     },

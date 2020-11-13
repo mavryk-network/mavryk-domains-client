@@ -1,19 +1,7 @@
 import { TransactionWalletOperation } from '@taquito/taquito';
-import {
-    Tracer,
-    TezosClient,
-    AddressBook,
-    Exact,
-    SmartContractType,
-    RpcRequestData,
-    TLDRegistrarStorage,
-    DateEncoder,
-    getTld,
-    MapEncoder,
-    RpcResponseData,
-    BigNumberEncoder,
-} from '@tezos-domains/core';
+import { Tracer, AddressBook, Exact, SmartContractType, RpcRequestData, DateEncoder, getTld, RpcResponseData } from '@tezos-domains/core';
 import { BytesEncoder, getLabel } from '@tezos-domains/core';
+import { TaquitoClient, TLDRegistrarStorage, MapEncoder, BigNumberEncoder } from '@tezos-domains/taquito';
 import BigNumber from 'bignumber.js';
 
 import {
@@ -36,7 +24,7 @@ import { DomainsManager } from './domains-manager';
 import { CommitmentGenerator } from './commitment-generator';
 
 export class BlockchainDomainsManager implements DomainsManager {
-    constructor(private tezos: TezosClient, private addressBook: AddressBook, private tracer: Tracer, private commitmentGenerator: CommitmentGenerator) {}
+    constructor(private tezos: TaquitoClient, private addressBook: AddressBook, private tracer: Tracer, private commitmentGenerator: CommitmentGenerator) {}
 
     async setChildRecord(request: Exact<SetChildRecordRequest>): Promise<TransactionWalletOperation> {
         const entrypoint = 'set_child_record';

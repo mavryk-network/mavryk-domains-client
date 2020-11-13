@@ -1,24 +1,10 @@
-import { validateAddress, ValidationResult } from '@taquito/utils';
-import {
-    SmartContractType,
-    NameRegistryStorage,
-    DomainRecord,
-    ReverseRecord,
-    Tracer,
-    DateEncoder,
-    RpcRequestData,
-    BytesEncoder,
-    DomainNameValidationResult,
-    TezosClient,
-    AddressBook,
-    DomainNameValidator
-} from '@tezos-domains/core';
+import { Tracer, DomainNameValidationResult, DomainNameValidator, TezosDomainsDataProvider } from '@tezos-domains/core';
 
 import { NameResolver } from './name-resolver';
 import { DomainInfo, ReverseRecordInfo } from './model';
 
 export class BlockchainNameResolver implements NameResolver {
-    constructor(private tezos: TezosClient, private addressBook: AddressBook, private tracer: Tracer, private validator: DomainNameValidator) {}
+    constructor(private tezosDomainsDataProvider: TezosDomainsDataProvider, private tracer: Tracer, private validator: DomainNameValidator) {}
 
     async resolveDomainRecord(name: string): Promise<DomainInfo | null> {
         this.tracer.trace(`=> Resolving record '${name}'`);
@@ -43,7 +29,6 @@ export class BlockchainNameResolver implements NameResolver {
             address: info.record.address,
             data: info.record.data,
             owner: info.record.owner,
-            level: info.record.level,
             expiry: info.expiry,
         };
     }
@@ -67,11 +52,7 @@ export class BlockchainNameResolver implements NameResolver {
             throw new Error(`Argument 'address' was not specified.`);
         }
 
-        if (validateAddress(address) !== ValidationResult.VALID) {
-            throw new Error(`'${address}' is not a valid address.`);
-        }
-
-        const reverseRecord = await this.getReverseRecord(address);
+        const reverseRecord = await this.tezosDomainsDataProvider.getReverseRecord(address);
 
         if (!reverseRecord || !reverseRecord.name) {
             this.tracer.trace(`!! Reverse record is empty.`);
@@ -108,14 +89,18 @@ export class BlockchainNameResolver implements NameResolver {
     }
 
     private async getValidRecord(name: string) {
-        const record = await this.getDomainRecord(name);
+        const record = await this.tezosDomainsDataProvider.getDomainRecord(name);
 
         if (!record) {
             this.tracer.trace('!! Record is null.');
             return null;
         }
 
-        const expiry = await this.getDomainExpiry(record.expiry_key);
+        if (!record.expiry_key) {
+            this.tracer.trace(`!! Validity key is null, record never expires.`);
+        }
+
+        const expiry = record.expiry_key ? await this.tezosDomainsDataProvider.getDomainExpiry(record.expiry_key) : null;
 
         if (expiry && expiry < new Date()) {
             this.tracer.trace('!! Record is expired.');
@@ -130,49 +115,5 @@ export class BlockchainNameResolver implements NameResolver {
 
     clearCache(): void {
         return void 0;
-    }
-
-    private async getDomainRecord(name: string) {
-        this.tracer.trace(`=> Getting record '${name}'.`);
-
-        const address = await this.addressBook.lookup(SmartContractType.NameRegistry);
-        const result = await this.tezos.getBigMapValue<NameRegistryStorage>(address, s => s.store.records, RpcRequestData.fromValue(name, BytesEncoder));
-
-        const record = result.decode(DomainRecord);
-
-        this.tracer.trace(`<= Received record.`, record);
-
-        return record;
-    }
-
-    private async getDomainExpiry(key: string | null) {
-        this.tracer.trace(`=> Getting expiry with key '${key || 'null'}'`);
-
-        if (!key) {
-            this.tracer.trace(`!! Validity key is null, record never expires.`);
-            return null;
-        }
-
-        const address = await this.addressBook.lookup(SmartContractType.NameRegistry);
-        const result = await this.tezos.getBigMapValue<NameRegistryStorage>(address, s => s.store.expiry_map, RpcRequestData.fromValue(key, BytesEncoder));
-
-        const expiry = result.scalar(DateEncoder);
-
-        this.tracer.trace('<= Received expiry.', expiry);
-
-        return expiry;
-    }
-
-    private async getReverseRecord(address: string) {
-        this.tracer.trace(`=> Getting reverse record '${address}'`);
-
-        const contractAddress = await this.addressBook.lookup(SmartContractType.NameRegistry);
-        const result = await this.tezos.getBigMapValue<NameRegistryStorage>(contractAddress, s => s.store.reverse_records, RpcRequestData.fromValue(address));
-
-        const reverseRecord = result.decode(ReverseRecord);
-
-        this.tracer.trace(`<= Received reverse record.`, reverseRecord);
-
-        return reverseRecord;
     }
 }

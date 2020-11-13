@@ -1,5 +1,5 @@
 import { TypedRpcDataEncoder } from './data-encoder';
-import { Constructable } from './../utils/types';
+import { Constructable } from '../utils/types';
 import { RpcResponseData } from './rpc-response-data';
 import { RpcRequestScalarData } from './rpc-request-data';
 import { JsonBytesEncoder } from './encoders/json-bytes-encoder';
@@ -35,7 +35,6 @@ export class RecordMetadata {
         this.data = data || {};
     }
 
-    /** @internal */
     raw(): Record<string, string> {
         return this.data;
     }

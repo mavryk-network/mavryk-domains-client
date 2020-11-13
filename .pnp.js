@@ -27,10 +27,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:integration-tests"
       },
       {
-        "name": "@tezos-domains/client",
-        "reference": "workspace:packages/client"
-      },
-      {
         "name": "@tezos-domains/core",
         "reference": "workspace:packages/core"
       },
@@ -41,15 +37,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "@tezos-domains/resolver",
         "reference": "workspace:packages/resolver"
+      },
+      {
+        "name": "@tezos-domains/taquito",
+        "reference": "workspace:packages/taquito"
+      },
+      {
+        "name": "@tezos-domains/taquito-client",
+        "reference": "workspace:packages/taquito-client"
       }
     ],
     "enableTopLevelFallback": true,
     "ignorePatternData": "(^(?:\\.yarn\\/sdks(?:\\/(?!\\.)(?:(?:(?!(?:^|\\/)\\.).)*?)|$))$)",
     "fallbackExclusionList": [
-      ["@tezos-domains/client", ["virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/client", "workspace:packages/client"]],
-      ["@tezos-domains/core", ["virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/core", "workspace:packages/core"]],
+      ["@tezos-domains/core", ["workspace:packages/core"]],
       ["@tezos-domains/manager", ["virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/manager", "workspace:packages/manager"]],
-      ["@tezos-domains/resolver", ["virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#workspace:packages/resolver", "workspace:packages/resolver"]],
+      ["@tezos-domains/resolver", ["workspace:packages/resolver"]],
+      ["@tezos-domains/taquito", ["virtual:0df0a5fea2f43012685e246f7a1481d916a0ca4f82b3be0a2db593ef743f1fc5039bc06b4313d232ba761616702c0ba4692e4263ef3dca1447f6f8fee5b6db75#workspace:packages/taquito", "workspace:packages/taquito"]],
+      ["@tezos-domains/taquito-client", ["virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/taquito-client", "workspace:packages/taquito-client"]],
       ["integration-tests", ["workspace:integration-tests"]],
       ["root", ["workspace:."]]
     ],
@@ -2379,10 +2384,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@rollup/pluginutils", [
-        ["virtual:4c48b3b5f486053227674979cc6ed7e9d609968bbf7870b45dbc6834f7129b7f9ed079a95031475af568a7ede307b488dfd00a4f8d987a0cc64aa9c651989334#npm:3.1.0", {
-          "packageLocation": "./.yarn/$$virtual/@rollup-pluginutils-virtual-a0d67f9677/0/cache/@rollup-pluginutils-npm-3.1.0-b44b222e7d-45da6411e0.zip/node_modules/@rollup/pluginutils/",
+        ["virtual:e0c322beef06dd5e95c80e6523137f30aff5e615c361af4c94851777478aae533733090cd8cf5284158225f6c26d6ce41ed1d995ae7a61d4d97849da1bd343bb#npm:3.1.0", {
+          "packageLocation": "./.yarn/$$virtual/@rollup-pluginutils-virtual-f7842b1ae4/0/cache/@rollup-pluginutils-npm-3.1.0-b44b222e7d-45da6411e0.zip/node_modules/@rollup/pluginutils/",
           "packageDependencies": [
-            ["@rollup/pluginutils", "virtual:4c48b3b5f486053227674979cc6ed7e9d609968bbf7870b45dbc6834f7129b7f9ed079a95031475af568a7ede307b488dfd00a4f8d987a0cc64aa9c651989334#npm:3.1.0"],
+            ["@rollup/pluginutils", "virtual:e0c322beef06dd5e95c80e6523137f30aff5e615c361af4c94851777478aae533733090cd8cf5284158225f6c26d6ce41ed1d995ae7a61d4d97849da1bd343bb#npm:3.1.0"],
             ["@types/estree", "npm:0.0.39"],
             ["@types/rollup", null],
             ["estree-walker", "npm:1.0.1"],
@@ -2525,110 +2530,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["@tezos-domains/client", [
-        ["virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/client", {
-          "packageLocation": "./.yarn/$$virtual/@tezos-domains-client-virtual-ff93206cef/1/packages/client/",
-          "packageDependencies": [
-            ["@tezos-domains/client", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/client"],
-            ["@taquito/taquito", "npm:7.0.0-beta.0"],
-            ["@tezos-domains/core", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/core"],
-            ["@tezos-domains/manager", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/manager"],
-            ["@tezos-domains/resolver", "virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#workspace:packages/resolver"],
-            ["@types/node", "npm:14.14.6"],
-            ["@types/taquito__taquito", null],
-            ["fake-promise", "npm:2.5.41"],
-            ["jest", "npm:26.6.1"],
-            ["jest-junit", "npm:12.0.0"],
-            ["rimraf", "npm:3.0.2"],
-            ["rollup", "npm:2.33.1"],
-            ["rollup-plugin-sourcemaps", "virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#npm:0.6.3"],
-            ["rollup-plugin-typescript2", "virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#npm:0.29.0"],
-            ["ts-jest", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#npm:26.4.3"],
-            ["ts-mockito", "npm:2.6.1"],
-            ["tslib", "npm:2.0.3"],
-            ["typescript", "patch:typescript@npm%3A4.0.5#builtin<compat/typescript>::version=4.0.5&hash=5bf698"]
-          ],
-          "packagePeers": [
-            "@taquito/taquito",
-            "@types/taquito__taquito"
-          ],
-          "linkType": "SOFT",
-        }],
-        ["workspace:packages/client", {
-          "packageLocation": "./packages/client/",
-          "packageDependencies": [
-            ["@tezos-domains/client", "workspace:packages/client"],
-            ["@taquito/taquito", "npm:7.0.0-beta.0"],
-            ["@tezos-domains/core", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/core"],
-            ["@tezos-domains/manager", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/manager"],
-            ["@tezos-domains/resolver", "virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#workspace:packages/resolver"],
-            ["@types/node", "npm:14.14.6"],
-            ["fake-promise", "npm:2.5.41"],
-            ["jest", "npm:26.6.1"],
-            ["jest-junit", "npm:12.0.0"],
-            ["rimraf", "npm:3.0.2"],
-            ["rollup", "npm:2.33.1"],
-            ["rollup-plugin-sourcemaps", "virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#npm:0.6.3"],
-            ["rollup-plugin-typescript2", "virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#npm:0.29.0"],
-            ["ts-jest", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#npm:26.4.3"],
-            ["ts-mockito", "npm:2.6.1"],
-            ["tslib", "npm:2.0.3"],
-            ["typescript", "patch:typescript@npm%3A4.0.5#builtin<compat/typescript>::version=4.0.5&hash=5bf698"]
-          ],
-          "linkType": "SOFT",
-        }]
-      ]],
       ["@tezos-domains/core", [
-        ["virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/core", {
-          "packageLocation": "./.yarn/$$virtual/@tezos-domains-core-virtual-f249976404/1/packages/core/",
-          "packageDependencies": [
-            ["@tezos-domains/core", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/core"],
-            ["@taquito/taquito", "npm:7.0.0-beta.0"],
-            ["@taquito/utils", "npm:7.0.0-beta.0"],
-            ["@types/node", "npm:14.14.6"],
-            ["@types/taquito__taquito", null],
-            ["@types/taquito__utils", null],
-            ["bignumber.js", "npm:9.0.1"],
-            ["fake-promise", "npm:2.5.41"],
-            ["jest", "npm:26.6.1"],
-            ["jest-junit", "npm:12.0.0"],
-            ["mockdate", "npm:3.0.2"],
-            ["node-cache", "npm:5.1.2"],
-            ["rimraf", "npm:3.0.2"],
-            ["rollup", "npm:2.33.1"],
-            ["rollup-plugin-sourcemaps", "virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#npm:0.6.3"],
-            ["rollup-plugin-typescript2", "virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#npm:0.29.0"],
-            ["ts-jest", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#npm:26.4.3"],
-            ["ts-mockito", "npm:2.6.1"],
-            ["tslib", "npm:2.0.3"],
-            ["typescript", "patch:typescript@npm%3A4.0.5#builtin<compat/typescript>::version=4.0.5&hash=5bf698"]
-          ],
-          "packagePeers": [
-            "@taquito/taquito",
-            "@taquito/utils",
-            "@types/taquito__taquito",
-            "@types/taquito__utils"
-          ],
-          "linkType": "SOFT",
-        }],
         ["workspace:packages/core", {
           "packageLocation": "./packages/core/",
           "packageDependencies": [
             ["@tezos-domains/core", "workspace:packages/core"],
-            ["@taquito/taquito", "npm:7.0.0-beta.0"],
-            ["@taquito/utils", "npm:7.0.0-beta.0"],
             ["@types/node", "npm:14.14.6"],
-            ["bignumber.js", "npm:9.0.1"],
             ["fake-promise", "npm:2.5.41"],
             ["jest", "npm:26.6.1"],
             ["jest-junit", "npm:12.0.0"],
             ["mockdate", "npm:3.0.2"],
-            ["node-cache", "npm:5.1.2"],
             ["rimraf", "npm:3.0.2"],
             ["rollup", "npm:2.33.1"],
-            ["rollup-plugin-sourcemaps", "virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#npm:0.6.3"],
-            ["rollup-plugin-typescript2", "virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#npm:0.29.0"],
-            ["ts-jest", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#npm:26.4.3"],
+            ["rollup-plugin-sourcemaps", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.6.3"],
+            ["rollup-plugin-typescript2", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.29.0"],
+            ["ts-jest", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:26.4.3"],
             ["ts-mockito", "npm:2.6.1"],
             ["tslib", "npm:2.0.3"],
             ["typescript", "patch:typescript@npm%3A4.0.5#builtin<compat/typescript>::version=4.0.5&hash=5bf698"]
@@ -2644,14 +2560,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@taquito/michelson-encoder", "npm:7.0.0-beta.0"],
             ["@taquito/rpc", "npm:7.0.0-beta.0"],
             ["@taquito/taquito", "npm:7.0.0-beta.0"],
-            ["@taquito/utils", "npm:7.0.0-beta.0"],
-            ["@tezos-domains/core", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/core"],
+            ["@tezos-domains/core", "workspace:packages/core"],
+            ["@tezos-domains/taquito", "virtual:0df0a5fea2f43012685e246f7a1481d916a0ca4f82b3be0a2db593ef743f1fc5039bc06b4313d232ba761616702c0ba4692e4263ef3dca1447f6f8fee5b6db75#workspace:packages/taquito"],
             ["@types/node", "npm:14.14.6"],
             ["@types/sha.js", "npm:2.4.0"],
             ["@types/taquito__michelson-encoder", null],
-            ["@types/taquito__rpc", null],
             ["@types/taquito__taquito", null],
-            ["@types/taquito__utils", null],
             ["bignumber.js", "npm:9.0.1"],
             ["fake-promise", "npm:2.5.41"],
             ["jest", "npm:26.6.1"],
@@ -2659,10 +2573,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["mockdate", "npm:3.0.2"],
             ["rimraf", "npm:3.0.2"],
             ["rollup", "npm:2.33.1"],
-            ["rollup-plugin-sourcemaps", "virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#npm:0.6.3"],
-            ["rollup-plugin-typescript2", "virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#npm:0.29.0"],
+            ["rollup-plugin-sourcemaps", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.6.3"],
+            ["rollup-plugin-typescript2", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.29.0"],
             ["sha.js", "npm:2.4.11"],
-            ["ts-jest", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#npm:26.4.3"],
+            ["ts-jest", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:26.4.3"],
             ["ts-mockito", "npm:2.6.1"],
             ["tslib", "npm:2.0.3"],
             ["typescript", "patch:typescript@npm%3A4.0.5#builtin<compat/typescript>::version=4.0.5&hash=5bf698"]
@@ -2670,11 +2584,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packagePeers": [
             "@taquito/michelson-encoder",
             "@taquito/taquito",
-            "@taquito/utils",
             "@types/taquito__michelson-encoder",
-            "@types/taquito__rpc",
-            "@types/taquito__taquito",
-            "@types/taquito__utils"
+            "@types/taquito__taquito"
           ],
           "linkType": "SOFT",
         }],
@@ -2685,8 +2596,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@taquito/michelson-encoder", "npm:7.0.0-beta.0"],
             ["@taquito/rpc", "npm:7.0.0-beta.0"],
             ["@taquito/taquito", "npm:7.0.0-beta.0"],
-            ["@taquito/utils", "npm:7.0.0-beta.0"],
-            ["@tezos-domains/core", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/core"],
+            ["@tezos-domains/core", "workspace:packages/core"],
+            ["@tezos-domains/taquito", "virtual:0df0a5fea2f43012685e246f7a1481d916a0ca4f82b3be0a2db593ef743f1fc5039bc06b4313d232ba761616702c0ba4692e4263ef3dca1447f6f8fee5b6db75#workspace:packages/taquito"],
             ["@types/node", "npm:14.14.6"],
             ["@types/sha.js", "npm:2.4.0"],
             ["bignumber.js", "npm:9.0.1"],
@@ -2696,10 +2607,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["mockdate", "npm:3.0.2"],
             ["rimraf", "npm:3.0.2"],
             ["rollup", "npm:2.33.1"],
-            ["rollup-plugin-sourcemaps", "virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#npm:0.6.3"],
-            ["rollup-plugin-typescript2", "virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#npm:0.29.0"],
+            ["rollup-plugin-sourcemaps", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.6.3"],
+            ["rollup-plugin-typescript2", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.29.0"],
             ["sha.js", "npm:2.4.11"],
-            ["ts-jest", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#npm:26.4.3"],
+            ["ts-jest", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:26.4.3"],
             ["ts-mockito", "npm:2.6.1"],
             ["tslib", "npm:2.0.3"],
             ["typescript", "patch:typescript@npm%3A4.0.5#builtin<compat/typescript>::version=4.0.5&hash=5bf698"]
@@ -2708,16 +2619,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@tezos-domains/resolver", [
-        ["virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#workspace:packages/resolver", {
-          "packageLocation": "./.yarn/$$virtual/@tezos-domains-resolver-virtual-db4b0ef210/1/packages/resolver/",
+        ["workspace:packages/resolver", {
+          "packageLocation": "./packages/resolver/",
           "packageDependencies": [
-            ["@tezos-domains/resolver", "virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#workspace:packages/resolver"],
-            ["@taquito/taquito", "npm:7.0.0-beta.0"],
-            ["@taquito/utils", "npm:7.0.0-beta.0"],
-            ["@tezos-domains/core", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/core"],
+            ["@tezos-domains/resolver", "workspace:packages/resolver"],
+            ["@tezos-domains/core", "workspace:packages/core"],
             ["@types/node", "npm:14.14.6"],
-            ["@types/taquito__taquito", null],
-            ["@types/taquito__utils", null],
             ["bignumber.js", "npm:9.0.1"],
             ["fake-promise", "npm:2.5.41"],
             ["idna-uts46-hx", "npm:3.3.0"],
@@ -2727,40 +2634,125 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["node-cache", "npm:5.1.2"],
             ["rimraf", "npm:3.0.2"],
             ["rollup", "npm:2.33.1"],
-            ["rollup-plugin-sourcemaps", "virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#npm:0.6.3"],
-            ["rollup-plugin-typescript2", "virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#npm:0.29.0"],
-            ["ts-jest", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#npm:26.4.3"],
+            ["rollup-plugin-sourcemaps", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.6.3"],
+            ["rollup-plugin-typescript2", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.29.0"],
+            ["ts-jest", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:26.4.3"],
+            ["ts-mockito", "npm:2.6.1"],
+            ["tslib", "npm:2.0.3"],
+            ["typescript", "patch:typescript@npm%3A4.0.5#builtin<compat/typescript>::version=4.0.5&hash=5bf698"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@tezos-domains/taquito", [
+        ["virtual:0df0a5fea2f43012685e246f7a1481d916a0ca4f82b3be0a2db593ef743f1fc5039bc06b4313d232ba761616702c0ba4692e4263ef3dca1447f6f8fee5b6db75#workspace:packages/taquito", {
+          "packageLocation": "./.yarn/$$virtual/@tezos-domains-taquito-virtual-f458b9ffe3/1/packages/taquito/",
+          "packageDependencies": [
+            ["@tezos-domains/taquito", "virtual:0df0a5fea2f43012685e246f7a1481d916a0ca4f82b3be0a2db593ef743f1fc5039bc06b4313d232ba761616702c0ba4692e4263ef3dca1447f6f8fee5b6db75#workspace:packages/taquito"],
+            ["@taquito/taquito", "npm:7.0.0-beta.0"],
+            ["@tezos-domains/core", "workspace:packages/core"],
+            ["@types/node", "npm:14.14.6"],
+            ["@types/taquito__taquito", null],
+            ["bignumber.js", "npm:9.0.1"],
+            ["fake-promise", "npm:2.5.41"],
+            ["jest", "npm:26.6.1"],
+            ["jest-junit", "npm:12.0.0"],
+            ["mockdate", "npm:3.0.2"],
+            ["node-cache", "npm:5.1.2"],
+            ["rimraf", "npm:3.0.2"],
+            ["rollup", "npm:2.33.1"],
+            ["rollup-plugin-sourcemaps", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.6.3"],
+            ["rollup-plugin-typescript2", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.29.0"],
+            ["ts-jest", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:26.4.3"],
             ["ts-mockito", "npm:2.6.1"],
             ["tslib", "npm:2.0.3"],
             ["typescript", "patch:typescript@npm%3A4.0.5#builtin<compat/typescript>::version=4.0.5&hash=5bf698"]
           ],
           "packagePeers": [
             "@taquito/taquito",
-            "@types/taquito__taquito",
-            "@types/taquito__utils"
+            "@types/taquito__taquito"
           ],
           "linkType": "SOFT",
         }],
-        ["workspace:packages/resolver", {
-          "packageLocation": "./packages/resolver/",
+        ["workspace:packages/taquito", {
+          "packageLocation": "./packages/taquito/",
           "packageDependencies": [
-            ["@tezos-domains/resolver", "workspace:packages/resolver"],
+            ["@tezos-domains/taquito", "workspace:packages/taquito"],
             ["@taquito/taquito", "npm:7.0.0-beta.0"],
-            ["@taquito/utils", "npm:7.0.0-beta.0"],
-            ["@tezos-domains/core", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/core"],
+            ["@tezos-domains/core", "workspace:packages/core"],
             ["@types/node", "npm:14.14.6"],
             ["bignumber.js", "npm:9.0.1"],
             ["fake-promise", "npm:2.5.41"],
-            ["idna-uts46-hx", "npm:3.3.0"],
             ["jest", "npm:26.6.1"],
             ["jest-junit", "npm:12.0.0"],
             ["mockdate", "npm:3.0.2"],
             ["node-cache", "npm:5.1.2"],
             ["rimraf", "npm:3.0.2"],
             ["rollup", "npm:2.33.1"],
-            ["rollup-plugin-sourcemaps", "virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#npm:0.6.3"],
-            ["rollup-plugin-typescript2", "virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#npm:0.29.0"],
-            ["ts-jest", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#npm:26.4.3"],
+            ["rollup-plugin-sourcemaps", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.6.3"],
+            ["rollup-plugin-typescript2", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.29.0"],
+            ["ts-jest", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:26.4.3"],
+            ["ts-mockito", "npm:2.6.1"],
+            ["tslib", "npm:2.0.3"],
+            ["typescript", "patch:typescript@npm%3A4.0.5#builtin<compat/typescript>::version=4.0.5&hash=5bf698"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@tezos-domains/taquito-client", [
+        ["virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/taquito-client", {
+          "packageLocation": "./.yarn/$$virtual/@tezos-domains-taquito-client-virtual-c6c4bf1402/1/packages/taquito-client/",
+          "packageDependencies": [
+            ["@tezos-domains/taquito-client", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/taquito-client"],
+            ["@taquito/taquito", "npm:7.0.0-beta.0"],
+            ["@tezos-domains/core", "workspace:packages/core"],
+            ["@tezos-domains/manager", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/manager"],
+            ["@tezos-domains/resolver", "workspace:packages/resolver"],
+            ["@tezos-domains/taquito", "virtual:0df0a5fea2f43012685e246f7a1481d916a0ca4f82b3be0a2db593ef743f1fc5039bc06b4313d232ba761616702c0ba4692e4263ef3dca1447f6f8fee5b6db75#workspace:packages/taquito"],
+            ["@types/node", "npm:14.14.6"],
+            ["@types/taquito__taquito", null],
+            ["bignumber.js", "npm:9.0.1"],
+            ["fake-promise", "npm:2.5.41"],
+            ["jest", "npm:26.6.1"],
+            ["jest-junit", "npm:12.0.0"],
+            ["mockdate", "npm:3.0.2"],
+            ["node-cache", "npm:5.1.2"],
+            ["rimraf", "npm:3.0.2"],
+            ["rollup", "npm:2.33.1"],
+            ["rollup-plugin-sourcemaps", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.6.3"],
+            ["rollup-plugin-typescript2", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.29.0"],
+            ["ts-jest", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:26.4.3"],
+            ["ts-mockito", "npm:2.6.1"],
+            ["tslib", "npm:2.0.3"],
+            ["typescript", "patch:typescript@npm%3A4.0.5#builtin<compat/typescript>::version=4.0.5&hash=5bf698"]
+          ],
+          "packagePeers": [
+            "@taquito/taquito",
+            "@types/taquito__taquito"
+          ],
+          "linkType": "SOFT",
+        }],
+        ["workspace:packages/taquito-client", {
+          "packageLocation": "./packages/taquito-client/",
+          "packageDependencies": [
+            ["@tezos-domains/taquito-client", "workspace:packages/taquito-client"],
+            ["@taquito/taquito", "npm:7.0.0-beta.0"],
+            ["@tezos-domains/core", "workspace:packages/core"],
+            ["@tezos-domains/manager", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/manager"],
+            ["@tezos-domains/resolver", "workspace:packages/resolver"],
+            ["@tezos-domains/taquito", "virtual:0df0a5fea2f43012685e246f7a1481d916a0ca4f82b3be0a2db593ef743f1fc5039bc06b4313d232ba761616702c0ba4692e4263ef3dca1447f6f8fee5b6db75#workspace:packages/taquito"],
+            ["@types/node", "npm:14.14.6"],
+            ["bignumber.js", "npm:9.0.1"],
+            ["fake-promise", "npm:2.5.41"],
+            ["jest", "npm:26.6.1"],
+            ["jest-junit", "npm:12.0.0"],
+            ["mockdate", "npm:3.0.2"],
+            ["node-cache", "npm:5.1.2"],
+            ["rimraf", "npm:3.0.2"],
+            ["rollup", "npm:2.33.1"],
+            ["rollup-plugin-sourcemaps", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.6.3"],
+            ["rollup-plugin-typescript2", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.29.0"],
+            ["ts-jest", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:26.4.3"],
             ["ts-mockito", "npm:2.6.1"],
             ["tslib", "npm:2.0.3"],
             ["typescript", "patch:typescript@npm%3A4.0.5#builtin<compat/typescript>::version=4.0.5&hash=5bf698"]
@@ -8048,9 +8040,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@taquito/signer", "npm:7.0.0-beta.0"],
             ["@taquito/taquito", "npm:7.0.0-beta.0"],
             ["@taquito/utils", "npm:7.0.0-beta.0"],
-            ["@tezos-domains/client", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/client"],
-            ["@tezos-domains/core", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/core"],
+            ["@tezos-domains/core", "workspace:packages/core"],
             ["@tezos-domains/manager", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/manager"],
+            ["@tezos-domains/taquito-client", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/taquito-client"],
             ["@types/fs-extra", "npm:9.0.2"],
             ["@types/minimist", "npm:1.2.0"],
             ["@types/node", "npm:14.14.6"],
@@ -8059,7 +8051,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest", "npm:26.6.1"],
             ["jest-junit", "npm:12.0.0"],
             ["minimist", "npm:1.2.5"],
-            ["ts-jest", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#npm:26.4.3"],
+            ["ts-jest", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:26.4.3"],
             ["ts-node", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:9.0.0"],
             ["tslib", "npm:2.0.3"],
             ["typescript", "patch:typescript@npm%3A4.0.5#builtin<compat/typescript>::version=4.0.5&hash=5bf698"]
@@ -12960,11 +12952,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["rollup-plugin-sourcemaps", [
-        ["virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#npm:0.6.3", {
-          "packageLocation": "./.yarn/$$virtual/rollup-plugin-sourcemaps-virtual-4c48b3b5f4/0/cache/rollup-plugin-sourcemaps-npm-0.6.3-4354b09f5e-73e8d02fa8.zip/node_modules/rollup-plugin-sourcemaps/",
+        ["virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.6.3", {
+          "packageLocation": "./.yarn/$$virtual/rollup-plugin-sourcemaps-virtual-e0c322beef/0/cache/rollup-plugin-sourcemaps-npm-0.6.3-4354b09f5e-73e8d02fa8.zip/node_modules/rollup-plugin-sourcemaps/",
           "packageDependencies": [
-            ["rollup-plugin-sourcemaps", "virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#npm:0.6.3"],
-            ["@rollup/pluginutils", "virtual:4c48b3b5f486053227674979cc6ed7e9d609968bbf7870b45dbc6834f7129b7f9ed079a95031475af568a7ede307b488dfd00a4f8d987a0cc64aa9c651989334#npm:3.1.0"],
+            ["rollup-plugin-sourcemaps", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.6.3"],
+            ["@rollup/pluginutils", "virtual:e0c322beef06dd5e95c80e6523137f30aff5e615c361af4c94851777478aae533733090cd8cf5284158225f6c26d6ce41ed1d995ae7a61d4d97849da1bd343bb#npm:3.1.0"],
             ["@types/node", "npm:14.14.6"],
             ["@types/rollup", null],
             ["@types/types__node", null],
@@ -12981,11 +12973,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["rollup-plugin-typescript2", [
-        ["virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#npm:0.29.0", {
-          "packageLocation": "./.yarn/$$virtual/rollup-plugin-typescript2-virtual-eef93ee9eb/0/cache/rollup-plugin-typescript2-npm-0.29.0-434197f508-6ca2dfc4b4.zip/node_modules/rollup-plugin-typescript2/",
+        ["virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.29.0", {
+          "packageLocation": "./.yarn/$$virtual/rollup-plugin-typescript2-virtual-b6dba0217d/0/cache/rollup-plugin-typescript2-npm-0.29.0-434197f508-6ca2dfc4b4.zip/node_modules/rollup-plugin-typescript2/",
           "packageDependencies": [
-            ["rollup-plugin-typescript2", "virtual:ff93206cef81587a389cf3101ace54d9f950dde35505a88c9f0f3322778501afee8231222ca0adedfd3715bb1417d4aef4f85f27273ec7dd6ba953bc734f9f18#npm:0.29.0"],
-            ["@rollup/pluginutils", "virtual:4c48b3b5f486053227674979cc6ed7e9d609968bbf7870b45dbc6834f7129b7f9ed079a95031475af568a7ede307b488dfd00a4f8d987a0cc64aa9c651989334#npm:3.1.0"],
+            ["rollup-plugin-typescript2", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.29.0"],
+            ["@rollup/pluginutils", "virtual:e0c322beef06dd5e95c80e6523137f30aff5e615c361af4c94851777478aae533733090cd8cf5284158225f6c26d6ce41ed1d995ae7a61d4d97849da1bd343bb#npm:3.1.0"],
             ["@types/rollup", null],
             ["@types/typescript", null],
             ["find-cache-dir", "npm:3.3.1"],
@@ -14376,10 +14368,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["ts-jest", [
-        ["virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#npm:26.4.3", {
-          "packageLocation": "./.yarn/$$virtual/ts-jest-virtual-ffecd9cc92/0/cache/ts-jest-npm-26.4.3-77cf762dd9-d9c2f802ec.zip/node_modules/ts-jest/",
+        ["virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:26.4.3", {
+          "packageLocation": "./.yarn/$$virtual/ts-jest-virtual-fe3be39362/0/cache/ts-jest-npm-26.4.3-77cf762dd9-d9c2f802ec.zip/node_modules/ts-jest/",
           "packageDependencies": [
-            ["ts-jest", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#npm:26.4.3"],
+            ["ts-jest", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:26.4.3"],
             ["@jest/create-cache-key-function", "npm:26.5.0"],
             ["@types/jest", "npm:26.0.15"],
             ["@types/typescript", null],

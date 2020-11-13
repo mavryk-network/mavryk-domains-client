@@ -1,6 +1,5 @@
 import { TransactionWalletOperation } from '@taquito/taquito';
 import { Exact } from '@tezos-domains/core';
-import { DomainAcquisitionInfo } from './model';
 
 import {
     SetChildRecordRequest,
@@ -13,6 +12,7 @@ import {
     UpdateReverseRecordRequest,
     BidRequest,
     SettleRequest,
+    DomainAcquisitionInfo
 } from './model';
 
 /**

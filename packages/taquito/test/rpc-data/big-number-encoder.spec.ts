@@ -1,4 +1,4 @@
-import { BigNumberEncoder } from '@tezos-domains/core';
+import { BigNumberEncoder } from '@tezos-domains/taquito';
 import BigNumber from 'bignumber.js';
 
 describe('BigNumberEncoder', () => {
