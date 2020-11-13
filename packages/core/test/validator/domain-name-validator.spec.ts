@@ -2,7 +2,6 @@ import { TezosDomainsValidator, CustomNetworkConfig, DefaultNetworkConfig, Domai
 
 describe('TezosDomainsValidator', () => {
     let validator: TezosDomainsValidator;
-    const tezos: any = {};
 
     function init(config?: CustomNetworkConfig | DefaultNetworkConfig) {
         validator = new TezosDomainsValidator(config);
@@ -63,7 +62,6 @@ describe('TezosDomainsValidator', () => {
 
         it('should override tlds for known network', () => {
             init({
-                tezos,
                 network: 'delphinet',
                 tlds: [{ name: 'test', validator: testValidatorFn }],
             });
@@ -78,7 +76,7 @@ describe('TezosDomainsValidator', () => {
         });
 
         it('should when unknown option network is specified', () => {
-            expect(() => init({ tezos, network: 'blehnet' as any })).toThrowError();
+            expect(() => init({ network: 'blehnet' as any })).toThrowError();
         });
 
         describe('addSupportedTld', () => {
@@ -95,7 +93,7 @@ describe('TezosDomainsValidator', () => {
 
         describe('removeSupportedTld', () => {
             it('should allow to add a tld', () => {
-                init({ tezos, tlds: [{ name: 'test', validator: testValidatorFn }] });
+                init({ tlds: [{ name: 'test', validator: testValidatorFn }] });
 
                 expect(validator.validateDomainName('custom.test')).toBe(DomainNameValidationResult.VALID);
 
