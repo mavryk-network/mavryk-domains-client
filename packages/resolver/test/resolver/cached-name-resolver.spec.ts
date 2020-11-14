@@ -1,9 +1,11 @@
 jest.mock('node-cache');
 
 import { Tracer, RecordMetadata, StandardRecordMetadataKey } from '@tezos-domains/core';
-import { CachedNameResolver, NameResolver, DomainInfo, ReverseRecordInfo } from '@tezos-domains/resolver';
+import { NameResolver, DomainInfo, ReverseRecordInfo } from '@tezos-domains/resolver';
 import { mock, instance, when, anything, verify, anyString, anyNumber } from 'ts-mockito';
 import NodeCache from 'node-cache';
+
+import { CachedNameResolver } from '../../src/resolver/cached-name-resolver';
 
 describe('CachedNameResolver', () => {
     let resolver: CachedNameResolver;

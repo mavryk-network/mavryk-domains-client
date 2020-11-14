@@ -1,4 +1,4 @@
-import { Tracer, ConsoleTracer } from '@tezos-domains/core';
+import { createTracer, Tracer } from '@tezos-domains/core';
 import MockDate from 'mockdate';
 
 describe('Tracer', () => {
@@ -13,7 +13,7 @@ describe('Tracer', () => {
             const date = new Date(2020, 9, 11, 20, 10, 35);
             MockDate.set(new Date(date.getTime() - date.getTimezoneOffset() * 60000));
 
-            tracer = new ConsoleTracer();
+            tracer = createTracer({ tracing: true });
         });
 
         afterEach(() => {

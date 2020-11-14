@@ -1,6 +1,6 @@
-import { TezosDomainsConfig, NoopTracer, ConsoleTracer, AddressBook, TezosDomainsValidator } from '@tezos-domains/core';
+import { TezosDomainsConfig, AddressBook, TezosDomainsValidator, createTracer } from '@tezos-domains/core';
 import { TezosToolkit } from '@taquito/taquito';
-import { BlockchainNameResolver, NameResolver, CachedNameResolver, NameNormalizingNameResolver, NullNameResolver } from '@tezos-domains/resolver';
+import { NameResolver, NullNameResolver, createResolver } from '@tezos-domains/resolver';
 import { DomainsManager, CommitmentGenerator, BlockchainDomainsManager, UnsupportedDomainsManager } from '@tezos-domains/manager';
 import { TaquitoClient } from '@tezos-domains/taquito';
 
@@ -60,7 +60,7 @@ export class TaquitoTezosDomainsClient {
 
         this._validator = new TezosDomainsValidator(config);
 
-        const tracer = config.tracing ? new ConsoleTracer() : new NoopTracer();
+        const tracer = createTracer(config);
         const tezos = new TaquitoClient(config.tezos, tracer);
         const proxyContractAddressResolver = new TaquitoTezosDomainsProxyContractAddressResolver(tezos);
         const addressBook = new AddressBook(proxyContractAddressResolver, config);
@@ -68,18 +68,7 @@ export class TaquitoTezosDomainsClient {
         const commitmentGenerator = new CommitmentGenerator(config.tezos);
 
         this._manager = new BlockchainDomainsManager(tezos, addressBook, tracer, commitmentGenerator);
-
-        const blockchainResolver = new BlockchainNameResolver(dataProvider, tracer, this.validator);
-        if (config.caching) {
-            this._resolver = new CachedNameResolver(blockchainResolver, tracer, {
-                defaultRecordTtl: config.caching.defaultRecordTtl || 600,
-                defaultReverseRecordTtl: config.caching.defaultReverseRecordTtl || 600,
-            });
-        } else {
-            this._resolver = blockchainResolver;
-        }
-
-        this._resolver = new NameNormalizingNameResolver(this._resolver, tracer);
+        this._resolver = createResolver(config, dataProvider, tracer, this.validator);
     }
 
     /**

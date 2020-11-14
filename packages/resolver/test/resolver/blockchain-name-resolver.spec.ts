@@ -1,8 +1,10 @@
 import { Tracer, TezosDomainsDataProvider, RecordMetadata } from '@tezos-domains/core';
-import { NameResolver, BlockchainNameResolver } from '@tezos-domains/resolver';
+import { NameResolver } from '@tezos-domains/resolver';
 import { mock, when, anything, instance } from 'ts-mockito';
 import { StandardRecordMetadataKey, DomainNameValidator, TezosDomainsValidator } from '@tezos-domains/core';
 import MockDate from 'mockdate';
+
+import { BlockchainNameResolver } from '../../src/resolver/blockchain-name-resolver';
 
 describe('BlockchainNameResolver', () => {
     let resolver: NameResolver;

@@ -12,7 +12,7 @@ export {
     TezosDomainsConfig,
     DefaultNetworkConfig,
     CustomNetworkConfig,
-    CachingConfig
+    CachingConfig,
 } from './model';
 export { AddressBook } from './address-book/address-book';
 export { RpcRequest, RpcResponse, encoder } from './rpc-data/decorators';
@@ -23,7 +23,8 @@ export { RecordMetadata, StandardRecordMetadataKey } from './rpc-data/record-met
 export { BytesEncoder } from './rpc-data/encoders/bytes-encoder';
 export { DateEncoder } from './rpc-data/encoders/date-encoder';
 export { JsonBytesEncoder } from './rpc-data/encoders/json-bytes-encoder';
-export { Tracer, ConsoleTracer, NoopTracer } from './tracing/tracer';
+export { Tracer } from './tracing/tracer';
+export { createTracer } from './tracing/factory';
 export { DomainNameValidator } from './validator/domain-name-validator';
 export { TezosDomainsValidator } from './validator/tezos-domains-validator';
 export { UnsupportedDomainNameValidator } from './validator/unsupported-domain-name-validator';

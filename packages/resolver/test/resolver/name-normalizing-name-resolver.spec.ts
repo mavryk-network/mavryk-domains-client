@@ -1,7 +1,9 @@
 import { Tracer } from '@tezos-domains/core';
-import { NameResolver, DomainInfo, ReverseRecordInfo, NameNormalizingNameResolver } from '@tezos-domains/resolver';
+import { NameResolver, DomainInfo, ReverseRecordInfo } from '@tezos-domains/resolver';
 import { mock, instance, when, anything, verify, anyString } from 'ts-mockito';
 import FakePromise from 'fake-promise';
+
+import { NameNormalizingNameResolver } from '../../src/resolver/name-normalizing-name-resolver';
 
 describe('NameNormalizingNameResolver', () => {
     let resolver: NameNormalizingNameResolver;
