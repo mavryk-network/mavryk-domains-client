@@ -27,6 +27,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:integration-tests"
       },
       {
+        "name": "@tezos-domains/conseil-client",
+        "reference": "workspace:packages/conseil-client"
+      },
+      {
         "name": "@tezos-domains/core",
         "reference": "workspace:packages/core"
       },
@@ -50,6 +54,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
     "enableTopLevelFallback": true,
     "ignorePatternData": "(^(?:\\.yarn\\/sdks(?:\\/(?!\\.)(?:(?:(?!(?:^|\\/)\\.).)*?)|$))$)",
     "fallbackExclusionList": [
+      ["@tezos-domains/conseil-client", ["virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/conseil-client", "workspace:packages/conseil-client"]],
       ["@tezos-domains/core", ["workspace:packages/core"]],
       ["@tezos-domains/manager", ["virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/manager", "workspace:packages/manager"]],
       ["@tezos-domains/resolver", ["workspace:packages/resolver"]],
@@ -2530,6 +2535,65 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@tezos-domains/conseil-client", [
+        ["virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/conseil-client", {
+          "packageLocation": "./.yarn/$$virtual/@tezos-domains-conseil-client-virtual-e38030d6a1/1/packages/conseil-client/",
+          "packageDependencies": [
+            ["@tezos-domains/conseil-client", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/conseil-client"],
+            ["@tezos-domains/core", "workspace:packages/core"],
+            ["@tezos-domains/manager", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/manager"],
+            ["@tezos-domains/resolver", "workspace:packages/resolver"],
+            ["@types/conseiljs", null],
+            ["@types/node", "npm:14.14.6"],
+            ["conseiljs", "npm:5.0.5"],
+            ["fake-promise", "npm:2.5.41"],
+            ["jest", "npm:26.6.1"],
+            ["jest-junit", "npm:12.0.0"],
+            ["jsonpath-plus", "npm:4.0.0"],
+            ["mockdate", "npm:3.0.2"],
+            ["node-cache", "npm:5.1.2"],
+            ["rimraf", "npm:3.0.2"],
+            ["rollup", "npm:2.33.1"],
+            ["rollup-plugin-sourcemaps", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.6.3"],
+            ["rollup-plugin-typescript2", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.29.0"],
+            ["ts-jest", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:26.4.3"],
+            ["ts-mockito", "npm:2.6.1"],
+            ["tslib", "npm:2.0.3"],
+            ["typescript", "patch:typescript@npm%3A4.0.5#builtin<compat/typescript>::version=4.0.5&hash=5bf698"]
+          ],
+          "packagePeers": [
+            "@types/conseiljs",
+            "conseiljs"
+          ],
+          "linkType": "SOFT",
+        }],
+        ["workspace:packages/conseil-client", {
+          "packageLocation": "./packages/conseil-client/",
+          "packageDependencies": [
+            ["@tezos-domains/conseil-client", "workspace:packages/conseil-client"],
+            ["@tezos-domains/core", "workspace:packages/core"],
+            ["@tezos-domains/manager", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/manager"],
+            ["@tezos-domains/resolver", "workspace:packages/resolver"],
+            ["@types/node", "npm:14.14.6"],
+            ["conseiljs", "npm:5.0.5"],
+            ["fake-promise", "npm:2.5.41"],
+            ["jest", "npm:26.6.1"],
+            ["jest-junit", "npm:12.0.0"],
+            ["jsonpath-plus", "npm:4.0.0"],
+            ["mockdate", "npm:3.0.2"],
+            ["node-cache", "npm:5.1.2"],
+            ["rimraf", "npm:3.0.2"],
+            ["rollup", "npm:2.33.1"],
+            ["rollup-plugin-sourcemaps", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.6.3"],
+            ["rollup-plugin-typescript2", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:0.29.0"],
+            ["ts-jest", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:26.4.3"],
+            ["ts-mockito", "npm:2.6.1"],
+            ["tslib", "npm:2.0.3"],
+            ["typescript", "patch:typescript@npm%3A4.0.5#builtin<compat/typescript>::version=4.0.5&hash=5bf698"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@tezos-domains/core", [
         ["workspace:packages/core", {
           "packageLocation": "./packages/core/",
@@ -2979,6 +3043,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@types/loglevel", [
+        ["npm:1.6.3", {
+          "packageLocation": "./.yarn/cache/@types-loglevel-npm-1.6.3-8a725ce2ed-1bfb229549.zip/node_modules/@types/loglevel/",
+          "packageDependencies": [
+            ["@types/loglevel", "npm:1.6.3"],
+            ["loglevel", "npm:1.7.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@types/minimatch", [
         ["npm:3.0.3", {
           "packageLocation": "./.yarn/cache/@types-minimatch-npm-3.0.3-c8b0625f84-672ccdac19.zip/node_modules/@types/minimatch/",
@@ -3023,6 +3097,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-node-npm-14.14.6-6c20289547-9b06b04ab2.zip/node_modules/@types/node/",
           "packageDependencies": [
             ["@types/node", "npm:14.14.6"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/node-fetch", [
+        ["npm:2.5.7", {
+          "packageLocation": "./.yarn/cache/@types-node-fetch-npm-2.5.7-fd8c51e56f-101f6e8474.zip/node_modules/@types/node-fetch/",
+          "packageDependencies": [
+            ["@types/node-fetch", "npm:2.5.7"],
+            ["@types/node", "npm:14.0.24"],
+            ["form-data", "npm:3.0.0"]
           ],
           "linkType": "HARD",
         }]
@@ -4159,6 +4244,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["big-integer", [
+        ["npm:1.6.48", {
+          "packageLocation": "./.yarn/cache/big-integer-npm-1.6.48-b1b63dbdbd-311f86a45e.zip/node_modules/big-integer/",
+          "packageDependencies": [
+            ["big-integer", "npm:1.6.48"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["bignumber.js", [
         ["npm:9.0.1", {
           "packageLocation": "./.yarn/cache/bignumber.js-npm-9.0.1-270d0c8a55-605e9639c4.zip/node_modules/bignumber.js/",
@@ -5001,6 +5095,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["commander", [
+        ["npm:2.20.3", {
+          "packageLocation": "./.yarn/cache/commander-npm-2.20.3-d8dcbaa39b-b73428e97d.zip/node_modules/commander/",
+          "packageDependencies": [
+            ["commander", "npm:2.20.3"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["comment-json", [
         ["npm:2.4.2", {
           "packageLocation": "./.yarn/cache/comment-json-npm-2.4.2-ad40caa02b-80bc181741.zip/node_modules/comment-json/",
@@ -5145,6 +5248,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["config-chain", "npm:1.1.12"],
             ["ini", "npm:1.3.5"],
             ["proto-list", "npm:1.2.4"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["conseiljs", [
+        ["npm:5.0.5", {
+          "packageLocation": "./.yarn/cache/conseiljs-npm-5.0.5-adb59cac41-6110d7e326.zip/node_modules/conseiljs/",
+          "packageDependencies": [
+            ["conseiljs", "npm:5.0.5"],
+            ["big-integer", "npm:1.6.48"],
+            ["blakejs", "npm:1.1.0"],
+            ["bs58check", "npm:2.1.2"],
+            ["jsonpath-plus", "npm:4.0.0"],
+            ["moo", "npm:0.5.0"],
+            ["nearley", "npm:2.19.1"]
           ],
           "linkType": "HARD",
         }]
@@ -5877,6 +5995,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["dir-glob", "npm:3.0.1"],
             ["path-type", "npm:4.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["discontinuous-range", [
+        ["npm:1.0.0", {
+          "packageLocation": "./.yarn/cache/discontinuous-range-npm-1.0.0-572abfd975-afc5a30f1a.zip/node_modules/discontinuous-range/",
+          "packageDependencies": [
+            ["discontinuous-range", "npm:1.0.0"]
           ],
           "linkType": "HARD",
         }]
@@ -6868,6 +6995,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/form-data-npm-2.3.3-c016cc11c0-862e686b10.zip/node_modules/form-data/",
           "packageDependencies": [
             ["form-data", "npm:2.3.3"],
+            ["asynckit", "npm:0.4.0"],
+            ["combined-stream", "npm:1.0.8"],
+            ["mime-types", "npm:2.1.27"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:3.0.0", {
+          "packageLocation": "./.yarn/cache/form-data-npm-3.0.0-b01f488350-1af88217b4.zip/node_modules/form-data/",
+          "packageDependencies": [
+            ["form-data", "npm:3.0.0"],
             ["asynckit", "npm:0.4.0"],
             ["combined-stream", "npm:1.0.8"],
             ["mime-types", "npm:2.1.27"]
@@ -8040,17 +8177,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@taquito/signer", "npm:7.0.0-beta.0"],
             ["@taquito/taquito", "npm:7.0.0-beta.0"],
             ["@taquito/utils", "npm:7.0.0-beta.0"],
+            ["@tezos-domains/conseil-client", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/conseil-client"],
             ["@tezos-domains/core", "workspace:packages/core"],
             ["@tezos-domains/manager", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/manager"],
             ["@tezos-domains/taquito-client", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/taquito-client"],
             ["@types/fs-extra", "npm:9.0.2"],
+            ["@types/loglevel", "npm:1.6.3"],
             ["@types/minimist", "npm:1.2.0"],
             ["@types/node", "npm:14.14.6"],
+            ["@types/node-fetch", "npm:2.5.7"],
             ["chalk", "npm:4.1.0"],
+            ["conseiljs", "npm:5.0.5"],
             ["fs-extra", "npm:9.0.1"],
             ["jest", "npm:26.6.1"],
             ["jest-junit", "npm:12.0.0"],
+            ["loglevel", "npm:1.7.0"],
             ["minimist", "npm:1.2.5"],
+            ["node-fetch", "npm:2.6.1"],
             ["ts-jest", "virtual:1a4738ee68d2b49ea84ccd1a2ae954255865b1b4c7b279eac548aa452dbb28918c871595f8926a795e9defa2f9e24f3de223ecd1ce8bee65470858dc3b32a3c7#npm:26.4.3"],
             ["ts-node", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:9.0.0"],
             ["tslib", "npm:2.0.3"],
@@ -9445,6 +9588,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["jsonpath-plus", [
+        ["npm:4.0.0", {
+          "packageLocation": "./.yarn/cache/jsonpath-plus-npm-4.0.0-0ab2f41da3-c9e6bc47c8.zip/node_modules/jsonpath-plus/",
+          "packageDependencies": [
+            ["jsonpath-plus", "npm:4.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["jsprim", [
         ["npm:1.4.1", {
           "packageLocation": "./.yarn/cache/jsprim-npm-1.4.1-948d2c9ec3-ee0177b7ef.zip/node_modules/jsprim/",
@@ -9923,6 +10075,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["logic-solver", "npm:2.0.1"],
             ["underscore", "npm:1.10.2"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["loglevel", [
+        ["npm:1.7.0", {
+          "packageLocation": "./.yarn/cache/loglevel-npm-1.7.0-9564513107-5d14de3bef.zip/node_modules/loglevel/",
+          "packageDependencies": [
+            ["loglevel", "npm:1.7.0"]
           ],
           "linkType": "HARD",
         }]
@@ -10601,6 +10762,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["moo", [
+        ["npm:0.5.0", {
+          "packageLocation": "./.yarn/cache/moo-npm-0.5.0-854e3b79e4-10e77b0b3e.zip/node_modules/moo/",
+          "packageDependencies": [
+            ["moo", "npm:0.5.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["move-concurrently", [
         ["npm:1.0.1", {
           "packageLocation": "./.yarn/cache/move-concurrently-npm-1.0.1-e1e3c7e2cf-0761308ddb.zip/node_modules/move-concurrently/",
@@ -10702,6 +10872,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["nearley", [
+        ["npm:2.19.1", {
+          "packageLocation": "./.yarn/cache/nearley-npm-2.19.1-ea5339fa47-5ba65282c6.zip/node_modules/nearley/",
+          "packageDependencies": [
+            ["nearley", "npm:2.19.1"],
+            ["commander", "npm:2.20.3"],
+            ["moo", "npm:0.5.0"],
+            ["railroad-diagrams", "npm:1.0.0"],
+            ["randexp", "npm:0.4.6"],
+            ["semver", "npm:5.7.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["neo-async", [
         ["npm:2.6.2", {
           "packageLocation": "./.yarn/cache/neo-async-npm-2.6.2-75d6902586-34a8f53091.zip/node_modules/neo-async/",
@@ -10735,6 +10919,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/node-fetch-npm-2.6.0-29c7a53447-dd9f586a9f.zip/node_modules/node-fetch/",
           "packageDependencies": [
             ["node-fetch", "npm:2.6.0"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:2.6.1", {
+          "packageLocation": "./.yarn/cache/node-fetch-npm-2.6.1-46c670dbc1-cbb171635e.zip/node_modules/node-fetch/",
+          "packageDependencies": [
+            ["node-fetch", "npm:2.6.1"]
           ],
           "linkType": "HARD",
         }]
@@ -12324,6 +12515,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/quick-lru-npm-5.1.1-e38e0edce3-fafb2b2fa1.zip/node_modules/quick-lru/",
           "packageDependencies": [
             ["quick-lru", "npm:5.1.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["railroad-diagrams", [
+        ["npm:1.0.0", {
+          "packageLocation": "./.yarn/cache/railroad-diagrams-npm-1.0.0-ab8798413c-070a941c45.zip/node_modules/railroad-diagrams/",
+          "packageDependencies": [
+            ["railroad-diagrams", "npm:1.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["randexp", [
+        ["npm:0.4.6", {
+          "packageLocation": "./.yarn/cache/randexp-npm-0.4.6-60140c8119-eb9367e0ca.zip/node_modules/randexp/",
+          "packageDependencies": [
+            ["randexp", "npm:0.4.6"],
+            ["discontinuous-range", "npm:1.0.0"],
+            ["ret", "npm:0.1.15"]
           ],
           "linkType": "HARD",
         }]

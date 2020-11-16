@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.prod.json",
+  "compilerOptions": {
+    "declarationDir": "./dist",
+    "outDir": "./dist",
+    "typeRoots": [
+      "./node_modules/@types"
+    ]
+  },
+  "include": [
+    "./public_api.ts"
+  ]
+}

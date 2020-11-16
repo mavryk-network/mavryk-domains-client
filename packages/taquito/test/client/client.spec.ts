@@ -16,7 +16,7 @@ describe('TaquitoClient', () => {
     };
     let bigMapGet: FakePromise<string>;
     let methods: {
-        method: () => ContractMethod<Wallet>
+        method: () => ContractMethod<Wallet>;
     };
     let method: ContractMethod<Wallet>;
     let operation: TransactionWalletOperation;
@@ -38,15 +38,15 @@ describe('TaquitoClient', () => {
         };
 
         methods = {
-            method: jest.fn(() => instance(method))
+            method: jest.fn(() => instance(method)),
         };
 
-        when(method.send(anything())).thenResolve(instance(operation))
+        when(method.send(anything())).thenResolve(instance(operation));
 
         when(tezosToolkitMock.wallet).thenReturn(instance(walletProviderMock));
         when(walletProviderMock.at('KT1xxx')).thenResolve(instance(contractMock));
         when(contractMock.storage()).thenResolve(storage);
-        when(contractMock.methods).thenReturn(methods)
+        when(contractMock.methods).thenReturn(methods);
         when(tracerMock.trace(anything(), anything()));
 
         client = new TaquitoClient(instance(tezosToolkitMock), instance(tracerMock));

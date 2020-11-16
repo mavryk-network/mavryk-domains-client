@@ -17,6 +17,7 @@ build:
             - packages/manager/dist/
             - packages/taquito/dist/
             - packages/taquito-client/dist/
+            - packages/conseil-client/dist/
             - dist/typedoc
     tags:
         - docker
@@ -98,6 +99,22 @@ test:taquito-client:
         reports:
             junit:
                 - ./packages/taquito-client/coverage/junit.xml
+    tags:
+        - docker
+
+test:conseil-client:
+    stage: test
+    image: node:alpine3.12
+    allow_failure: false
+    script:
+        - yarn workspace @tezos-domains/conseil-client test
+    coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+    artifacts:
+        paths:
+            - packages/conseil-client/coverage/
+        reports:
+            junit:
+                - ./packages/conseil-client/coverage/junit.xml
     tags:
         - docker
 

@@ -3,7 +3,6 @@ import { TaquitoClient } from '@tezos-domains/taquito';
 import { mock, when, anyFunction, anything, instance } from 'ts-mockito';
 import { StandardRecordMetadataKey } from '@tezos-domains/core';
 import { MichelsonMap } from '@taquito/taquito';
-import MockDate from 'mockdate';
 import BigNumber from 'bignumber.js';
 
 import { TaquitoTezosDomainsDataProvider } from '../src/taquito-data-provider';
@@ -73,13 +72,7 @@ describe('TaquitoTezosDomainsDataProvider', () => {
             }
         );
 
-        MockDate.set(new Date(2020, 10, 11, 20, 0, 0));
-
         dataProvider = new TaquitoTezosDomainsDataProvider(instance(taquitoClientMock), instance(addressBookMock), instance(tracerMock));
-    });
-
-    afterEach(() => {
-        MockDate.reset();
     });
 
     describe('getDomainRecord()', () => {
@@ -123,7 +116,7 @@ describe('TaquitoTezosDomainsDataProvider', () => {
         });
 
         it('should return null if reverse record does not exist', async () => {
-            const reverseRecord = await dataProvider.getDomainRecord('lol.necroskillz.tez');
+            const reverseRecord = await dataProvider.getReverseRecord('lol.necroskillz.tez');
 
             expect(reverseRecord).toBeNull();
         });

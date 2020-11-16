@@ -1,20 +1,16 @@
-import { TezosDomainsConfig, AddressBook, TezosDomainsValidator, createTracer, DomainNameValidator, UnsupportedDomainNameValidator } from '@tezos-domains/core';
-import { TezosToolkit } from '@taquito/taquito';
+import { AddressBook, TezosDomainsValidator, createTracer, DomainNameValidator, UnsupportedDomainNameValidator } from '@tezos-domains/core';
 import { NameResolver, NullNameResolver, createResolver } from '@tezos-domains/resolver';
-import { DomainsManager, CommitmentGenerator, BlockchainDomainsManager, UnsupportedDomainsManager } from '@tezos-domains/manager';
-import { TaquitoClient } from '@tezos-domains/taquito';
 
-import { TaquitoTezosDomainsProxyContractAddressResolver } from './taquito-proxy-contract-address-resolver';
-import { TaquitoTezosDomainsDataProvider } from './taquito-data-provider';
-
-export type TaquitoTezosDomainsConfig = TezosDomainsConfig & { tezos: TezosToolkit };
+import { ConseilTezosDomainsProxyContractAddressResolver } from './conseil-proxy-contract-address-resolver';
+import { ConseilTezosDomainsDataProvider } from './conseil-data-provider';
+import { ConseilTezosDomainsConfig } from './model';
+import { ConseilClient } from './conseil/client';
 
 /**
  * Facade class that surfaces all of the libraries capability and allow it's configuration.
- * Uses taquito framework.
+ * Uses conseiljs framework.
  */
-export class TaquitoTezosDomainsClient {
-    private _manager!: DomainsManager;
+export class ConseilTezosDomainsClient {
     private _resolver!: NameResolver;
     private _validator!: DomainNameValidator;
     private _supported = true;
@@ -27,31 +23,24 @@ export class TaquitoTezosDomainsClient {
     }
 
     /**
-     * Gets the manager instance. The manager contains functions for buying and updating domains and reverse records.
-     */
-    get manager(): DomainsManager {
-        return this._manager;
-    }
-
-    /**
      * Gets the resolver instance. The resolver contains functions for resolving names and addresses.
      */
     get resolver(): NameResolver {
         return this._resolver;
     }
 
-    /** Whether this is supported instance of `TaquitoTezosDomainsClient` (as opposed to `TaquitoTezosDomainsClient.Unsupported`) */
+    /** Whether this is supported instance of `ConseilTezosDomainsClient` (as opposed to `ConseilTezosDomainsClient.Unsupported`) */
     get isSupported(): boolean {
         return this._supported;
     }
 
-    constructor(config: TaquitoTezosDomainsConfig) {
+    constructor(config: ConseilTezosDomainsConfig) {
         if (config) {
             this.setConfig(config);
         }
     }
 
-    setConfig(config: TaquitoTezosDomainsConfig): void {
+    setConfig(config: ConseilTezosDomainsConfig): void {
         if (!this._supported) {
             throw new Error('Invalid operation. Unsupported client cannot be modified.');
         }
@@ -59,13 +48,11 @@ export class TaquitoTezosDomainsClient {
         this._validator = new TezosDomainsValidator(config);
 
         const tracer = createTracer(config);
-        const tezos = new TaquitoClient(config.tezos, tracer);
-        const proxyContractAddressResolver = new TaquitoTezosDomainsProxyContractAddressResolver(tezos);
+        const conseil = new ConseilClient(config.conseil, tracer);
+        const proxyContractAddressResolver = new ConseilTezosDomainsProxyContractAddressResolver(conseil);
         const addressBook = new AddressBook(proxyContractAddressResolver, config);
-        const dataProvider = new TaquitoTezosDomainsDataProvider(tezos, addressBook, tracer);
-        const commitmentGenerator = new CommitmentGenerator(config.tezos);
+        const dataProvider = new ConseilTezosDomainsDataProvider(conseil, addressBook, tracer);
 
-        this._manager = new BlockchainDomainsManager(tezos, addressBook, tracer, commitmentGenerator);
         this._resolver = createResolver(config, dataProvider, tracer, this.validator);
     }
 
@@ -78,30 +65,29 @@ export class TaquitoTezosDomainsClient {
      * ```
      * function getClient(network: string) {
      *     if(isTezosDomainsSupportedNetwork(network)) {
-     *          return new TaquitoTezosDomainsClient({ network, tezos });
+     *          return new ConseilTezosDomainsClient({ network, tezos });
      *     } else {
-     *          return TaquitoTezosDomainsClient.Unsupported;
+     *          return ConseilTezosDomainsClient.Unsupported;
      *     }
      * }
      *
      * const client = getClient('unsupportednetwork');
      *
      * if (client.isSupported) { // not executed
-     *     console.log(await client.manager.getAcquisitionInfo('alice.tez'));
+     *     // ...
      * }
      *
      * await client.resolver.resolveNameToAddress('alice.tez'); // returns null
      * ```
      */
-    static get Unsupported(): TaquitoTezosDomainsClient {
-        const client = new TaquitoTezosDomainsClient(null as any);
+    static get Unsupported(): ConseilTezosDomainsClient {
+        const client = new ConseilTezosDomainsClient(null as any);
         client.setUnsupported();
         return client;
     }
 
     private setUnsupported(): void {
         this._supported = false;
-        this._manager = new UnsupportedDomainsManager();
         this._resolver = new NullNameResolver();
         this._validator = new UnsupportedDomainNameValidator();
     }

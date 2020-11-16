@@ -83,16 +83,59 @@ async function main() {
     await commitment.waitUntilUsable();
 
     // Final step - reveal and confirm the registration for specified duration in days
-    const buyOperation = await client.manager.buy(tld, { ...params, duration: 365, address: 'tz1VxMudmADssPp6FPDGRsvJXE41DD6i9g6n', data: new RecordMetadata() });
+    const buyOperation = await client.manager.buy(tld, {
+        ...params,
+        duration: 365,
+        address: 'tz1VxMudmADssPp6FPDGRsvJXE41DD6i9g6n',
+        data: new RecordMetadata(),
+    });
     await buyOperation.confirmation();
 
     console.log(`Domain ${name} has been registered.`);
 }
 ```
 
+## Getting started with conseiljs
+
+### 1) Install `@tezos-domains/conseil-client` package
+
+```
+yarn add @tezos-domains/conseil-client @tezos-domains/core conseiljs node-fetch loglevel @types/node-fetch @types/loglevel
+--or--
+npm install @tezos-domains/conseil-client @tezos-domains/core conseiljs node-fetch loglevel @types/node-fetch @types/loglevel
+```
+
+### 2a) Use `resolver` to resolve names and addresses
+
+Example of resolving and address from domain name:
+
+```ts
+import fetch from 'node-fetch';
+import * as log from 'loglevel';
+import { registerFetch, registerLogger } from 'conseiljs';
+import { ConseilTezosDomainsClient } from '@tezos-domains/taquito-client';
+
+async function main() {
+    const logger = log.getLogger('conseiljs');
+    logger.setLevel('silent', false);
+    registerLogger(logger);
+    registerFetch(fetch);
+
+    const client = new ConseilTezosDomainsClient({
+        conseil: { server: 'https://delphinet-tezos.giganode.io/' },
+        network: 'delphinet',
+        caching: { enabled: true },
+    });
+
+    const address = await client.resolver.resolveNameToAddress('bob.tez');
+
+    console.log(address);
+}
+```
+
 ## Options
 
-`TaquitoTezosDomainsClient` takes options that can customize it's behavior.
+The client takes options that can customize it's behavior.
 
 `network` (default: `'mainnet'`)
 
@@ -106,10 +149,6 @@ async function main() {
 
 -   Which top level domains are supported and the validator function to use to validate domain names of each tld. Must be specified if network is `custom`. Uses built in tlds otherwise.
 
-`tezos` (default: `Tezos` from `@taquito/taquito`)
-
--   Specifies an instance of [TezosToolkit](https://tezostaquito.io/typedoc/classes/_taquito_taquito.tezostoolkit.html) to use to make rpc requests.
-
 `tracing` (default: `false`)
 
 -   Whether to output debugging information.
@@ -117,3 +156,15 @@ async function main() {
 `caching` (default `{ enabled: false, defaultRecordTtl: 600, defaultReverseRecordTtl: 600 }`)
 
 -   Specifies how to handle caching of name and address resolution.
+
+### Taquito client specific
+
+`tezos` (required)
+
+-   Specifies an instance of [TezosToolkit](https://tezostaquito.io/typedoc/classes/_taquito_taquito.tezostoolkit.html) to use to make rpc requests.
+
+### Conseil client specific
+
+`conseil` (required)
+
+-   `server` Specifies tezos rpc url to make requests to.

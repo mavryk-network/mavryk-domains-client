@@ -1,0 +1,37 @@
+import { mock, instance, when } from 'ts-mockito';
+
+import { ConseilTezosDomainsProxyContractAddressResolver } from '../src/conseil-proxy-contract-address-resolver';
+import { ConseilClient } from '../src/conseil/client';
+
+describe('ConseilTezosDomainsProxyContractAddressResolver', () => {
+    let proxyContractAddressResolver: ConseilTezosDomainsProxyContractAddressResolver;
+    let conseilClientMock: ConseilClient;
+
+    beforeEach(() => {
+        conseilClientMock = mock(ConseilClient);
+
+        when(conseilClientMock.storage('KT1proxy')).thenResolve({
+            prim: 'Pair',
+            args: [{ string: 'KT1act' }, { string: 'tz1OWN' }],
+        });
+        when(conseilClientMock.storage('KT1inv')).thenResolve({
+            prim: 'Pair',
+            args: [],
+        });
+
+        proxyContractAddressResolver = new ConseilTezosDomainsProxyContractAddressResolver(instance(conseilClientMock));
+    });
+
+    describe('getAddress', () => {
+        it('should get storage and return stored address', async () => {
+            const address = await proxyContractAddressResolver.getAddress('KT1proxy');
+
+            expect(address).toBe('KT1act');
+        });
+
+        it('should throw if contract does not return correct storage', async () => {
+            await expect(proxyContractAddressResolver.getAddress('404')).rejects.toThrowError();
+            await expect(proxyContractAddressResolver.getAddress('KT1inv')).rejects.toThrowError();
+        });
+    });
+});

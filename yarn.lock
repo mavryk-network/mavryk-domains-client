@@ -2212,6 +2212,34 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tezos-domains/conseil-client@^1.0.0-beta.23, @tezos-domains/conseil-client@workspace:packages/conseil-client":
+  version: 0.0.0-use.local
+  resolution: "@tezos-domains/conseil-client@workspace:packages/conseil-client"
+  dependencies:
+    "@tezos-domains/core": ^1.0.0-beta.23
+    "@tezos-domains/manager": ^1.0.0-beta.23
+    "@tezos-domains/resolver": ^1.0.0-beta.23
+    "@types/node": ^14.14.6
+    conseiljs: ^5.0.5
+    fake-promise: ^2.5.41
+    jest: ^26.6.1
+    jest-junit: ^12.0.0
+    jsonpath-plus: ^4.0.0
+    mockdate: ^3.0.2
+    node-cache: ^5.1.2
+    rimraf: ^3.0.2
+    rollup: ^2.33.1
+    rollup-plugin-sourcemaps: ^0.6.3
+    rollup-plugin-typescript2: ^0.29.0
+    ts-jest: ^26.4.3
+    ts-mockito: ^2.6.1
+    tslib: ^2.0.3
+    typescript: ^4.0.5
+  peerDependencies:
+    conseiljs: ^5.0.5
+  languageName: unknown
+  linkType: soft
+
 "@tezos-domains/core@^1.0.0-beta.23, @tezos-domains/core@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@tezos-domains/core@workspace:packages/core"
@@ -2535,6 +2563,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/loglevel@npm:^1.6.3":
+  version: 1.6.3
+  resolution: "@types/loglevel@npm:1.6.3"
+  dependencies:
+    loglevel: "*"
+  checksum: 1bfb229549cd49457d2bd58d95cdc4739b958781ff67669714f0420295ca1d263f8e8e4a18de76f2cb983f3ce7fd9842af82c6e6c212e8aca66a1daa2860f478
+  languageName: node
+  linkType: hard
+
 "@types/minimatch@npm:*":
   version: 3.0.3
   resolution: "@types/minimatch@npm:3.0.3"
@@ -2546,6 +2583,16 @@ __metadata:
   version: 1.2.0
   resolution: "@types/minimist@npm:1.2.0"
   checksum: 098945c2c29df019cae250dfe614e50dab8120f4e359bd034190f931a63a23f3058764eec0d8cea3757eedd5b308ed28e4357ece9510a99380da08762f5f6635
+  languageName: node
+  linkType: hard
+
+"@types/node-fetch@npm:^2.5.7":
+  version: 2.5.7
+  resolution: "@types/node-fetch@npm:2.5.7"
+  dependencies:
+    "@types/node": "*"
+    form-data: ^3.0.0
+  checksum: 101f6e8474407f957dfe1750d82aa0bcaa56347d09c8ba8634e6a901d07032533c0a578860691d915ff8fa230355700c41c04ae7e505840b5d6ff8cc3ece7741
   languageName: node
   linkType: hard
 
@@ -3557,6 +3604,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"big-integer@npm:1.6.48":
+  version: 1.6.48
+  resolution: "big-integer@npm:1.6.48"
+  checksum: 311f86a45e28513ddb12415082c5f437b868d80914bff71689a99e16f597beee5c0f12b0c9e65713b70b0516e6ed27f4006e256ea5393bfcf68bb18dc453f976
+  languageName: node
+  linkType: hard
+
 "bignumber.js@npm:9.0.1, bignumber.js@npm:^9.0.1":
   version: 9.0.1
   resolution: "bignumber.js@npm:9.0.1"
@@ -3608,7 +3662,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"blakejs@npm:^1.1.0":
+"blakejs@npm:1.1.0, blakejs@npm:^1.1.0":
   version: 1.1.0
   resolution: "blakejs@npm:1.1.0"
   checksum: 007d68a909d94cea612294bbab0cb2c26440c3a59eb340dfca046f1913cf4aa917da56088ad762f13921883ccc81c6eed2924ceac27f4ebbf9b4d25981a85fcd
@@ -3709,7 +3763,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bs58check@npm:^2.1.2":
+"bs58check@npm:2.1.2, bs58check@npm:^2.1.2":
   version: 2.1.2
   resolution: "bs58check@npm:2.1.2"
   dependencies:
@@ -4307,12 +4361,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"combined-stream@npm:^1.0.6, combined-stream@npm:~1.0.6":
+"combined-stream@npm:^1.0.6, combined-stream@npm:^1.0.8, combined-stream@npm:~1.0.6":
   version: 1.0.8
   resolution: "combined-stream@npm:1.0.8"
   dependencies:
     delayed-stream: ~1.0.0
   checksum: 5791ce7944530f0db74a97e77ea28b6fdbf89afcf038e41d6b4195019c4c803cd19ed2905a54959e5b3830d50bd5d6f93c681c6d3aaea8614ad43b48e62e9d65
+  languageName: node
+  linkType: hard
+
+"commander@npm:^2.19.0":
+  version: 2.20.3
+  resolution: "commander@npm:2.20.3"
+  checksum: b73428e97de7624323f81ba13f8ed9271de487017432d18b4da3f07cfc528ad754bbd199004bd5d14e0ccd67d1fdfe0ec8dbbd4c438b401df3c4cc387bfd1daa
   languageName: node
   linkType: hard
 
@@ -4455,6 +4516,20 @@ __metadata:
     ini: ^1.3.4
     proto-list: ~1.2.1
   checksum: caf4b96491c2ea6fc5e6e23cebc526040cf21779ffc544c705a21b788f7dc3d34bc439878dcdfae8c15830052be55d62b26acada13da1236142d3efc5b4329be
+  languageName: node
+  linkType: hard
+
+"conseiljs@npm:^5.0.5":
+  version: 5.0.5
+  resolution: "conseiljs@npm:5.0.5"
+  dependencies:
+    big-integer: 1.6.48
+    blakejs: 1.1.0
+    bs58check: 2.1.2
+    jsonpath-plus: 4.0.0
+    moo: 0.5.0
+    nearley: 2.19.1
+  checksum: 6110d7e3260a2193d644868b8dd57f0266ae573a943e730ed666ee766e567ffbf8fee13c0444e13c491244d66c954aef1a6693ddedb1c3dcf8415f69ba8fa59c
   languageName: node
   linkType: hard
 
@@ -5115,6 +5190,13 @@ __metadata:
   dependencies:
     path-type: ^4.0.0
   checksum: 687fa3bd604f264042f325d9460e1298447fb32782f30cddc47cb302b742684d13e8ffce4c6f455e0ae92099d71e29f72387379c10b8fd3f6f1bf8992d7c0997
+  languageName: node
+  linkType: hard
+
+"discontinuous-range@npm:1.0.0":
+  version: 1.0.0
+  resolution: "discontinuous-range@npm:1.0.0"
+  checksum: afc5a30f1a57aae74636fe88041bb7c164ca77ba9b71ad47961dc2070cfe982cfda18b0e55ca1f312bf2a194274de944d57d86ce15626a3f969d00ae02703862
   languageName: node
   linkType: hard
 
@@ -6020,6 +6102,17 @@ __metadata:
   version: 0.6.1
   resolution: "forever-agent@npm:0.6.1"
   checksum: 9cc0054dd4ea5fc26e014b8c929d1fb9247e931e81165cbd965a712061d65fb84791b2124f64cd79492e516662b94068d29fe1d824732382237321b3f61955fe
+  languageName: node
+  linkType: hard
+
+"form-data@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "form-data@npm:3.0.0"
+  dependencies:
+    asynckit: ^0.4.0
+    combined-stream: ^1.0.8
+    mime-types: ^2.1.12
+  checksum: 1af88217b449eda6566a0d95185f2baa403ed2a0e3b11547069f6062be66cbac7c8d7a25f0fc59560702e96526e659b5b9e5a8c6fefe00f06da44338191a9133
   languageName: node
   linkType: hard
 
@@ -7126,17 +7219,23 @@ __metadata:
     "@taquito/signer": 7.0.0-beta.0
     "@taquito/taquito": 7.0.0-beta.0
     "@taquito/utils": 7.0.0-beta.0
+    "@tezos-domains/conseil-client": ^1.0.0-beta.23
     "@tezos-domains/core": ^1.0.0-beta.23
     "@tezos-domains/manager": ^1.0.0-beta.23
     "@tezos-domains/taquito-client": ^1.0.0-beta.23
     "@types/fs-extra": ^9.0.2
+    "@types/loglevel": ^1.6.3
     "@types/minimist": ^1.2.0
     "@types/node": ^14.14.6
+    "@types/node-fetch": ^2.5.7
     chalk: ^4.1.0
+    conseiljs: ^5.0.5
     fs-extra: ^9.0.1
     jest: ^26.6.1
     jest-junit: ^12.0.0
+    loglevel: ^1.7.0
     minimist: ^1.2.5
+    node-fetch: ^2.6.1
     ts-jest: ^26.4.3
     ts-node: ^9.0.0
     tslib: ^2.0.3
@@ -8423,6 +8522,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jsonpath-plus@npm:4.0.0, jsonpath-plus@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "jsonpath-plus@npm:4.0.0"
+  checksum: c9e6bc47c8b5a0c292e981c8a1c9e9e9ed20f717ba4d33c18e50494b591ea1a9237f5fdc59fecd60cb2daeeb09aebe6f96bf59eac9532eabecbdafec36b16366
+  languageName: node
+  linkType: hard
+
 "jsprim@npm:^1.2.2":
   version: 1.4.1
   resolution: "jsprim@npm:1.4.1"
@@ -8859,6 +8965,13 @@ __metadata:
   dependencies:
     underscore: ^1.7.0
   checksum: 48458c67714792417e9c79e61e1d0edcceb45d7fa402da2464a9e86374545e6abd54bcd1d50931e753bb3fc9c78eb7128291db530f801ca3ce294b0e115c39e2
+  languageName: node
+  linkType: hard
+
+"loglevel@npm:*, loglevel@npm:^1.7.0":
+  version: 1.7.0
+  resolution: "loglevel@npm:1.7.0"
+  checksum: 5d14de3bef87a53aab782c6e47bd096946444f72224ae2f56b197cefb93f9b94b5c5b2c91269b3bc30b109cb484cc8908b158e35f5437c50d8e778b8eb0d6037
   languageName: node
   linkType: hard
 
@@ -9490,6 +9603,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"moo@npm:0.5.0, moo@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "moo@npm:0.5.0"
+  checksum: 10e77b0b3e54d331fb9e713365956a607f842e0289d613218cb6ece17e49aef594e2e6c0be7224cc1e7d9471abd0fbf1ad7459befac532e88f69dc65937299ca
+  languageName: node
+  linkType: hard
+
 "move-concurrently@npm:^1.0.1":
   version: 1.0.1
   resolution: "move-concurrently@npm:1.0.1"
@@ -9581,6 +9701,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nearley@npm:2.19.1":
+  version: 2.19.1
+  resolution: "nearley@npm:2.19.1"
+  dependencies:
+    commander: ^2.19.0
+    moo: ^0.5.0
+    railroad-diagrams: ^1.0.0
+    randexp: 0.4.6
+    semver: ^5.4.1
+  bin:
+    nearley-railroad: bin/nearley-railroad.js
+    nearley-test: bin/nearley-test.js
+    nearley-unparse: bin/nearley-unparse.js
+    nearleyc: bin/nearleyc.js
+  checksum: 5ba65282c605c84e72456b735b503994dc8e1fe85cbe37baba768d556cef8249a20cbde3af01d2397c2ef2d53e297db5f9ad6031a80f0d0f6a19c4088a325766
+  languageName: node
+  linkType: hard
+
 "neo-async@npm:^2.6.0":
   version: 2.6.2
   resolution: "neo-async@npm:2.6.2"
@@ -9619,6 +9757,13 @@ __metadata:
   version: 2.6.0
   resolution: "node-fetch@npm:2.6.0"
   checksum: dd9f586a9f7ddb7dd94d2aba9cb693d32f5001e9850098512fbc8a4cbdd56838afa08ed0a6725b9fce9b01ec12b713e622cbfc16d92762d8b937b238330a632a
+  languageName: node
+  linkType: hard
+
+"node-fetch@npm:^2.6.1":
+  version: 2.6.1
+  resolution: "node-fetch@npm:2.6.1"
+  checksum: cbb171635e538162b977eac5dfe7a1e07a9a02e991924377a6435502291e2f823d306b95aabc455caebf4a118ccf836868462bc70ccc3095af02bb9da61fda37
   languageName: node
   linkType: hard
 
@@ -11063,6 +11208,23 @@ __metadata:
   version: 5.1.1
   resolution: "quick-lru@npm:5.1.1"
   checksum: fafb2b2fa1a948d6f2e88d4a60571be70b316d9b0be857d24fba0ac28fc31acebf535b643fe968473d689f8c655bcb2a0e4da67912f571059a4e4eb15740b021
+  languageName: node
+  linkType: hard
+
+"railroad-diagrams@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "railroad-diagrams@npm:1.0.0"
+  checksum: 070a941c45daca073fae4d9bdbaf384123cdc02b11651cc80a8b73a2f92b40b7626d8640544bfea038aac3a7aafdbabd5547165b973ba0dc07a247abdbdc2b16
+  languageName: node
+  linkType: hard
+
+"randexp@npm:0.4.6":
+  version: 0.4.6
+  resolution: "randexp@npm:0.4.6"
+  dependencies:
+    discontinuous-range: 1.0.0
+    ret: ~0.1.10
+  checksum: eb9367e0cafd89f4a40a3301c9a893cee24cdf7fb77a1e47f443bcf3e2b3c5e4203e273340c263b595354c810a7ea47f96831b148e7644e2f743363a9630f8bf
   languageName: node
   linkType: hard
 
