@@ -3,6 +3,7 @@ import { BuiltInTLDs } from './built-in-tlds';
 import { DomainNameValidatorFn, DomainNameValidationResult } from './validators';
 import { getTld, stripTld } from '../utils/domains';
 import { DomainNameValidator } from './domain-name-validator';
+import { normalizeDomainName } from '../utils/convert';
 
 export class TezosDomainsValidator implements DomainNameValidator {
     private validators: Map<string, DomainNameValidatorFn> = new Map();
@@ -36,8 +37,13 @@ export class TezosDomainsValidator implements DomainNameValidator {
         return this.tlds;
     }
 
-
     validateDomainName(name: string): DomainNameValidationResult {
+        try {
+            name = normalizeDomainName(name);
+        } catch (err) {
+            return DomainNameValidationResult.INVALID_NAME;
+        }
+
         if (this.tlds.includes(name)) {
             // tld itself
             return DomainNameValidationResult.VALID;
@@ -53,13 +59,13 @@ export class TezosDomainsValidator implements DomainNameValidator {
         return this.validators.get(tld)!(nameWithoutTld, tld);
     }
 
-    addSupportedTld(name: string, validator: DomainNameValidatorFn): void {
-        this.tlds.push(name);
-        this.validators.set(name, validator);
+    addSupportedTld(tld: string, validator: DomainNameValidatorFn): void {
+        this.tlds.push(tld);
+        this.validators.set(tld, validator);
     }
 
-    removeSupportedTld(name: string): void {
-        this.tlds = this.tlds.filter(tld => name !== tld);
-        this.validators.delete(name);
+    removeSupportedTld(tld: string): void {
+        this.tlds = this.tlds.filter(tld => tld !== tld);
+        this.validators.delete(tld);
     }
 }

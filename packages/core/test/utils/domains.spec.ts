@@ -28,6 +28,7 @@ describe('domains', () => {
     describe('stripTld()', () => {
         it('should get parent of domain name', () => {
             expect(stripTld('tez')).toBe('');
+            expect(stripTld('.tez')).toBe('');
             expect(stripTld('necroskillz.tez')).toBe('necroskillz');
             expect(stripTld('play.necroskillz.tez')).toBe('play.necroskillz');
         });

@@ -21,6 +21,7 @@ export { RpcRequestData, RpcRequestObjectData, RpcRequestScalarData } from './rp
 export { RpcResponseData } from './rpc-data/rpc-response-data';
 export { RecordMetadata, StandardRecordMetadataKey } from './rpc-data/record-metadata';
 export { BytesEncoder } from './rpc-data/encoders/bytes-encoder';
+export { NormalizeBytesEncoder } from './rpc-data/encoders/normalize-bytes-encoder';
 export { DateEncoder } from './rpc-data/encoders/date-encoder';
 export { JsonBytesEncoder } from './rpc-data/encoders/json-bytes-encoder';
 export { Tracer } from './tracing/tracer';
@@ -34,4 +35,4 @@ export { TezosDomainsProxyContractAddressResolver } from './tezos/tezos-domains-
 export * from './utils/domains';
 export * from './utils/types';
 export * from './utils/support';
-export { hexToArray } from './utils/convert';
+export { hexToArray, normalizeDomainName } from './utils/convert';

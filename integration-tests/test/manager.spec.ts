@@ -40,7 +40,7 @@ if (CONFIG.network !== 'carthagenet') {
 
         describe('getAcquisitionInfo()', () => {
             it('should get price for unowned domain', async () => {
-                const info = await client.manager.getAcquisitionInfo(`integration_test_new${Date.now().toString()}.${client.validator.supportedTLDs[0]}`);
+                const info = await client.manager.getAcquisitionInfo(`integration-test-new${Date.now().toString()}.${client.validator.supportedTLDs[0]}`);
 
                 expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeBought);
                 expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(db[CONFIG.network].price);

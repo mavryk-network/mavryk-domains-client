@@ -1,5 +1,16 @@
 import { TransactionWalletOperation } from '@taquito/taquito';
-import { Tracer, AddressBook, Exact, SmartContractType, RpcRequestData, DateEncoder, getTld, RpcResponseData } from '@tezos-domains/core';
+import {
+    Tracer,
+    AddressBook,
+    Exact,
+    SmartContractType,
+    RpcRequestData,
+    DateEncoder,
+    getTld,
+    RpcResponseData,
+    DomainNameValidator,
+    DomainNameValidationResult,
+} from '@tezos-domains/core';
 import { BytesEncoder, getLabel } from '@tezos-domains/core';
 import { TaquitoClient, TLDRegistrarStorage, MapEncoder, BigNumberEncoder } from '@tezos-domains/taquito';
 import BigNumber from 'bignumber.js';
@@ -24,9 +35,17 @@ import { DomainsManager } from './domains-manager';
 import { CommitmentGenerator } from './commitment-generator';
 
 export class BlockchainDomainsManager implements DomainsManager {
-    constructor(private tezos: TaquitoClient, private addressBook: AddressBook, private tracer: Tracer, private commitmentGenerator: CommitmentGenerator) {}
+    constructor(
+        private tezos: TaquitoClient,
+        private addressBook: AddressBook,
+        private tracer: Tracer,
+        private commitmentGenerator: CommitmentGenerator,
+        private validator: DomainNameValidator
+    ) {}
 
     async setChildRecord(request: Exact<SetChildRecordRequest>): Promise<TransactionWalletOperation> {
+        this.assertDomainName(`${request.label}.${request.parent}`);
+
         const entrypoint = 'set_child_record';
 
         this.tracer.trace(`=> Executing ${entrypoint}.`, request);
@@ -48,6 +67,8 @@ export class BlockchainDomainsManager implements DomainsManager {
     }
 
     async updateRecord(request: Exact<UpdateRecordRequest>): Promise<TransactionWalletOperation> {
+        this.assertDomainName(request.name);
+
         const entrypoint = 'update_record';
         this.tracer.trace(`=> Executing ${entrypoint}.`, request);
 
@@ -61,6 +82,8 @@ export class BlockchainDomainsManager implements DomainsManager {
     }
 
     async commit(tld: string, request: Exact<CommitmentRequest>): Promise<TransactionWalletOperation> {
+        this.assertDomainName(`${request.label}.${tld}`);
+
         const entrypoint = 'commit';
         this.tracer.trace(`=> Executing ${entrypoint}.`, request);
 
@@ -74,6 +97,8 @@ export class BlockchainDomainsManager implements DomainsManager {
     }
 
     async buy(tld: string, request: Exact<BuyRequest>): Promise<TransactionWalletOperation> {
+        this.assertDomainName(`${request.label}.${tld}`);
+
         const entrypoint = 'buy';
         this.tracer.trace(`=> Executing ${entrypoint}.`, request);
 
@@ -95,6 +120,8 @@ export class BlockchainDomainsManager implements DomainsManager {
     }
 
     async renew(tld: string, request: Exact<RenewRequest>): Promise<TransactionWalletOperation> {
+        this.assertDomainName(`${request.label}.${tld}`);
+
         const entrypoint = 'renew';
 
         this.tracer.trace(`=> Executing ${entrypoint}.`, request);
@@ -111,6 +138,10 @@ export class BlockchainDomainsManager implements DomainsManager {
     }
 
     async claimReverseRecord(request: Exact<ReverseRecordRequest>): Promise<TransactionWalletOperation> {
+        if (request.name) {
+            this.assertDomainName(request.name);
+        }
+
         const entrypoint = 'claim_reverse_record';
 
         this.tracer.trace(`=> Executing ${entrypoint}.`, request);
@@ -125,6 +156,10 @@ export class BlockchainDomainsManager implements DomainsManager {
     }
 
     async updateReverseRecord(request: Exact<UpdateReverseRecordRequest>): Promise<TransactionWalletOperation> {
+        if (request.name) {
+            this.assertDomainName(request.name);
+        }
+
         const entrypoint = 'update_reverse_record';
 
         this.tracer.trace(`=> Executing ${entrypoint}.`, request);
@@ -139,6 +174,8 @@ export class BlockchainDomainsManager implements DomainsManager {
     }
 
     async getCommitment(tld: string, request: Exact<CommitmentRequest>): Promise<CommitmentInfo | null> {
+        this.assertDomainName(`${request.label}.${tld}`);
+
         this.tracer.trace('=> Getting existing commitment.', tld, request);
 
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld);
@@ -175,6 +212,8 @@ export class BlockchainDomainsManager implements DomainsManager {
     }
 
     async getAcquisitionInfo(name: string): Promise<DomainAcquisitionInfo> {
+        this.assertDomainName(name);
+
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, getTld(name));
         const tldStorage = await this.tezos.storage<TLDRegistrarStorage>(address);
         const now = new Date();
@@ -279,6 +318,8 @@ export class BlockchainDomainsManager implements DomainsManager {
     }
 
     async bid(tld: string, request: Exact<BidRequest>): Promise<TransactionWalletOperation> {
+        this.assertDomainName(`${request.label}.${tld}`);
+
         const entrypoint = 'bid';
 
         this.tracer.trace(`=> Executing ${entrypoint}.`, request);
@@ -294,6 +335,8 @@ export class BlockchainDomainsManager implements DomainsManager {
     }
 
     async settle(tld: string, request: Exact<SettleRequest>): Promise<TransactionWalletOperation> {
+        this.assertDomainName(`${request.label}.${tld}`);
+
         const entrypoint = 'settle';
 
         this.tracer.trace(`=> Executing ${entrypoint}.`, request);
@@ -318,5 +361,17 @@ export class BlockchainDomainsManager implements DomainsManager {
         this.tracer.trace('<= Executed.', operation.opHash);
 
         return operation;
+    }
+
+    private assertDomainName(name: string) {
+        const validation = this.validator.validateDomainName(name);
+
+        if (validation === DomainNameValidationResult.VALID) {
+            return;
+        }
+
+        this.tracer.trace('!! Domain name validation failed.', validation);
+
+        throw new Error(`'${name}' is not a valid domain name.`);
     }
 }

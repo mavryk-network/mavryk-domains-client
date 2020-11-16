@@ -65,7 +65,7 @@ export class TaquitoTezosDomainsClient {
         const dataProvider = new TaquitoTezosDomainsDataProvider(tezos, addressBook, tracer);
         const commitmentGenerator = new CommitmentGenerator(config.tezos);
 
-        this._manager = new BlockchainDomainsManager(tezos, addressBook, tracer, commitmentGenerator);
+        this._manager = new BlockchainDomainsManager(tezos, addressBook, tracer, commitmentGenerator, this.validator);
         this._resolver = createResolver(config, dataProvider, tracer, this.validator);
     }
 

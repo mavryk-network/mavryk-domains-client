@@ -78,7 +78,8 @@ describe('TaquitoTezosDomainsClient', () => {
                 instance(taquitoClientMock),
                 instance(addressBookMock),
                 instance(tracerMock),
-                instance(commitmentGeneratorMock)
+                instance(commitmentGeneratorMock),
+                instance(domainNameValidator)
             );
 
             expect(createResolver).toHaveBeenCalledWith(config, instance(dataProviderMock), instance(tracerMock), instance(domainNameValidator));

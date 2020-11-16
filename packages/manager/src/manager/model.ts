@@ -1,13 +1,13 @@
-import { RpcRequest, encoder, BytesEncoder, RpcResponse, DateEncoder, RecordMetadata } from '@tezos-domains/core';
+import { RpcRequest, encoder, RpcResponse, DateEncoder, RecordMetadata, NormalizeBytesEncoder } from '@tezos-domains/core';
 import BigNumber from 'bignumber.js';
 import { MapEncoder, BigNumberEncoder } from '@tezos-domains/taquito';
 
 @RpcRequest()
 export class SetChildRecordRequest {
     /** The first part of the domain name (e.g. `bob` if full domain name is `bob.alice.tez`) */
-    @encoder(BytesEncoder) label!: string;
+    @encoder(NormalizeBytesEncoder) label!: string;
     /** The parent part of the domain name (e.g. `alice.tez` if full domain name is `bob.alice.tez`) */
-    @encoder(BytesEncoder) parent!: string;
+    @encoder(NormalizeBytesEncoder) parent!: string;
     /** The address that should be set as the owner of the domain record. */
     owner!: string;
     /** The address that is resolved when resolving the domain name. */
@@ -21,7 +21,7 @@ export class SetChildRecordRequest {
 @RpcRequest()
 export class UpdateRecordRequest {
     /** The name of the domain (e.g. `alice.tez`) */
-    @encoder(BytesEncoder) name!: string;
+    @encoder(NormalizeBytesEncoder) name!: string;
     /** The address that should be set as the owner of the domain record. */
     owner!: string;
     /** The address that is resolved when resolving the domain name. */
@@ -33,7 +33,7 @@ export class UpdateRecordRequest {
 @RpcRequest()
 export class CommitmentRequest {
     /** The first part of the domain name (e.g. `alice` if full domain name is `alice.tez`) */
-    @encoder(BytesEncoder) label!: string;
+    @encoder(NormalizeBytesEncoder) label!: string;
     /** The address of the future buyer. */
     owner!: string;
 }
@@ -41,7 +41,7 @@ export class CommitmentRequest {
 @RpcRequest()
 export class BuyRequest {
     /** The first part of the domain name (e.g. `alice` if full domain name is `alice.tez`) */
-    @encoder(BytesEncoder) label!: string;
+    @encoder(NormalizeBytesEncoder) label!: string;
     /** The address of the buyer. */
     owner!: string;
     /** The duration of the domain registration in days. */
@@ -55,7 +55,7 @@ export class BuyRequest {
 @RpcRequest()
 export class RenewRequest {
     /** The first part of the domain name (e.g. `alice` if full domain name is `alice.tez`) */
-    @encoder(BytesEncoder) label!: string;
+    @encoder(NormalizeBytesEncoder) label!: string;
     /** The duration of the domain renewal in days. */
     duration!: number;
 }
@@ -63,7 +63,7 @@ export class RenewRequest {
 @RpcRequest()
 export class ReverseRecordRequest {
     /** The name that is resolved when resolving the senders address. */
-    @encoder(BytesEncoder) name!: string | null;
+    @encoder(NormalizeBytesEncoder) name!: string | null;
     /** The address that should be set as the owner of the reverse record. */
     owner!: string;
     /** Additional metadata. */
@@ -73,7 +73,7 @@ export class ReverseRecordRequest {
 @RpcRequest()
 export class UpdateReverseRecordRequest {
     /** The name that is resolved when resolving the [[`address`]]. */
-    @encoder(BytesEncoder) name!: string | null;
+    @encoder(NormalizeBytesEncoder) name!: string | null;
     /** The address that should be set as the owner of the reverse record. */
     owner!: string;
     /** The address that the reverse record is associated with. */
@@ -85,7 +85,7 @@ export class UpdateReverseRecordRequest {
 @RpcRequest()
 export class BidRequest {
     /** The first part of the domain name (e.g. `alice` if full domain name is `alice.tez`) */
-    @encoder(BytesEncoder) label!: string;
+    @encoder(NormalizeBytesEncoder) label!: string;
     /** The new amount to bid in mutez. */
     bid!: number;
 }
@@ -93,7 +93,7 @@ export class BidRequest {
 @RpcRequest()
 export class SettleRequest {
     /** The first part of the domain name (e.g. `alice` if full domain name is `alice.tez`) */
-    @encoder(BytesEncoder) label!: string;
+    @encoder(NormalizeBytesEncoder) label!: string;
     /** The address of the buyer. */
     owner!: string;
     /** The address that is resolved when resolving the domain name. */

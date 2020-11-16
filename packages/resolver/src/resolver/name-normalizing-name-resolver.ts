@@ -1,7 +1,8 @@
-import { Tracer } from '@tezos-domains/core';
-import { toUnicode } from 'idna-uts46-hx';
+import { normalizeDomainName, Tracer } from '@tezos-domains/core';
 
-import { NameResolver, DomainInfo, ReverseRecordInfo } from '../resolver';
+import { DomainInfo, ReverseRecordInfo } from './model';
+import { NameResolver } from './name-resolver';
+
 
 export class NameNormalizingNameResolver implements NameResolver {
     constructor(private inner: NameResolver, private tracer: Tracer) {}
@@ -27,7 +28,7 @@ export class NameNormalizingNameResolver implements NameResolver {
     }
 
     private normalizeName(name: string) {
-        const normalized = toUnicode(name, { useStd3ASCII: false });
+        const normalized = normalizeDomainName(name);
 
         if (name !== normalized) {
             this.tracer.trace(`!! Normalized name '${name}' to '${normalized}'.`);

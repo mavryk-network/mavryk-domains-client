@@ -19,18 +19,22 @@ describe('TezosDomainsValidator', () => {
         });
     });
 
+    it('should return INVALID_NAME if domain name starts or ends with -', () => {
+        init();
+        
+        expect(validator.validateDomainName('-aa.tez')).toBe(DomainNameValidationResult.INVALID_NAME);
+        expect(validator.validateDomainName('aa-.tez')).toBe(DomainNameValidationResult.INVALID_NAME);
+        expect(validator.validateDomainName('aa.-bb.tez')).toBe(DomainNameValidationResult.INVALID_NAME);
+    });
+
+    it('should return INVALID_NAME if part of the domain is empty', () => {
+        init();
+
+        expect(validator.validateDomainName('.tez')).toBe(DomainNameValidationResult.TOO_SHORT);
+    });
+
     describe('latin', () => {
         beforeEach(() => init());
-
-        it('should return INVALID_FIRST_CHARACTER or INVALID_LAST_CHARACTER if domain name starts or ends with -', () => {
-            expect(validator.validateDomainName('-aa.tez')).toBe(DomainNameValidationResult.INVALID_FIRST_CHARACTER);
-            expect(validator.validateDomainName('aa-.tez')).toBe(DomainNameValidationResult.INVALID_LAST_CHARACTER);
-            expect(validator.validateDomainName('aa.-bb.tez')).toBe(DomainNameValidationResult.INVALID_FIRST_CHARACTER);
-        });
-
-        it('should return INVALID_FIRST_CHARACTER if part of the domain is empty', () => {
-            expect(validator.validateDomainName('.tez')).toBe(DomainNameValidationResult.INVALID_FIRST_CHARACTER);
-        });
 
         it('should return UNSUPPORTED_CHARACTERS if domain name contains invalid characters', () => {
             expect(validator.validateDomainName('a..a.tez')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);

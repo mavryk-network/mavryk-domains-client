@@ -1,3 +1,5 @@
+import { toUnicode } from 'idna-uts46-hx';
+
 export function encodeString(str: string): string {
     let result = '';
     const encoded = new TextEncoder().encode(str);
@@ -22,4 +24,8 @@ export function safeJsonParse(jsonString: string): unknown {
     } catch {
         return null;
     }
+}
+
+export function normalizeDomainName(name: string): string {
+    return toUnicode(name, { useStd3ASCII: false });
 }

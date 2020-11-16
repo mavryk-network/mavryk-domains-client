@@ -31,15 +31,6 @@ describe('NameNormalizingNameResolver', () => {
         resolver = new NameNormalizingNameResolver(instance(nameResolverMock), instance(tracerMock));
     });
 
-    const TEST_CASES: { description: string; input: string; normalized: string }[] = [
-        { description: 'unchanged', input: 'lol-wtf.tez', normalized: 'lol-wtf.tez' },
-        { description: 'upper case', input: 'Bla.tez', normalized: 'bla.tez' },
-        { description: 'unicode uppercase', input: 'ŘEPKA.TEZ', normalized: 'řepka.tez' },
-        { description: 'keep unicode', input: 'öbb.tez', normalized: 'öbb.tez' },
-        { description: 'keep punycode', input: 'xn-bb-eka.tez', normalized: 'xn-bb-eka.tez' },
-        { description: 'keep japanese', input: 'クソ食らえ.tez', normalized: 'クソ食らえ.tez' },
-    ];
-
     describe('resolveDomainRecord()', () => {
         it('should proxy call to decorated resolver', () => {
             const p = resolver.resolveDomainRecord('a');
@@ -47,13 +38,11 @@ describe('NameNormalizingNameResolver', () => {
             expect(p).toBe(dp);
         });
 
-        TEST_CASES.forEach(test => {
-            it(`should normalize domain name: ${test.description}`, () => {
-                const p = resolver.resolveDomainRecord(test.input);
+        it('should normalize domain name', () => {
+            const p = resolver.resolveDomainRecord('AB.tez');
 
-                verify(nameResolverMock.resolveDomainRecord(test.normalized)).called();
-                expect(p).toBe(dp);
-            });
+            verify(nameResolverMock.resolveDomainRecord('ab.tez')).called();
+            expect(p).toBe(dp);
         });
     });
 
@@ -64,13 +53,11 @@ describe('NameNormalizingNameResolver', () => {
             expect(p).toBe(ap);
         });
 
-        TEST_CASES.forEach(test => {
-            it(`should normalize domain name: ${test.description}`, () => {
-                const p = resolver.resolveNameToAddress(test.input);
+        it('should normalize domain name', () => {
+            const p = resolver.resolveNameToAddress('AB.tez');
 
-                verify(nameResolverMock.resolveNameToAddress(test.normalized)).called();
-                expect(p).toBe(ap);
-            });
+            verify(nameResolverMock.resolveNameToAddress('ab.tez')).called();
+            expect(p).toBe(ap);
         });
     });
 

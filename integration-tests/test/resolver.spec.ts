@@ -85,6 +85,7 @@ describe('resolver', () => {
 
             const TEST_CASES: TestCase[] = [
                 { description: 'should resolve address', from: DATA.ok.name, to: DATA.ok.address },
+                { description: 'should normalize and resolve address', from: DATA.ok.name.toUpperCase(), to: DATA.ok.address },
                 { description: 'should return null for expired address', from: DATA.expired.name, to: null },
                 { description: 'should return null for non existent address', from: '404.test', to: null },
                 { description: 'should resolve address for infinite validity record', from: DATA.noExpiration.name, to: DATA.noExpiration.address },

@@ -17,10 +17,10 @@ export interface DomainNameValidator {
     /**
      * Adds a supported tld. You don't need to call this in most cases.
      */
-    addSupportedTld(name: string, validator: DomainNameValidatorFn): void;
+    addSupportedTld(tld: string, validator: DomainNameValidatorFn): void;
     
     /**
      * Removes a supported tld. You don't need to call this in most cases.
      */
-    removeSupportedTld(name: string): void;
+    removeSupportedTld(tld: string): void;
 }

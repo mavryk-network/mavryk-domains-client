@@ -40,5 +40,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "idna-uts46-hx": "^3.3.0"
   }
 }

@@ -8,6 +8,7 @@ import {
     AddressBook,
     BytesEncoder,
     RecordMetadata,
+    DomainNameValidator,
 } from '@tezos-domains/core';
 import { TaquitoClient } from '@tezos-domains/taquito';
 import { DomainsManager, CommitmentGenerator, BlockchainDomainsManager, DomainAcquisitionState, CommitmentRequest } from '@tezos-domains/manager';
@@ -16,6 +17,7 @@ import MockDate from 'mockdate';
 import BigNumber from 'bignumber.js';
 
 import { TLDRecord, AuctionState } from '../../src/manager/model';
+import { DomainNameValidationResult } from '@tezos-domains/core';
 
 interface FakeTLDRegistrarStorage {
     store: {
@@ -36,6 +38,7 @@ describe('BlockchainDomainsManager', () => {
     let addressBookMock: AddressBook;
     let tracerMock: Tracer;
     let commitmentGeneratorMock: CommitmentGenerator;
+    let validatorMock: DomainNameValidator;
     let operation: TransactionWalletOperation;
 
     const now = new Date(2020, 8, 11, 20, 0, 0);
@@ -55,6 +58,7 @@ describe('BlockchainDomainsManager', () => {
         addressBookMock = mock(AddressBook);
         tracerMock = mock<Tracer>();
         commitmentGeneratorMock = mock(CommitmentGenerator);
+        validatorMock = mock<DomainNameValidator>();
         operation = mock(TransactionWalletOperation);
 
         storage = {
@@ -83,6 +87,13 @@ describe('BlockchainDomainsManager', () => {
         storage.store.bidder_balances['tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix'] = new BigNumber(2e6);
 
         when(tracerMock.trace(anything(), anything(), anything()));
+        when(validatorMock.validateDomainName(anyString())).thenCall(name => {
+            if (name === 'invalid.tez') {
+                return DomainNameValidationResult.INVALID_NAME;
+            }
+
+            return DomainNameValidationResult.VALID;
+        });
 
         when(addressBookMock.lookup(anything(), anything())).thenCall((type, p1) => Promise.resolve(`${type}addr${p1 || ''}`));
         when(addressBookMock.lookup(anything(), anything(), anything())).thenCall((type, p1, p2) => Promise.resolve(`${type}addr${p1 || ''}${p2 || ''}`));
@@ -98,7 +109,13 @@ describe('BlockchainDomainsManager', () => {
 
         MockDate.set(now);
 
-        manager = new BlockchainDomainsManager(instance(taquitoClientMock), instance(addressBookMock), instance(tracerMock), instance(commitmentGeneratorMock));
+        manager = new BlockchainDomainsManager(
+            instance(taquitoClientMock),
+            instance(addressBookMock),
+            instance(tracerMock),
+            instance(commitmentGeneratorMock),
+            instance(validatorMock)
+        );
     });
 
     afterEach(() => {
@@ -128,6 +145,19 @@ describe('BlockchainDomainsManager', () => {
 
             expect(op).toBe(instance(operation));
         });
+
+        it('should throw if domain name is invalid', async () => {
+            await expect(() =>
+                manager.setChildRecord({
+                    label: 'invalid',
+                    parent: 'tez',
+                    data: new RecordMetadata(),
+                    owner: 'tz1xxx',
+                    address: 'tz1yyy',
+                    expiry: null,
+                })
+            ).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
+        });
     });
 
     describe('updateRecord()', () => {
@@ -150,6 +180,17 @@ describe('BlockchainDomainsManager', () => {
 
             expect(op).toBe(instance(operation));
         });
+
+        it('should throw if domain name is invalid', async () => {
+            await expect(() =>
+                manager.updateRecord({
+                    name: 'invalid.tez',
+                    data: new RecordMetadata(),
+                    owner: 'tz1xxx',
+                    address: 'tz1yyy',
+                })
+            ).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
+        });
     });
 
     describe('commit()', () => {
@@ -163,6 +204,10 @@ describe('BlockchainDomainsManager', () => {
             verify(taquitoClientMock.call(`${SmartContractType.TLDRegistrar}addrtezcommit`, 'commit', deepEqual(['commitment']))).called();
 
             expect(op).toBe(instance(operation));
+        });
+
+        it('should throw if domain name is invalid', async () => {
+            await expect(() => manager.commit('tez', { label: 'invalid', owner: 'tz1xxx' })).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
         });
     });
 
@@ -189,6 +234,18 @@ describe('BlockchainDomainsManager', () => {
 
             expect(op).toBe(instance(operation));
         });
+
+        it('should throw if domain name is invalid', async () => {
+            await expect(() =>
+                manager.buy('tez', {
+                    duration: 365,
+                    label: 'invalid',
+                    owner: 'tz1xxx',
+                    address: 'tz1yyy',
+                    data: new RecordMetadata(),
+                })
+            ).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
+        });
     });
 
     describe('renew()', () => {
@@ -201,6 +258,15 @@ describe('BlockchainDomainsManager', () => {
             verify(taquitoClientMock.call(`${SmartContractType.TLDRegistrar}addrtezrenew`, 'renew', deepEqual([e('necroskillz2'), 365]), 365 * 1e6)).called();
 
             expect(op).toBe(instance(operation));
+        });
+
+        it('should throw if domain name is invalid', async () => {
+            await expect(() =>
+                manager.renew('tez', {
+                    duration: 365,
+                    label: 'invalid',
+                })
+            ).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
         });
     });
 
@@ -223,6 +289,26 @@ describe('BlockchainDomainsManager', () => {
 
             expect(op).toBe(instance(operation));
         });
+
+        it('should throw if domain name is invalid', async () => {
+            await expect(() =>
+                manager.claimReverseRecord({
+                    name: 'invalid.tez',
+                    owner: 'tz1xxx',
+                    data: new RecordMetadata({ ttl: '31' }),
+                })
+            ).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
+        });
+
+        it('should not throw if domain name is null', async () => {
+            const op = await manager.claimReverseRecord({
+                name: null,
+                owner: 'tz1xxx',
+                data: new RecordMetadata(),
+            });
+
+            expect(op).toBe(instance(operation));
+        });
     });
 
     describe('updateReverseRecord()', () => {
@@ -242,6 +328,28 @@ describe('BlockchainDomainsManager', () => {
                 )
             ).called();
             expect(capture(taquitoClientMock.call).last()[2][3].get('ttl')).toBe('31');
+
+            expect(op).toBe(instance(operation));
+        });
+
+        it('should throw if domain name is invalid', async () => {
+            await expect(() =>
+                manager.updateReverseRecord({
+                    address: 'tz1xxx',
+                    name: 'invalid.tez',
+                    owner: 'tz1yyy',
+                    data: new RecordMetadata({ ttl: '31' }),
+                })
+            ).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
+        });
+
+        it('should not throw if domain name is null', async () => {
+            const op = await manager.updateReverseRecord({
+                address: 'tz1xxx',
+                name: null,
+                owner: 'tz1yyy',
+                data: new RecordMetadata({ ttl: '31' }),
+            });
 
             expect(op).toBe(instance(operation));
         });
@@ -268,6 +376,12 @@ describe('BlockchainDomainsManager', () => {
             const commitment = await manager.getCommitment('tez', params);
 
             expect(commitment).toBeNull();
+        });
+
+        it('should throw if domain name is invalid', async () => {
+            await expect(() => manager.getCommitment('tez', { label: 'invalid', owner: 'tz1xxx' })).rejects.toThrowError(
+                "'invalid.tez' is not a valid domain name."
+            );
         });
     });
 
@@ -387,6 +501,10 @@ describe('BlockchainDomainsManager', () => {
             expect(info.auctionDetails.registrationDuration).toBe(5);
             expect(() => info.buyOrRenewDetails).toThrowError();
         });
+
+        it('should throw if domain name is invalid', async () => {
+            await expect(() => manager.getAcquisitionInfo('invalid.tez')).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
+        });
     });
 
     describe('getBidderBalance()', () => {
@@ -440,6 +558,15 @@ describe('BlockchainDomainsManager', () => {
 
             expect(op).toBe(instance(operation));
         });
+
+        it('should throw if domain name is invalid', async () => {
+            await expect(() =>
+                manager.bid('tez', {
+                    label: 'invalid',
+                    bid: 1e6,
+                })
+            ).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
+        });
     });
 
     describe('settle()', () => {
@@ -462,6 +589,17 @@ describe('BlockchainDomainsManager', () => {
             expect(capture(taquitoClientMock.call).last()[2][3].get('ttl')).toBe('31');
 
             expect(op).toBe(instance(operation));
+        });
+
+        it('should throw if domain name is invalid', async () => {
+            await expect(() =>
+                manager.settle('tez', {
+                    label: 'invalid',
+                    owner: 'tz1xxx',
+                    address: 'tz1yyy',
+                    data: new RecordMetadata(),
+                })
+            ).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
         });
     });
 
