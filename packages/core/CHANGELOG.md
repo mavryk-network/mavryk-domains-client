@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.24](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.23...v1.0.0-beta.24) (2020-11-16)
+
+
+### Features
+
+* normalize domain name in validator and manager, validate domain name in manager methods ([7eba607](https://gitlab.com/tezos-domains/client/commit/7eba60708006c7cbb9a94cd6ab476d57089a377d))
+
+
+### BREAKING CHANGES
+
+*  - Removed `DomainNameValidationResult` `INVALID_LAST_CHARACTER` and `INVALID_FIRST_CHARACTER`
+   and added `INVALID_NAME` and `TOO_SHORT`
+
+
+
+
+
 # [1.0.0-beta.23](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.22...v1.0.0-beta.23) (2020-11-13)
 
 
