@@ -1,6 +1,6 @@
 # Tezos Domains Client
 
-Library for resolving and managing tezos domains built on top of [taquito](https://tezostaquito.io/).
+Library for resolving and managing tezos domains. Can be used with [taquito](https://tezostaquito.io/) or [conseiljs](https://cryptonomic.github.io/ConseilJS/#/).
 
 _WARNING: This project is in beta. We welcome users and feedback, please be aware that this project is a work in progress._
 
@@ -105,7 +105,7 @@ yarn add @tezos-domains/conseil-client @tezos-domains/core conseiljs node-fetch 
 npm install @tezos-domains/conseil-client @tezos-domains/core conseiljs node-fetch loglevel @types/node-fetch @types/loglevel
 ```
 
-### 2a) Use `resolver` to resolve names and addresses
+### 2) Use `resolver` to resolve names and addresses
 
 Example of resolving and address from domain name:
 
