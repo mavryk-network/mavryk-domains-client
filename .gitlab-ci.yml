@@ -1,10 +1,14 @@
+variables:
+    NODE_VERSION: "alpine3.12"
+
 stages:
     - build
     - test
+    - deploy
 
 build:
     stage: build
-    image: node:alpine3.12
+    image: node:${NODE_VERSION}
     script:
         - yarn lint
         - yarn build
@@ -24,7 +28,7 @@ build:
 
 test:core:
     stage: test
-    image: node:alpine3.12
+    image: node:${NODE_VERSION}
     allow_failure: false
     script:
         - yarn workspace @tezos-domains/core test
@@ -40,7 +44,7 @@ test:core:
 
 test:resolver:
     stage: test
-    image: node:alpine3.12
+    image: node:${NODE_VERSION}
     allow_failure: false
     script:
         - yarn workspace @tezos-domains/resolver test
@@ -56,7 +60,7 @@ test:resolver:
 
 test:manager:
     stage: test
-    image: node:alpine3.12
+    image: node:${NODE_VERSION}
     allow_failure: false
     script:
         - yarn workspace @tezos-domains/manager test
@@ -72,7 +76,7 @@ test:manager:
 
 test:taquito:
     stage: test
-    image: node:alpine3.12
+    image: node:${NODE_VERSION}
     allow_failure: false
     script:
         - yarn workspace @tezos-domains/taquito test
@@ -88,7 +92,7 @@ test:taquito:
 
 test:taquito-client:
     stage: test
-    image: node:alpine3.12
+    image: node:${NODE_VERSION}
     allow_failure: false
     script:
         - yarn workspace @tezos-domains/taquito-client test
@@ -104,7 +108,7 @@ test:taquito-client:
 
 test:conseil-client:
     stage: test
-    image: node:alpine3.12
+    image: node:${NODE_VERSION}
     allow_failure: false
     script:
         - yarn workspace @tezos-domains/conseil-client test
@@ -120,7 +124,7 @@ test:conseil-client:
 
 test:integration:carthagenet:
     stage: test
-    image: node:alpine3.12
+    image: node:${NODE_VERSION}
     allow_failure: false
     script:
         - TD_NETWORK=carthagenet TD_RPC_URL=${RPC_URL_CARTHAGENET} yarn workspace integration-tests integration-test
@@ -129,9 +133,21 @@ test:integration:carthagenet:
 
 test:integration:delphinet:
     stage: test
-    image: node:alpine3.12
+    image: node:${NODE_VERSION}
     allow_failure: false
     script:
         - TD_NETWORK=delphinet TD_RPC_URL=${RPC_URL_DELPHINET} yarn workspace integration-tests integration-test
     tags:
         - docker
+
+deploy_typedoc:
+    stage: deploy
+    image: microsoft/azure-cli
+    dependencies:
+        - build
+    script:
+        - az storage blob delete-batch -s "\$web" --connection-string "DefaultEndpointsProtocol=https;AccountName=tdclienttypedoc;AccountKey=${AZURE_STORAGE_CONNECTION_STRING_ACCOUNTKEY_CLIENT_DOCS};EndpointSuffix=core.windows.net"
+        - az storage blob upload-batch -d "\$web" -s dist/typedoc --connection-string "DefaultEndpointsProtocol=https;AccountName=tdclienttypedoc;AccountKey=${AZURE_STORAGE_CONNECTION_STRING_ACCOUNTKEY_CLIENT_DOCS};EndpointSuffix=core.windows.net"
+    when: manual
+    only:
+        - master
