@@ -151,21 +151,32 @@ export class DomainAcquisitionInfo {
     }
 
     get auctionDetails(): DomainAcquisitionAuctionInfo {
-        const states = [DomainAcquisitionState.CanBeAuctioned, DomainAcquisitionState.AuctionInProgress, DomainAcquisitionState.CanBeSettled];
-        if (states.includes(this._state)) {
-            return this._auctionInfo!;
-        }
+        this.assertState(
+            'auctionDetails',
+            DomainAcquisitionState.CanBeAuctioned,
+            DomainAcquisitionState.AuctionInProgress,
+            DomainAcquisitionState.CanBeSettled
+        );
 
-        throw new Error(`Auction info is only available for states ${states.join(', ')}.`);
+        return this._auctionInfo!;
     }
 
     get buyOrRenewDetails(): DomainAcquisitionBuyOrRenewInfo {
-        const states = [DomainAcquisitionState.CanBeBought, DomainAcquisitionState.Taken];
-        if (states.includes(this._state)) {
-            return this._buyOrRenewInfo!;
-        }
+        this.assertState('buyOrRenewDetails', DomainAcquisitionState.CanBeBought, DomainAcquisitionState.Taken);
 
-        throw new Error(`BuyOrRenew info is only available for states ${states.join(', ')}.`);
+        return this._buyOrRenewInfo!;
+    }
+
+    /**
+     * Calculates buy or renew price for this domain.
+     *
+     * @param duration The number of days for which to calculate the price.
+     * @returns Price for owning the domain for the specified duration in mutez.
+     */
+    calculatePrice(duration: number): number {
+        this.assertState('calculatePrice', DomainAcquisitionState.CanBeBought, DomainAcquisitionState.Taken);
+
+        return this._buyOrRenewInfo!.pricePerMinDuration * (duration / this._buyOrRenewInfo!.minDuration);
     }
 
     private constructor(
@@ -187,6 +198,12 @@ export class DomainAcquisitionInfo {
     /** @internal */
     static createBuyOrRenew(state: DomainAcquisitionState, fifsInfo: DomainAcquisitionBuyOrRenewInfo): DomainAcquisitionInfo {
         return new DomainAcquisitionInfo(state, undefined, fifsInfo);
+    }
+
+    private assertState(description: string, ...allowedStates: DomainAcquisitionState[]) {
+        if (!allowedStates.includes(this._state)) {
+            throw new Error(`${description} is only available for states ${allowedStates.join(', ')}.`);
+        }
     }
 }
 
@@ -214,7 +231,7 @@ export class CommitmentInfo {
 
     constructor(private _created: Date, private _usableFrom: Date, private _usableUntil: Date) {}
 
-    /** 
+    /**
      * Returns a promise that is resolved when commitment can be spent to buy a domain.
      */
     async waitUntilUsable(): Promise<void> {

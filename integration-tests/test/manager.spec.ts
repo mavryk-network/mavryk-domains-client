@@ -45,6 +45,7 @@ if (CONFIG.network !== 'carthagenet') {
                 expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeBought);
                 expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(db[CONFIG.network].price);
                 expect(info.buyOrRenewDetails.minDuration).toBe(365);
+                expect(info.calculatePrice(365)).toBe(db[CONFIG.network].price);
             });
 
             it('should get price for renewing owned domain', async () => {
@@ -53,6 +54,7 @@ if (CONFIG.network !== 'carthagenet') {
                 expect(info.acquisitionState).toBe(DomainAcquisitionState.Taken);
                 expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(1e6);
                 expect(info.buyOrRenewDetails.minDuration).toBe(365);
+                expect(info.calculatePrice(365)).toBe(1e6);
             });
         });
     });

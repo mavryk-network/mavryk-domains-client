@@ -392,6 +392,7 @@ describe('BlockchainDomainsManager', () => {
             expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeBought);
             expect(info.buyOrRenewDetails.minDuration).toBe(5);
             expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(5e6);
+            expect(info.calculatePrice(365)).toBe(365e6);
             expect(() => info.auctionDetails).toThrowError();
         });
 
@@ -401,6 +402,7 @@ describe('BlockchainDomainsManager', () => {
             expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeBought);
             expect(info.buyOrRenewDetails.minDuration).toBe(5);
             expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(5e6);
+            expect(info.calculatePrice(365)).toBe(365e6);
             expect(() => info.auctionDetails).toThrowError();
         });
 
@@ -410,6 +412,7 @@ describe('BlockchainDomainsManager', () => {
             expect(info.acquisitionState).toBe(DomainAcquisitionState.Taken);
             expect(info.buyOrRenewDetails.minDuration).toBe(5);
             expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(1e8);
+            expect(info.calculatePrice(365)).toBe(73e8);
             expect(() => info.auctionDetails).toThrowError();
         });
 
@@ -421,6 +424,7 @@ describe('BlockchainDomainsManager', () => {
             expect(info.acquisitionState).toBe(DomainAcquisitionState.Unobtainable);
             expect(() => info.auctionDetails).toThrowError();
             expect(() => info.buyOrRenewDetails).toThrowError();
+            expect(() => info.calculatePrice(365)).toThrowError();
         });
 
         it('should return unobtainable if tld is not launched yet', async () => {
@@ -431,6 +435,7 @@ describe('BlockchainDomainsManager', () => {
             expect(info.acquisitionState).toBe(DomainAcquisitionState.Unobtainable);
             expect(() => info.auctionDetails).toThrowError();
             expect(() => info.buyOrRenewDetails).toThrowError();
+            expect(() => info.calculatePrice(365)).toThrowError();
         });
 
         it('should return info about auction if within auction period', async () => {
@@ -447,6 +452,7 @@ describe('BlockchainDomainsManager', () => {
             expect(info.auctionDetails.nextMinimumBid).toBe(5e6);
             expect(info.auctionDetails.registrationDuration).toBe(5);
             expect(() => info.buyOrRenewDetails).toThrowError();
+            expect(() => info.calculatePrice(365)).toThrowError();
         });
 
         it('should return info about auction in progress', async () => {
@@ -461,6 +467,7 @@ describe('BlockchainDomainsManager', () => {
             expect(info.auctionDetails.nextMinimumBid).toBe(1.2e7);
             expect(info.auctionDetails.registrationDuration).toBe(5);
             expect(() => info.buyOrRenewDetails).toThrowError();
+            expect(() => info.calculatePrice(365)).toThrowError();
         });
 
         it('should return info about auction with expired settlement that can be auctioned again', async () => {
@@ -475,6 +482,7 @@ describe('BlockchainDomainsManager', () => {
             expect(info.auctionDetails.nextMinimumBid).toBe(5e6);
             expect(info.auctionDetails.registrationDuration).toBe(5);
             expect(() => info.buyOrRenewDetails).toThrowError();
+            expect(() => info.calculatePrice(365)).toThrowError();
         });
 
         it('should return info about auction with expired settlement and expired next auction that can be bought', async () => {
@@ -485,6 +493,7 @@ describe('BlockchainDomainsManager', () => {
             expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeBought);
             expect(info.buyOrRenewDetails.minDuration).toBe(5);
             expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(5e6);
+            expect(info.calculatePrice(365)).toBe(365e6);
             expect(() => info.auctionDetails).toThrowError();
         });
 
@@ -500,6 +509,7 @@ describe('BlockchainDomainsManager', () => {
             expect(info.auctionDetails.nextMinimumBid).toBe(NaN);
             expect(info.auctionDetails.registrationDuration).toBe(5);
             expect(() => info.buyOrRenewDetails).toThrowError();
+            expect(() => info.calculatePrice(365)).toThrowError();
         });
 
         it('should throw if domain name is invalid', async () => {
