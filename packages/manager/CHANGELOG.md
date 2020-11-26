@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.25](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.24...v1.0.0-beta.25) (2020-11-26)
+
+
+### Features
+
+* **manager:** add `calculatePrice()` to `DomainAcquisitionInfo` ([36ae70e](https://gitlab.com/tezos-domains/client/commit/36ae70e11c32d3d6c36765ef8161b58bf85d3cc0))
+
+
+
+
+
+
 # [1.0.0-beta.24](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.23...v1.0.0-beta.24) (2020-11-16)
 
 
