@@ -9,13 +9,22 @@ const commitmentSchemaExpression = {
     prim: 'pair',
     args: [
         {
-            prim: 'bytes',
-            annots: ['%label'],
+            prim: 'pair',
+            args: [
+                {
+                    annots: ['%label'],
+                    prim: 'bytes',
+                },
+                {
+                    annots: ['%owner'],
+                    prim: 'address',
+                },
+            ],
         },
         {
-            prim: 'address',
-            annots: ['%owner'],
-        },
+            annots: ['%nonce'],
+            prim: 'nat',
+        }
     ],
 };
 

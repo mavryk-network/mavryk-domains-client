@@ -22,7 +22,7 @@ if (CONFIG.network !== 'carthagenet') {
 
         describe('getCommitment()', () => {
             it('should get existing commitment and return info', async () => {
-                const commitment = await client.manager.getCommitment(client.validator.supportedTLDs[0], { label: 'commit', owner: CONFIG.adminAddress });
+                const commitment = await client.manager.getCommitment(client.validator.supportedTLDs[0], { label: 'commit', owner: CONFIG.adminAddress, nonce: 1 });
                 const expectedCommitment = db[CONFIG.network]['commitment'];
 
                 expect(commitment).not.toBeNull();
@@ -32,7 +32,7 @@ if (CONFIG.network !== 'carthagenet') {
             });
 
             it('should return null if commitment doesnt exist', async () => {
-                const commitment = await client.manager.getCommitment(client.validator.supportedTLDs[0], { label: 'bleh', owner: CONFIG.adminAddress });
+                const commitment = await client.manager.getCommitment(client.validator.supportedTLDs[0], { label: 'bleh', owner: CONFIG.adminAddress, nonce: 1 });
 
                 expect(commitment).toBeNull();
             });

@@ -20,25 +20,40 @@ describe('CommitmentGenerator', () => {
 
     describe('generate()', () => {
         it('generate commitment hash', async () => {
-            const commitment = await generator.generate({ label: 'necroskillz', owner: 'tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix' });
+            const commitment = await generator.generate({ label: 'necroskillz', owner: 'tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix', nonce: 1 });
 
             verify(
                 rpcClientMock.packData(
                     deepEqual({
                         data: {
                             prim: 'Pair',
-                            args: [{ bytes: '6e6563726f736b696c6c7a' }, { string: 'tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix' }],
+                            args: [
+                                {
+                                    prim: 'Pair',
+                                    args: [{ bytes: '6e6563726f736b696c6c7a' }, { string: 'tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix' }],
+                                },
+                                { int: '1' },
+                            ],
                         } as any,
                         type: {
                             prim: 'pair',
                             args: [
                                 {
-                                    prim: 'bytes',
-                                    annots: ['%label'],
+                                    prim: 'pair',
+                                    args: [
+                                        {
+                                            annots: ['%label'],
+                                            prim: 'bytes',
+                                        },
+                                        {
+                                            annots: ['%owner'],
+                                            prim: 'address',
+                                        },
+                                    ],
                                 },
                                 {
-                                    prim: 'address',
-                                    annots: ['%owner'],
+                                    annots: ['%nonce'],
+                                    prim: 'nat',
                                 },
                             ],
                         } as any,

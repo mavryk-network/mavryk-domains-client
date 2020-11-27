@@ -111,7 +111,7 @@ export class BlockchainDomainsManager implements DomainsManager {
         const operation = await this.tezos.call(
             address,
             entrypoint,
-            [encodedRequest.label, encodedRequest.duration, encodedRequest.owner, encodedRequest.address, encodedRequest.data],
+            [encodedRequest.label, encodedRequest.duration, encodedRequest.owner, encodedRequest.address, encodedRequest.data, encodedRequest.nonce],
             price
         );
 

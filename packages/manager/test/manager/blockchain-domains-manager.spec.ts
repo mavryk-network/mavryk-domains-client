@@ -196,7 +196,7 @@ describe('BlockchainDomainsManager', () => {
 
     describe('commit()', () => {
         it('should call smart contract', async () => {
-            const params: Exact<CommitmentRequest> = { label: 'necroskillz', owner: 'tz1xxx' };
+            const params: Exact<CommitmentRequest> = { label: 'necroskillz', owner: 'tz1xxx', nonce: 1 };
 
             when(commitmentGeneratorMock.generate(deepEqual(params))).thenResolve('commitment');
 
@@ -208,7 +208,7 @@ describe('BlockchainDomainsManager', () => {
         });
 
         it('should throw if domain name is invalid', async () => {
-            await expect(() => manager.commit('tez', { label: 'invalid', owner: 'tz1xxx' })).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
+            await expect(() => manager.commit('tez', { label: 'invalid', owner: 'tz1xxx', nonce: 1 })).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
         });
     });
 
@@ -220,13 +220,14 @@ describe('BlockchainDomainsManager', () => {
                 owner: 'tz1xxx',
                 address: 'tz1yyy',
                 data: new RecordMetadata({ ttl: '31' }),
+                nonce: 1
             });
 
             verify(
                 taquitoClientMock.call(
                     `${SmartContractType.TLDRegistrar}addrtezbuy`,
                     'buy',
-                    deepEqual([e('alice'), 365, 'tz1xxx', 'tz1yyy', anyOfClass(MichelsonMap)]),
+                    deepEqual([e('alice'), 365, 'tz1xxx', 'tz1yyy', anyOfClass(MichelsonMap), 1]),
                     1e6 * 365
                 )
             ).called();
@@ -244,6 +245,7 @@ describe('BlockchainDomainsManager', () => {
                     owner: 'tz1xxx',
                     address: 'tz1yyy',
                     data: new RecordMetadata(),
+                    nonce: 1
                 })
             ).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
         });
@@ -358,7 +360,7 @@ describe('BlockchainDomainsManager', () => {
 
     describe('getCommitment()', () => {
         it('should get existing commitment from storage and return info', async () => {
-            const params: Exact<CommitmentRequest> = { label: 'necroskillz', owner: 'tz1xxx' };
+            const params: Exact<CommitmentRequest> = { label: 'necroskillz', owner: 'tz1xxx', nonce: 1 };
 
             when(commitmentGeneratorMock.generate(deepEqual(params))).thenResolve('commitment');
 
@@ -370,7 +372,7 @@ describe('BlockchainDomainsManager', () => {
         });
 
         it('should return null if no commitment is found', async () => {
-            const params: Exact<CommitmentRequest> = { label: 'necroskillz', owner: 'tz1xxx' };
+            const params: Exact<CommitmentRequest> = { label: 'necroskillz', owner: 'tz1xxx', nonce: 1 };
 
             when(commitmentGeneratorMock.generate(deepEqual(params))).thenResolve('commitment1');
 
@@ -380,7 +382,7 @@ describe('BlockchainDomainsManager', () => {
         });
 
         it('should throw if domain name is invalid', async () => {
-            await expect(() => manager.getCommitment('tez', { label: 'invalid', owner: 'tz1xxx' })).rejects.toThrowError(
+            await expect(() => manager.getCommitment('tez', { label: 'invalid', owner: 'tz1xxx', nonce: 1 })).rejects.toThrowError(
                 "'invalid.tez' is not a valid domain name."
             );
         });

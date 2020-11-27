@@ -36,6 +36,8 @@ export class CommitmentRequest {
     @encoder(NormalizeBytesEncoder) label!: string;
     /** The address of the future buyer. */
     owner!: string;
+    /** A random number that salts the commitment hash. Send the same value to `buy()`. */
+    nonce!: number;
 }
 
 @RpcRequest()
@@ -50,6 +52,8 @@ export class BuyRequest {
     address!: string | null;
     /** Additional metadata. */
     @encoder(MapEncoder) data!: RecordMetadata;
+    /** A random number that salted the commitment hash prior to this buy. */
+    nonce!: number;
 }
 
 @RpcRequest()
@@ -113,7 +117,7 @@ export class AuctionState {
     @encoder(BigNumberEncoder) last_bid!: number;
     last_bidder!: string;
     @encoder(DateEncoder) ends_at!: Date;
-    ownership_period!: number;
+    @encoder(BigNumberEncoder) ownership_period!: number;
 }
 
 export enum DomainAcquisitionState {

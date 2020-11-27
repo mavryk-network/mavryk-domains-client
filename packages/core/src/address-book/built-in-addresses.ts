@@ -117,7 +117,7 @@ export const BuiltInAddresses = {
             resolveProxyContract: true,
         },
         'tldRegistrar:a1:buy': {
-            address: 'KT1CwTQbFm2QHVGggSAHVeR7nJ6h4scH843N',
+            address: 'KT1TSvFKswueXsgJby1YQCHfQdBzeHN4tGvb',
         },
         'tldRegistrar:a1:renew': {
             address: 'KT1JZEmkAJQaYrNSKubcYT9DLSMmz6zLcP3C',
@@ -139,7 +139,7 @@ export const BuiltInAddresses = {
             resolveProxyContract: true,
         },
         'tldRegistrar:a2:buy': {
-            address: 'KT1ScdYz5vqPqGPTMqufwY1tvdPP7E5HAayU',
+            address: 'KT1HzFamSYqMm35YQYv25waTb4omPaR8orBQ',
         },
         'tldRegistrar:a2:renew': {
             address: 'KT1LV1AJetmLXtvuraZTWzJa9TKpaabCW8dQ',
@@ -161,7 +161,7 @@ export const BuiltInAddresses = {
             resolveProxyContract: true,
         },
         'tldRegistrar:a3:buy': {
-            address: 'KT1UKyfVorer7j8Wk5oafGNPYZPv65EW1KFM',
+            address: 'KT1SAbUyqWm9yVLUEWMdtkGFhjVj2T9qjrhA',
         },
         'tldRegistrar:a3:renew': {
             address: 'KT1QC7yGJF3RyuYGtQMfzbn5jyDmADT8kTHM',
