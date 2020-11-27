@@ -26,20 +26,25 @@ async function main() {
     const tezos = new TezosToolkit('https://delphinet-tezos.giganode.io/');
     const client = new TaquitoTezosDomainsClient({ tezos, network: 'delphinet', caching: { enabled: true } });
 
-    const address = await client.resolver.resolveNameToAddress('bob.tez');
+    const address = await client.resolver.resolveNameToAddress('bob.delphi');
 
     console.log(address);
 }
 ```
-
-The above example would use the default taquito instance `Tezos` to execute requests against `mainnet` Tezos Domains contracts.
 
 ### 2b) Use `manager` to register and manage domains
 
 Example of registering a domain:
 
 **NOTE**: registering a domain uses [commitment scheme](https://en.wikipedia.org/wiki/Commitment_scheme).
-**NOTE**: You also need to install `@taquito/signer` npm package for this example.
+
+**NOTE**: Installing a signer is necessary for sending transactions.
+
+```
+yarn add @taquito/signer
+--or--
+npm install @taquito/signer
+```
 
 ```ts
 import { InMemorySigner } from '@taquito/signer';
@@ -52,7 +57,7 @@ async function main() {
     tezos.setSignerProvider(new InMemorySigner('<your signing key>'));
     const client = new TaquitoTezosDomainsClient({ tezos, network: 'delphinet' });
 
-    const name = 'foobar.tez';
+    const name = 'foobar.delphi';
 
     // Validate the domain name syntax
     if (client.validator.validateDomainName(name) !== DomainNameValidationResult.VALID) {
@@ -60,7 +65,7 @@ async function main() {
     }
 
     // Check if the name is not taken already
-    const existing = await client.resolver.resolve(name);
+    const existing = await client.resolver.resolveDomainRecord(name);
     if (existing) {
         throw new Error('Domain name taken.');
     }
@@ -113,7 +118,7 @@ Example of resolving and address from domain name:
 import fetch from 'node-fetch';
 import * as log from 'loglevel';
 import { registerFetch, registerLogger } from 'conseiljs';
-import { ConseilTezosDomainsClient } from '@tezos-domains/taquito-client';
+import { ConseilTezosDomainsClient } from '@tezos-domains/conseil-client';
 
 async function main() {
     const logger = log.getLogger('conseiljs');
@@ -127,7 +132,7 @@ async function main() {
         caching: { enabled: true },
     });
 
-    const address = await client.resolver.resolveNameToAddress('bob.tez');
+    const address = await client.resolver.resolveNameToAddress('bob.delphi');
 
     console.log(address);
 }
