@@ -16,7 +16,7 @@ describe('UnsupportedDomainsManager', () => {
 
     describe('buy()', () => {
         it('should return throw', () => {
-            expect(() => resolver.buy('tez', { label: 'necroskillz', owner: 'tz1xxx', address: null, data: new RecordMetadata(), duration: 365 })).toThrowError();
+            expect(() => resolver.buy('tez', { label: 'necroskillz', owner: 'tz1xxx', address: null, data: new RecordMetadata(), duration: 365, nonce: 1 })).toThrowError();
         });
     });
 
@@ -28,7 +28,7 @@ describe('UnsupportedDomainsManager', () => {
 
     describe('commit()', () => {
         it('should return throw', () => {
-            expect(() => resolver.commit('tez', { label: 'necroskillz', owner: 'tz1xxx' })).toThrowError();
+            expect(() => resolver.commit('tez', { label: 'necroskillz', owner: 'tz1xxx', nonce: 1 })).toThrowError();
         });
     });
 
@@ -46,7 +46,7 @@ describe('UnsupportedDomainsManager', () => {
 
     describe('getCommitment()', () => {
         it('should return throw', () => {
-            expect(() => resolver.getCommitment('tez', { label: 'necroskillz', owner: 'tz1xxx' })).toThrowError();
+            expect(() => resolver.getCommitment('tez', { label: 'necroskillz', owner: 'tz1xxx', nonce: 1 })).toThrowError();
         });
     });
 
