@@ -105,7 +105,7 @@ export class BlockchainDomainsManager implements DomainsManager {
 
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
         const info = await this.getAcquisitionInfo(`${request.label}.${tld}`);
-        const price = Math.ceil(info.buyOrRenewDetails.pricePerMinDuration * (request.duration / info.buyOrRenewDetails.minDuration));
+        const price = info.calculatePrice(request.duration);
         const encodedRequest = RpcRequestData.fromObject(BuyRequest, request).encode();
 
         const operation = await this.tezos.call(
@@ -129,7 +129,7 @@ export class BlockchainDomainsManager implements DomainsManager {
 
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
         const info = await this.getAcquisitionInfo(`${request.label}.${tld}`);
-        const price = Math.ceil(info.buyOrRenewDetails.pricePerMinDuration * (request.duration / info.buyOrRenewDetails.minDuration));
+        const price = info.calculatePrice(request.duration);
         const encodedRequest = RpcRequestData.fromObject(RenewRequest, request).encode();
         const operation = await this.tezos.call(address, entrypoint, [encodedRequest.label, encodedRequest.duration], price);
 
