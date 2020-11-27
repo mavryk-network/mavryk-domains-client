@@ -94,6 +94,7 @@ describe('BlockchainDomainsManager', () => {
 
             return DomainNameValidationResult.VALID;
         });
+        when(validatorMock.supportedTLDs).thenReturn(['tez']);
 
         when(addressBookMock.lookup(anything(), anything())).thenCall((type, p1) => Promise.resolve(`${type}addr${p1 || ''}`));
         when(addressBookMock.lookup(anything(), anything(), anything())).thenCall((type, p1, p2) => Promise.resolve(`${type}addr${p1 || ''}${p2 || ''}`));
@@ -514,6 +515,11 @@ describe('BlockchainDomainsManager', () => {
 
         it('should throw if domain name is invalid', async () => {
             await expect(() => manager.getAcquisitionInfo('invalid.tez')).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
+        });
+
+        
+        it('should throw if domain name not 2nd level', async () => {
+            await expect(() => manager.getAcquisitionInfo('bob.alice.tez')).rejects.toThrowError("'bob.alice.tez' cannot be acquired. Only 2nd level domains (e.g. 'alice.tez') can be acquired.");
         });
     });
 

@@ -10,6 +10,7 @@ import {
     RpcResponseData,
     DomainNameValidator,
     DomainNameValidationResult,
+    getLevel,
 } from '@tezos-domains/core';
 import { BytesEncoder, getLabel } from '@tezos-domains/core';
 import { TaquitoClient, TLDRegistrarStorage, MapEncoder, BigNumberEncoder } from '@tezos-domains/taquito';
@@ -212,6 +213,9 @@ export class BlockchainDomainsManager implements DomainsManager {
     }
 
     async getAcquisitionInfo(name: string): Promise<DomainAcquisitionInfo> {
+        if (getLevel(name) !== 2) {
+            throw new Error(`'${name}' cannot be acquired. Only 2nd level domains (e.g. 'alice.${this.validator.supportedTLDs[0]}') can be acquired.`);
+        }
         this.assertDomainName(name);
 
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, getTld(name));
