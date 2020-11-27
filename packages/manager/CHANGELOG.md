@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.26](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.25...v1.0.0-beta.26) (2020-11-27)
+
+
+### Bug Fixes
+
+* **manager:** throw an error when getAcquistionInfo is not called with 2nd level name ([8df5fef](https://gitlab.com/tezos-domains/client/commit/8df5fef5e7e3d1f04228b7f31cfe602d47443f87))
+
+
+### Features
+
+* **manager:** add nonce for commit and buy ([4108f03](https://gitlab.com/tezos-domains/client/commit/4108f0318d37b792116b41bfa189c1e39997d146))
+
+
+
+
+
 # [1.0.0-beta.25](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.24...v1.0.0-beta.25) (2020-11-26)
 
 
