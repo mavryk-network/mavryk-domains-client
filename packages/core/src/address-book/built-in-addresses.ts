@@ -95,7 +95,7 @@ export const BuiltInAddresses = {
             resolveProxyContract: true,
         },
         'tldRegistrar:delphi:buy': {
-            address: 'KT1SvUM7iyTEa4TLjnonD5BiiyaLxs6j6wsn',
+            address: 'KT1Av7mi7s2tm7The7xZGQB5rX5g8sZTNrqN',
         },
         'tldRegistrar:delphi:renew': {
             address: 'KT1EyNFbCTLNEy7gY3XvcDgC7BZE3xs7SayR',
