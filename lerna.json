@@ -3,7 +3,7 @@
     "packages/*",
     "integration-tests"
   ],
-  "version": "1.0.0-beta.26",
+  "version": "1.0.0-beta.27",
   "npmClient": "yarn",
   "useWorkspaces": true,
   "granularPathspec": false,

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.27](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.26...v1.0.0-beta.27) (2020-11-28)
+
+
+### Features
+
+* **core:** update deplhi tld buy address ([7f4a378](https://gitlab.com/tezos-domains/client/commit/7f4a37880ba2664d1e6f3c7a002f3dc495023fa8))
+
+
+
+
+
+
 # [1.0.0-beta.26](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.25...v1.0.0-beta.26) (2020-11-27)
 
 
