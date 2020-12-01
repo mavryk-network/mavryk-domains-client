@@ -35,4 +35,5 @@ export { TezosDomainsProxyContractAddressResolver } from './tezos/tezos-domains-
 export * from './utils/domains';
 export * from './utils/types';
 export * from './utils/support';
+export * from './utils/crypto';
 export { hexToArray, normalizeDomainName } from './utils/convert';

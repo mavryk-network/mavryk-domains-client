@@ -9,6 +9,7 @@
       "es2017",
       "dom"
     ],
+    "types": ["node", "jest"],
     "strict": true,
     "sourceMap": true,
     "esModuleInterop": true,

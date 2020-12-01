@@ -50,7 +50,7 @@ npm install @taquito/signer
 import { InMemorySigner } from '@taquito/signer';
 import { TezosToolkit } from '@taquito/taquito';
 import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
-import { getTld, getLabel, DomainNameValidationResult, RecordMetadata } from '@tezos-domains/core';
+import { getTld, getLabel, DomainNameValidationResult, RecordMetadata, generateNonce } from '@tezos-domains/core';
 
 async function main() {
     const tezos = new TezosToolkit('https://delphinet-tezos.giganode.io/');
@@ -73,10 +73,12 @@ async function main() {
     // Use utility function to parse and get parts of a domain name
     const tld = getTld(name);
     const label = getLabel(name);
+    const nonce = generateNonce();
 
     const params = {
         label,
         owner: 'tz1VxMudmADssPp6FPDGRsvJXE41DD6i9g6n',
+        nonce
     };
 
     // First step of registering a domain - create a commitment for
