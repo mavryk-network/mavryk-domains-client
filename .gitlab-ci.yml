@@ -148,6 +148,5 @@ deploy_typedoc:
     script:
         - az storage blob delete-batch -s "\$web" --connection-string "DefaultEndpointsProtocol=https;AccountName=tdclienttypedoc;AccountKey=${AZURE_STORAGE_CONNECTION_STRING_ACCOUNTKEY_CLIENT_DOCS};EndpointSuffix=core.windows.net"
         - az storage blob upload-batch -d "\$web" -s dist/typedoc --connection-string "DefaultEndpointsProtocol=https;AccountName=tdclienttypedoc;AccountKey=${AZURE_STORAGE_CONNECTION_STRING_ACCOUNTKEY_CLIENT_DOCS};EndpointSuffix=core.windows.net"
-    when: manual
     only:
-        - master
+        - tags

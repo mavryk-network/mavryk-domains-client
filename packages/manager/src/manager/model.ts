@@ -140,6 +140,8 @@ export interface DomainAcquisitionAuctionInfo {
     auctionEnd: Date;
     /** The number of days that the domain will be registered for after an auction is settled. */
     registrationDuration: number;
+    /** When a bid is made on an auction that will end in less milliseconds that this value, the end of auction is moved to this value of milliseconds from now. */
+    bidAdditionalPeriod: number;
 }
 
 export interface DomainAcquisitionBuyOrRenewInfo {
@@ -147,6 +149,13 @@ export interface DomainAcquisitionBuyOrRenewInfo {
     pricePerMinDuration: number;
     /** The minimum duration in days for which it is possible to register or renew a domain. */
     minDuration: number;
+}
+
+export interface DomainAcquisitionUnobtainableInfo {
+    /** Whether the TLD registrar is enabled. */
+    enabled: boolean;
+    /** The date since when it is possible to auction and buys domains from the TLD registrar. */
+    launchDate: Date;
 }
 
 export class DomainAcquisitionInfo {
@@ -171,6 +180,12 @@ export class DomainAcquisitionInfo {
         return this._buyOrRenewInfo!;
     }
 
+    get unobtainableDetails(): DomainAcquisitionUnobtainableInfo {
+        this.assertState('unobtainableDetails', DomainAcquisitionState.Unobtainable);
+
+        return this._unobtainableInfo!;
+    }
+
     /**
      * Calculates buy or renew price for this domain.
      *
@@ -186,12 +201,13 @@ export class DomainAcquisitionInfo {
     private constructor(
         private _state: DomainAcquisitionState,
         private _auctionInfo?: DomainAcquisitionAuctionInfo,
-        private _buyOrRenewInfo?: DomainAcquisitionBuyOrRenewInfo
+        private _buyOrRenewInfo?: DomainAcquisitionBuyOrRenewInfo,
+        private _unobtainableInfo?: DomainAcquisitionUnobtainableInfo
     ) {}
 
     /** @internal */
-    static create(state: DomainAcquisitionState): DomainAcquisitionInfo {
-        return new DomainAcquisitionInfo(state);
+    static createUnobtainable(unobtainableInfo: DomainAcquisitionUnobtainableInfo): DomainAcquisitionInfo {
+        return new DomainAcquisitionInfo(DomainAcquisitionState.Unobtainable, undefined, undefined, unobtainableInfo);
     }
 
     /** @internal */

@@ -221,9 +221,11 @@ export class BlockchainDomainsManager implements DomainsManager {
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, getTld(name));
         const tldStorage = await this.tezos.storage<TLDRegistrarStorage>(address);
         const now = new Date();
+        const config = new RpcResponseData(tldStorage.store.config).scalar(MapEncoder)!;
+        const launchDate = new Date(config.get<BigNumber>('launch_date')!.toNumber() * 1000);
 
         if (!tldStorage.store.enabled) {
-            return DomainAcquisitionInfo.create(DomainAcquisitionState.Unobtainable);
+            return createUnobtainableInfo();
         }
 
         const label = getLabel(name);
@@ -233,7 +235,6 @@ export class BlockchainDomainsManager implements DomainsManager {
             RpcRequestData.fromValue(label, BytesEncoder)
         );
         const tldRecord = tldRecordResponse.decode(TLDRecord);
-        const config = new RpcResponseData(tldStorage.store.config).scalar(MapEncoder)!;
         const minDuration = config.get<BigNumber>('min_duration')!.toNumber();
         const minBid = getPricePerMinDuration(config.get<BigNumber>('min_bid_per_day')!);
 
@@ -249,6 +250,7 @@ export class BlockchainDomainsManager implements DomainsManager {
         const auctionState = auctionStateResponse.decode(AuctionState);
         const minAuctionPeriod = config.get<BigNumber>('min_auction_period')!.toNumber() * 1000;
         const minBidIncreaseCoef = config.get<BigNumber>('min_bid_increase_ratio')!.dividedBy(100).plus(1).toNumber();
+        const bidAdditionalPeriod = config.get<BigNumber>('bid_additional_period')!.toNumber() * 1000;
 
         if (auctionState) {
             const maxSettlementDate = new Date(auctionState.ends_at.getTime() + auctionState.ownership_period * 24 * 60 * 60 * 1000);
@@ -271,9 +273,8 @@ export class BlockchainDomainsManager implements DomainsManager {
                 return createAuctionInfo(DomainAcquisitionState.CanBeSettled, auctionState.ends_at, NaN, auctionState.last_bid, auctionState.last_bidder);
             }
         } else {
-            const launchDate = new Date(config.get<BigNumber>('launch_date')!.toNumber() * 1000);
             if (now < launchDate) {
-                return DomainAcquisitionInfo.create(DomainAcquisitionState.Unobtainable);
+                return createUnobtainableInfo();
             }
 
             const periodEndDate = new Date(launchDate.getTime() + minAuctionPeriod);
@@ -297,11 +298,16 @@ export class BlockchainDomainsManager implements DomainsManager {
                 registrationDuration: minDuration,
                 lastBid: lastBid == null ? 0 : lastBid,
                 lastBidder: lastBidder || null,
+                bidAdditionalPeriod,
             });
         }
 
         function createBuyOrRenewInfo(state: DomainAcquisitionState.CanBeBought | DomainAcquisitionState.Taken, pricePerMinDuration: number) {
             return DomainAcquisitionInfo.createBuyOrRenew(state, { pricePerMinDuration, minDuration });
+        }
+
+        function createUnobtainableInfo() {
+            return DomainAcquisitionInfo.createUnobtainable({ enabled: tldStorage.store.enabled, launchDate });
         }
 
         function getPricePerMinDuration(pricePerDay: BigNumber) {

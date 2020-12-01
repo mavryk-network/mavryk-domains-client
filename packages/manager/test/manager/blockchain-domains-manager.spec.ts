@@ -50,6 +50,7 @@ describe('BlockchainDomainsManager', () => {
     config.set('launch_date', new BigNumber(1593561600));
     config.set('min_bid_increase_ratio', new BigNumber(20));
     config.set('min_auction_period', new BigNumber(30 * 24 * 60 * 60));
+    config.set('bid_additional_period', new BigNumber(24 * 60 * 60));
 
     let storage: FakeTLDRegistrarStorage;
 
@@ -397,6 +398,7 @@ describe('BlockchainDomainsManager', () => {
             expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(5e6);
             expect(info.calculatePrice(365)).toBe(365e6);
             expect(() => info.auctionDetails).toThrowError();
+            expect(() => info.unobtainableDetails).toThrowError();
         });
 
         it('should get info about an expired domain that can be bought', async () => {
@@ -407,6 +409,7 @@ describe('BlockchainDomainsManager', () => {
             expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(5e6);
             expect(info.calculatePrice(365)).toBe(365e6);
             expect(() => info.auctionDetails).toThrowError();
+            expect(() => info.unobtainableDetails).toThrowError();
         });
 
         it('should get info about a domain that is already owned', async () => {
@@ -417,6 +420,7 @@ describe('BlockchainDomainsManager', () => {
             expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(1e8);
             expect(info.calculatePrice(365)).toBe(73e8);
             expect(() => info.auctionDetails).toThrowError();
+            expect(() => info.unobtainableDetails).toThrowError();
         });
 
         it('should return unobtainable if tld is disabled', async () => {
@@ -425,6 +429,7 @@ describe('BlockchainDomainsManager', () => {
             const info = await manager.getAcquisitionInfo('alice.tez');
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.Unobtainable);
+            expect(info.unobtainableDetails.enabled).toBe(false);
             expect(() => info.auctionDetails).toThrowError();
             expect(() => info.buyOrRenewDetails).toThrowError();
             expect(() => info.calculatePrice(365)).toThrowError();
@@ -436,6 +441,8 @@ describe('BlockchainDomainsManager', () => {
             const info = await manager.getAcquisitionInfo('alice.tez');
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.Unobtainable);
+            expect(info.unobtainableDetails.enabled).toBe(true);
+            expect(info.unobtainableDetails.launchDate.toISOString()).toBe(new Date(new Date(2020, 6, 1, 0, 0, 0).getTime() - new Date(2020, 6, 31).getTimezoneOffset() * 60000).toISOString());
             expect(() => info.auctionDetails).toThrowError();
             expect(() => info.buyOrRenewDetails).toThrowError();
             expect(() => info.calculatePrice(365)).toThrowError();
@@ -454,7 +461,9 @@ describe('BlockchainDomainsManager', () => {
             expect(info.auctionDetails.lastBidder).toBeNull();
             expect(info.auctionDetails.nextMinimumBid).toBe(5e6);
             expect(info.auctionDetails.registrationDuration).toBe(5);
+            expect(info.auctionDetails.bidAdditionalPeriod).toBe(24 * 60 * 60 * 1000);
             expect(() => info.buyOrRenewDetails).toThrowError();
+            expect(() => info.unobtainableDetails).toThrowError();
             expect(() => info.calculatePrice(365)).toThrowError();
         });
 
@@ -469,7 +478,9 @@ describe('BlockchainDomainsManager', () => {
             expect(info.auctionDetails.lastBidder).toBe('tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix');
             expect(info.auctionDetails.nextMinimumBid).toBe(1.2e7);
             expect(info.auctionDetails.registrationDuration).toBe(5);
+            expect(info.auctionDetails.bidAdditionalPeriod).toBe(24 * 60 * 60 * 1000);
             expect(() => info.buyOrRenewDetails).toThrowError();
+            expect(() => info.unobtainableDetails).toThrowError();
             expect(() => info.calculatePrice(365)).toThrowError();
         });
 
@@ -484,7 +495,9 @@ describe('BlockchainDomainsManager', () => {
             expect(info.auctionDetails.lastBidder).toBeNull();
             expect(info.auctionDetails.nextMinimumBid).toBe(5e6);
             expect(info.auctionDetails.registrationDuration).toBe(5);
+            expect(info.auctionDetails.bidAdditionalPeriod).toBe(24 * 60 * 60 * 1000);
             expect(() => info.buyOrRenewDetails).toThrowError();
+            expect(() => info.unobtainableDetails).toThrowError();
             expect(() => info.calculatePrice(365)).toThrowError();
         });
 
@@ -498,6 +511,7 @@ describe('BlockchainDomainsManager', () => {
             expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(5e6);
             expect(info.calculatePrice(365)).toBe(365e6);
             expect(() => info.auctionDetails).toThrowError();
+            expect(() => info.unobtainableDetails).toThrowError();
         });
 
         it('should return info about auction that can be settled', async () => {
@@ -511,7 +525,9 @@ describe('BlockchainDomainsManager', () => {
             expect(info.auctionDetails.lastBidder).toBe('tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix');
             expect(info.auctionDetails.nextMinimumBid).toBe(NaN);
             expect(info.auctionDetails.registrationDuration).toBe(5);
+            expect(info.auctionDetails.bidAdditionalPeriod).toBe(24 * 60 * 60 * 1000);
             expect(() => info.buyOrRenewDetails).toThrowError();
+            expect(() => info.unobtainableDetails).toThrowError();
             expect(() => info.calculatePrice(365)).toThrowError();
         });
 
