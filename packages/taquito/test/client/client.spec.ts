@@ -1,14 +1,17 @@
 import { Tracer, RpcRequestData, BytesEncoder } from '@tezos-domains/core';
 import { TaquitoClient } from '@tezos-domains/taquito';
+import { RpcClient, ConstantsResponse } from '@taquito/rpc';
 import { TezosToolkit, BigMapAbstraction, ContractAbstraction, Wallet, WalletContract, ContractMethod, TransactionWalletOperation } from '@taquito/taquito';
 import { mock, instance, when, verify, anything, deepEqual } from 'ts-mockito';
 import FakePromise from 'fake-promise';
+import BigNumber from 'bignumber.js';
 
 describe('TaquitoClient', () => {
     let client: TaquitoClient;
     let tezosToolkitMock: TezosToolkit;
     let walletProviderMock: Wallet;
     let contractMock: WalletContract;
+    let rpcClientMock: RpcClient;
     let tracerMock: Tracer;
     let storage: {
         bm: BigMapAbstraction;
@@ -20,6 +23,7 @@ describe('TaquitoClient', () => {
     };
     let method: ContractMethod<Wallet>;
     let operation: TransactionWalletOperation;
+    let constants: ConstantsResponse;
 
     beforeEach(() => {
         tezosToolkitMock = mock(TezosToolkit);
@@ -30,6 +34,7 @@ describe('TaquitoClient', () => {
         bigMapGet = new FakePromise();
         method = mock(ContractMethod);
         operation = mock(TransactionWalletOperation);
+        rpcClientMock = mock(RpcClient);
 
         when(bigMap.get('6161')).thenReturn(bigMapGet);
         storage = {
@@ -41,12 +46,16 @@ describe('TaquitoClient', () => {
             method: jest.fn(() => instance(method)),
         };
 
+        constants = { time_between_blocks: [new BigNumber('60')] } as any;
+
         when(method.send(anything())).thenResolve(instance(operation));
 
         when(tezosToolkitMock.wallet).thenReturn(instance(walletProviderMock));
+        when(tezosToolkitMock.rpc).thenReturn(instance(rpcClientMock));
         when(walletProviderMock.at('KT1xxx')).thenResolve(instance(contractMock));
         when(contractMock.storage()).thenResolve(storage);
         when(contractMock.methods).thenReturn(methods);
+        when(rpcClientMock.getConstants()).thenResolve(constants);
         when(tracerMock.trace(anything(), anything()));
 
         client = new TaquitoClient(instance(tezosToolkitMock), instance(tracerMock));
@@ -73,6 +82,54 @@ describe('TaquitoClient', () => {
 
             verify(contractMock.storage()).twice();
             expect(result1).toBe(result2);
+        });
+
+        it('should not cache failed response', async () => {
+            const err = new Error();
+            let eresult: Error | null = null;
+            when(contractMock.storage()).thenReject(err).thenResolve(storage);
+
+            try {
+                await client.storage('KT1xxx');
+            } catch (e) {
+                eresult = e;
+            }
+            const result = await client.storage('KT1xxx');
+
+            expect(eresult).toBe(err);
+            expect(result).toBe(storage);
+        });
+    });
+
+    describe('getConstants()', () => {
+        it('should return constants', async () => {
+            const result = client.getConstants();
+
+            await expect(result).resolves.toBe(constants);
+        });
+
+        it('should get constants from cache', async () => {
+            const result1 = await client.getConstants();
+            const result2 = await client.getConstants();
+
+            verify(rpcClientMock.getConstants()).once();
+            expect(result1).toBe(result2);
+        });
+
+        it('should not cache failed response', async () => {
+            const err = new Error();
+            let eresult: Error | null = null;
+            when(rpcClientMock.getConstants()).thenReject(err).thenResolve(constants);
+
+            try {
+                await client.getConstants();
+            } catch (e) {
+                eresult = e;
+            }
+            const result = await client.getConstants();
+
+            expect(eresult).toBe(err);
+            expect(result).toBe(constants);
         });
     });
 

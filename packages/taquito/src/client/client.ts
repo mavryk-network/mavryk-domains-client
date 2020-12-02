@@ -1,4 +1,5 @@
 import { TezosToolkit, BigMapAbstraction, TransactionWalletOperation } from '@taquito/taquito';
+import { ConstantsResponse } from '@taquito/rpc';
 import { Tracer, RpcResponseData, RpcRequestScalarData } from '@tezos-domains/core';
 import NodeCache from 'node-cache';
 
@@ -10,22 +11,14 @@ export class TaquitoClient {
     async storage<T>(contractAddress: string, fresh = false): Promise<T> {
         this.tracer.trace(`=> Getting storage from '${contractAddress}'.`);
 
-        if (!this.storageCache.has(contractAddress) || fresh) {
-            if (fresh) {
-                this.tracer.trace('Forcing reload of storage.');
-            } else {
-                this.tracer.trace('Storage object not found in cache. Fetching.');
-            }
-
-            const contract = await this.tezos.wallet.at(contractAddress);
-            const promise = contract.storage<T>();
-
-            this.storageCache.set(contractAddress, promise);
-        } else {
-            this.tracer.trace('Storage object found in cache.');
-        }
-
-        const storage = await this.storageCache.get<Promise<T>>(contractAddress)!;
+        const storage = await this.cached(
+            contractAddress,
+            async () => {
+                const contract = await this.tezos.wallet.at(contractAddress);
+                return contract.storage<T>();
+            },
+            fresh
+        );
 
         this.tracer.trace(`<= Received storage of '${contractAddress}'.`, storage);
 
@@ -71,5 +64,29 @@ export class TaquitoClient {
 
     async getPkh(): Promise<string> {
         return this.tezos.wallet.pkh();
+    }
+
+    async getConstants(): Promise<ConstantsResponse> {
+        return this.cached('constants', () => this.tezos.rpc.getConstants())
+    }
+
+    private async cached<T>(key: string, valueFactory: () => Promise<T>, fresh = false): Promise<T> {
+        if (!this.storageCache.has(key) || fresh) {
+            if (fresh) {
+                this.tracer.trace('Forcing reload of value.');
+            } else {
+                this.tracer.trace('Object not found in cache. Fetching.');
+            }
+
+            const promise = valueFactory();
+
+            promise.catch(() => this.storageCache.del(key));
+
+            this.storageCache.set(key, promise);
+        } else {
+            this.tracer.trace('Object found in cache.');
+        }
+
+        return this.storageCache.get<Promise<T>>(key)!;
     }
 }

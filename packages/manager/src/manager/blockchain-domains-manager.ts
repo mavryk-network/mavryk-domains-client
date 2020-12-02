@@ -181,6 +181,8 @@ export class BlockchainDomainsManager implements DomainsManager {
 
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld);
         const commitmentHash = await this.commitmentGenerator.generate(request);
+        const constants = await this.tezos.getConstants();
+        const timeBetweenBlocks = constants.time_between_blocks[0].toNumber() * 1000;
 
         this.tracer.trace('!! Calculated commitment hash for given parameters.', commitmentHash);
 
@@ -199,11 +201,11 @@ export class BlockchainDomainsManager implements DomainsManager {
 
         const tldStorage = await this.tezos.storage<TLDRegistrarStorage>(address);
         const config = new RpcResponseData(tldStorage.store.config).scalar(MapEncoder)!;
-        const minAge = config.get('min_commitment_age', BigNumberEncoder)!;
-        const maxAge = config.get('max_commitment_age', BigNumberEncoder)!;
+        const minAge = config.get('min_commitment_age', BigNumberEncoder)! * 1000;
+        const maxAge = config.get('max_commitment_age', BigNumberEncoder)! * 1000;
 
-        const usableFrom = new Date(commitment.getTime() + minAge * 1000);
-        const usableUntil = new Date(commitment.getTime() + maxAge * 1000);
+        const usableFrom = new Date(commitment.getTime() + Math.max(0, minAge - timeBetweenBlocks));
+        const usableUntil = new Date(commitment.getTime() + maxAge);
 
         this.tracer.trace(
             `<= Commitment found with timestamp ${commitment.toISOString()}. Based on TLDRegistrar it's usable from ${usableFrom.toISOString()} to ${usableUntil.toISOString()}.`

@@ -18,6 +18,7 @@ import BigNumber from 'bignumber.js';
 
 import { TLDRecord, AuctionState } from '../../src/manager/model';
 import { DomainNameValidationResult } from '@tezos-domains/core';
+import { ConstantsResponse } from '@taquito/rpc';
 
 interface FakeTLDRegistrarStorage {
     store: {
@@ -53,6 +54,7 @@ describe('BlockchainDomainsManager', () => {
     config.set('bid_additional_period', new BigNumber(24 * 60 * 60));
 
     let storage: FakeTLDRegistrarStorage;
+    let constants: ConstantsResponse;
 
     beforeEach(() => {
         taquitoClientMock = mock(TaquitoClient);
@@ -61,6 +63,8 @@ describe('BlockchainDomainsManager', () => {
         commitmentGeneratorMock = mock(CommitmentGenerator);
         validatorMock = mock<DomainNameValidator>();
         operation = mock(TransactionWalletOperation);
+
+        constants = { time_between_blocks: [new BigNumber('30')] } as any;
 
         storage = {
             store: {
@@ -106,6 +110,7 @@ describe('BlockchainDomainsManager', () => {
         when(taquitoClientMock.storage(`${SmartContractType.TLDRegistrar}addrtez`)).thenResolve(storage);
         when(taquitoClientMock.call(anyString(), anyString(), anything())).thenResolve(instance(operation));
         when(taquitoClientMock.call(anyString(), anyString(), anything(), anyNumber())).thenResolve(instance(operation));
+        when(taquitoClientMock.getConstants()).thenResolve(constants);
 
         when(operation.opHash).thenReturn('op_hash');
 
@@ -368,7 +373,7 @@ describe('BlockchainDomainsManager', () => {
             const commitment = await manager.getCommitment('tez', params);
 
             expect(commitment!.created.toISOString()).toBe('2020-10-01T10:00:00.000Z');
-            expect(commitment!.usableFrom.toISOString()).toBe('2020-10-01T10:01:00.000Z');
+            expect(commitment!.usableFrom.toISOString()).toBe('2020-10-01T10:00:30.000Z');
             expect(commitment!.usableUntil.toISOString()).toBe('2020-10-01T11:00:00.000Z');
         });
 
@@ -386,6 +391,18 @@ describe('BlockchainDomainsManager', () => {
             await expect(() => manager.getCommitment('tez', { label: 'invalid', owner: 'tz1xxx', nonce: 1 })).rejects.toThrowError(
                 "'invalid.tez' is not a valid domain name."
             );
+        });
+
+        it('should not set usableFrom before created', async () => {
+            constants.time_between_blocks = [new BigNumber('90')]
+            const params: Exact<CommitmentRequest> = { label: 'necroskillz', owner: 'tz1xxx', nonce: 1 };
+
+            when(commitmentGeneratorMock.generate(deepEqual(params))).thenResolve('commitment');
+
+            const commitment = await manager.getCommitment('tez', params);
+
+            expect(commitment!.created.toISOString()).toBe('2020-10-01T10:00:00.000Z');
+            expect(commitment!.usableFrom.toISOString()).toBe('2020-10-01T10:00:00.000Z');
         });
     });
 

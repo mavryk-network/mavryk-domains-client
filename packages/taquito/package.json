@@ -32,6 +32,7 @@
     "node-cache": "^5.1.2"
   },
   "devDependencies": {
+    "@taquito/rpc": "7.0.0-beta.0",
     "@taquito/taquito": "7.0.0-beta.0",
     "@types/node": "^14.14.6",
     "fake-promise": "^2.5.41",

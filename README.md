@@ -9,9 +9,9 @@ _WARNING: This project is in beta. We welcome users and feedback, please be awar
 ### 1) Install `@tezos-domains/taquito-client` package
 
 ```
-yarn add @tezos-domains/taquito-client @tezos-domains/core @taquito/taquito
+yarn add @tezos-domains/taquito-client @tezos-domains/core @taquito/taquito @taquito/rpc
 --or--
-npm install @tezos-domains/taquito-client @tezos-domains/core @taquito/taquito
+npm install @tezos-domains/taquito-client @tezos-domains/core @taquito/taquito @taquito/rpc
 ```
 
 ### 2a) Use `resolver` to resolve names and addresses

@@ -2713,9 +2713,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/$$virtual/@tezos-domains-taquito-virtual-f458b9ffe3/1/packages/taquito/",
           "packageDependencies": [
             ["@tezos-domains/taquito", "virtual:0df0a5fea2f43012685e246f7a1481d916a0ca4f82b3be0a2db593ef743f1fc5039bc06b4313d232ba761616702c0ba4692e4263ef3dca1447f6f8fee5b6db75#workspace:packages/taquito"],
+            ["@taquito/rpc", "npm:7.0.0-beta.0"],
             ["@taquito/taquito", "npm:7.0.0-beta.0"],
             ["@tezos-domains/core", "workspace:packages/core"],
             ["@types/node", "npm:14.14.6"],
+            ["@types/taquito__rpc", null],
             ["@types/taquito__taquito", null],
             ["bignumber.js", "npm:9.0.1"],
             ["fake-promise", "npm:2.5.41"],
@@ -2733,7 +2735,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["typescript", "patch:typescript@npm%3A4.0.5#builtin<compat/typescript>::version=4.0.5&hash=5bf698"]
           ],
           "packagePeers": [
+            "@taquito/rpc",
             "@taquito/taquito",
+            "@types/taquito__rpc",
             "@types/taquito__taquito"
           ],
           "linkType": "SOFT",
@@ -2742,6 +2746,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/taquito/",
           "packageDependencies": [
             ["@tezos-domains/taquito", "workspace:packages/taquito"],
+            ["@taquito/rpc", "npm:7.0.0-beta.0"],
             ["@taquito/taquito", "npm:7.0.0-beta.0"],
             ["@tezos-domains/core", "workspace:packages/core"],
             ["@types/node", "npm:14.14.6"],
