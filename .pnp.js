@@ -2717,7 +2717,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@taquito/taquito", "npm:7.0.0-beta.0"],
             ["@tezos-domains/core", "workspace:packages/core"],
             ["@types/node", "npm:14.14.6"],
-            ["@types/taquito__rpc", null],
             ["@types/taquito__taquito", null],
             ["bignumber.js", "npm:9.0.1"],
             ["fake-promise", "npm:2.5.41"],
@@ -2735,9 +2734,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["typescript", "patch:typescript@npm%3A4.0.5#builtin<compat/typescript>::version=4.0.5&hash=5bf698"]
           ],
           "packagePeers": [
-            "@taquito/rpc",
             "@taquito/taquito",
-            "@types/taquito__rpc",
             "@types/taquito__taquito"
           ],
           "linkType": "SOFT",

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.29](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.28...v1.0.0-beta.29) (2020-12-03)
+
+
+### Features
+
+* **manager:** add information about bid additional duration and unobtainable state to acquisition info ([0ac1b3e](https://gitlab.com/tezos-domains/client/commit/0ac1b3e14de57c4577018bfcdbcda4a26d777b52))
+* **manager:** subtract time between blocks from commitment usableFrom ([f6b4a05](https://gitlab.com/tezos-domains/client/commit/f6b4a05e381a9da57f4bf223af61d099dec4df79))
+
+
+
+
+
 # [1.0.0-beta.28](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.27...v1.0.0-beta.28) (2020-12-01)
 
 
