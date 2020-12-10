@@ -8,56 +8,51 @@ import { CONFIG } from '../data';
 
 const db = fs.readJSONSync(path.join(__dirname, './data.json'));
 
-// only resolver works for carthagenet because of old contracts
-if (CONFIG.network !== 'carthagenet') {
-    describe('manager', () => {
-        let client: TaquitoTezosDomainsClient;
+describe('manager', () => {
+    let client: TaquitoTezosDomainsClient;
 
-        beforeAll(() => {
-            jest.setTimeout(30 * 60 * 1000);
-            const tezos = new TezosToolkit(CONFIG.rpcUrl);
+    beforeAll(() => {
+        jest.setTimeout(30 * 60 * 1000);
+        const tezos = new TezosToolkit(CONFIG.rpcUrl);
 
-            client = new TaquitoTezosDomainsClient({ network: CONFIG.network, tezos });
+        client = new TaquitoTezosDomainsClient({ network: CONFIG.network, tezos });
+    });
+
+    describe('getCommitment()', () => {
+        it('should get existing commitment and return info', async () => {
+            const commitment = await client.manager.getCommitment(client.validator.supportedTLDs[0], { label: 'commit', owner: CONFIG.adminAddress, nonce: 1 });
+            const expectedCommitment = db[CONFIG.network]['commitment'];
+
+            expect(commitment).not.toBeNull();
+            expect(commitment!.created.toISOString()).toBe(expectedCommitment.created);
+            expect(commitment!.usableFrom.toISOString()).toBe(expectedCommitment.usableFrom);
+            expect(commitment!.usableUntil.toISOString()).toBe(expectedCommitment.usableUntil);
         });
 
-        describe('getCommitment()', () => {
-            it('should get existing commitment and return info', async () => {
-                const commitment = await client.manager.getCommitment(client.validator.supportedTLDs[0], { label: 'commit', owner: CONFIG.adminAddress, nonce: 1 });
-                const expectedCommitment = db[CONFIG.network]['commitment'];
+        it('should return null if commitment doesnt exist', async () => {
+            const commitment = await client.manager.getCommitment(client.validator.supportedTLDs[0], { label: 'bleh', owner: CONFIG.adminAddress, nonce: 1 });
 
-                expect(commitment).not.toBeNull();
-                expect(commitment!.created.toISOString()).toBe(expectedCommitment.created);
-                expect(commitment!.usableFrom.toISOString()).toBe(expectedCommitment.usableFrom);
-                expect(commitment!.usableUntil.toISOString()).toBe(expectedCommitment.usableUntil);
-            });
-
-            it('should return null if commitment doesnt exist', async () => {
-                const commitment = await client.manager.getCommitment(client.validator.supportedTLDs[0], { label: 'bleh', owner: CONFIG.adminAddress, nonce: 1 });
-
-                expect(commitment).toBeNull();
-            });
-        });
-
-        describe('getAcquisitionInfo()', () => {
-            it('should get price for unowned domain', async () => {
-                const info = await client.manager.getAcquisitionInfo(`integration-test-new${Date.now().toString()}.${client.validator.supportedTLDs[0]}`);
-
-                expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeBought);
-                expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(db[CONFIG.network].price);
-                expect(info.buyOrRenewDetails.minDuration).toBe(365);
-                expect(info.calculatePrice(365)).toBe(db[CONFIG.network].price);
-            });
-
-            it('should get price for renewing owned domain', async () => {
-                const info = await client.manager.getAcquisitionInfo(`necroskillz.${client.validator.supportedTLDs[0]}`);
-
-                expect(info.acquisitionState).toBe(DomainAcquisitionState.Taken);
-                expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(1e6);
-                expect(info.buyOrRenewDetails.minDuration).toBe(365);
-                expect(info.calculatePrice(365)).toBe(1e6);
-            });
+            expect(commitment).toBeNull();
         });
     });
-} else {
-    it('should pass', () => expect(true).toBeTruthy());
-}
+
+    describe('getAcquisitionInfo()', () => {
+        it('should get price for unowned domain', async () => {
+            const info = await client.manager.getAcquisitionInfo(`integration-test-new${Date.now().toString()}.${client.validator.supportedTLDs[0]}`);
+
+            expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeBought);
+            expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(db[CONFIG.network].price);
+            expect(info.buyOrRenewDetails.minDuration).toBe(365);
+            expect(info.calculatePrice(365)).toBe(db[CONFIG.network].price);
+        });
+
+        it('should get price for renewing owned domain', async () => {
+            const info = await client.manager.getAcquisitionInfo(`necroskillz.${client.validator.supportedTLDs[0]}`);
+
+            expect(info.acquisitionState).toBe(DomainAcquisitionState.Taken);
+            expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(1e6);
+            expect(info.buyOrRenewDetails.minDuration).toBe(365);
+            expect(info.calculatePrice(365)).toBe(1e6);
+        });
+    });
+});

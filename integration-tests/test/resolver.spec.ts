@@ -36,26 +36,24 @@ describe('resolver', () => {
         });
     });
 
-    if (CONFIG.network !== 'carthagenet') {
-        describe('conseil-client', () => {
-            testResolver(() => {
-                const logger = log.getLogger('conseiljs');
-                logger.setLevel('silent', false);
-                registerLogger(logger);
-                registerFetch(fetch);
+    describe('conseil-client', () => {
+        testResolver(() => {
+            const logger = log.getLogger('conseiljs');
+            logger.setLevel('silent', false);
+            registerLogger(logger);
+            registerFetch(fetch);
 
-                const client = new ConseilTezosDomainsClient({
-                    network: CONFIG.network,
-                    conseil: { server: CONFIG.rpcUrl },
-                    caching: { enabled: true },
-                });
-
-                client.validator.addSupportedTld('test', LatinDomainNameValidator);
-
-                return client.resolver;
+            const client = new ConseilTezosDomainsClient({
+                network: CONFIG.network,
+                conseil: { server: CONFIG.rpcUrl },
+                caching: { enabled: true },
             });
+
+            client.validator.addSupportedTld('test', LatinDomainNameValidator);
+
+            return client.resolver;
         });
-    }
+    });
 
     function testResolver(resolverFactory: () => NameResolver) {
         let resolver: NameResolver;

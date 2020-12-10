@@ -25,7 +25,10 @@ export class TezosDomainsValidator implements DomainNameValidator {
             tlds = BuiltInTLDs[network];
             if (!tlds) {
                 throw new Error(
-                    `Built in tlds configuration for network ${network} not found. Supported built-in networks are: 'mainnet', 'carthagenet', 'delphinet'.`
+                    `Built in tlds configuration for network ${network} not found. Supported built-in networks are: ${Object.keys(BuiltInTLDs)
+                        .filter(n => n !== 'custom')
+                        .map(n => `'${n}'`)
+                        .join(', ')}.`
                 );
             }
         }

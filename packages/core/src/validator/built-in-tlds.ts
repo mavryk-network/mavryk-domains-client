@@ -4,9 +4,6 @@ export const BuiltInTLDs = {
     mainnet: [
         { name: 'tez', validator: LatinDomainNameValidator }
     ],
-    carthagenet: [
-        { name: 'tez', validator: LatinDomainNameValidator }
-    ],
     delphinet: [
         { name: 'delphi', validator: LatinDomainNameValidator },
         { name: 'a1', validator: LatinDomainNameValidator },
