@@ -96,6 +96,7 @@ describe('BlockchainNameResolver', () => {
         it('should return info about a domain', async () => {
             const domain = await resolver.resolveDomainRecord('play.necroskillz.tez');
 
+            expect(domain?.name).toBe('play.necroskillz.tez');
             expect(domain?.address).toBe('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i');
             expect(domain?.expiry).toStrictEqual(new Date(2021, 1, 1));
             expect(domain?.owner).toBe('tz1OWN');
@@ -147,7 +148,11 @@ describe('BlockchainNameResolver', () => {
         it('should return info about a reverse record', async () => {
             const reverseRecord = await resolver.resolveReverseRecord('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i');
 
-            expect(reverseRecord?.name).toBe('play.necroskillz.tez');
+            expect(reverseRecord?.domain?.name).toBe('play.necroskillz.tez');
+            expect(reverseRecord?.domain?.address).toBe('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i');
+            expect(reverseRecord?.domain?.expiry).toStrictEqual(new Date(2021, 1, 1));
+            expect(reverseRecord?.domain?.owner).toBe('tz1OWN');
+            expect(reverseRecord?.domain?.data.getJson(StandardRecordMetadataKey.TTL)).toBe(420);
             expect(reverseRecord?.owner).toBe('tz1zzz');
             expect(reverseRecord?.data.getJson(StandardRecordMetadataKey.TTL)).toBe(69);
         });

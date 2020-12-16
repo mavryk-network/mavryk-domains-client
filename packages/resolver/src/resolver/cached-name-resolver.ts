@@ -108,7 +108,7 @@ export class CachedNameResolver implements NameResolver {
 
         const reverseRecord = await this.resolveReverseRecord(address);
 
-        const name = reverseRecord?.name || null;
+        const name = reverseRecord?.domain?.name || null;
 
         this.tracer.trace(`<= Cache decorator: Resolved name.`, name);
 

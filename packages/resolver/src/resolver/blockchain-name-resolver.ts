@@ -1,4 +1,4 @@
-import { Tracer, DomainNameValidationResult, DomainNameValidator, TezosDomainsDataProvider } from '@tezos-domains/core';
+import { Tracer, DomainNameValidationResult, DomainNameValidator, TezosDomainsDataProvider, DomainRecord } from '@tezos-domains/core';
 
 import { NameResolver } from './name-resolver';
 import { DomainInfo, ReverseRecordInfo } from './model';
@@ -25,12 +25,7 @@ export class BlockchainNameResolver implements NameResolver {
             return null;
         }
 
-        return {
-            address: info.record.address,
-            data: info.record.data,
-            owner: info.record.owner,
-            expiry: info.expiry,
-        };
+        return this.makeDomainInfo({ ...info, name });
     }
 
     async resolveNameToAddress(name: string): Promise<string | null> {
@@ -60,15 +55,15 @@ export class BlockchainNameResolver implements NameResolver {
             return null;
         }
 
-        const record = await this.getValidRecord(reverseRecord.name);
-        if (!record) {
+        const info = await this.getValidRecord(reverseRecord.name);
+        if (!info) {
             return null;
         }
 
         this.tracer.trace(`<= Resolved reverse record.`, reverseRecord);
 
         return {
-            name: reverseRecord.name,
+            domain: this.makeDomainInfo({ ...info, name: reverseRecord.name }),
             owner: reverseRecord.owner,
             data: reverseRecord.data,
         };
@@ -83,9 +78,9 @@ export class BlockchainNameResolver implements NameResolver {
             return null;
         }
 
-        this.tracer.trace(`<= Resolved name.`, reverseRecord.name);
+        this.tracer.trace(`<= Resolved name.`, reverseRecord.domain!.name);
 
-        return reverseRecord.name!;
+        return reverseRecord.domain!.name;
     }
 
     private async getValidRecord(name: string) {
@@ -111,6 +106,16 @@ export class BlockchainNameResolver implements NameResolver {
         this.tracer.trace('!! Record is valid.');
 
         return { record, expiry };
+    }
+
+    private makeDomainInfo(info: { name: string; record: DomainRecord; expiry: Date | null }): DomainInfo {
+        return {
+            name: info.name,
+            address: info.record.address,
+            data: info.record.data,
+            owner: info.record.owner,
+            expiry: info.expiry,
+        };
     }
 
     clearCache(): void {

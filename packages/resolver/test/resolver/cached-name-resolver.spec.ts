@@ -37,8 +37,8 @@ describe('CachedNameResolver', () => {
         bR = { address: 'bR', data: new RecordMetadata() } as DomainInfo;
         const raRMeta = new RecordMetadata();
         raRMeta.setJson(StandardRecordMetadataKey.TTL, 420);
-        raR = { name: 'raR', data: raRMeta } as ReverseRecordInfo;
-        rbR = { name: 'rbR', data: new RecordMetadata() } as ReverseRecordInfo;
+        raR = { domain: { name: 'raR' }, data: raRMeta } as ReverseRecordInfo;
+        rbR = { domain: { name: 'rbR' }, data: new RecordMetadata() } as ReverseRecordInfo;
 
         paR = Promise.resolve(aR);
         pbR = Promise.resolve(bR);

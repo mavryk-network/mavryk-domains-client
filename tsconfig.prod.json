@@ -15,6 +15,7 @@
     "allowSyntheticDefaultImports": true,
     "noUnusedParameters": true,
     "noImplicitAny": true,
+    "strictNullChecks": true,
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,

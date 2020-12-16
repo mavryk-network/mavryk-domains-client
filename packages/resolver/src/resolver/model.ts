@@ -1,6 +1,7 @@
 import { RecordMetadata } from '@tezos-domains/core';
 
 export interface DomainInfo {
+    name: string;
     expiry: Date | null;
     owner: string;
     data: RecordMetadata;
@@ -8,7 +9,7 @@ export interface DomainInfo {
 }
 
 export interface ReverseRecordInfo {
-    name: string | null;
     owner: string;
     data: RecordMetadata;
+    domain: DomainInfo | null;
 }

@@ -6,6 +6,7 @@ import { JsonBytesEncoder } from './encoders/json-bytes-encoder';
 
 export enum StandardRecordMetadataKey {
     TTL = 'td:ttl',
+    GRAVATAR_HASH = 'gravatar:hash',
     OPENID_SUB = 'openid:sub',
     OPENID_NAME = 'openid:name',
     OPENID_GIVEN_NAME = 'openid:given_name',
