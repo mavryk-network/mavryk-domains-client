@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.30](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.29...v1.0.0-beta.30) (2020-12-16)
+
+
+### Features
+
+* **resolver:** add domain info to reverse record instead of name ([6c67e48](https://gitlab.com/tezos-domains/client/commit/6c67e482b206d1e759d7e659d070309679cbb5b9))
+* remove carthagenet support ([df020dc](https://gitlab.com/tezos-domains/client/commit/df020dcac5f5ec0741865797a7a8637db12039e2))
+
+
+### BREAKING CHANGES
+
+* **resolver:** property `name` was removed from `ReverseRecordInfo`. Use `domain.name` instead
+
+
+
+
+
 # [1.0.0-beta.29](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.28...v1.0.0-beta.29) (2020-12-03)
 
 **Note:** Version bump only for package @tezos-domains/core
