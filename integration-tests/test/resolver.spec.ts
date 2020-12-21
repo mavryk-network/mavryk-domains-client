@@ -106,11 +106,11 @@ describe('resolver', () => {
             it('should resolve all properties of record', async () => {
                 const record = await resolver.resolveReverseRecord(DATA.ok.address);
 
-                expect(record!.domain!.name).toBe(DATA.ok.name);
-                expect(record!.domain!.address).toBe(DATA.ok.address);
-                expect(record!.domain!.owner).toBe(DATA.ok.address);
-                expect(record!.domain!.expiry).toBeInstanceOf(Date);
-                expect(record!.domain!.data.getJson(StandardRecordMetadataKey.TTL)).toBe(420);
+                expect(record!.domain.name).toBe(DATA.ok.name);
+                expect(record!.domain.address).toBe(DATA.ok.address);
+                expect(record!.domain.owner).toBe(DATA.ok.address);
+                expect(record!.domain.expiry).toBeInstanceOf(Date);
+                expect(record!.domain.data.getJson(StandardRecordMetadataKey.TTL)).toBe(420);
                 expect(record!.owner).toBe(DATA.ok.address);
                 expect(record!.data.getJson(StandardRecordMetadataKey.TTL)).toBe(69);
             });

@@ -78,9 +78,9 @@ export class BlockchainNameResolver implements NameResolver {
             return null;
         }
 
-        this.tracer.trace(`<= Resolved name.`, reverseRecord.domain!.name);
+        this.tracer.trace(`<= Resolved name.`, reverseRecord.domain.name);
 
-        return reverseRecord.domain!.name;
+        return reverseRecord.domain.name;
     }
 
     private async getValidRecord(name: string) {
