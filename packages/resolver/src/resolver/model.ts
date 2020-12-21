@@ -11,5 +11,5 @@ export interface DomainInfo {
 export interface ReverseRecordInfo {
     owner: string;
     data: RecordMetadata;
-    domain: DomainInfo | null;
+    domain: DomainInfo;
 }
