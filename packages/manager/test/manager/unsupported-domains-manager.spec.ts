@@ -22,7 +22,7 @@ describe('UnsupportedDomainsManager', () => {
 
     describe('claimReverseRecord()', () => {
         it('should return throw', () => {
-            expect(() => resolver.claimReverseRecord({ owner: 'tz1xxx', name: 'necroskillz.tez', data: new RecordMetadata() })).toThrowError();
+            expect(() => resolver.claimReverseRecord({ owner: 'tz1xxx', name: 'necroskillz.tez' })).toThrowError();
         });
     });
 
@@ -76,7 +76,7 @@ describe('UnsupportedDomainsManager', () => {
 
     describe('updateReverseRecord()', () => {
         it('should return throw', () => {
-            expect(() => resolver.updateReverseRecord({ name: 'necroskillz.tez', owner: 'tz1xxx', data: new RecordMetadata(), address: 'tz1yyy' })).toThrowError();
+            expect(() => resolver.updateReverseRecord({ name: 'necroskillz.tez', owner: 'tz1xxx', address: 'tz1yyy' })).toThrowError();
         });
     });
 

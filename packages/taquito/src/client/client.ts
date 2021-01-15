@@ -56,7 +56,6 @@ export class TaquitoClient {
 
         const contract = await this.tezos.wallet.at(contractAddress);
         const operation = await contract.methods[method](...parameters).send({ amount, mutez: true });
-
         this.tracer.trace('<= Operation sent.', operation.opHash);
 
         return operation;

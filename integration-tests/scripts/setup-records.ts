@@ -1,6 +1,6 @@
 import { TezosToolkit } from '@taquito/taquito';
 import { InMemorySigner, importKey } from '@taquito/signer';
-import { getLabel, getTld, RecordMetadata, StandardRecordMetadataKey } from '@tezos-domains/core';
+import { getLabel, getTld, LatinDomainNameValidator, RecordMetadata, StandardRecordMetadataKey } from '@tezos-domains/core';
 import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
 import chalk from 'chalk';
 import fs from 'fs-extra';
@@ -28,6 +28,7 @@ async function setTezos(wallet: FaucetWallet | 'admin') {
     }
 
     client = new TaquitoTezosDomainsClient({ tezos, network: CONFIG.network });
+    client.validator.addSupportedTld('test', LatinDomainNameValidator);
 }
 
 export async function createRecord(name: string, owner: string, address: string | null, expiry: Date | null, data?: RecordMetadata): Promise<void> {
@@ -45,11 +46,10 @@ export async function createRecord(name: string, owner: string, address: string 
     console.info(chalk.green(`Set record ${name}`));
 }
 
-export async function createReverseRecord(address: string, name: string | null, data?: RecordMetadata): Promise<void> {
+export async function createReverseRecord(address: string, name: string | null): Promise<void> {
     const operation = await client.manager.claimReverseRecord({
         name,
         owner: address,
-        data: data || new RecordMetadata(),
     });
 
     await operation.confirmation();
@@ -73,9 +73,7 @@ export async function run(): Promise<void> {
 
     await setTezos(DATA.ok.wallet);
 
-    const okReverseMetadata = new RecordMetadata();
-    okReverseMetadata.setJson(StandardRecordMetadataKey.TTL, 69);
-    await createReverseRecord(DATA.ok.address, DATA.ok.name, okReverseMetadata);
+    await createReverseRecord(DATA.ok.address, DATA.ok.name);
 
     await setTezos('admin');
     await commit(`commit.${client.validator.supportedTLDs[0]}`, CONFIG.adminAddress);

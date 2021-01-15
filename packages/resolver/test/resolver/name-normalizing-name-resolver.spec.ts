@@ -1,5 +1,5 @@
 import { Tracer } from '@tezos-domains/core';
-import { NameResolver, DomainInfo, ReverseRecordInfo } from '@tezos-domains/resolver';
+import { NameResolver, DomainInfo, ReverseRecordDomainInfo } from '@tezos-domains/resolver';
 import { mock, instance, when, anything, verify, anyString } from 'ts-mockito';
 import FakePromise from 'fake-promise';
 
@@ -12,7 +12,7 @@ describe('NameNormalizingNameResolver', () => {
 
     let ap: Promise<string>;
     let dp: Promise<DomainInfo>;
-    let rrp: Promise<ReverseRecordInfo>;
+    let rrp: Promise<ReverseRecordDomainInfo>;
     let np: Promise<string>;
 
     beforeEach(() => {

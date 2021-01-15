@@ -214,7 +214,9 @@ describe('BlockchainDomainsManager', () => {
         });
 
         it('should throw if domain name is invalid', async () => {
-            await expect(() => manager.commit('tez', { label: 'invalid', owner: 'tz1xxx', nonce: 1 })).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
+            await expect(() => manager.commit('tez', { label: 'invalid', owner: 'tz1xxx', nonce: 1 })).rejects.toThrowError(
+                "'invalid.tez' is not a valid domain name."
+            );
         });
     });
 
@@ -226,7 +228,7 @@ describe('BlockchainDomainsManager', () => {
                 owner: 'tz1xxx',
                 address: 'tz1yyy',
                 data: new RecordMetadata({ ttl: '31' }),
-                nonce: 1
+                nonce: 1,
             });
 
             verify(
@@ -251,7 +253,7 @@ describe('BlockchainDomainsManager', () => {
                     owner: 'tz1xxx',
                     address: 'tz1yyy',
                     data: new RecordMetadata(),
-                    nonce: 1
+                    nonce: 1,
                 })
             ).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
         });
@@ -284,17 +286,15 @@ describe('BlockchainDomainsManager', () => {
             const op = await manager.claimReverseRecord({
                 name: 'necroskillz.tez',
                 owner: 'tz1xxx',
-                data: new RecordMetadata({ ttl: '31' }),
             });
 
             verify(
                 taquitoClientMock.call(
                     `${SmartContractType.NameRegistry}addrclaim_reverse_record`,
                     'claim_reverse_record',
-                    deepEqual([e('necroskillz.tez'), 'tz1xxx', anyOfClass(MichelsonMap)])
+                    deepEqual([e('necroskillz.tez'), 'tz1xxx'])
                 )
             ).called();
-            expect(capture(taquitoClientMock.call).last()[2][2].get('ttl')).toBe('31');
 
             expect(op).toBe(instance(operation));
         });
@@ -304,7 +304,6 @@ describe('BlockchainDomainsManager', () => {
                 manager.claimReverseRecord({
                     name: 'invalid.tez',
                     owner: 'tz1xxx',
-                    data: new RecordMetadata({ ttl: '31' }),
                 })
             ).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
         });
@@ -313,7 +312,6 @@ describe('BlockchainDomainsManager', () => {
             const op = await manager.claimReverseRecord({
                 name: null,
                 owner: 'tz1xxx',
-                data: new RecordMetadata(),
             });
 
             expect(op).toBe(instance(operation));
@@ -326,17 +324,15 @@ describe('BlockchainDomainsManager', () => {
                 address: 'tz1xxx',
                 name: 'necroskillz.tez',
                 owner: 'tz1yyy',
-                data: new RecordMetadata({ ttl: '31' }),
             });
 
             verify(
                 taquitoClientMock.call(
                     `${SmartContractType.NameRegistry}addrupdate_reverse_record`,
                     'update_reverse_record',
-                    deepEqual(['tz1xxx', e('necroskillz.tez'), 'tz1yyy', anyOfClass(MichelsonMap)])
+                    deepEqual(['tz1xxx', e('necroskillz.tez'), 'tz1yyy'])
                 )
             ).called();
-            expect(capture(taquitoClientMock.call).last()[2][3].get('ttl')).toBe('31');
 
             expect(op).toBe(instance(operation));
         });
@@ -347,7 +343,6 @@ describe('BlockchainDomainsManager', () => {
                     address: 'tz1xxx',
                     name: 'invalid.tez',
                     owner: 'tz1yyy',
-                    data: new RecordMetadata({ ttl: '31' }),
                 })
             ).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
         });
@@ -357,7 +352,6 @@ describe('BlockchainDomainsManager', () => {
                 address: 'tz1xxx',
                 name: null,
                 owner: 'tz1yyy',
-                data: new RecordMetadata({ ttl: '31' }),
             });
 
             expect(op).toBe(instance(operation));
@@ -394,7 +388,7 @@ describe('BlockchainDomainsManager', () => {
         });
 
         it('should not set usableFrom before created', async () => {
-            constants.time_between_blocks = [new BigNumber('90')]
+            constants.time_between_blocks = [new BigNumber('90')];
             const params: Exact<CommitmentRequest> = { label: 'necroskillz', owner: 'tz1xxx', nonce: 1 };
 
             when(commitmentGeneratorMock.generate(deepEqual(params))).thenResolve('commitment');
@@ -459,7 +453,9 @@ describe('BlockchainDomainsManager', () => {
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.Unobtainable);
             expect(info.unobtainableDetails.enabled).toBe(true);
-            expect(info.unobtainableDetails.launchDate.toISOString()).toBe(new Date(new Date(2020, 6, 1, 0, 0, 0).getTime() - new Date(2020, 6, 31).getTimezoneOffset() * 60000).toISOString());
+            expect(info.unobtainableDetails.launchDate.toISOString()).toBe(
+                new Date(new Date(2020, 6, 1, 0, 0, 0).getTime() - new Date(2020, 6, 31).getTimezoneOffset() * 60000).toISOString()
+            );
             expect(() => info.auctionDetails).toThrowError();
             expect(() => info.buyOrRenewDetails).toThrowError();
             expect(() => info.calculatePrice(365)).toThrowError();
@@ -552,9 +548,10 @@ describe('BlockchainDomainsManager', () => {
             await expect(() => manager.getAcquisitionInfo('invalid.tez')).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
         });
 
-        
         it('should throw if domain name not 2nd level', async () => {
-            await expect(() => manager.getAcquisitionInfo('bob.alice.tez')).rejects.toThrowError("'bob.alice.tez' cannot be acquired. Only 2nd level domains (e.g. 'alice.tez') can be acquired.");
+            await expect(() => manager.getAcquisitionInfo('bob.alice.tez')).rejects.toThrowError(
+                "'bob.alice.tez' cannot be acquired. Only 2nd level domains (e.g. 'alice.tez') can be acquired."
+            );
         });
     });
 

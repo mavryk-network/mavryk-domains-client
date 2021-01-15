@@ -49,13 +49,9 @@ describe('TaquitoTezosDomainsDataProvider', () => {
 
         storage.store.expiry_map[e('necroskillz.tez')] = new Date(2021, 1, 1);
 
-        const reverseRecordData = new MichelsonMap();
-        reverseRecordData.set(StandardRecordMetadataKey.TTL, e('69'));
-
         storage.store.reverse_records['tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i'] = {
             name: e('play.necroskillz.tez'),
             owner: 'tz1zzz',
-            data: reverseRecordData,
         } as any;
 
         when(tracerMock.trace(anything(), anything()));
@@ -112,7 +108,6 @@ describe('TaquitoTezosDomainsDataProvider', () => {
 
             expect(reverseRecord?.name).toBe('play.necroskillz.tez');
             expect(reverseRecord?.owner).toBe('tz1zzz');
-            expect(reverseRecord?.data.getJson(StandardRecordMetadataKey.TTL)).toBe(69);
         });
 
         it('should return null if reverse record does not exist', async () => {

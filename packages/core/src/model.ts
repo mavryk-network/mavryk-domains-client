@@ -35,7 +35,6 @@ export type ContractConfig = {
 export interface ReverseRecord {
     name: string | null;
     owner: string;
-    data: RecordMetadata;
 }
 
 export interface DomainRecord {

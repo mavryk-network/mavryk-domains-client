@@ -149,7 +149,7 @@ export class BlockchainDomainsManager implements DomainsManager {
 
         const address = await this.addressBook.lookup(SmartContractType.NameRegistry, entrypoint);
         const encodedRequest = RpcRequestData.fromObject(ReverseRecordRequest, request).encode();
-        const operation = await this.tezos.call(address, entrypoint, [encodedRequest.name, encodedRequest.owner, encodedRequest.data]);
+        const operation = await this.tezos.call(address, entrypoint, [encodedRequest.name, encodedRequest.owner]);
 
         this.tracer.trace('<= Executed.', operation.opHash);
 
@@ -167,7 +167,7 @@ export class BlockchainDomainsManager implements DomainsManager {
 
         const address = await this.addressBook.lookup(SmartContractType.NameRegistry, entrypoint);
         const encodedRequest = RpcRequestData.fromObject(UpdateReverseRecordRequest, request).encode();
-        const operation = await this.tezos.call(address, entrypoint, [encodedRequest.address, encodedRequest.name, encodedRequest.owner, encodedRequest.data]);
+        const operation = await this.tezos.call(address, entrypoint, [encodedRequest.address, encodedRequest.name, encodedRequest.owner]);
 
         this.tracer.trace('<= Executed.', operation.opHash);
 

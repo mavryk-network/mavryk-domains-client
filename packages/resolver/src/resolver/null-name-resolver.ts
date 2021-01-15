@@ -1,5 +1,5 @@
 import { NameResolver } from './name-resolver';
-import { DomainInfo, ReverseRecordInfo } from './model';
+import { DomainInfo, ReverseRecordDomainInfo } from './model';
 
 export class NullNameResolver implements NameResolver {
     resolveDomainRecord(): Promise<DomainInfo | null> {
@@ -10,7 +10,7 @@ export class NullNameResolver implements NameResolver {
         return Promise.resolve(null);
     }
 
-    resolveReverseRecord(): Promise<ReverseRecordInfo | null> {
+    resolveReverseRecord(): Promise<ReverseRecordDomainInfo | null> {
         return Promise.resolve(null);
     }
 

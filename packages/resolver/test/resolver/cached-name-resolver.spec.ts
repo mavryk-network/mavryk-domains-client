@@ -1,7 +1,7 @@
 jest.mock('node-cache');
 
 import { Tracer, RecordMetadata, StandardRecordMetadataKey } from '@tezos-domains/core';
-import { NameResolver, DomainInfo, ReverseRecordInfo } from '@tezos-domains/resolver';
+import { NameResolver, DomainInfo, ReverseRecordDomainInfo } from '@tezos-domains/resolver';
 import { mock, instance, when, anything, verify, anyString, anyNumber } from 'ts-mockito';
 import NodeCache from 'node-cache';
 
@@ -15,13 +15,13 @@ describe('CachedNameResolver', () => {
 
     let aR: DomainInfo;
     let bR: DomainInfo;
-    let raR: ReverseRecordInfo;
-    let rbR: ReverseRecordInfo;
+    let raR: ReverseRecordDomainInfo;
+    let rbR: ReverseRecordDomainInfo;
 
     let paR: Promise<DomainInfo>;
     let pbR: Promise<DomainInfo>;
-    let praR: Promise<ReverseRecordInfo>;
-    let prbR: Promise<ReverseRecordInfo>;
+    let praR: Promise<ReverseRecordDomainInfo>;
+    let prbR: Promise<ReverseRecordDomainInfo>;
 
     let fakeCache: Record<string, Promise<string>>;
 
@@ -37,8 +37,8 @@ describe('CachedNameResolver', () => {
         bR = { address: 'bR', data: new RecordMetadata() } as DomainInfo;
         const raRMeta = new RecordMetadata();
         raRMeta.setJson(StandardRecordMetadataKey.TTL, 420);
-        raR = { domain: { name: 'raR' }, data: raRMeta } as ReverseRecordInfo;
-        rbR = { domain: { name: 'rbR' }, data: new RecordMetadata() } as ReverseRecordInfo;
+        raR = { name: 'raR', data: raRMeta } as ReverseRecordDomainInfo;
+        rbR = { name: 'rbR', data: new RecordMetadata() } as ReverseRecordDomainInfo;
 
         paR = Promise.resolve(aR);
         pbR = Promise.resolve(bR);

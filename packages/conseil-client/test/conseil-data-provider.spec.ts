@@ -39,15 +39,15 @@ describe('ConseilTezosDomainsDataProvider', () => {
                                 [{ prim: 'Elt', args: [{ string: 'td:ttl' }, { bytes: e('420') }] }],
                             ],
                         },
-                        { prim: 'Pair', args: [{ prim: 'Some', args: [{ bytes: e('necroskillz.tez') }] }, []] },
+                        {
+                            prim: 'Pair',
+                            args: [{ prim: 'Some', args: [{ bytes: e('necroskillz.tez') }] }, []],
+                        },
                     ],
                 },
                 {
                     prim: 'Pair',
-                    args: [
-                        { prim: 'Pair', args: [{ int: '3' }, { string: 'tz1OWN' }] },
-                        { prim: 'Some', args: [{ int: '1' }] },
-                    ],
+                    args: [{ int: '3' }, { string: 'tz1OWN' }],
                 },
             ],
         };
@@ -55,8 +55,13 @@ describe('ConseilTezosDomainsDataProvider', () => {
         maps[3]['tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i'] = {
             prim: 'Pair',
             args: [
-                { prim: 'Pair', args: [[{ prim: 'Elt', args: [{ string: 'td:ttl' }, { bytes: e('69') }] }], []] },
-                { prim: 'Pair', args: [{ prim: 'Some', args: [{ bytes: e('play.necroskillz.tez') }] }, { string: 'tz1zzz' }] },
+                {
+                    prim: 'Pair',
+                    args: [[], { prim: 'Some', args: [{ bytes: e('play.necroskillz.tez') }] }],
+                },
+                {
+                    string: 'tz1zzz',
+                },
             ],
         };
 
@@ -72,20 +77,26 @@ describe('ConseilTezosDomainsDataProvider', () => {
                 {
                     prim: 'Pair',
                     args: [
-                        { int: '1420' },
+                        { int: '44535' },
                         {
                             prim: 'Pair',
                             args: [
                                 {
                                     prim: 'Pair',
                                     args: [
-                                        { prim: 'Pair', args: [{ int: '1421' }, { int: '1' }] },
-                                        { prim: 'Pair', args: [{ string: 'tz1VBLpuDKMoJuHRLZ4HrCgRuiLpEr7zZx2E' }, { int: '2' }] },
+                                        {
+                                            prim: 'Pair',
+                                            args: [{ int: '44536' }, { int: '1' }],
+                                        },
+                                        {
+                                            prim: 'Pair',
+                                            args: [{ int: '44538' }, { string: 'tz1VBLpuDKMoJuHRLZ4HrCgRuiLpEr7zZx2E' }],
+                                        },
                                     ],
                                 },
                                 {
                                     prim: 'Pair',
-                                    args: [{ int: '3' }, [{ prim: 'Elt', args: [{ int: '1' }, { string: 'KT1BRNVsaeKL8y78cLSBBNSLUw4oowqRemzs' }] }]],
+                                    args: [{ int: '2' }, { int: '3' }],
                                 },
                             ],
                         },
@@ -144,7 +155,6 @@ describe('ConseilTezosDomainsDataProvider', () => {
 
             expect(reverseRecord?.name).toBe('play.necroskillz.tez');
             expect(reverseRecord?.owner).toBe('tz1zzz');
-            expect(reverseRecord?.data.getJson(StandardRecordMetadataKey.TTL)).toBe(69);
         });
 
         it('should return null if reverse record does not exist', async () => {

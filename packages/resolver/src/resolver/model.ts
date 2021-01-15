@@ -1,15 +1,11 @@
 import { RecordMetadata } from '@tezos-domains/core';
 
-export interface DomainInfo {
+export interface DomainRecordInfo<TAddress> {
     name: string;
     expiry: Date | null;
-    owner: string;
     data: RecordMetadata;
-    address: string | null;
+    address: TAddress;
 }
 
-export interface ReverseRecordInfo {
-    owner: string;
-    data: RecordMetadata;
-    domain: DomainInfo;
-}
+export type DomainInfo = DomainRecordInfo<string | null>;
+export type ReverseRecordDomainInfo = DomainRecordInfo<string>;

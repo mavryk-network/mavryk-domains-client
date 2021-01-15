@@ -1,6 +1,6 @@
 import { normalizeDomainName, Tracer } from '@tezos-domains/core';
 
-import { DomainInfo, ReverseRecordInfo } from './model';
+import { DomainInfo, ReverseRecordDomainInfo } from './model';
 import { NameResolver } from './name-resolver';
 
 
@@ -15,7 +15,7 @@ export class NameNormalizingNameResolver implements NameResolver {
         return this.inner.resolveNameToAddress(this.normalizeName(name));
     }
 
-    resolveReverseRecord(address: string): Promise<ReverseRecordInfo | null> {
+    resolveReverseRecord(address: string): Promise<ReverseRecordDomainInfo | null> {
         return this.inner.resolveReverseRecord(address);
     }
 

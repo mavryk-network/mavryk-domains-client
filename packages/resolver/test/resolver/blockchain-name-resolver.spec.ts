@@ -51,34 +51,26 @@ describe('BlockchainNameResolver', () => {
         when(dataProviderMock.getDomainExpiry('necroskillz.tez')).thenResolve(new Date(2021, 1, 1));
         when(dataProviderMock.getDomainExpiry('expired.tez')).thenResolve(new Date(2019, 1, 1));
 
-        const reverseRecordData = new RecordMetadata();
-        reverseRecordData.setJson(StandardRecordMetadataKey.TTL, 69);
-
         when(dataProviderMock.getReverseRecord('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i')).thenResolve({
             name: 'play.necroskillz.tez',
             owner: 'tz1zzz',
-            data: reverseRecordData,
         });
 
         when(dataProviderMock.getReverseRecord('tz1NXtvKxbCpWkSmHSAirdxzPbQgicTFwWyc')).thenResolve({
             name: 'expired.tez',
             owner: 'tz1ezz',
-            data: new RecordMetadata(),
         });
         when(dataProviderMock.getReverseRecord('tz1SdArNzLEch64rBDmMeJf23TRQ19gc4yTs')).thenResolve({
             name: 'orphan.tez',
             owner: 'tz1aaa',
-            data: new RecordMetadata(),
         });
         when(dataProviderMock.getReverseRecord('tz1S8U7XJU8vj2SEyLDXH25fhLuEsk4Yr1wZ')).thenResolve({
             name: 'no-expiry-key.tez',
             owner: 'tz1aaa',
-            data: new RecordMetadata(),
         });
         when(dataProviderMock.getReverseRecord('tz1a1qfkPhNnaUGb1mNfDsUKJi23ADet7h62')).thenResolve({
             name: null,
             owner: 'tz1aaa',
-            data: new RecordMetadata(),
         });
 
         when(tracerMock.trace(anything(), anything()));
@@ -99,7 +91,6 @@ describe('BlockchainNameResolver', () => {
             expect(domain?.name).toBe('play.necroskillz.tez');
             expect(domain?.address).toBe('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i');
             expect(domain?.expiry).toStrictEqual(new Date(2021, 1, 1));
-            expect(domain?.owner).toBe('tz1OWN');
             expect(domain?.data.getJson(StandardRecordMetadataKey.TTL)).toBe(420);
         });
     });
@@ -148,13 +139,10 @@ describe('BlockchainNameResolver', () => {
         it('should return info about a reverse record', async () => {
             const reverseRecord = await resolver.resolveReverseRecord('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i');
 
-            expect(reverseRecord?.domain?.name).toBe('play.necroskillz.tez');
-            expect(reverseRecord?.domain?.address).toBe('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i');
-            expect(reverseRecord?.domain?.expiry).toStrictEqual(new Date(2021, 1, 1));
-            expect(reverseRecord?.domain?.owner).toBe('tz1OWN');
-            expect(reverseRecord?.domain?.data.getJson(StandardRecordMetadataKey.TTL)).toBe(420);
-            expect(reverseRecord?.owner).toBe('tz1zzz');
-            expect(reverseRecord?.data.getJson(StandardRecordMetadataKey.TTL)).toBe(69);
+            expect(reverseRecord?.name).toBe('play.necroskillz.tez');
+            expect(reverseRecord?.address).toBe('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i');
+            expect(reverseRecord?.expiry).toStrictEqual(new Date(2021, 1, 1));
+            expect(reverseRecord?.data.getJson(StandardRecordMetadataKey.TTL)).toBe(420);
         });
     });
 

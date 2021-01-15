@@ -70,8 +70,6 @@ export class ReverseRecordRequest {
     @encoder(NormalizeBytesEncoder) name!: string | null;
     /** The address that should be set as the owner of the reverse record. */
     owner!: string;
-    /** Additional metadata. */
-    @encoder(MapEncoder) data!: RecordMetadata;
 }
 
 @RpcRequest()
@@ -82,8 +80,6 @@ export class UpdateReverseRecordRequest {
     owner!: string;
     /** The address that the reverse record is associated with. */
     address!: string;
-    /** Additional metadata. */
-    @encoder(MapEncoder) data!: RecordMetadata;
 }
 
 @RpcRequest()

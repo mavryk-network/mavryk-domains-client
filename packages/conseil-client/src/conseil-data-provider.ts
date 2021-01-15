@@ -35,7 +35,7 @@ export class ConseilTezosDomainsDataProvider implements TezosDomainsDataProvider
 
         const record = {
             address: JSONPath({ path: '$.args[0].args[0].args[0].args[0].string', json: mapResult })[0],
-            owner: JSONPath({ path: '$.args[1].args[0].args[1].string', json: mapResult })[0],
+            owner: JSONPath({ path: '$.args[1].args[1].string', json: mapResult })[0],
             expiry_key: new RpcResponseData(JSONPath({ path: '$.args[0].args[1].args[0].args[0].bytes', json: mapResult })[0]).scalar(BytesEncoder),
             data: new RecordMetadata(dataToObj(JSONPath({ path: '$.args[0].args[0].args[1]', json: mapResult })[0])),
         };
@@ -59,9 +59,8 @@ export class ConseilTezosDomainsDataProvider implements TezosDomainsDataProvider
         }
 
         const reverseRecord = {
-            name: new RpcResponseData(JSONPath({ path: '$.args[1].args[0].args[0].bytes', json: mapResult })[0]).scalar(BytesEncoder),
-            owner: JSONPath({ path: '$.args[1].args[1].string', json: mapResult })[0],
-            data: new RecordMetadata(dataToObj(JSONPath({ path: '$.args[0].args[0]', json: mapResult })[0])),
+            name: new RpcResponseData(JSONPath({ path: '$.args[0].args[1].args[0].bytes', json: mapResult })[0]).scalar(BytesEncoder),
+            owner: JSONPath({ path: '$.args[1].string', json: mapResult })[0],
         };
 
         this.tracer.trace(`<= Received reverse record.`, reverseRecord);
@@ -87,9 +86,9 @@ export class ConseilTezosDomainsDataProvider implements TezosDomainsDataProvider
         const storageResult = await this.conseil.storage(address);
 
         return {
-            recordMap: Number(JSONPath({ path: '$.args[0].args[1].args[0].args[1].args[1].int', json: storageResult })[0]),
+            recordMap: Number(JSONPath({ path: '$.args[0].args[1].args[1].args[0].int', json: storageResult })[0]),
             expiryMap: Number(JSONPath({ path: '$.args[0].args[1].args[0].args[0].args[1].int', json: storageResult })[0]),
-            reverseRecordMap: Number(JSONPath({ path: '$.args[0].args[1].args[1].args[0].int', json: storageResult })[0]),
+            reverseRecordMap: Number(JSONPath({ path: '$.args[0].args[1].args[1].args[1].int', json: storageResult })[0]),
         };
     }
 }
