@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.31](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.30...v1.0.0-beta.31) (2021-01-18)
+
+
+### Bug Fixes
+
+* removed `null` type from `domain` property on `ReverseRecordInfo` ([7d5f193](https://gitlab.com/tezos-domains/client/commit/7d5f193fd9226ec1019450b00014053a3c6737fc))
+
+
+### Features
+
+* remove data from reverse record, update to delphinet [#2](https://gitlab.com/tezos-domains/client/issues/2) contracts ([f19dab4](https://gitlab.com/tezos-domains/client/commit/f19dab4c80016ea9848da6b130f96c3ff7405d7a)), closes [#15](https://gitlab.com/tezos-domains/client/issues/15)
+
+
+### BREAKING CHANGES
+
+* resolveReverseRecord now returns domain info directly. data has been removed from
+`claimReverseRecord` and `updateReverseRecord` requests.
+
+
+
+
+
+
 # [1.0.0-beta.30](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.29...v1.0.0-beta.30) (2020-12-16)
 
 
