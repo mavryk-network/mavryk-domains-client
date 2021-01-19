@@ -13,6 +13,8 @@ export {
     DefaultNetworkConfig,
     CustomNetworkConfig,
     CachingConfig,
+    DomainInfo,
+    ReverseRecordDomainInfo,
 } from './model';
 export { AddressBook } from './address-book/address-book';
 export { RpcRequest, RpcResponse, encoder } from './rpc-data/decorators';
@@ -30,7 +32,9 @@ export { DomainNameValidator } from './validator/domain-name-validator';
 export { TezosDomainsValidator } from './validator/tezos-domains-validator';
 export { UnsupportedDomainNameValidator } from './validator/unsupported-domain-name-validator';
 export { DomainNameValidationResult, DomainNameValidatorFn, LatinDomainNameValidator } from './validator/validators';
+export { TezosDomainsResolverDataProvider } from './tezos/tezos-domains-resolver-data-provider';
 export { TezosDomainsDataProvider } from './tezos/tezos-domains-data-provider';
+export { ResolverDataProviderAdapter } from './tezos/resolver-data-provider-adapter';
 export { TezosDomainsProxyContractAddressResolver } from './tezos/tezos-domains-proxy-contract-address-resolver';
 export * from './utils/domains';
 export * from './utils/types';

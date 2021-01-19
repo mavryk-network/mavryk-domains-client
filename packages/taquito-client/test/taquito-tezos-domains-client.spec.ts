@@ -4,7 +4,7 @@ jest.mock('@tezos-domains/manager');
 jest.mock('@tezos-domains/taquito');
 jest.mock('@taquito/taquito');
 jest.mock('../src/taquito-proxy-contract-address-resolver');
-jest.mock('../src/taquito-data-provider');
+jest.mock('../src/taquito-resolver-data-provider');
 
 import { TezosToolkit } from '@taquito/taquito';
 import { AddressBook, TezosDomainsValidator, UnsupportedDomainNameValidator, Tracer, createTracer } from '@tezos-domains/core';
@@ -14,8 +14,8 @@ import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
 import { NameResolver, NullNameResolver, createResolver } from '@tezos-domains/resolver';
 import { mock, instance } from 'ts-mockito';
 
-import { TaquitoTezosDomainsDataProvider } from '../src/taquito-data-provider';
 import { TaquitoTezosDomainsProxyContractAddressResolver } from '../src/taquito-proxy-contract-address-resolver';
+import { TaquitoTezosDomainsResolverDataProvider } from '../src/taquito-resolver-data-provider';
 
 class T {}
 class N {}
@@ -29,7 +29,7 @@ describe('TaquitoTezosDomainsClient', () => {
     let nameResolverMock: NameResolver;
     let domainNameValidator: TezosDomainsValidator;
     let tezosToolkitMock: TezosToolkit;
-    let dataProviderMock: TaquitoTezosDomainsDataProvider;
+    let dataProviderMock: TaquitoTezosDomainsResolverDataProvider;
     let proxyContractAddressResolver: TaquitoTezosDomainsProxyContractAddressResolver;
     let nullNameResolver: NullNameResolver;
     let unsupportedDomainNameValidator: UnsupportedDomainNameValidator;
@@ -47,7 +47,7 @@ describe('TaquitoTezosDomainsClient', () => {
         nullNameResolver = mock(NullNameResolver);
         unsupportedDomainNameValidator = mock(UnsupportedDomainNameValidator);
         unsupportedDomainsManager = mock(UnsupportedDomainsManager);
-        dataProviderMock = mock(TaquitoTezosDomainsDataProvider);
+        dataProviderMock = mock(TaquitoTezosDomainsResolverDataProvider);
         proxyContractAddressResolver = mock(TaquitoTezosDomainsProxyContractAddressResolver);
 
         (TaquitoClient as jest.Mock).mockReturnValue(instance(taquitoClientMock));
@@ -60,7 +60,7 @@ describe('TaquitoTezosDomainsClient', () => {
         (NullNameResolver as jest.Mock).mockReturnValue(instance(nullNameResolver));
         (UnsupportedDomainNameValidator as jest.Mock).mockReturnValue(instance(unsupportedDomainNameValidator));
         (UnsupportedDomainsManager as jest.Mock).mockReturnValue(instance(unsupportedDomainsManager));
-        (TaquitoTezosDomainsDataProvider as jest.Mock).mockReturnValue(instance(dataProviderMock));
+        (TaquitoTezosDomainsResolverDataProvider as jest.Mock).mockReturnValue(instance(dataProviderMock));
         (TaquitoTezosDomainsProxyContractAddressResolver as jest.Mock).mockReturnValue(instance(proxyContractAddressResolver));
     });
 
@@ -72,7 +72,7 @@ describe('TaquitoTezosDomainsClient', () => {
             expect(TaquitoClient).toHaveBeenCalledWith(instance(tezosToolkitMock), instance(tracerMock));
             expect(TaquitoTezosDomainsProxyContractAddressResolver).toHaveBeenCalledWith(instance(taquitoClientMock));
             expect(AddressBook).toHaveBeenCalledWith(instance(proxyContractAddressResolver), config);
-            expect(TaquitoTezosDomainsDataProvider).toHaveBeenCalledWith(instance(taquitoClientMock), instance(addressBookMock), instance(tracerMock));
+            expect(TaquitoTezosDomainsResolverDataProvider).toHaveBeenCalledWith(instance(taquitoClientMock), instance(addressBookMock), instance(tracerMock));
             expect(CommitmentGenerator).toHaveBeenCalledWith(instance(tezosToolkitMock));
             expect(BlockchainDomainsManager).toHaveBeenCalledWith(
                 instance(taquitoClientMock),

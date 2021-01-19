@@ -1,8 +1,7 @@
-import { Tracer, StandardRecordMetadataKey, CachingConfig } from '@tezos-domains/core';
+import { Tracer, StandardRecordMetadataKey, CachingConfig, DomainInfo, ReverseRecordDomainInfo } from '@tezos-domains/core';
 import NodeCache from 'node-cache';
 
 import { NameResolver } from './name-resolver';
-import { DomainInfo, ReverseRecordDomainInfo } from './model';
 
 export class CachedNameResolver implements NameResolver {
     private cache: NodeCache;
@@ -33,8 +32,8 @@ export class CachedNameResolver implements NameResolver {
                         this.cache.ttl(name, ttl);
                     }
                 })
-                .catch(() => {
-                    this.tracer.trace(`!! Removing ${name} from cache because resolving failed.`);
+                .catch((err) => {
+                    this.tracer.trace(`!! Removing ${name} from cache because resolving failed.`, err);
 
                     this.cache.del(name);
                 });
@@ -83,8 +82,8 @@ export class CachedNameResolver implements NameResolver {
                         this.cache.ttl(address, ttl);
                     }
                 })
-                .catch(() => {
-                    this.tracer.trace(`!! Removing ${address} from cache because resolving failed.`);
+                .catch((err) => {
+                    this.tracer.trace(`!! Removing ${address} from cache because resolving failed.`, err);
 
                     this.cache.del(address);
                 });

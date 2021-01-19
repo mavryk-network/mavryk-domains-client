@@ -1,7 +1,7 @@
 jest.mock('node-cache');
 
-import { Tracer, RecordMetadata, StandardRecordMetadataKey } from '@tezos-domains/core';
-import { NameResolver, DomainInfo, ReverseRecordDomainInfo } from '@tezos-domains/resolver';
+import { Tracer, RecordMetadata, StandardRecordMetadataKey, DomainInfo, ReverseRecordDomainInfo } from '@tezos-domains/core';
+import { NameResolver } from '@tezos-domains/resolver';
 import { mock, instance, when, anything, verify, anyString, anyNumber } from 'ts-mockito';
 import NodeCache from 'node-cache';
 

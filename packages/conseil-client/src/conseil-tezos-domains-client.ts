@@ -1,4 +1,11 @@
-import { AddressBook, TezosDomainsValidator, createTracer, DomainNameValidator, UnsupportedDomainNameValidator } from '@tezos-domains/core';
+import {
+    AddressBook,
+    TezosDomainsValidator,
+    createTracer,
+    DomainNameValidator,
+    UnsupportedDomainNameValidator,
+    ResolverDataProviderAdapter,
+} from '@tezos-domains/core';
 import { NameResolver, NullNameResolver, createResolver } from '@tezos-domains/resolver';
 
 import { ConseilTezosDomainsProxyContractAddressResolver } from './conseil-proxy-contract-address-resolver';
@@ -53,7 +60,7 @@ export class ConseilTezosDomainsClient {
         const addressBook = new AddressBook(proxyContractAddressResolver, config);
         const dataProvider = new ConseilTezosDomainsDataProvider(conseil, addressBook, tracer);
 
-        this._resolver = createResolver(config, dataProvider, tracer, this.validator);
+        this._resolver = createResolver(config, new ResolverDataProviderAdapter(dataProvider, tracer), tracer, this.validator);
     }
 
     /**

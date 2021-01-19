@@ -24,6 +24,30 @@ describe('RecordMetadata', () => {
         });
     });
 
+    describe('delete()', () => {
+        it('should delete value', () => {
+            metadata.setJson(StandardRecordMetadataKey.TTL, 1);
+
+            expect(metadata.getJson(StandardRecordMetadataKey.TTL)).toBe(1);
+
+            metadata.delete(StandardRecordMetadataKey.TTL);
+
+            expect(metadata.getJson(StandardRecordMetadataKey.TTL)).toBeNull();
+        });
+    });
+
+    describe('set()', () => {
+        it('should delete when value is null', () => {
+            metadata.setJson(StandardRecordMetadataKey.TTL, 1);
+
+            expect(metadata.getJson(StandardRecordMetadataKey.TTL)).toBe(1);
+
+            metadata.set(StandardRecordMetadataKey.TTL, null);
+
+            expect(metadata.getJson(StandardRecordMetadataKey.TTL)).toBeNull();
+        });
+    });
+
     describe('keys()', () => {
         it('should return all keys', () => {
             metadata.setJson(StandardRecordMetadataKey.TTL, 1);

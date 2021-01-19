@@ -4,7 +4,7 @@ jest.mock('../src/conseil-proxy-contract-address-resolver');
 jest.mock('../src/conseil-data-provider');
 jest.mock('../src/conseil/client');
 
-import { AddressBook, TezosDomainsValidator, UnsupportedDomainNameValidator, Tracer, createTracer } from '@tezos-domains/core';
+import { AddressBook, TezosDomainsValidator, UnsupportedDomainNameValidator, Tracer, createTracer, ResolverDataProviderAdapter } from '@tezos-domains/core';
 import { ConseilTezosDomainsClient } from '@tezos-domains/conseil-client';
 import { NameResolver, NullNameResolver, createResolver } from '@tezos-domains/resolver';
 import { mock, instance } from 'ts-mockito';
@@ -23,6 +23,7 @@ describe('ConseilTezosDomainsClient', () => {
     let nameResolverMock: NameResolver;
     let domainNameValidator: TezosDomainsValidator;
     let dataProviderMock: ConseilTezosDomainsDataProvider;
+    let resolverDataProviderAdapter: ResolverDataProviderAdapter;
     let proxyContractAddressResolver: ConseilTezosDomainsProxyContractAddressResolver;
     let nullNameResolver: NullNameResolver;
     let unsupportedDomainNameValidator: UnsupportedDomainNameValidator;
@@ -36,6 +37,7 @@ describe('ConseilTezosDomainsClient', () => {
         nullNameResolver = mock(NullNameResolver);
         unsupportedDomainNameValidator = mock(UnsupportedDomainNameValidator);
         dataProviderMock = mock(ConseilTezosDomainsDataProvider);
+        resolverDataProviderAdapter = mock(ResolverDataProviderAdapter);
         proxyContractAddressResolver = mock(ConseilTezosDomainsProxyContractAddressResolver);
 
         (ConseilClient as jest.Mock).mockReturnValue(instance(conseilClientMock));
@@ -47,6 +49,7 @@ describe('ConseilTezosDomainsClient', () => {
         (UnsupportedDomainNameValidator as jest.Mock).mockReturnValue(instance(unsupportedDomainNameValidator));
         (ConseilTezosDomainsDataProvider as jest.Mock).mockReturnValue(instance(dataProviderMock));
         (ConseilTezosDomainsProxyContractAddressResolver as jest.Mock).mockReturnValue(instance(proxyContractAddressResolver));
+        (ResolverDataProviderAdapter as jest.Mock).mockReturnValue(instance(resolverDataProviderAdapter));
     });
 
     describe('config', () => {
@@ -58,8 +61,9 @@ describe('ConseilTezosDomainsClient', () => {
             expect(ConseilTezosDomainsProxyContractAddressResolver).toHaveBeenCalledWith(instance(conseilClientMock));
             expect(AddressBook).toHaveBeenCalledWith(instance(proxyContractAddressResolver), config);
             expect(ConseilTezosDomainsDataProvider).toHaveBeenCalledWith(instance(conseilClientMock), instance(addressBookMock), instance(tracerMock));
+            expect(ResolverDataProviderAdapter).toHaveBeenCalledWith(instance(dataProviderMock), instance(tracerMock));
 
-            expect(createResolver).toHaveBeenCalledWith(config, instance(dataProviderMock), instance(tracerMock), instance(domainNameValidator));
+            expect(createResolver).toHaveBeenCalledWith(config, instance(resolverDataProviderAdapter), instance(tracerMock), instance(domainNameValidator));
         });
 
         describe('setConfig()', () => {

@@ -1,5 +1,6 @@
 import { TezosToolkit, BigMapAbstraction, TransactionWalletOperation } from '@taquito/taquito';
 import { ConstantsResponse } from '@taquito/rpc';
+import { tzip16 } from '@taquito/tzip16';
 import { Tracer, RpcResponseData, RpcRequestScalarData } from '@tezos-domains/core';
 import NodeCache from 'node-cache';
 
@@ -56,6 +57,7 @@ export class TaquitoClient {
 
         const contract = await this.tezos.wallet.at(contractAddress);
         const operation = await contract.methods[method](...parameters).send({ amount, mutez: true });
+
         this.tracer.trace('<= Operation sent.', operation.opHash);
 
         return operation;
@@ -66,7 +68,19 @@ export class TaquitoClient {
     }
 
     async getConstants(): Promise<ConstantsResponse> {
-        return this.cached('constants', () => this.tezos.rpc.getConstants())
+        return this.cached('constants', () => this.tezos.rpc.getConstants());
+    }
+
+    async executeView(contractAddress: string, view: string, parameters: any[]): Promise<RpcResponseData> {
+        this.tracer.trace(`=> Executing view '${view}' at '${contractAddress}' with parameters '${JSON.stringify(parameters)}'.'`);
+
+        const contract = await this.tezos.wallet.at(contractAddress, tzip16);
+        const views = await contract.tzip16().metadataViews();
+        const result = await views[view]().executeView(...parameters);
+
+        this.tracer.trace('<= Received view result', result);
+
+        return new RpcResponseData(result);
     }
 
     private async cached<T>(key: string, valueFactory: () => Promise<T>, fresh = false): Promise<T> {

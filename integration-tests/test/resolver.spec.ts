@@ -1,7 +1,8 @@
+import { TezosToolkit } from '@taquito/taquito';
+import { Tzip16Module } from '@taquito/tzip16';
 import { LatinDomainNameValidator, StandardRecordMetadataKey } from '@tezos-domains/core';
 import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
 import { ConseilTezosDomainsClient } from '@tezos-domains/conseil-client';
-import { TezosToolkit } from '@taquito/taquito';
 import { NameResolver } from '@tezos-domains/resolver';
 import fetch from 'node-fetch';
 import * as log from 'loglevel';
@@ -23,6 +24,7 @@ describe('resolver', () => {
     describe('taquito-client', () => {
         testResolver(() => {
             const tezos = new TezosToolkit(CONFIG.rpcUrl);
+            tezos.addExtension(new Tzip16Module());
 
             const client = new TaquitoTezosDomainsClient({
                 network: CONFIG.network,

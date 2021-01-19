@@ -13,7 +13,6 @@ import { TaquitoClient, NameRegistryStorage } from '@tezos-domains/taquito';
 
 import { TaquitoDomainRecord, TaquitoReverseRecord } from './model';
 
-
 export class TaquitoTezosDomainsDataProvider implements TezosDomainsDataProvider {
     constructor(private tezos: TaquitoClient, private addressBook: AddressBook, private tracer: Tracer) {}
 

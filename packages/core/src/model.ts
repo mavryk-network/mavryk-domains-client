@@ -43,3 +43,14 @@ export interface DomainRecord {
     data: RecordMetadata;
     address: string | null;
 }
+
+export interface DomainRecordInfo<TAddress> {
+    name: string;
+    expiry: Date | null;
+    data: RecordMetadata;
+    address: TAddress;
+}
+
+export type DomainInfo = DomainRecordInfo<string | null>;
+export type ReverseRecordDomainInfo = DomainRecordInfo<string>;
+

@@ -1,5 +1,5 @@
-import { Tracer } from '@tezos-domains/core';
-import { NameResolver, DomainInfo, ReverseRecordDomainInfo } from '@tezos-domains/resolver';
+import { Tracer, DomainInfo, ReverseRecordDomainInfo } from '@tezos-domains/core';
+import { NameResolver } from '@tezos-domains/resolver';
 import { mock, instance, when, anything, verify, anyString } from 'ts-mockito';
 import FakePromise from 'fake-promise';
 

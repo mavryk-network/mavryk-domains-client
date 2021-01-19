@@ -5,12 +5,21 @@ import { TezosToolkit, BigMapAbstraction, ContractAbstraction, Wallet, WalletCon
 import { mock, instance, when, verify, anything, deepEqual } from 'ts-mockito';
 import FakePromise from 'fake-promise';
 import BigNumber from 'bignumber.js';
+import { Tzip16ContractAbstraction, tzip16, View } from '@taquito/tzip16';
+
+class TZip16ContractMock extends ContractAbstraction<Wallet> {
+    tzip16(): Tzip16ContractAbstraction {
+        throw new Error();
+    }
+}
 
 describe('TaquitoClient', () => {
     let client: TaquitoClient;
     let tezosToolkitMock: TezosToolkit;
     let walletProviderMock: Wallet;
     let contractMock: WalletContract;
+    let tzip16ContractMock: TZip16ContractMock;
+    let tzip16Mock: Tzip16ContractAbstraction;
     let rpcClientMock: RpcClient;
     let tracerMock: Tracer;
     let storage: {
@@ -21,6 +30,8 @@ describe('TaquitoClient', () => {
     let methods: {
         method: () => ContractMethod<Wallet>;
     };
+    let view: View;
+    let views: Record<string, () => View>;
     let method: ContractMethod<Wallet>;
     let operation: TransactionWalletOperation;
     let constants: ConstantsResponse;
@@ -30,11 +41,15 @@ describe('TaquitoClient', () => {
         tracerMock = mock<Tracer>();
         walletProviderMock = mock(Wallet);
         contractMock = mock(ContractAbstraction);
+        tzip16ContractMock = mock(TZip16ContractMock);
+        tzip16Mock = mock(Tzip16ContractAbstraction);
         const bigMap = mock(BigMapAbstraction);
         bigMapGet = new FakePromise();
         method = mock(ContractMethod);
         operation = mock(TransactionWalletOperation);
         rpcClientMock = mock(RpcClient);
+        view = mock<View>();
+        views = { 'test-view': () => instance(view) };
 
         when(bigMap.get('6161')).thenReturn(bigMapGet);
         storage = {
@@ -53,8 +68,12 @@ describe('TaquitoClient', () => {
         when(tezosToolkitMock.wallet).thenReturn(instance(walletProviderMock));
         when(tezosToolkitMock.rpc).thenReturn(instance(rpcClientMock));
         when(walletProviderMock.at('KT1xxx')).thenResolve(instance(contractMock));
+        when(walletProviderMock.at('KT1xxx', tzip16)).thenResolve(instance(tzip16ContractMock));
         when(contractMock.storage()).thenResolve(storage);
         when(contractMock.methods).thenReturn(methods);
+        when(tzip16ContractMock.tzip16()).thenReturn(instance(tzip16Mock));
+        when(tzip16Mock.metadataViews()).thenResolve(views);
+        when(view.executeView('param')).thenResolve('test-value');
         when(rpcClientMock.getConstants()).thenResolve(constants);
         when(tracerMock.trace(anything(), anything()));
 
@@ -168,6 +187,14 @@ describe('TaquitoClient', () => {
             const pkh = await client.getPkh();
 
             expect(pkh).toBe('pkh');
+        });
+    });
+
+    describe('executeView()', () => {
+        it('should return result from view', async () => {
+            const result = await client.executeView('KT1xxx', 'test-view', ['param']);
+
+            expect(result.scalar()).toBe('test-value');
         });
     });
 });

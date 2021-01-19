@@ -9,9 +9,9 @@ _WARNING: This project is in beta. We welcome users and feedback, please be awar
 ### 1) Install `@tezos-domains/taquito-client` package
 
 ```
-yarn add @tezos-domains/taquito-client @tezos-domains/core @taquito/taquito @taquito/rpc
+yarn add @tezos-domains/taquito-client @tezos-domains/core @taquito/taquito @taquito/rpc @taquito/tzip16
 --or--
-npm install @tezos-domains/taquito-client @tezos-domains/core @taquito/taquito @taquito/rpc
+npm install @tezos-domains/taquito-client @tezos-domains/core @taquito/taquito @taquito/rpc @taquito/tzip16
 ```
 
 ### 2a) Use `resolver` to resolve names and addresses
@@ -21,9 +21,11 @@ Example of resolving and address from domain name:
 ```ts
 import { TezosToolkit } from '@taquito/taquito';
 import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
+import { Tzip16Module } from '@taquito/tzip16';
 
 async function main() {
     const tezos = new TezosToolkit('https://delphinet-tezos.giganode.io/');
+    tezos.addExtension(new Tzip16Module());
     const client = new TaquitoTezosDomainsClient({ tezos, network: 'delphinet', caching: { enabled: true } });
 
     const address = await client.resolver.resolveNameToAddress('bob.delphi');
@@ -49,11 +51,13 @@ npm install @taquito/signer
 ```ts
 import { InMemorySigner } from '@taquito/signer';
 import { TezosToolkit } from '@taquito/taquito';
+import { Tzip16Module } from '@taquito/tzip16';
 import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
 import { getTld, getLabel, DomainNameValidationResult, RecordMetadata, generateNonce } from '@tezos-domains/core';
 
 async function main() {
     const tezos = new TezosToolkit('https://delphinet-tezos.giganode.io/');
+    tezos.addExtension(new Tzip16Module());
     tezos.setSignerProvider(new InMemorySigner('<your signing key>'));
     const client = new TaquitoTezosDomainsClient({ tezos, network: 'delphinet' });
 

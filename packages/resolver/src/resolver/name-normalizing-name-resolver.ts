@@ -1,6 +1,5 @@
-import { normalizeDomainName, Tracer } from '@tezos-domains/core';
+import { normalizeDomainName, Tracer, DomainInfo, ReverseRecordDomainInfo } from '@tezos-domains/core';
 
-import { DomainInfo, ReverseRecordDomainInfo } from './model';
 import { NameResolver } from './name-resolver';
 
 

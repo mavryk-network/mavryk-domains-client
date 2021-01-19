@@ -1,4 +1,4 @@
-import { TezosDomainsConfig, TezosDomainsDataProvider, Tracer, DomainNameValidator } from '@tezos-domains/core';
+import { TezosDomainsConfig, TezosDomainsResolverDataProvider, Tracer, DomainNameValidator } from '@tezos-domains/core';
 
 import { NameResolver } from './name-resolver';
 import { BlockchainNameResolver } from './blockchain-name-resolver';
@@ -7,7 +7,7 @@ import { NameNormalizingNameResolver } from './name-normalizing-name-resolver';
 
 export function createResolver(
     config: TezosDomainsConfig,
-    dataProvider: TezosDomainsDataProvider,
+    dataProvider: TezosDomainsResolverDataProvider,
     tracer: Tracer,
     validator: DomainNameValidator
 ): NameResolver {

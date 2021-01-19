@@ -1,87 +1,58 @@
-import { Tracer, TezosDomainsDataProvider, RecordMetadata } from '@tezos-domains/core';
+import {
+    Tracer,
+    RecordMetadata,
+    TezosDomainsResolverDataProvider,
+    StandardRecordMetadataKey,
+    DomainNameValidator,
+    TezosDomainsValidator,
+} from '@tezos-domains/core';
 import { NameResolver } from '@tezos-domains/resolver';
 import { mock, when, anything, instance } from 'ts-mockito';
-import { StandardRecordMetadataKey, DomainNameValidator, TezosDomainsValidator } from '@tezos-domains/core';
-import MockDate from 'mockdate';
 
 import { BlockchainNameResolver } from '../../src/resolver/blockchain-name-resolver';
 
 describe('BlockchainNameResolver', () => {
     let resolver: NameResolver;
-    let dataProviderMock: TezosDomainsDataProvider;
+    let dataProviderMock: TezosDomainsResolverDataProvider;
     let tracerMock: Tracer;
     let validator: DomainNameValidator;
 
     beforeEach(() => {
-        dataProviderMock = mock<TezosDomainsDataProvider>();
+        dataProviderMock = mock<TezosDomainsResolverDataProvider>();
         tracerMock = mock<Tracer>();
         validator = new TezosDomainsValidator();
 
         const domainData = new RecordMetadata();
         domainData.setJson(StandardRecordMetadataKey.TTL, 420);
 
-        when(dataProviderMock.getDomainRecord('play.necroskillz.tez')).thenResolve({
+        when(dataProviderMock.resolveDomainInfo('play.necroskillz.tez')).thenResolve({
             address: 'tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i',
-            expiry_key: 'necroskillz.tez',
-            owner: 'tz1OWN',
             data: domainData,
+            expiry: new Date(2021, 1, 1),
+            name: 'play.necroskillz.tez'
         });
 
-        when(dataProviderMock.getDomainRecord('expired.tez')).thenResolve({
-            expiry_key: 'expired.tez',
-            address: 'tz1NXtvKxbCpWkSmHSAirdxzPbQgicTFwWyc',
-            owner: 'tz1OWN',
-            data: new RecordMetadata(),
-        });
-
-        when(dataProviderMock.getDomainRecord('no-address.tez')).thenResolve({
-            expiry_key: 'no-address.tez',
+        when(dataProviderMock.resolveDomainInfo('no-address.tez')).thenResolve({
             address: null,
-            owner: 'tz1OWN',
             data: new RecordMetadata(),
+            expiry: new Date(2021, 1, 1),
+            name: 'no-address.tez'
         });
 
-        when(dataProviderMock.getDomainRecord('no-expiry-key.tez')).thenResolve({
-            expiry_key: 'no-expiry-key.tez',
-            address: 'tz1S8U7XJU8vj2SEyLDXH25fhLuEsk4Yr1wZ',
-            owner: 'tz1OWN',
-            data: new RecordMetadata(),
+        when(dataProviderMock.resolveDomainInfo('404.tez')).thenResolve(null);
+
+        when(dataProviderMock.resolveReverseRecordDomainInfo('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i')).thenResolve({
+            address: 'tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i',
+            data: domainData,
+            expiry: new Date(2021, 1, 1),
+            name: 'play.necroskillz.tez'
         });
 
-        when(dataProviderMock.getDomainExpiry('necroskillz.tez')).thenResolve(new Date(2021, 1, 1));
-        when(dataProviderMock.getDomainExpiry('expired.tez')).thenResolve(new Date(2019, 1, 1));
-
-        when(dataProviderMock.getReverseRecord('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i')).thenResolve({
-            name: 'play.necroskillz.tez',
-            owner: 'tz1zzz',
-        });
-
-        when(dataProviderMock.getReverseRecord('tz1NXtvKxbCpWkSmHSAirdxzPbQgicTFwWyc')).thenResolve({
-            name: 'expired.tez',
-            owner: 'tz1ezz',
-        });
-        when(dataProviderMock.getReverseRecord('tz1SdArNzLEch64rBDmMeJf23TRQ19gc4yTs')).thenResolve({
-            name: 'orphan.tez',
-            owner: 'tz1aaa',
-        });
-        when(dataProviderMock.getReverseRecord('tz1S8U7XJU8vj2SEyLDXH25fhLuEsk4Yr1wZ')).thenResolve({
-            name: 'no-expiry-key.tez',
-            owner: 'tz1aaa',
-        });
-        when(dataProviderMock.getReverseRecord('tz1a1qfkPhNnaUGb1mNfDsUKJi23ADet7h62')).thenResolve({
-            name: null,
-            owner: 'tz1aaa',
-        });
+        when(dataProviderMock.resolveReverseRecordDomainInfo('tz1dkLSGXbGxocN1QgxAp5tnYhY8VAaZ4kQp')).thenResolve(null);
 
         when(tracerMock.trace(anything(), anything()));
 
-        MockDate.set(new Date(2020, 10, 11, 20, 0, 0));
-
         resolver = new BlockchainNameResolver(instance(dataProviderMock), instance(tracerMock), validator);
-    });
-
-    afterEach(() => {
-        MockDate.reset();
     });
 
     describe('resolveDomainRecord()', () => {
@@ -102,26 +73,14 @@ describe('BlockchainNameResolver', () => {
             expect(address).toBe('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i');
         });
 
-        it('should resolve name if record has no expiry', async () => {
-            const name = await resolver.resolveNameToAddress('no-expiry-key.tez');
+        it('should return null if record has no address', async () => {
+            const address = await resolver.resolveNameToAddress('no-address.tez');
 
-            expect(name).toBe('tz1S8U7XJU8vj2SEyLDXH25fhLuEsk4Yr1wZ');
+            expect(address).toBe(null);
         });
 
         it('should return null if record does not exist', async () => {
             const address = await resolver.resolveNameToAddress('404.tez');
-
-            expect(address).toBe(null);
-        });
-
-        it('should return null if record is expired', async () => {
-            const address = await resolver.resolveNameToAddress('expired.tez');
-
-            expect(address).toBe(null);
-        });
-
-        it('should return null if record has no address', async () => {
-            const address = await resolver.resolveNameToAddress('no-address.tez');
 
             expect(address).toBe(null);
         });
@@ -153,32 +112,8 @@ describe('BlockchainNameResolver', () => {
             expect(name).toBe('play.necroskillz.tez');
         });
 
-        it('should resolve address if associated record has no expiry', async () => {
-            const name = await resolver.resolveAddressToName('tz1S8U7XJU8vj2SEyLDXH25fhLuEsk4Yr1wZ');
-
-            expect(name).toBe('no-expiry-key.tez');
-        });
-
-        it('should return null if reverse record does not exist', async () => {
-            const name = await resolver.resolveAddressToName('tz1R3iboWc7PWQsHvo9WMaJjKcp2a3wX6TjP');
-
-            expect(name).toBe(null);
-        });
-
-        it('should return null if associated record is expired', async () => {
-            const name = await resolver.resolveAddressToName('tz1NXtvKxbCpWkSmHSAirdxzPbQgicTFwWyc');
-
-            expect(name).toBe(null);
-        });
-
-        it('should return null if associated record does not exist', async () => {
-            const name = await resolver.resolveAddressToName('tz1SdArNzLEch64rBDmMeJf23TRQ19gc4yTs');
-
-            expect(name).toBe(null);
-        });
-
-        it('should return null if reverse record has no name', async () => {
-            const name = await resolver.resolveAddressToName('tz1a1qfkPhNnaUGb1mNfDsUKJi23ADet7h62');
+        it('should return null if record does not exist', async () => {
+            const name = await resolver.resolveAddressToName('tz1dkLSGXbGxocN1QgxAp5tnYhY8VAaZ4kQp');
 
             expect(name).toBe(null);
         });

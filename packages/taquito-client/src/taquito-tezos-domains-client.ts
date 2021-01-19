@@ -5,7 +5,7 @@ import { DomainsManager, CommitmentGenerator, BlockchainDomainsManager, Unsuppor
 import { TaquitoClient } from '@tezos-domains/taquito';
 
 import { TaquitoTezosDomainsProxyContractAddressResolver } from './taquito-proxy-contract-address-resolver';
-import { TaquitoTezosDomainsDataProvider } from './taquito-data-provider';
+import { TaquitoTezosDomainsResolverDataProvider } from './taquito-resolver-data-provider';
 
 export type TaquitoTezosDomainsConfig = TezosDomainsConfig & { tezos: TezosToolkit };
 
@@ -62,7 +62,7 @@ export class TaquitoTezosDomainsClient {
         const tezos = new TaquitoClient(config.tezos, tracer);
         const proxyContractAddressResolver = new TaquitoTezosDomainsProxyContractAddressResolver(tezos);
         const addressBook = new AddressBook(proxyContractAddressResolver, config);
-        const dataProvider = new TaquitoTezosDomainsDataProvider(tezos, addressBook, tracer);
+        const dataProvider = new TaquitoTezosDomainsResolverDataProvider(tezos, addressBook, tracer);
         const commitmentGenerator = new CommitmentGenerator(config.tezos);
 
         this._manager = new BlockchainDomainsManager(tezos, addressBook, tracer, commitmentGenerator, this.validator);

@@ -1,4 +1,4 @@
-import { DomainInfo, ReverseRecordDomainInfo } from './model';
+import { DomainInfo, ReverseRecordDomainInfo } from '@tezos-domains/core';
 
 /**
  * An interface that defines functions for resolving names and addresses.
