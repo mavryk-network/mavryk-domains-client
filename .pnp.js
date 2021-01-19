@@ -2826,6 +2826,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@tezos-domains/core", "workspace:packages/core"],
             ["@types/node", "npm:14.14.6"],
             ["@types/taquito__taquito", null],
+            ["@types/taquito__tzip16", null],
             ["bignumber.js", "npm:9.0.1"],
             ["fake-promise", "npm:2.5.41"],
             ["jest", "npm:26.6.1"],
@@ -2843,7 +2844,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "packagePeers": [
             "@taquito/taquito",
-            "@types/taquito__taquito"
+            "@types/taquito__taquito",
+            "@types/taquito__tzip16"
           ],
           "linkType": "SOFT",
         }],

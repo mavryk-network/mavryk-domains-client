@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.32](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.31...v1.0.0-beta.32) (2021-01-19)
+
+
+### Features
+
+* **resolver:** resolve records and reverse records using tzip16 views ([79cf356](https://gitlab.com/tezos-domains/client/commit/79cf356621bb0e204bac18d4232b1757d6087f09)), closes [#16](https://gitlab.com/tezos-domains/client/issues/16)
+
+
+### BREAKING CHANGES
+
+* **resolver:** taquito peer dependencies were updated to 7.2.0-beta.2 and @taquito/tzip16 packages
+was added as a dependency to @tezos-domains/taquito.
+
+
+
+
+
 # [1.0.0-beta.31](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.30...v1.0.0-beta.31) (2021-01-18)
 
 
