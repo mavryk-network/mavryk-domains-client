@@ -2,6 +2,7 @@ import './rpc-data/data-encoder';
 import './tracing/tracer';
 import './validator/domain-name-validator';
 import './tezos/tezos-domains-data-provider';
+import './tezos/tezos-domains-resolver-data-provider';
 import './tezos/tezos-domains-proxy-contract-address-resolver';
 
 export {
