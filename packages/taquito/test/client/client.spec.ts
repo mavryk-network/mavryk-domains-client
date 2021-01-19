@@ -12,6 +12,11 @@ class TZip16ContractMock extends ContractAbstraction<Wallet> {
         throw new Error();
     }
 }
+class V implements View {
+    executeView(): Promise<any> {
+        throw new Error();
+    }
+}
 
 describe('TaquitoClient', () => {
     let client: TaquitoClient;
@@ -48,7 +53,7 @@ describe('TaquitoClient', () => {
         method = mock(ContractMethod);
         operation = mock(TransactionWalletOperation);
         rpcClientMock = mock(RpcClient);
-        view = mock<View>();
+        view = mock(V);
         views = { 'test-view': () => instance(view) };
 
         when(bigMap.get('6161')).thenReturn(bigMapGet);
@@ -195,6 +200,14 @@ describe('TaquitoClient', () => {
             const result = await client.executeView('KT1xxx', 'test-view', ['param']);
 
             expect(result.scalar()).toBe('test-value');
+        });
+
+        it('should cache views', async () => {
+            const result1 = await client.executeView('KT1xxx', 'test-view', ['param']);
+            const result2 = await client.executeView('KT1xxx', 'test-view', ['param']);
+
+            verify(tzip16Mock.metadataViews()).once();
+            expect(result1.scalar()).toBe(result2.scalar());
         });
     });
 });

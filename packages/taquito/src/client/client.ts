@@ -71,12 +71,16 @@ export class TaquitoClient {
         return this.cached('constants', () => this.tezos.rpc.getConstants());
     }
 
-    async executeView(contractAddress: string, view: string, parameters: any[]): Promise<RpcResponseData> {
-        this.tracer.trace(`=> Executing view '${view}' at '${contractAddress}' with parameters '${JSON.stringify(parameters)}'.'`);
+    async executeView(contractAddress: string, viewName: string, parameters: any[]): Promise<RpcResponseData> {
+        this.tracer.trace(`=> Executing view '${viewName}' at '${contractAddress}' with parameters '${JSON.stringify(parameters)}'.'`);
 
-        const contract = await this.tezos.wallet.at(contractAddress, tzip16);
-        const views = await contract.tzip16().metadataViews();
-        const result = await views[view]().executeView(...parameters);
+        const view = await this.cached(`${contractAddress}:${viewName}`, async () => {
+            const contract = await this.tezos.wallet.at(contractAddress, tzip16);
+            const views = await contract.tzip16().metadataViews();
+            return views[viewName]();
+        });
+
+        const result = await view.executeView(...parameters);
 
         this.tracer.trace('<= Received view result', result);
 
