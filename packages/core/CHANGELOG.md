@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.33](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.32...v1.0.0-beta.33) (2021-01-19)
+
+
+### Bug Fixes
+
+* **core:** correctly export `TezosDomainsResolverDataProvider` ([da9336b](https://gitlab.com/tezos-domains/client/commit/da9336b48dc0eb1e8886d6da674e38c51e1ccca1))
+
+
+
+
+
 # [1.0.0-beta.32](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.31...v1.0.0-beta.32) (2021-01-19)
 
 
