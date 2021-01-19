@@ -3,7 +3,7 @@ jest.mock('../../src/resolver/blockchain-name-resolver');
 jest.mock('../../src/resolver/cached-name-resolver');
 jest.mock('../../src/resolver/name-normalizing-name-resolver');
 
-import { DomainNameValidator, Tracer, TezosDomainsDataProvider, TezosDomainsConfig } from '@tezos-domains/core';
+import { DomainNameValidator, Tracer, TezosDomainsConfig, TezosDomainsResolverDataProvider } from '@tezos-domains/core';
 import { createResolver } from '@tezos-domains/resolver';
 import { mock, instance } from 'ts-mockito';
 
@@ -21,7 +21,7 @@ describe('createResolver()', () => {
     let cachedNameResolverMock: CachedNameResolver;
     let nameNormalizingNameResolver: NameNormalizingNameResolver;
     let domainNameValidatorMock: DomainNameValidator;
-    let dataProviderMock: TezosDomainsDataProvider;
+    let dataProviderMock: TezosDomainsResolverDataProvider;
 
     beforeEach(() => {
         blockchainNameResolverMock = mock(BlockchainNameResolver);
