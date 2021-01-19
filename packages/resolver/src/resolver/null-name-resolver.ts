@@ -1,5 +1,6 @@
+import { DomainInfo, ReverseRecordDomainInfo } from '@tezos-domains/core';
+
 import { NameResolver } from './name-resolver';
-import { DomainInfo, ReverseRecordDomainInfo } from './model';
 
 export class NullNameResolver implements NameResolver {
     resolveDomainRecord(): Promise<DomainInfo | null> {
