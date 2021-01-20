@@ -9,7 +9,13 @@ jest.mock('../src/taquito-resolver-data-provider');
 import { TezosToolkit } from '@taquito/taquito';
 import { AddressBook, TezosDomainsValidator, UnsupportedDomainNameValidator, Tracer, createTracer } from '@tezos-domains/core';
 import { TaquitoClient } from '@tezos-domains/taquito';
-import { BlockchainDomainsManager, CommitmentGenerator, UnsupportedDomainsManager } from '@tezos-domains/manager';
+import {
+    BlockchainDomainsManager,
+    CommitmentGenerator,
+    UnsupportedDomainsManager,
+    TaquitoManagerDataProvider,
+    TaquitoTezosDomainsOperationFactory,
+} from '@tezos-domains/manager';
 import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
 import { NameResolver, NullNameResolver, createResolver } from '@tezos-domains/resolver';
 import { mock, instance } from 'ts-mockito';
@@ -32,6 +38,9 @@ describe('TaquitoTezosDomainsClient', () => {
     let dataProviderMock: TaquitoTezosDomainsResolverDataProvider;
     let proxyContractAddressResolver: TaquitoTezosDomainsProxyContractAddressResolver;
     let nullNameResolver: NullNameResolver;
+    let managerDataProvider: TaquitoManagerDataProvider;
+    let operationFactory: TaquitoTezosDomainsOperationFactory;
+
     let unsupportedDomainNameValidator: UnsupportedDomainNameValidator;
     let unsupportedDomainsManager: UnsupportedDomainsManager;
 
@@ -49,6 +58,8 @@ describe('TaquitoTezosDomainsClient', () => {
         unsupportedDomainsManager = mock(UnsupportedDomainsManager);
         dataProviderMock = mock(TaquitoTezosDomainsResolverDataProvider);
         proxyContractAddressResolver = mock(TaquitoTezosDomainsProxyContractAddressResolver);
+        managerDataProvider = mock(TaquitoManagerDataProvider);
+        operationFactory = mock(TaquitoTezosDomainsOperationFactory);
 
         (TaquitoClient as jest.Mock).mockReturnValue(instance(taquitoClientMock));
         (AddressBook as jest.Mock).mockReturnValue(instance(addressBookMock));
@@ -62,6 +73,8 @@ describe('TaquitoTezosDomainsClient', () => {
         (UnsupportedDomainsManager as jest.Mock).mockReturnValue(instance(unsupportedDomainsManager));
         (TaquitoTezosDomainsResolverDataProvider as jest.Mock).mockReturnValue(instance(dataProviderMock));
         (TaquitoTezosDomainsProxyContractAddressResolver as jest.Mock).mockReturnValue(instance(proxyContractAddressResolver));
+        (TaquitoManagerDataProvider as jest.Mock).mockReturnValue(instance(managerDataProvider));
+        (TaquitoTezosDomainsOperationFactory as jest.Mock).mockReturnValue(instance(operationFactory));
     });
 
     describe('config', () => {
@@ -74,12 +87,26 @@ describe('TaquitoTezosDomainsClient', () => {
             expect(AddressBook).toHaveBeenCalledWith(instance(proxyContractAddressResolver), config);
             expect(TaquitoTezosDomainsResolverDataProvider).toHaveBeenCalledWith(instance(taquitoClientMock), instance(addressBookMock), instance(tracerMock));
             expect(CommitmentGenerator).toHaveBeenCalledWith(instance(tezosToolkitMock));
-            expect(BlockchainDomainsManager).toHaveBeenCalledWith(
+            expect(TaquitoManagerDataProvider).toHaveBeenCalledWith(
                 instance(taquitoClientMock),
                 instance(addressBookMock),
                 instance(tracerMock),
                 instance(commitmentGeneratorMock),
                 instance(domainNameValidator)
+            );
+            expect(TaquitoTezosDomainsOperationFactory).toHaveBeenCalledWith(
+                instance(taquitoClientMock),
+                instance(addressBookMock),
+                instance(tracerMock),
+                instance(commitmentGeneratorMock),
+                instance(managerDataProvider),
+                instance(domainNameValidator)
+            );
+            expect(BlockchainDomainsManager).toHaveBeenCalledWith(
+                instance(taquitoClientMock),
+                instance(tracerMock),
+                instance(operationFactory),
+                instance(managerDataProvider)
             );
 
             expect(createResolver).toHaveBeenCalledWith(config, instance(dataProviderMock), instance(tracerMock), instance(domainNameValidator));

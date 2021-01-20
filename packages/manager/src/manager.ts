@@ -20,3 +20,5 @@ export {
 } from './manager/model';
 export { CommitmentGenerator } from './manager/commitment-generator';
 export { UnsupportedDomainsManager } from './manager/unsupported-domains-manager';
+export { TezosDomainsOperationFactory, TaquitoTezosDomainsOperationFactory } from './manager/operation-factory';
+export { TaquitoManagerDataProvider } from './manager/data-provider';

@@ -1,8 +1,13 @@
-import { TezosToolkit, BigMapAbstraction, TransactionWalletOperation } from '@taquito/taquito';
-import { ConstantsResponse } from '@taquito/rpc';
+import { TezosToolkit, BigMapAbstraction, TransactionWalletOperation, WalletTransferParams } from '@taquito/taquito';
+import { ConstantsResponse, OpKind } from '@taquito/rpc';
 import { tzip16 } from '@taquito/tzip16';
 import { Tracer, RpcResponseData, RpcRequestScalarData } from '@tezos-domains/core';
 import NodeCache from 'node-cache';
+
+export interface TaquitoBatchOperation {
+    hash: string;
+    confirmation(confirmations?: number): Promise<number>;
+}
 
 export class TaquitoClient {
     private storageCache = new NodeCache({ stdTTL: 60 * 60, checkperiod: 0, useClones: false });
@@ -48,17 +53,34 @@ export class TaquitoClient {
         return new RpcResponseData(value);
     }
 
-    async call(contractAddress: string, method: string, parameters: any[], amount?: number): Promise<TransactionWalletOperation> {
+    async call(params: WalletTransferParams): Promise<TransactionWalletOperation> {
+        this.tracer.trace(`=> Calling ${JSON.stringify(params)}.`);
+
+        const operation = await this.tezos.wallet.transfer(params).send();
+
+        this.tracer.trace('<= Operation sent.', operation.opHash);
+
+        return operation;
+    }
+
+    async params(contractAddress: string, method: string, parameters: any[], amount?: number): Promise<WalletTransferParams> {
         this.tracer.trace(
-            `=> Calling entrypoint '${method}' at '${contractAddress}' with parameters '${JSON.stringify(parameters)}' and amount '${
+            `=> Preparing call for entrypoint '${method}' at '${contractAddress}' with parameters '${JSON.stringify(parameters)}' and amount '${
                 amount ? amount.toString() : 'N/A'
             }.'`
         );
 
         const contract = await this.tezos.wallet.at(contractAddress);
-        const operation = await contract.methods[method](...parameters).send({ amount, mutez: true });
+        const params = contract.methods[method](...parameters).toTransferParams({ amount, mutez: true });
 
-        this.tracer.trace('<= Operation sent.', operation.opHash);
+        this.tracer.trace('<= Prepared params.', params);
+
+        return params;
+    }
+
+    async batch(transactionParams: WalletTransferParams[]): Promise<TaquitoBatchOperation> {
+        const batch = this.tezos.batch(transactionParams.map(p => ({ kind: OpKind.TRANSACTION, ...p })));
+        const operation = await batch.send();
 
         return operation;
     }

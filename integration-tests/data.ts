@@ -87,7 +87,7 @@ const TEST_WALLETS: FaucetWallet[] = [
 ];
 
 export const CONFIG = {
-    adminAddress: 'tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix',
+    adminAddress: 'tz1VBLpuDKMoJuHRLZ4HrCgRuiLpEr7zZx2E',
     adminKey: process.env.TD_ADMIN_SIGN_KEY!,
     rpcUrl: process.env.TD_RPC_URL || 'https://delphinet-tezos.giganode.io/',
     network: process.env.TD_NETWORK || 'delphinet' as any

@@ -85,4 +85,10 @@ describe('UnsupportedDomainsManager', () => {
             expect(() => resolver.withdraw('tez', 'tz1xxx')).toThrowError();
         });
     });
+
+    describe('batch()', () => {
+        it('should return throw', () => {
+            expect(() => resolver.batch(() => Promise.resolve([]))).toThrowError();
+        });
+    });
 });

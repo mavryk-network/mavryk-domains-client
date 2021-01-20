@@ -1,11 +1,20 @@
 import { Tracer, RpcRequestData, BytesEncoder } from '@tezos-domains/core';
-import { TaquitoClient } from '@tezos-domains/taquito';
-import { RpcClient, ConstantsResponse } from '@taquito/rpc';
-import { TezosToolkit, BigMapAbstraction, ContractAbstraction, Wallet, WalletContract, ContractMethod, TransactionWalletOperation } from '@taquito/taquito';
+import { TaquitoClient, TaquitoBatchOperation } from '@tezos-domains/taquito';
+import { RpcClient, ConstantsResponse, OpKind } from '@taquito/rpc';
+import { Tzip16ContractAbstraction, tzip16, View } from '@taquito/tzip16';
+import {
+    TezosToolkit,
+    BigMapAbstraction,
+    ContractAbstraction,
+    Wallet,
+    WalletContract,
+    ContractMethod,
+    TransactionWalletOperation,
+    WalletTransferParams,
+} from '@taquito/taquito';
 import { mock, instance, when, verify, anything, deepEqual } from 'ts-mockito';
 import FakePromise from 'fake-promise';
 import BigNumber from 'bignumber.js';
-import { Tzip16ContractAbstraction, tzip16, View } from '@taquito/tzip16';
 
 class TZip16ContractMock extends ContractAbstraction<Wallet> {
     tzip16(): Tzip16ContractAbstraction {
@@ -14,6 +23,17 @@ class TZip16ContractMock extends ContractAbstraction<Wallet> {
 }
 class V implements View {
     executeView(): Promise<any> {
+        throw new Error();
+    }
+}
+class B {
+    send(): Promise<any> {
+        throw new Error();
+    }
+}
+class BO implements TaquitoBatchOperation {
+    hash!: string;
+    confirmation(): Promise<number> {
         throw new Error();
     }
 }
@@ -40,6 +60,10 @@ describe('TaquitoClient', () => {
     let method: ContractMethod<Wallet>;
     let operation: TransactionWalletOperation;
     let constants: ConstantsResponse;
+    let params: WalletTransferParams;
+    let batch: B;
+    let batchOperation: TaquitoBatchOperation;
+    let batchSpy: jest.Mock;
 
     beforeEach(() => {
         tezosToolkitMock = mock(TezosToolkit);
@@ -53,8 +77,12 @@ describe('TaquitoClient', () => {
         method = mock(ContractMethod);
         operation = mock(TransactionWalletOperation);
         rpcClientMock = mock(RpcClient);
+        batch = mock(B);
+        batchOperation = mock(BO);
+        params = { to: 'KT1xxx', amount: 1 };
         view = mock(V);
         views = { 'test-view': () => instance(view) };
+        batchSpy = jest.fn().mockReturnValue(instance(batch));
 
         when(bigMap.get('6161')).thenReturn(bigMapGet);
         storage = {
@@ -68,19 +96,22 @@ describe('TaquitoClient', () => {
 
         constants = { time_between_blocks: [new BigNumber('60')] } as any;
 
-        when(method.send(anything())).thenResolve(instance(operation));
+        when(method.toTransferParams(anything())).thenReturn(params);
 
         when(tezosToolkitMock.wallet).thenReturn(instance(walletProviderMock));
         when(tezosToolkitMock.rpc).thenReturn(instance(rpcClientMock));
         when(walletProviderMock.at('KT1xxx')).thenResolve(instance(contractMock));
         when(walletProviderMock.at('KT1xxx', tzip16)).thenResolve(instance(tzip16ContractMock));
         when(contractMock.storage()).thenResolve(storage);
+        when(walletProviderMock.transfer(params)).thenReturn({ send: () => Promise.resolve(instance(operation)) });
         when(contractMock.methods).thenReturn(methods);
         when(tzip16ContractMock.tzip16()).thenReturn(instance(tzip16Mock));
         when(tzip16Mock.metadataViews()).thenResolve(views);
         when(view.executeView('param')).thenResolve('test-value');
         when(rpcClientMock.getConstants()).thenResolve(constants);
         when(tracerMock.trace(anything(), anything()));
+        when(batch.send()).thenResolve(instance(batchOperation));
+        when(tezosToolkitMock.batch).thenReturn(batchSpy);
 
         client = new TaquitoClient(instance(tezosToolkitMock), instance(tracerMock));
     });
@@ -173,15 +204,35 @@ describe('TaquitoClient', () => {
         });
     });
 
-    describe('call()', () => {
-        it('should call contract method', async () => {
-            const op = await client.call('KT1xxx', 'method', ['p1', 'p2'], 1);
+    describe('params()', () => {
+        it('should create params for calling contract method', async () => {
+            const p = await client.params('KT1xxx', 'method', ['p1', 'p2'], 1);
 
             expect(methods.method).toHaveBeenCalledWith('p1', 'p2');
 
-            verify(method.send(deepEqual({ amount: 1, mutez: true }))).called();
+            verify(method.toTransferParams(deepEqual({ amount: 1, mutez: true }))).called();
+
+            expect(p).toBe(params);
+        });
+    });
+
+    describe('call()', () => {
+        it('should transfer params', async () => {
+            const op = await client.call(params);
+
+            verify(walletProviderMock.transfer(params)).called();
 
             expect(op).toBe(instance(operation));
+        });
+    });
+
+    describe('batch()', () => {
+        it('should call batch', async () => {
+            const op = await client.batch([params]);
+
+            expect(batchSpy).toHaveBeenCalledWith([params].map(p => ({ kind: OpKind.TRANSACTION, ...p })));
+
+            expect(op).toBe(instance(batchOperation));
         });
     });
 

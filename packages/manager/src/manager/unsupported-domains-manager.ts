@@ -1,4 +1,5 @@
 import { TransactionWalletOperation } from '@taquito/taquito';
+import { TaquitoBatchOperation } from '@tezos-domains/taquito';
 
 import { DomainsManager } from '../manager';
 import { CommitmentInfo, DomainAcquisitionInfo } from './model';
@@ -53,6 +54,10 @@ export class UnsupportedDomainsManager implements DomainsManager {
     }
 
     withdraw(): Promise<TransactionWalletOperation> {
+        throw new Error('Method not supported.');
+    }
+
+    batch(): Promise<TaquitoBatchOperation> {
         throw new Error('Method not supported.');
     }
 }
