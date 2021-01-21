@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.36](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.34...v1.0.0-beta.36) (2021-01-21)
+
+
+### Features
+
+* **manager:** add batch method for running multiple tezos domains transactions in a batch ([9a0fd77](https://gitlab.com/tezos-domains/client/commit/9a0fd77cadb6c6b7f555c74c3615297e9f0faa31))
+
+
+
+
+
+# [1.0.0-beta.35](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.34...v1.0.0-beta.35) (2021-01-21)
+
+
+### Features
+
+* **manager:** add batch method for running multiple tezos domains transactions in a batch ([9a0fd77](https://gitlab.com/tezos-domains/client/commit/9a0fd77cadb6c6b7f555c74c3615297e9f0faa31))
+
+
+
+
+
 # [1.0.0-beta.34](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.33...v1.0.0-beta.34) (2021-01-19)
 
 **Note:** Version bump only for package @tezos-domains/taquito-client

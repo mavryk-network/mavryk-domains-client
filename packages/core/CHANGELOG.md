@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.36](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.34...v1.0.0-beta.36) (2021-01-21)
+
+**Note:** Version bump only for package @tezos-domains/core
+
+
+
+
+
+# [1.0.0-beta.35](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.34...v1.0.0-beta.35) (2021-01-21)
+
+**Note:** Version bump only for package @tezos-domains/core
+
+
+
+
+
 # [1.0.0-beta.34](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.33...v1.0.0-beta.34) (2021-01-19)
 
 **Note:** Version bump only for package @tezos-domains/core
