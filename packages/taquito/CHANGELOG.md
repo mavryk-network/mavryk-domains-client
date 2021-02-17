@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.37](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.36...v1.0.0-beta.37) (2021-02-17)
+
+
+### Features
+
+* update to taquito 8.0.2, update peer dependency ranges ([7f338eb](https://gitlab.com/tezos-domains/client/commit/7f338ebaebb45a396947af9600cd61cb7a2562be))
+
+
+
+
+
 # [1.0.0-beta.36](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.34...v1.0.0-beta.36) (2021-01-21)
 
 
