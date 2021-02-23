@@ -9,7 +9,7 @@
   "files": [
     "dist"
   ],
-  "version": "1.0.0-beta.37",
+  "version": "1.0.0-beta.38",
   "description": "A library for managing tezos domains.",
   "author": "Necroskillz <necroskillz@gmail.com>",
   "license": "MIT",
@@ -29,8 +29,8 @@
     "@taquito/taquito": ">=8.0.2-beta.0 <9.0.0"
   },
   "dependencies": {
-    "@tezos-domains/core": "^1.0.0-beta.37",
-    "@tezos-domains/taquito": "^1.0.0-beta.37",
+    "@tezos-domains/core": "^1.0.0-beta.38",
+    "@tezos-domains/taquito": "^1.0.0-beta.38",
     "@types/sha.js": "^2.4.0",
     "bignumber.js": "^9.0.1",
     "sha.js": "^2.4.11"
