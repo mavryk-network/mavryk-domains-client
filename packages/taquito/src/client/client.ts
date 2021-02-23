@@ -1,13 +1,8 @@
-import { TezosToolkit, BigMapAbstraction, TransactionWalletOperation, WalletTransferParams } from '@taquito/taquito';
+import { TezosToolkit, BigMapAbstraction, TransactionWalletOperation, WalletTransferParams, WalletOperation } from '@taquito/taquito';
 import { ConstantsResponse, OpKind } from '@taquito/rpc';
 import { tzip16 } from '@taquito/tzip16';
 import { Tracer, RpcResponseData, RpcRequestScalarData } from '@tezos-domains/core';
 import NodeCache from 'node-cache';
-
-export interface TaquitoBatchOperation {
-    hash: string;
-    confirmation(confirmations?: number): Promise<number>;
-}
 
 export class TaquitoClient {
     private storageCache = new NodeCache({ stdTTL: 60 * 60, checkperiod: 0, useClones: false });
@@ -78,8 +73,8 @@ export class TaquitoClient {
         return params;
     }
 
-    async batch(transactionParams: WalletTransferParams[]): Promise<TaquitoBatchOperation> {
-        const batch = this.tezos.batch(transactionParams.map(p => ({ kind: OpKind.TRANSACTION, ...p })));
+    async batch(transactionParams: WalletTransferParams[]): Promise<WalletOperation> {
+        const batch = this.tezos.wallet.batch(transactionParams.map(p => ({ kind: OpKind.TRANSACTION, ...p })));
         const operation = await batch.send();
 
         return operation;

@@ -1,5 +1,5 @@
 import { Tracer, RpcRequestData, BytesEncoder } from '@tezos-domains/core';
-import { TaquitoClient, TaquitoBatchOperation } from '@tezos-domains/taquito';
+import { TaquitoClient } from '@tezos-domains/taquito';
 import { RpcClient, ConstantsResponse, OpKind } from '@taquito/rpc';
 import { Tzip16ContractAbstraction, tzip16, View } from '@taquito/tzip16';
 import {
@@ -11,6 +11,8 @@ import {
     ContractMethod,
     TransactionWalletOperation,
     WalletTransferParams,
+    WalletOperation,
+    WalletOperationBatch,
 } from '@taquito/taquito';
 import { mock, instance, when, verify, anything, deepEqual } from 'ts-mockito';
 import FakePromise from 'fake-promise';
@@ -23,17 +25,6 @@ class TZip16ContractMock extends ContractAbstraction<Wallet> {
 }
 class V implements View {
     executeView(): Promise<any> {
-        throw new Error();
-    }
-}
-class B {
-    send(): Promise<any> {
-        throw new Error();
-    }
-}
-class BO implements TaquitoBatchOperation {
-    hash!: string;
-    confirmation(): Promise<number> {
         throw new Error();
     }
 }
@@ -61,8 +52,8 @@ describe('TaquitoClient', () => {
     let operation: TransactionWalletOperation;
     let constants: ConstantsResponse;
     let params: WalletTransferParams;
-    let batch: B;
-    let batchOperation: TaquitoBatchOperation;
+    let batch: WalletOperationBatch;
+    let batchOperation: WalletOperation;
     let batchSpy: jest.Mock;
 
     beforeEach(() => {
@@ -77,8 +68,8 @@ describe('TaquitoClient', () => {
         method = mock(ContractMethod);
         operation = mock(TransactionWalletOperation);
         rpcClientMock = mock(RpcClient);
-        batch = mock(B);
-        batchOperation = mock(BO);
+        batch = mock(WalletOperationBatch);
+        batchOperation = mock(WalletOperation);
         params = { to: 'KT1xxx', amount: 1 };
         view = mock(V);
         views = { 'test-view': () => instance(view) };
@@ -111,7 +102,7 @@ describe('TaquitoClient', () => {
         when(rpcClientMock.getConstants()).thenResolve(constants);
         when(tracerMock.trace(anything(), anything()));
         when(batch.send()).thenResolve(instance(batchOperation));
-        when(tezosToolkitMock.batch).thenReturn(batchSpy);
+        when(walletProviderMock.batch).thenReturn(batchSpy);
 
         client = new TaquitoClient(instance(tezosToolkitMock), instance(tracerMock));
     });

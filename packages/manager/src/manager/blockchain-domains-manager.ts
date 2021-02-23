@@ -1,5 +1,4 @@
-import { TransactionWalletOperation, WalletTransferParams } from '@taquito/taquito';
-import { TaquitoBatchOperation } from '@tezos-domains/taquito';
+import { TransactionWalletOperation, WalletTransferParams, WalletOperation } from '@taquito/taquito';
 import { Tracer, Exact } from '@tezos-domains/core';
 import { TaquitoClient } from '@tezos-domains/taquito';
 
@@ -150,7 +149,7 @@ export class BlockchainDomainsManager implements DomainsManager {
         return operation;
     }
 
-    async batch(builder: (operationFactory: TezosDomainsOperationFactory<WalletTransferParams>) => Promise<WalletTransferParams[]>): Promise<TaquitoBatchOperation> {
+    async batch(builder: (operationFactory: TezosDomainsOperationFactory<WalletTransferParams>) => Promise<WalletTransferParams[]>): Promise<WalletOperation> {
         this.tracer.trace(`=> Executing batch.`);
 
         const operations = await builder(this.operationFactory);
@@ -159,7 +158,7 @@ export class BlockchainDomainsManager implements DomainsManager {
 
         const operation = await this.tezos.batch(operations);
 
-        this.tracer.trace('<= Executed.', operation.hash);
+        this.tracer.trace('<= Executed.', operation.opHash);
 
         return operation;
     }

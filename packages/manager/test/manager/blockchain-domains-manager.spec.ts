@@ -1,6 +1,6 @@
-import { TransactionWalletOperation, WalletTransferParams } from '@taquito/taquito';
+import { TransactionWalletOperation, WalletTransferParams, WalletOperation } from '@taquito/taquito';
 import { Exact, Tracer, AddressBook, RecordMetadata } from '@tezos-domains/core';
-import { TaquitoClient, TaquitoBatchOperation } from '@tezos-domains/taquito';
+import { TaquitoClient } from '@tezos-domains/taquito';
 import {
     DomainsManager,
     BlockchainDomainsManager,
@@ -13,13 +13,6 @@ import {
 import { mock, when, anything, instance, verify, deepEqual, anyString } from 'ts-mockito';
 import MockDate from 'mockdate';
 
-class BO implements TaquitoBatchOperation {
-    hash!: string;
-    confirmation(): Promise<number> {
-        throw new Error();
-    }
-}
-
 describe('BlockchainDomainsManager', () => {
     let manager: DomainsManager;
     let taquitoClientMock: TaquitoClient;
@@ -28,7 +21,7 @@ describe('BlockchainDomainsManager', () => {
     let dataProviderMock: TaquitoManagerDataProvider;
     let operationFactory: TezosDomainsOperationFactory<WalletTransferParams>;
     let operation: TransactionWalletOperation;
-    let batchOperation: TaquitoBatchOperation;
+    let batchOperation: WalletOperation;
     let params: WalletTransferParams;
 
     beforeEach(() => {
@@ -38,7 +31,7 @@ describe('BlockchainDomainsManager', () => {
         dataProviderMock = mock(TaquitoManagerDataProvider);
         operationFactory = mock<TezosDomainsOperationFactory<WalletTransferParams>>();
         operation = mock(TransactionWalletOperation);
-        batchOperation = mock(BO);
+        batchOperation = mock(WalletOperation);
 
         when(tracerMock.trace(anything(), anything(), anything()));
 

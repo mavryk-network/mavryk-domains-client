@@ -1,6 +1,5 @@
-import { TransactionWalletOperation, WalletTransferParams } from '@taquito/taquito';
+import { TransactionWalletOperation, WalletTransferParams, WalletOperation } from '@taquito/taquito';
 import { Exact } from '@tezos-domains/core';
-import { TaquitoBatchOperation } from '@tezos-domains/taquito';
 
 import {
     SetChildRecordRequest,
@@ -154,5 +153,5 @@ export interface DomainsManager {
     withdraw(tld: string, recipient: string): Promise<TransactionWalletOperation>;
 
     /** Execute multiple Tezos Domains operations in a batch. */
-    batch(builder: (operationFactory: TezosDomainsOperationFactory<WalletTransferParams>) => Promise<WalletTransferParams[]>): Promise<TaquitoBatchOperation>;
+    batch(builder: (operationFactory: TezosDomainsOperationFactory<WalletTransferParams>) => Promise<WalletTransferParams[]>): Promise<WalletOperation>;
 }
