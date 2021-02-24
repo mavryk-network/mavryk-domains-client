@@ -117,7 +117,7 @@ export class TaquitoManagerDataProvider {
                 return createAuctionInfo(
                     DomainAcquisitionState.AuctionInProgress,
                     auctionState.ends_at,
-                    Math.ceil((auctionState.last_bid * minBidIncreaseCoef) / 1e6) * 1e6,
+                    Math.round((auctionState.last_bid * minBidIncreaseCoef) / 1e5) * 1e5,
                     auctionState.last_bid,
                     auctionState.last_bidder
                 );

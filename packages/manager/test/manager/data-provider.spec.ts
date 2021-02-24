@@ -308,6 +308,22 @@ describe('TaquitoManagerDataProvider', () => {
                 "'bob.alice.tez' cannot be acquired. Only 2nd level domains (e.g. 'alice.tez') can be acquired."
             );
         });
+
+        const NEXT_BID_TEST_DATA = [
+            { lastBid: 1e6, nextBid: 1.2e6 },
+            { lastBid: 1.3e6, nextBid: 1.6e6 },
+        ];
+
+        NEXT_BID_TEST_DATA.forEach(d => {
+            it(`should calculate next bid for ${d.lastBid}`, async () => {
+                MockDate.set(new Date(2020, 6, 2, 0, 0, 0));
+                storage.store.auctions[e('auction')].last_bid = new BigNumber(d.lastBid) as any;
+
+                const info = await dataProvider.getAcquisitionInfo('auction.tez');
+
+                expect(info.auctionDetails.nextMinimumBid).toBe(d.nextBid);
+            });
+        });
     });
 
     describe('getBidderBalance()', () => {
@@ -324,7 +340,9 @@ describe('TaquitoManagerDataProvider', () => {
         });
 
         it('should throw if tld is not supported', async () => {
-            await expect(() => dataProvider.getBidderBalance('ble', 'tz1VBLpuDKMoJuHRLZ4HrCgRuiLpEr7zZx2E')).rejects.toThrowError("TLD 'ble' is not supported.");
+            await expect(() => dataProvider.getBidderBalance('ble', 'tz1VBLpuDKMoJuHRLZ4HrCgRuiLpEr7zZx2E')).rejects.toThrowError(
+                "TLD 'ble' is not supported."
+            );
         });
     });
 });
