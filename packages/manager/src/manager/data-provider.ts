@@ -78,9 +78,20 @@ export class TaquitoManagerDataProvider {
         const tldStorage = await this.tezos.storage<TLDRegistrarStorage>(address);
         const now = new Date();
         const config = new RpcResponseData(tldStorage.store.config).scalar(MapEncoder)!;
-        const launchDate = new Date(config.get<BigNumber>(TLDConfigProperty.DEFAULT_LAUNCH_DATE)!.toNumber() * 1000);
-
         const label = getLabel(name);
+        let launchDate: Date | null = null;
+        let launchTimestamp = config.get<BigNumber>((parseInt(TLDConfigProperty.DEFAULT_LAUNCH_DATE) + label.length).toString())?.toNumber();
+
+        if (launchTimestamp == null) {
+            launchTimestamp = config.get<BigNumber>(TLDConfigProperty.DEFAULT_LAUNCH_DATE)!.toNumber();
+        }
+
+        if (!launchTimestamp) {
+            return createUnobtainableInfo();
+        }
+
+        launchDate = new Date(launchTimestamp * 1000);
+
         const tldRecordResponse = await this.tezos.getBigMapValue<TLDRegistrarStorage>(
             address,
             s => s.store.records,
@@ -159,7 +170,7 @@ export class TaquitoManagerDataProvider {
         }
 
         function createUnobtainableInfo() {
-            return DomainAcquisitionInfo.createUnobtainable({ launchDate });
+            return DomainAcquisitionInfo.createUnobtainable({ launchDate: launchDate || null });
         }
 
         function getPricePerMinDuration(pricePerDay: BigNumber) {

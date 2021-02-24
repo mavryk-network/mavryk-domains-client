@@ -51,6 +51,9 @@ describe('TaquitoManagerDataProvider', () => {
     config.set(TLDConfigProperty.MIN_AUCTION_PERIOD, new BigNumber(30 * 24 * 60 * 60));
     config.set(TLDConfigProperty.BID_ADDITIONAL_PERIOD, new BigNumber(24 * 60 * 60));
     config.set(TLDConfigProperty.DEFAULT_LAUNCH_DATE, new BigNumber(1593561600));
+    config.set('1001', new BigNumber(1596232800));
+    config.set('1002', new BigNumber(1593036000));
+    config.set('1003', new BigNumber(0));
 
     let storage: FakeTLDRegistrarStorage;
     let constants: ConstantsResponse;
@@ -208,8 +211,8 @@ describe('TaquitoManagerDataProvider', () => {
             const info = await dataProvider.getAcquisitionInfo('alice.tez');
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.Unobtainable);
-            expect(info.unobtainableDetails.launchDate.toISOString()).toBe(
-                new Date(new Date(2020, 6, 1, 0, 0, 0).getTime() - new Date(2020, 6, 31).getTimezoneOffset() * 60000).toISOString()
+            expect(info.unobtainableDetails.launchDate!.toISOString()).toBe(
+                new Date(new Date(2020, 6, 1, 0, 0, 0).getTime() - new Date(2020, 6, 1).getTimezoneOffset() * 60000).toISOString()
             );
             expect(() => info.auctionDetails).toThrowError();
             expect(() => info.buyOrRenewDetails).toThrowError();
@@ -232,6 +235,38 @@ describe('TaquitoManagerDataProvider', () => {
             expect(info.auctionDetails.bidAdditionalPeriod).toBe(24 * 60 * 60 * 1000);
             expect(() => info.buyOrRenewDetails).toThrowError();
             expect(() => info.unobtainableDetails).toThrowError();
+            expect(() => info.calculatePrice(365)).toThrowError();
+        });
+
+        it('should return unobtainable if launch date for particular label length is not launched yet', async () => {
+            MockDate.set(new Date(2020, 6, 2, 0, 0, 0));
+
+            const info = await dataProvider.getAcquisitionInfo('a.tez');
+
+            expect(info.acquisitionState).toBe(DomainAcquisitionState.Unobtainable);
+            expect(info.unobtainableDetails.launchDate!.toISOString()).toBe(new Date(new Date(2020, 7, 1, 0, 0, 0).getTime()).toISOString());
+            expect(() => info.auctionDetails).toThrowError();
+            expect(() => info.buyOrRenewDetails).toThrowError();
+            expect(() => info.calculatePrice(365)).toThrowError();
+        });
+
+        it('should return info about auction if within auction period for particular label length, even if default hasnt started', async () => {
+            MockDate.set(new Date(2020, 5, 26, 0, 0, 0));
+
+            const info = await dataProvider.getAcquisitionInfo('aa.tez');
+
+            expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeAuctioned);
+        });
+
+        it('should return unobtainable if launch date is 0', async () => {
+            MockDate.set(new Date(2020, 6, 2, 0, 0, 0));
+
+            const info = await dataProvider.getAcquisitionInfo('aaa.tez');
+
+            expect(info.acquisitionState).toBe(DomainAcquisitionState.Unobtainable);
+            expect(info.unobtainableDetails.launchDate).toBeNull();
+            expect(() => info.auctionDetails).toThrowError();
+            expect(() => info.buyOrRenewDetails).toThrowError();
             expect(() => info.calculatePrice(365)).toThrowError();
         });
 

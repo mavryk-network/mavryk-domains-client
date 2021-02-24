@@ -147,7 +147,7 @@ export interface DomainAcquisitionBuyOrRenewInfo {
 
 export interface DomainAcquisitionUnobtainableInfo {
     /** The date since when it is possible to auction and buys this domain from the TLD registrar. */
-    launchDate: Date;
+    launchDate: Date | null;
 }
 
 export class DomainAcquisitionInfo {
