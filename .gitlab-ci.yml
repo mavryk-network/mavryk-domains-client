@@ -122,12 +122,12 @@ test:conseil-client:
     tags:
         - docker
 
-test:integration:delphinet:
+test:integration:edonet:
     stage: test
     image: node:${NODE_VERSION}
     allow_failure: false
     script:
-        - TD_NETWORK=delphinet TD_RPC_URL=${RPC_URL_DELPHINET} yarn workspace integration-tests integration-test
+        - TD_NETWORK=edonet TD_RPC_URL=${RPC_URL_EDONET} yarn workspace integration-tests integration-test
     tags:
         - docker
 

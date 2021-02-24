@@ -4,7 +4,7 @@ describe('isTezosDomainsSupportedNetwork()', () => {
     it('should indicate if network is currently supported', () => {
         expect(isTezosDomainsSupportedNetwork('mainnet')).toBe(false);
         expect(isTezosDomainsSupportedNetwork('carthagenet')).toBe(false);
-        expect(isTezosDomainsSupportedNetwork('delphinet')).toBe(true);
+        expect(isTezosDomainsSupportedNetwork('delphinet')).toBe(false);
         expect(isTezosDomainsSupportedNetwork('edonet')).toBe(true);
         expect(isTezosDomainsSupportedNetwork('custom')).toBe(false);
         expect(isTezosDomainsSupportedNetwork('gibberish')).toBe(false);

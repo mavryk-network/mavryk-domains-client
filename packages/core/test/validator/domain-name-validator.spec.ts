@@ -66,7 +66,7 @@ describe('TezosDomainsValidator', () => {
 
         it('should override tlds for known network', () => {
             init({
-                network: 'delphinet',
+                network: 'edonet',
                 tlds: [{ name: 'test', validator: testValidatorFn }],
             });
 
