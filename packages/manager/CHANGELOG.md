@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.39](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.38...v1.0.0-beta.39) (2021-02-24)
+
+
+### Features
+
+* **manager:** update minimum bid logic to nearest tenth of tez ([3e968c8](https://gitlab.com/tezos-domains/client/commit/3e968c8ce19cd9a66a29844c905785e423645061)), closes [#20](https://gitlab.com/tezos-domains/client/issues/20)
+* **manager:** use configurable launch date based on label length ([53e7a23](https://gitlab.com/tezos-domains/client/commit/53e7a230fd2092b7354ec355f4b7f5aee743ee3a))
+* add edo contracts, use default price for renew ([905349b](https://gitlab.com/tezos-domains/client/commit/905349b72eb13cc2d94a9a762bcc16287f02cd5b)), closes [#17](https://gitlab.com/tezos-domains/client/issues/17) [#18](https://gitlab.com/tezos-domains/client/issues/18)
+
+
+
+
+
 # [1.0.0-beta.38](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.37...v1.0.0-beta.38) (2021-02-23)
 
 

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.39](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.38...v1.0.0-beta.39) (2021-02-24)
+
+
+### Features
+
+* add edo contracts, use default price for renew ([905349b](https://gitlab.com/tezos-domains/client/commit/905349b72eb13cc2d94a9a762bcc16287f02cd5b)), closes [#17](https://gitlab.com/tezos-domains/client/issues/17) [#18](https://gitlab.com/tezos-domains/client/issues/18)
+* remove delphinet ([66c2d7e](https://gitlab.com/tezos-domains/client/commit/66c2d7ef890b4b9b859cd4b34d40ddd8135a75ac))
+
+
+
+
+
 # [1.0.0-beta.38](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.37...v1.0.0-beta.38) (2021-02-23)
 
 **Note:** Version bump only for package @tezos-domains/core
