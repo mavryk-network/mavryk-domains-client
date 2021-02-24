@@ -1,5 +1,4 @@
 import { RpcRequest, encoder, RpcResponse, DateEncoder, RecordMetadata, NormalizeBytesEncoder } from '@tezos-domains/core';
-import BigNumber from 'bignumber.js';
 import { MapEncoder, BigNumberEncoder } from '@tezos-domains/taquito';
 
 @RpcRequest()
@@ -104,7 +103,6 @@ export class SettleRequest {
 
 @RpcResponse()
 export class TLDRecord {
-    price_per_day!: BigNumber;
     @encoder(DateEncoder) expiry!: Date;
 }
 
@@ -148,9 +146,7 @@ export interface DomainAcquisitionBuyOrRenewInfo {
 }
 
 export interface DomainAcquisitionUnobtainableInfo {
-    /** Whether the TLD registrar is enabled. */
-    enabled: boolean;
-    /** The date since when it is possible to auction and buys domains from the TLD registrar. */
+    /** The date since when it is possible to auction and buys this domain from the TLD registrar. */
     launchDate: Date;
 }
 

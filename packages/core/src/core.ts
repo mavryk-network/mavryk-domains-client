@@ -16,6 +16,7 @@ export {
     CachingConfig,
     DomainInfo,
     ReverseRecordDomainInfo,
+    TLDConfigProperty
 } from './model';
 export { AddressBook } from './address-book/address-book';
 export { RpcRequest, RpcResponse, encoder } from './rpc-data/decorators';

@@ -1,5 +1,6 @@
 import { RecordMetadata } from './rpc-data/record-metadata';
 import { DomainNameValidatorFn } from './validator/validators';
+import { SupportedNetworkType } from './utils/support';
 
 export enum SmartContractType {
     TLDRegistrar = 'tldRegistrar',
@@ -19,7 +20,7 @@ export type TLDConfig = {
 };
 
 export type CustomNetworkConfig = { network?: 'custom'; contractAddresses: ContractConfig; tlds: TLDConfig[] } & CommonConfig;
-export type DefaultNetworkConfig = { network?: 'mainnet' | 'delphinet'; contractAddresses?: ContractConfig; tlds?: TLDConfig[] } & CommonConfig;
+export type DefaultNetworkConfig = { network?: 'mainnet' | SupportedNetworkType; contractAddresses?: ContractConfig; tlds?: TLDConfig[] } & CommonConfig;
 
 export type TezosDomainsConfig = DefaultNetworkConfig | CustomNetworkConfig;
 
@@ -54,3 +55,13 @@ export interface DomainRecordInfo<TAddress> {
 export type DomainInfo = DomainRecordInfo<string | null>;
 export type ReverseRecordDomainInfo = DomainRecordInfo<string>;
 
+export enum TLDConfigProperty {
+    MAX_COMMITMENT_AGE = '0',
+    MIN_COMMITMENT_AGE = '1',
+    MIN_BID_PER_DAY = '2',
+    MIN_DURATION = '3',
+    MIN_BID_INCREASE_RATIO = '4',
+    MIN_AUCTION_PERIOD = '5',
+    BID_ADDITIONAL_PERIOD = '6',
+    DEFAULT_LAUNCH_DATE = '1000',
+}

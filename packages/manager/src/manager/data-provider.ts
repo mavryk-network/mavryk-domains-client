@@ -10,6 +10,7 @@ import {
     DomainNameValidationResult,
     DomainNameValidator,
     getLevel,
+    TLDConfigProperty,
 } from '@tezos-domains/core';
 import { BytesEncoder, getLabel } from '@tezos-domains/core';
 import { TaquitoClient, TLDRegistrarStorage, MapEncoder, BigNumberEncoder } from '@tezos-domains/taquito';
@@ -54,8 +55,8 @@ export class TaquitoManagerDataProvider {
 
         const tldStorage = await this.tezos.storage<TLDRegistrarStorage>(address);
         const config = new RpcResponseData(tldStorage.store.config).scalar(MapEncoder)!;
-        const minAge = config.get('min_commitment_age', BigNumberEncoder)! * 1000;
-        const maxAge = config.get('max_commitment_age', BigNumberEncoder)! * 1000;
+        const minAge = config.get(TLDConfigProperty.MIN_COMMITMENT_AGE, BigNumberEncoder)! * 1000;
+        const maxAge = config.get(TLDConfigProperty.MAX_COMMITMENT_AGE, BigNumberEncoder)! * 1000;
 
         const usableFrom = new Date(commitment.getTime() + Math.max(0, minAge - timeBetweenBlocks));
         const usableUntil = new Date(commitment.getTime() + maxAge);
@@ -77,11 +78,7 @@ export class TaquitoManagerDataProvider {
         const tldStorage = await this.tezos.storage<TLDRegistrarStorage>(address);
         const now = new Date();
         const config = new RpcResponseData(tldStorage.store.config).scalar(MapEncoder)!;
-        const launchDate = new Date(config.get<BigNumber>('launch_date')!.toNumber() * 1000);
-
-        if (!tldStorage.store.enabled) {
-            return createUnobtainableInfo();
-        }
+        const launchDate = new Date(config.get<BigNumber>(TLDConfigProperty.DEFAULT_LAUNCH_DATE)!.toNumber() * 1000);
 
         const label = getLabel(name);
         const tldRecordResponse = await this.tezos.getBigMapValue<TLDRegistrarStorage>(
@@ -90,11 +87,11 @@ export class TaquitoManagerDataProvider {
             RpcRequestData.fromValue(label, BytesEncoder)
         );
         const tldRecord = tldRecordResponse.decode(TLDRecord);
-        const minDuration = config.get<BigNumber>('min_duration')!.toNumber();
-        const minBid = getPricePerMinDuration(config.get<BigNumber>('min_bid_per_day')!);
+        const minDuration = config.get<BigNumber>(TLDConfigProperty.MIN_DURATION)!.toNumber();
+        const minBid = getPricePerMinDuration(config.get<BigNumber>(TLDConfigProperty.MIN_BID_PER_DAY)!);
 
         if (tldRecord && tldRecord.expiry > now) {
-            return createBuyOrRenewInfo(DomainAcquisitionState.Taken, getPricePerMinDuration(tldRecord.price_per_day));
+            return createBuyOrRenewInfo(DomainAcquisitionState.Taken);
         }
 
         const auctionStateResponse = await this.tezos.getBigMapValue<TLDRegistrarStorage>(
@@ -103,9 +100,9 @@ export class TaquitoManagerDataProvider {
             RpcRequestData.fromValue(label, BytesEncoder)
         );
         const auctionState = auctionStateResponse.decode(AuctionState);
-        const minAuctionPeriod = config.get<BigNumber>('min_auction_period')!.toNumber() * 1000;
-        const minBidIncreaseCoef = config.get<BigNumber>('min_bid_increase_ratio')!.dividedBy(100).plus(1).toNumber();
-        const bidAdditionalPeriod = config.get<BigNumber>('bid_additional_period')!.toNumber() * 1000;
+        const minAuctionPeriod = config.get<BigNumber>(TLDConfigProperty.MIN_AUCTION_PERIOD)!.toNumber() * 1000;
+        const minBidIncreaseCoef = config.get<BigNumber>(TLDConfigProperty.MIN_BID_INCREASE_RATIO)!.dividedBy(100).plus(1).toNumber();
+        const bidAdditionalPeriod = config.get<BigNumber>(TLDConfigProperty.BID_ADDITIONAL_PERIOD)!.toNumber() * 1000;
 
         if (auctionState) {
             const maxSettlementDate = new Date(auctionState.ends_at.getTime() + auctionState.ownership_period * 24 * 60 * 60 * 1000);
@@ -114,7 +111,7 @@ export class TaquitoManagerDataProvider {
                 if (now < maxNewAuctionDate) {
                     return createAuctionInfo(DomainAcquisitionState.CanBeAuctioned, maxNewAuctionDate, minBid);
                 } else {
-                    return createBuyOrRenewInfo(DomainAcquisitionState.CanBeBought, minBid);
+                    return createBuyOrRenewInfo(DomainAcquisitionState.CanBeBought);
                 }
             } else if (now < auctionState.ends_at) {
                 return createAuctionInfo(
@@ -136,7 +133,7 @@ export class TaquitoManagerDataProvider {
             if (now < periodEndDate) {
                 return createAuctionInfo(DomainAcquisitionState.CanBeAuctioned, periodEndDate, minBid);
             } else {
-                return createBuyOrRenewInfo(DomainAcquisitionState.CanBeBought, minBid);
+                return createBuyOrRenewInfo(DomainAcquisitionState.CanBeBought);
             }
         }
 
@@ -157,12 +154,12 @@ export class TaquitoManagerDataProvider {
             });
         }
 
-        function createBuyOrRenewInfo(state: DomainAcquisitionState.CanBeBought | DomainAcquisitionState.Taken, pricePerMinDuration: number) {
-            return DomainAcquisitionInfo.createBuyOrRenew(state, { pricePerMinDuration, minDuration });
+        function createBuyOrRenewInfo(state: DomainAcquisitionState.CanBeBought | DomainAcquisitionState.Taken) {
+            return DomainAcquisitionInfo.createBuyOrRenew(state, { pricePerMinDuration: minBid, minDuration });
         }
 
         function createUnobtainableInfo() {
-            return DomainAcquisitionInfo.createUnobtainable({ enabled: tldStorage.store.enabled, launchDate });
+            return DomainAcquisitionInfo.createUnobtainable({ launchDate });
         }
 
         function getPricePerMinDuration(pricePerDay: BigNumber) {

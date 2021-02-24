@@ -19,7 +19,7 @@ export class RecordTestData<TName extends string | null, TWallet extends FaucetW
     }
 }
 
-const TEST_WALLETS: FaucetWallet[] = [
+export const TEST_WALLETS: FaucetWallet[] = [
     {
         mnemonic: ['amount', 'long', 'remind', 'abuse', 'elbow', 'spin', 'axis', 'true', 'occur', 'easy', 'machine', 'volume', 'pink', 'book', 'knife'],
         secret: 'dd178e9ef56fef55959f8a17ef8cb46e17bde03c',
@@ -89,8 +89,8 @@ const TEST_WALLETS: FaucetWallet[] = [
 export const CONFIG = {
     adminAddress: 'tz1VBLpuDKMoJuHRLZ4HrCgRuiLpEr7zZx2E',
     adminKey: process.env.TD_ADMIN_SIGN_KEY!,
-    rpcUrl: process.env.TD_RPC_URL || 'https://delphinet-tezos.giganode.io/',
-    network: process.env.TD_NETWORK || 'delphinet' as any
+    rpcUrl: process.env.TD_RPC_URL!,
+    network: process.env.TD_NETWORK! as any
 };
 
 export const DATA = {

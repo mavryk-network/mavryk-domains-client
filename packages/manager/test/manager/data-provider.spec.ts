@@ -18,6 +18,7 @@ import MockDate from 'mockdate';
 import BigNumber from 'bignumber.js';
 
 import { TLDRecord, AuctionState } from '../../src/manager/model';
+import { TLDConfigProperty } from '../../../core/src/model';
 
 interface FakeTLDRegistrarStorage {
     store: {
@@ -26,7 +27,6 @@ interface FakeTLDRegistrarStorage {
         config: MichelsonMap<string, any>;
         auctions: Record<string, AuctionState>;
         bidder_balances: Record<string, BigNumber>;
-        enabled: boolean;
     };
 }
 
@@ -43,14 +43,14 @@ describe('TaquitoManagerDataProvider', () => {
 
     const now = new Date(2020, 8, 11, 20, 0, 0);
     const config = new MichelsonMap<string, any>();
-    config.set('min_bid_per_day', new BigNumber(1e12));
-    config.set('min_commitment_age', new BigNumber(60));
-    config.set('max_commitment_age', new BigNumber(60 * 60));
-    config.set('min_duration', new BigNumber(5));
-    config.set('launch_date', new BigNumber(1593561600));
-    config.set('min_bid_increase_ratio', new BigNumber(20));
-    config.set('min_auction_period', new BigNumber(30 * 24 * 60 * 60));
-    config.set('bid_additional_period', new BigNumber(24 * 60 * 60));
+    config.set(TLDConfigProperty.MIN_BID_PER_DAY, new BigNumber(1e12));
+    config.set(TLDConfigProperty.MIN_COMMITMENT_AGE, new BigNumber(60));
+    config.set(TLDConfigProperty.MAX_COMMITMENT_AGE, new BigNumber(60 * 60));
+    config.set(TLDConfigProperty.MIN_DURATION, new BigNumber(5));
+    config.set(TLDConfigProperty.MIN_BID_INCREASE_RATIO, new BigNumber(20));
+    config.set(TLDConfigProperty.MIN_AUCTION_PERIOD, new BigNumber(30 * 24 * 60 * 60));
+    config.set(TLDConfigProperty.BID_ADDITIONAL_PERIOD, new BigNumber(24 * 60 * 60));
+    config.set(TLDConfigProperty.DEFAULT_LAUNCH_DATE, new BigNumber(1593561600));
 
     let storage: FakeTLDRegistrarStorage;
     let constants: ConstantsResponse;
@@ -72,14 +72,13 @@ describe('TaquitoManagerDataProvider', () => {
                 auctions: {},
                 bidder_balances: {},
                 config,
-                enabled: true,
             },
         };
 
         storage.store.commitments['commitment'] = '2020-10-01T10:00:00.000Z';
 
-        storage.store.records[e('necroskillz')] = { price_per_day: new BigNumber(20 * 1e12), expiry: new Date(2021, 1, 1) };
-        storage.store.records[e('expired')] = { price_per_day: new BigNumber(50 * 1e12), expiry: new Date(2019, 1, 1) };
+        storage.store.records[e('necroskillz')] = { expiry: new Date(2021, 1, 1) };
+        storage.store.records[e('expired')] = { expiry: new Date(2019, 1, 1) };
 
         storage.store.auctions[e('auction')] = {
             ends_at: new Date(2020, 7, 3, 0, 0, 0),
@@ -197,22 +196,10 @@ describe('TaquitoManagerDataProvider', () => {
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.Taken);
             expect(info.buyOrRenewDetails.minDuration).toBe(5);
-            expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(1e8);
-            expect(info.calculatePrice(365)).toBe(73e8);
+            expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(5e6);
+            expect(info.calculatePrice(365)).toBe(365e6);
             expect(() => info.auctionDetails).toThrowError();
             expect(() => info.unobtainableDetails).toThrowError();
-        });
-
-        it('should return unobtainable if tld is disabled', async () => {
-            storage.store.enabled = false;
-
-            const info = await dataProvider.getAcquisitionInfo('alice.tez');
-
-            expect(info.acquisitionState).toBe(DomainAcquisitionState.Unobtainable);
-            expect(info.unobtainableDetails.enabled).toBe(false);
-            expect(() => info.auctionDetails).toThrowError();
-            expect(() => info.buyOrRenewDetails).toThrowError();
-            expect(() => info.calculatePrice(365)).toThrowError();
         });
 
         it('should return unobtainable if tld is not launched yet', async () => {
@@ -221,7 +208,6 @@ describe('TaquitoManagerDataProvider', () => {
             const info = await dataProvider.getAcquisitionInfo('alice.tez');
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.Unobtainable);
-            expect(info.unobtainableDetails.enabled).toBe(true);
             expect(info.unobtainableDetails.launchDate.toISOString()).toBe(
                 new Date(new Date(2020, 6, 1, 0, 0, 0).getTime() - new Date(2020, 6, 31).getTimezoneOffset() * 60000).toISOString()
             );

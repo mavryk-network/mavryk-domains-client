@@ -41,7 +41,7 @@ describe('ConseilTezosDomainsDataProvider', () => {
                         },
                         {
                             prim: 'Pair',
-                            args: [{ prim: 'Some', args: [{ bytes: e('necroskillz.tez') }] }, []],
+                            args: [{ prim: 'Some', bytes: e('necroskillz.tez') }],
                         },
                     ],
                 },
@@ -77,29 +77,24 @@ describe('ConseilTezosDomainsDataProvider', () => {
                 {
                     prim: 'Pair',
                     args: [
-                        { int: '44535' },
+                        { int: '9399' },
                         {
                             prim: 'Pair',
                             args: [
                                 {
                                     prim: 'Pair',
-                                    args: [
-                                        {
-                                            prim: 'Pair',
-                                            args: [{ int: '44536' }, { int: '1' }],
-                                        },
-                                        {
-                                            prim: 'Pair',
-                                            args: [{ int: '44538' }, { string: 'tz1VBLpuDKMoJuHRLZ4HrCgRuiLpEr7zZx2E' }],
-                                        },
-                                    ],
+                                    args: [{ int: '9400' }, { int: '1' }],
                                 },
-                                {
-                                    prim: 'Pair',
-                                    args: [{ int: '2' }, { int: '3' }],
-                                },
+                                { int: '9402' },
+                                { int: '7' },
                             ],
                         },
+                        {
+                            prim: 'Pair',
+                            args: [{ string: 'tz1VBLpuDKMoJuHRLZ4HrCgRuiLpEr7zZx2E' }, { int: '2' }],
+                        },
+                        { int: '3' },
+                        { int: '9405' },
                     ],
                 },
                 [],
