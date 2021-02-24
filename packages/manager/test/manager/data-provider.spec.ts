@@ -51,8 +51,8 @@ describe('TaquitoManagerDataProvider', () => {
     config.set(TLDConfigProperty.MIN_AUCTION_PERIOD, new BigNumber(30 * 24 * 60 * 60));
     config.set(TLDConfigProperty.BID_ADDITIONAL_PERIOD, new BigNumber(24 * 60 * 60));
     config.set(TLDConfigProperty.DEFAULT_LAUNCH_DATE, new BigNumber(1593561600));
-    config.set('1001', new BigNumber(1596232800));
-    config.set('1002', new BigNumber(1593036000));
+    config.set('1001', new BigNumber(1596240000));
+    config.set('1002', new BigNumber(1593043200));
     config.set('1003', new BigNumber(0));
 
     let storage: FakeTLDRegistrarStorage;
@@ -244,7 +244,9 @@ describe('TaquitoManagerDataProvider', () => {
             const info = await dataProvider.getAcquisitionInfo('a.tez');
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.Unobtainable);
-            expect(info.unobtainableDetails.launchDate!.toISOString()).toBe(new Date(new Date(2020, 7, 1, 0, 0, 0).getTime()).toISOString());
+            expect(info.unobtainableDetails.launchDate!.toISOString()).toBe(
+                new Date(new Date(2020, 7, 1, 0, 0, 0).getTime() - new Date(2020, 7, 1).getTimezoneOffset() * 60000).toISOString()
+            );
             expect(() => info.auctionDetails).toThrowError();
             expect(() => info.buyOrRenewDetails).toThrowError();
             expect(() => info.calculatePrice(365)).toThrowError();
