@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.40](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.39...v1.0.0-beta.40) (2021-03-01)
+
+**Note:** Version bump only for package @tezos-domains/taquito
+
+
+
+
+
+
 # [1.0.0-beta.39](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.38...v1.0.0-beta.39) (2021-02-24)
 
 

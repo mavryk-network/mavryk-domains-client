@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.40](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.39...v1.0.0-beta.40) (2021-03-01)
+
+
+### Features
+
+* switch to new edo contracts ([138505d](https://gitlab.com/tezos-domains/client/commit/138505df9aa94bb59c1279d4ed7eb1825618cbbe))
+
+
+
+
+
+
 # [1.0.0-beta.39](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.38...v1.0.0-beta.39) (2021-02-24)
 
 
