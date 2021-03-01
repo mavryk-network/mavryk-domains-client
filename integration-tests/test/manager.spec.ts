@@ -47,7 +47,7 @@ describe('manager', () => {
         });
 
         it('should get price for renewing owned domain', async () => {
-            const info = await client.manager.getAcquisitionInfo(`necroskillz.${client.validator.supportedTLDs[0]}`);
+            const info = await client.manager.getAcquisitionInfo(`alice.${client.validator.supportedTLDs[0]}`);
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.Taken);
             expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(1e6);
