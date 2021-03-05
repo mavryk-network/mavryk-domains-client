@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.41](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.40...v1.0.0-beta.41) (2021-03-05)
+
+
+### Features
+
+* **core:** add new metadata keys ([5b31533](https://gitlab.com/tezos-domains/client/commit/5b315334142aa0745659c72234a802757902d30d))
+
+
+
+
+
 # [1.0.0-beta.40](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.39...v1.0.0-beta.40) (2021-03-01)
 
 
