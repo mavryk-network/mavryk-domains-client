@@ -80,7 +80,7 @@ describe('TaquitoManagerDataProvider', () => {
 
         storage.store.commitments['commitment'] = '2020-10-01T10:00:00.000Z';
 
-        storage.store.records[e('necroskillz')] = { expiry: new Date(2021, 1, 1) };
+        storage.store.records[e('necroskillz')] = { expiry: new Date(2021, 0, 1) };
         storage.store.records[e('expired')] = { expiry: new Date(2019, 1, 1) };
 
         storage.store.auctions[e('auction')] = {
@@ -225,6 +225,7 @@ describe('TaquitoManagerDataProvider', () => {
             const info = await dataProvider.getAcquisitionInfo('alice.tez');
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeAuctioned);
+            console.log(info.auctionDetails.auctionEnd.toISOString());
             expect(info.auctionDetails.auctionEnd.toISOString()).toBe(
                 new Date(new Date(2020, 6, 31, 0, 0, 0).getTime() - new Date(2020, 6, 31).getTimezoneOffset() * 60000).toISOString()
             );
@@ -236,6 +237,37 @@ describe('TaquitoManagerDataProvider', () => {
             expect(() => info.buyOrRenewDetails).toThrowError();
             expect(() => info.unobtainableDetails).toThrowError();
             expect(() => info.calculatePrice(365)).toThrowError();
+        });
+
+        it('should return info about auction if within auction period after domain expiration', async () => {
+            MockDate.set(new Date(2021, 0, 5, 0, 0, 0));
+
+            const info = await dataProvider.getAcquisitionInfo('necroskillz.tez');
+
+            expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeAuctioned);
+            console.log(info.auctionDetails.auctionEnd.toISOString());
+            expect(info.auctionDetails.auctionEnd.toISOString()).toBe(new Date(new Date(2021, 0, 31, 0, 0, 0).getTime()).toISOString());
+            expect(info.auctionDetails.lastBid).toBe(0);
+            expect(info.auctionDetails.lastBidder).toBeNull();
+            expect(info.auctionDetails.nextMinimumBid).toBe(5e6);
+            expect(info.auctionDetails.registrationDuration).toBe(5);
+            expect(info.auctionDetails.bidAdditionalPeriod).toBe(24 * 60 * 60 * 1000);
+            expect(() => info.buyOrRenewDetails).toThrowError();
+            expect(() => info.unobtainableDetails).toThrowError();
+            expect(() => info.calculatePrice(365)).toThrowError();
+        });
+
+        it('should get info about an expired domain that can be bought after domain expiration and once auction period has passed', async () => {
+            MockDate.set(new Date(2021, 1, 5, 0, 0, 0));
+
+            const info = await dataProvider.getAcquisitionInfo('necroskillz.tez');
+
+            expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeBought);
+            expect(info.buyOrRenewDetails.minDuration).toBe(5);
+            expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(5e6);
+            expect(info.calculatePrice(365)).toBe(365e6);
+            expect(() => info.auctionDetails).toThrowError();
+            expect(() => info.unobtainableDetails).toThrowError();
         });
 
         it('should return unobtainable if launch date for particular label length is not launched yet', async () => {

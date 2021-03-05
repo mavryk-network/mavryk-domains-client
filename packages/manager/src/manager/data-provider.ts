@@ -140,7 +140,7 @@ export class TaquitoManagerDataProvider {
                 return createUnobtainableInfo();
             }
 
-            const periodEndDate = new Date(launchDate.getTime() + minAuctionPeriod);
+            const periodEndDate = tldRecord ? new Date(tldRecord.expiry.getTime() + minAuctionPeriod) : new Date(launchDate.getTime() + minAuctionPeriod);
             if (now < periodEndDate) {
                 return createAuctionInfo(DomainAcquisitionState.CanBeAuctioned, periodEndDate, minBid);
             } else {
