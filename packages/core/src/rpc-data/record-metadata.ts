@@ -30,6 +30,7 @@ export enum StandardRecordMetadataKey {
     INSTAGRAM = 'instagram:handle',
     GITHUB_PROFILE = 'github:username',
     GITLAB_PROFILE = 'gitlab:username',
+    KEYBASE = 'keybase:username',
     REPOSITORY_URL = 'project:repository_url',
 }
 
