@@ -26,7 +26,11 @@ export enum StandardRecordMetadataKey {
     OPENID_PHONE_NUMBER = 'openid:phone_number',
     OPENID_PHONE_NUMBER_VERIFIED = 'openid:phone_number_verified',
     OPENID_ADDRESS = 'openid:address',
-    OPENID_UPDATED_AT = 'openid:updated_at',
+    TWITTER = 'twitter:handle',
+    INSTAGRAM = 'instagram:handle',
+    GITHUB_PROFILE = 'github:username',
+    GITLAB_PROFILE = 'gitlab:username',
+    REPOSITORY_URL = 'project:repository_url',
 }
 
 export class RecordMetadata {
