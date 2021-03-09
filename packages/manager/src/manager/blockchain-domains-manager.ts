@@ -104,15 +104,15 @@ export class BlockchainDomainsManager implements DomainsManager {
         return operation;
     }
 
-    async getCommitment(tld: string, request: Exact<CommitmentRequest>): Promise<CommitmentInfo | null> {
+    getCommitment(tld: string, request: Exact<CommitmentRequest>): Promise<CommitmentInfo | null> {
         return this.dataProvider.getCommitment(tld, request);
     }
 
-    async getAcquisitionInfo(name: string): Promise<DomainAcquisitionInfo> {
+    getAcquisitionInfo(name: string): Promise<DomainAcquisitionInfo> {
         return this.dataProvider.getAcquisitionInfo(name);
     }
 
-    async getBidderBalance(tld: string, address: string): Promise<number> {
+    getBidderBalance(tld: string, address: string): Promise<number> {
         return this.dataProvider.getBidderBalance(tld, address);
     }
 
