@@ -21,7 +21,7 @@ export function stripTld(name: string): string {
     return tokens.slice(0, tokens.length - 1).join('.');
 }
 
-/** Get the domain name without the tld. (i.e. `bob.alice` if domain name is `bob.alice.tez`) */
+/** Get the domain level (i.e. 3, if domain name is `bob.alice.tez`) */
 export function getLevel(name: string): number {
     const tokens = tokenizeDomainName(name);
     return tokens.length;
