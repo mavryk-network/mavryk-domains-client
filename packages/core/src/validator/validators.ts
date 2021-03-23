@@ -19,17 +19,15 @@ export const LatinDomainNameValidator: DomainNameValidatorFn = (name: string) =>
         return DomainNameValidationResult.TOO_SHORT;
     }
 
-    const regex = new RegExp(`^([a-z0-9-]+\\.?)*$`);
-
-    if (!regex.test(name)) {
-        return DomainNameValidationResult.UNSUPPORTED_CHARACTERS;
-    }
-
     const parts = tokenizeDomainName(name);
 
     for (const part of parts) {
         if (part.length > 100) {
             return DomainNameValidationResult.TOO_LONG;
+        }
+
+        if (!/^[a-z0-9-]+$/.test(part)) {
+            return DomainNameValidationResult.UNSUPPORTED_CHARACTERS;
         }
     }
 

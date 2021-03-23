@@ -41,6 +41,7 @@ describe('TezosDomainsValidator', () => {
             expect(validator.validateDomainName('a$a.tez')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
             expect(validator.validateDomainName('a_a.tez')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
             expect(validator.validateDomainName('$$.tez')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
+            expect(validator.validateDomainName('abcdefghij1234567890abcdefghij1234567890abcdefghij1234567890abcdefghij1234567890abcdefghij123456789!.tez')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
         });
 
         it('should return INVALID_LENGTH label is too long', () => {
