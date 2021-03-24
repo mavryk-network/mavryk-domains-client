@@ -5,6 +5,7 @@ module.exports = {
         '^@tezos-domains/core$': '<rootDir>/../core/public_api.ts',
         '^@tezos-domains/manager$': '<rootDir>/../manager/public_api.ts',
         '^@tezos-domains/resolver$': '<rootDir>/../resolver/public_api.ts',
+        '^@tezos-domains/taquito$': '<rootDir>/../taquito/public_api.ts',
         '^@tezos-domains/taquito-client$': '<rootDir>/public_api.ts',
     },
     globals: {
