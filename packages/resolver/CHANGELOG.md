@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.43](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.42...v1.0.0-beta.43) (2021-03-29)
+
+
+### Features
+
+* use local pack for commitment generation (requires taquito 8.1.0) ([0488f67](https://gitlab.com/tezos-domains/client/commit/0488f671c096ebeb1474ff3129888c7443be3820))
+
+
+
+
+
+
 # [1.0.0-beta.42](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.41...v1.0.0-beta.42) (2021-03-05)
 
 **Note:** Version bump only for package @tezos-domains/resolver

@@ -2737,6 +2737,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@tezos-domains/taquito", "virtual:0df0a5fea2f43012685e246f7a1481d916a0ca4f82b3be0a2db593ef743f1fc5039bc06b4313d232ba761616702c0ba4692e4263ef3dca1447f6f8fee5b6db75#workspace:packages/taquito"],
             ["@types/node", "npm:14.14.6"],
             ["@types/sha.js", "npm:2.4.0"],
+            ["@types/taquito__michel-codec", null],
             ["@types/taquito__michelson-encoder", null],
             ["@types/taquito__rpc", null],
             ["@types/taquito__taquito", null],
@@ -2758,6 +2759,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packagePeers": [
             "@taquito/michelson-encoder",
             "@taquito/taquito",
+            "@types/taquito__michel-codec",
             "@types/taquito__michelson-encoder",
             "@types/taquito__rpc",
             "@types/taquito__taquito"
