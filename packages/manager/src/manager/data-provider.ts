@@ -34,7 +34,7 @@ export class TaquitoManagerDataProvider {
         this.tracer.trace('=> Getting existing commitment.', tld, request);
 
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld);
-        const commitmentHash = await this.commitmentGenerator.generate(request);
+        const commitmentHash = this.commitmentGenerator.generate(request);
         const constants = await this.tezos.getConstants();
         const timeBetweenBlocks = constants.time_between_blocks[0].toNumber() * 1000;
 

@@ -1,6 +1,6 @@
 import { RpcRequestData, Exact, hexToArray } from '@tezos-domains/core';
-import { TezosToolkit } from '@taquito/taquito';
 import { Schema } from '@taquito/michelson-encoder';
+import { MichelsonType, packDataBytes } from '@taquito/michel-codec';
 import { sha512 } from 'sha.js';
 
 import { CommitmentRequest } from './model';
@@ -31,14 +31,12 @@ const commitmentSchemaExpression = {
 export class CommitmentGenerator {
     private commitmentSchema = new Schema(commitmentSchemaExpression);
 
-    constructor(private tezos: TezosToolkit) {}
-
-    async generate(parameters: Exact<CommitmentRequest>): Promise<string> {
+    generate(parameters: Exact<CommitmentRequest>): string {
         const encodedRequest = RpcRequestData.fromObject(CommitmentRequest, parameters).encode();
         const data = this.commitmentSchema.Encode(encodedRequest);
 
-        const packed = await this.tezos.rpc.packData({ data, type: commitmentSchemaExpression });
+        const packed = packDataBytes(data, commitmentSchemaExpression as MichelsonType).bytes;
 
-        return new sha512().update(hexToArray(packed.packed)).digest('hex');
+        return new sha512().update(hexToArray(packed)).digest('hex');
     }
 }

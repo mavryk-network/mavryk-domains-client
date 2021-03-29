@@ -86,7 +86,7 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
         this.tracer.trace(`=> Preparing operation ${entrypoint}.`, request);
 
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
-        const commitmentHash = await this.commitmentGenerator.generate(request);
+        const commitmentHash = this.commitmentGenerator.generate(request);
         const params = await this.tezos.params(address, entrypoint, [commitmentHash]);
 
         this.tracer.trace('<= Prepared.', params);

@@ -133,7 +133,7 @@ describe('TaquitoManagerDataProvider', () => {
         it('should get existing commitment from storage and return info', async () => {
             const params: Exact<CommitmentRequest> = { label: 'necroskillz', owner: 'tz1xxx', nonce: 1 };
 
-            when(commitmentGeneratorMock.generate(deepEqual(params))).thenResolve('commitment');
+            when(commitmentGeneratorMock.generate(deepEqual(params))).thenReturn('commitment');
 
             const commitment = await dataProvider.getCommitment('tez', params);
 
@@ -145,7 +145,7 @@ describe('TaquitoManagerDataProvider', () => {
         it('should return null if no commitment is found', async () => {
             const params: Exact<CommitmentRequest> = { label: 'necroskillz', owner: 'tz1xxx', nonce: 1 };
 
-            when(commitmentGeneratorMock.generate(deepEqual(params))).thenResolve('commitment1');
+            when(commitmentGeneratorMock.generate(deepEqual(params))).thenReturn('commitment1');
 
             const commitment = await dataProvider.getCommitment('tez', params);
 
@@ -156,7 +156,7 @@ describe('TaquitoManagerDataProvider', () => {
             constants.time_between_blocks = [new BigNumber('90')];
             const params: Exact<CommitmentRequest> = { label: 'necroskillz', owner: 'tz1xxx', nonce: 1 };
 
-            when(commitmentGeneratorMock.generate(deepEqual(params))).thenResolve('commitment');
+            when(commitmentGeneratorMock.generate(deepEqual(params))).thenReturn('commitment');
 
             const commitment = await dataProvider.getCommitment('tez', params);
 
@@ -225,7 +225,6 @@ describe('TaquitoManagerDataProvider', () => {
             const info = await dataProvider.getAcquisitionInfo('alice.tez');
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeAuctioned);
-            console.log(info.auctionDetails.auctionEnd.toISOString());
             expect(info.auctionDetails.auctionEnd.toISOString()).toBe(
                 new Date(new Date(2020, 6, 31, 0, 0, 0).getTime() - new Date(2020, 6, 31).getTimezoneOffset() * 60000).toISOString()
             );
@@ -245,7 +244,6 @@ describe('TaquitoManagerDataProvider', () => {
             const info = await dataProvider.getAcquisitionInfo('necroskillz.tez');
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeAuctioned);
-            console.log(info.auctionDetails.auctionEnd.toISOString());
             expect(info.auctionDetails.auctionEnd.toISOString()).toBe(new Date(new Date(2021, 0, 31, 0, 0, 0).getTime()).toISOString());
             expect(info.auctionDetails.lastBid).toBe(0);
             expect(info.auctionDetails.lastBidder).toBeNull();

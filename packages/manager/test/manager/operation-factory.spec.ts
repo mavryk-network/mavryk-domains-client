@@ -152,7 +152,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
         it('should call smart contract', async () => {
             const request: Exact<CommitmentRequest> = { label: 'necroskillz', owner: 'tz1xxx', nonce: 1 };
 
-            when(commitmentGeneratorMock.generate(deepEqual(request))).thenResolve('commitment');
+            when(commitmentGeneratorMock.generate(deepEqual(request))).thenReturn('commitment');
 
             const p = await operationFactory.commit('tez', request);
 

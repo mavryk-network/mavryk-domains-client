@@ -86,7 +86,7 @@ describe('TaquitoTezosDomainsClient', () => {
             expect(TaquitoTezosDomainsProxyContractAddressResolver).toHaveBeenCalledWith(instance(taquitoClientMock));
             expect(AddressBook).toHaveBeenCalledWith(instance(proxyContractAddressResolver), config);
             expect(TaquitoTezosDomainsResolverDataProvider).toHaveBeenCalledWith(instance(taquitoClientMock), instance(addressBookMock), instance(tracerMock));
-            expect(CommitmentGenerator).toHaveBeenCalledWith(instance(tezosToolkitMock));
+            expect(CommitmentGenerator).toHaveBeenCalled();
             expect(TaquitoManagerDataProvider).toHaveBeenCalledWith(
                 instance(taquitoClientMock),
                 instance(addressBookMock),

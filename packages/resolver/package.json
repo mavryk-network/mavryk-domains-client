@@ -24,7 +24,7 @@
     "url": "https://gitlab.com/tezos-domains/client/issues"
   },
   "dependencies": {
-    "@tezos-domains/core": "^1.0.0-beta.42",
+    "@tezos-domains/core": "1.0.0-beta.42",
     "node-cache": "^5.1.2"
   },
   "devDependencies": {

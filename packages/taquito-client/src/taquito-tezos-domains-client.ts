@@ -63,7 +63,7 @@ export class TaquitoTezosDomainsClient {
         const proxyContractAddressResolver = new TaquitoTezosDomainsProxyContractAddressResolver(tezos);
         const addressBook = new AddressBook(proxyContractAddressResolver, config);
         const dataProvider = new TaquitoTezosDomainsResolverDataProvider(tezos, addressBook, tracer);
-        const commitmentGenerator = new CommitmentGenerator(config.tezos);
+        const commitmentGenerator = new CommitmentGenerator();
         const managerDataProvider = new TaquitoManagerDataProvider(tezos, addressBook, tracer, commitmentGenerator, this.validator);
         const operationFactory = new TaquitoTezosDomainsOperationFactory(tezos, addressBook, tracer, commitmentGenerator, managerDataProvider, this.validator);
 
