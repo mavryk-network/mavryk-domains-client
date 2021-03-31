@@ -74,8 +74,12 @@ export class TaquitoClient {
     }
 
     async batch(transactionParams: WalletTransferParams[]): Promise<WalletOperation> {
+        this.tracer.trace(`=> Sending batch with ${transactionParams.length} transactions.`, transactionParams);
+
         const batch = this.tezos.wallet.batch(transactionParams.map(p => ({ kind: OpKind.TRANSACTION, ...p })));
         const operation = await batch.send();
+
+        this.tracer.trace('<= Batch sent.', operation.opHash);
 
         return operation;
     }

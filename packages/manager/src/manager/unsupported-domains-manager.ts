@@ -1,62 +1,63 @@
 import { TransactionWalletOperation, WalletOperation } from '@taquito/taquito';
+import { NotSupportedError } from '@tezos-domains/core';
 
 import { DomainsManager } from '../manager';
 import { CommitmentInfo, DomainAcquisitionInfo } from './model';
 
 export class UnsupportedDomainsManager implements DomainsManager {
     setChildRecord(): Promise<TransactionWalletOperation> {
-        throw new Error('Method not supported.');
+        throw new NotSupportedError();
     }
 
     updateRecord(): Promise<TransactionWalletOperation> {
-        throw new Error('Method not supported.');
+        throw new NotSupportedError();
     }
 
     commit(): Promise<TransactionWalletOperation> {
-        throw new Error('Method not supported.');
+        throw new NotSupportedError();
     }
 
     buy(): Promise<TransactionWalletOperation> {
-        throw new Error('Method not supported.');
+        throw new NotSupportedError();
     }
 
     renew(): Promise<TransactionWalletOperation> {
-        throw new Error('Method not supported.');
+        throw new NotSupportedError();
     }
 
     claimReverseRecord(): Promise<TransactionWalletOperation> {
-        throw new Error('Method not supported.');
+        throw new NotSupportedError();
     }
 
     updateReverseRecord(): Promise<TransactionWalletOperation> {
-        throw new Error('Method not supported.');
+        throw new NotSupportedError();
     }
 
     getCommitment(): Promise<CommitmentInfo> {
-        throw new Error('Method not supported.');
+        throw new NotSupportedError();
     }
 
     getAcquisitionInfo(): Promise<DomainAcquisitionInfo> {
-        throw new Error('Method not supported.');
+        throw new NotSupportedError();
     }
 
     getBidderBalance(): Promise<number> {
-        throw new Error('Method not supported.');
+        throw new NotSupportedError();
     }
 
     bid(): Promise<TransactionWalletOperation> {
-        throw new Error('Method not supported.');
+        throw new NotSupportedError();
     }
 
     settle(): Promise<TransactionWalletOperation> {
-        throw new Error('Method not supported.');
+        throw new NotSupportedError();
     }
 
     withdraw(): Promise<TransactionWalletOperation> {
-        throw new Error('Method not supported.');
+        throw new NotSupportedError();
     }
 
     batch(): Promise<WalletOperation> {
-        throw new Error('Method not supported.');
+        throw new NotSupportedError();
     }
 }

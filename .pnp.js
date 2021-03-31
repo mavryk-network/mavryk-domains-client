@@ -88,6 +88,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["cz-conventional-changelog", "npm:3.3.0"],
             ["eslint", "npm:7.12.1"],
             ["eslint-plugin-jest", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:24.1.0"],
+            ["eslint-plugin-sonarjs", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:0.6.0"],
             ["fs-extra", "npm:9.0.1"],
             ["glob", "npm:7.1.6"],
             ["husky", "npm:4.3.0"],
@@ -6567,6 +6568,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-jest", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:24.1.0"],
             ["@types/eslint", null],
             ["@typescript-eslint/experimental-utils", "virtual:0b13db5f9fb0a3bf1153e626147e8963a24099f504a4cdcb38405b24fd9c749964ae21317c3ee7892672fee4d65e3fd31701cbb09702e8996ac1eb2e37232735#npm:4.6.0"],
+            ["eslint", "npm:7.12.1"]
+          ],
+          "packagePeers": [
+            "@types/eslint",
+            "eslint"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["eslint-plugin-sonarjs", [
+        ["npm:0.6.0", {
+          "packageLocation": "./.yarn/cache/eslint-plugin-sonarjs-npm-0.6.0-e9efedd00d-cbc964d663.zip/node_modules/eslint-plugin-sonarjs/",
+          "packageDependencies": [
+            ["eslint-plugin-sonarjs", "npm:0.6.0"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:0.6.0", {
+          "packageLocation": "./.yarn/$$virtual/eslint-plugin-sonarjs-virtual-bc84df4a8b/0/cache/eslint-plugin-sonarjs-npm-0.6.0-e9efedd00d-cbc964d663.zip/node_modules/eslint-plugin-sonarjs/",
+          "packageDependencies": [
+            ["eslint-plugin-sonarjs", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:0.6.0"],
+            ["@types/eslint", null],
             ["eslint", "npm:7.12.1"]
           ],
           "packagePeers": [
@@ -13521,6 +13544,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["cz-conventional-changelog", "npm:3.3.0"],
             ["eslint", "npm:7.12.1"],
             ["eslint-plugin-jest", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:24.1.0"],
+            ["eslint-plugin-sonarjs", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:0.6.0"],
             ["fs-extra", "npm:9.0.1"],
             ["glob", "npm:7.1.6"],
             ["husky", "npm:4.3.0"],

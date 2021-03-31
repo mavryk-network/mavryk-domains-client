@@ -4,6 +4,9 @@ const commonRules = {
     '@typescript-eslint/no-unsafe-member-access': 'off',
     '@typescript-eslint/no-unsafe-assignment': 'off',
     '@typescript-eslint/no-unsafe-return': 'off',
+    'sonarjs/no-duplicate-string': 'off',
+    'sonarjs/cognitive-complexity': 'off',
+    'sonarjs/no-element-overwrite': 'off',
     '@typescript-eslint/explicit-module-boundary-types': [
         2,
         {
@@ -22,8 +25,8 @@ module.exports = {
         project: ['./packages/**/tsconfig.eslint.json', './integration-tests/tsconfig.eslint.json'],
         sourceType: 'module',
     },
-    plugins: ['@typescript-eslint', 'jest'],
-    extends: ['plugin:@typescript-eslint/recommended', 'plugin:@typescript-eslint/recommended-requiring-type-checking'],
+    plugins: ['@typescript-eslint', 'jest', 'sonarjs'],
+    extends: ['plugin:@typescript-eslint/recommended', 'plugin:@typescript-eslint/recommended-requiring-type-checking', 'plugin:sonarjs/recommended'],
     rules: {
         ...commonRules
     },

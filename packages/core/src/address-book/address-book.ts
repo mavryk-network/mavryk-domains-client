@@ -7,10 +7,8 @@ export class AddressBook {
 
     constructor(private proxyContractAddressResolver: TezosDomainsProxyContractAddressResolver, config?: TezosDomainsConfig) {
         const network = config?.network || 'mainnet';
-        if (network === 'custom') {
-            if (!config?.contractAddresses) {
-                throw new Error(`When network type is 'custom', it is required to specify 'contractAddresses'.`);
-            }
+        if (network === 'custom' && !config?.contractAddresses) {
+            throw new Error(`When network type is 'custom', it is required to specify 'contractAddresses'.`);
         }
 
         if (config?.contractAddresses) {

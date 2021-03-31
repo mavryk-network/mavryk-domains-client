@@ -5495,6 +5495,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-plugin-sonarjs@npm:^0.6.0":
+  version: 0.6.0
+  resolution: "eslint-plugin-sonarjs@npm:0.6.0"
+  peerDependencies:
+    eslint: ^5.0.0 || ^6.0.0 || ^7.0.0
+  checksum: cbc964d66328aadf352bfd75eed163e6729f891d6c7d16d971161f4e90e03541f66338ea801f7c1bbb20f11b58ddf2aac7ab877a97b02102f1511f50a5a13e38
+  languageName: node
+  linkType: hard
+
 "eslint-scope@npm:^5.0.0":
   version: 5.1.0
   resolution: "eslint-scope@npm:5.1.0"
@@ -11930,6 +11939,7 @@ resolve@^1.18.1:
     cz-conventional-changelog: ^3.3.0
     eslint: ^7.12.1
     eslint-plugin-jest: ^24.1.0
+    eslint-plugin-sonarjs: ^0.6.0
     fs-extra: ^9.0.1
     glob: ^7.1.6
     husky: ^4.3.0

@@ -65,3 +65,9 @@ export enum TLDConfigProperty {
     BID_ADDITIONAL_PERIOD = '6',
     DEFAULT_LAUNCH_DATE = '1000',
 }
+
+export class NotSupportedError extends Error {
+    constructor() {
+        super('Method not supported.');
+    }
+}

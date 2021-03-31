@@ -11,10 +11,8 @@ export class TezosDomainsValidator implements DomainNameValidator {
 
     constructor(config?: TezosDomainsConfig) {
         const network = config?.network || 'mainnet';
-        if (network === 'custom') {
-            if (!config?.tlds) {
-                throw new Error(`When network type is 'custom', it is required to specify 'tlds'.`);
-            }
+        if (network === 'custom' && !config?.tlds) {
+            throw new Error(`When network type is 'custom', it is required to specify 'tlds'.`);
         }
 
         let tlds: TLDConfig[] | null;

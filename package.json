@@ -64,5 +64,8 @@
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
+  },
+  "dependencies": {
+    "eslint-plugin-sonarjs": "^0.6.0"
   }
 }

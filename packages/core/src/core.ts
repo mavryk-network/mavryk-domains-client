@@ -16,7 +16,8 @@ export {
     CachingConfig,
     DomainInfo,
     ReverseRecordDomainInfo,
-    TLDConfigProperty
+    TLDConfigProperty,
+    NotSupportedError
 } from './model';
 export { AddressBook } from './address-book/address-book';
 export { RpcRequest, RpcResponse, encoder } from './rpc-data/decorators';
