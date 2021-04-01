@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.44](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.43...v1.0.0-beta.44) (2021-04-01)
+
+
+### Features
+
+* add florence support ([78b9f37](https://gitlab.com/tezos-domains/client/commit/78b9f375efee07d92f53ca115d5f0e1fdbc7187a))
+
+
+
+
+
+
 # [1.0.0-beta.43](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.42...v1.0.0-beta.43) (2021-03-29)
 
 
