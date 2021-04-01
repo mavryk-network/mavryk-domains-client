@@ -131,6 +131,15 @@ test:integration:edonet:
     tags:
         - docker
 
+test:integration:florencenet:
+    stage: test
+    image: node:${NODE_VERSION}
+    allow_failure: false
+    script:
+        - TD_NETWORK=florencenet TD_RPC_URL=${RPC_URL_FLORENCENET} yarn workspace integration-tests integration-test
+    tags:
+        - docker
+
 deploy_typedoc:
     stage: deploy
     image: microsoft/azure-cli

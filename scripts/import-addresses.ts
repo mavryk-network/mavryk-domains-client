@@ -23,7 +23,7 @@ async function run() {
     Object.keys(json).forEach(key => {
         const pk = key.match(/(\w+)\.(\w+):?(\w+)?/);
         if (!pk) {
-            throw new Error();
+            return;
         }
 
         const contract = camelCase(pk[1]);

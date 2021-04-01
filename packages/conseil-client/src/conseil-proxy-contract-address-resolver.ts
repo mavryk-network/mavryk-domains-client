@@ -13,7 +13,8 @@ export class ConseilTezosDomainsProxyContractAddressResolver implements TezosDom
             throw new Error(`Cannot resolve address from proxy contract ${proxyContractAddress}, because it doesn't exist.`);
         }
 
-        const address = JSONPath({ path: '$.args[0].string', json: storage })[0];
+        // TODO: remove edo fallback
+        const address = JSONPath({ path: '$.args[0].args[0].string', json: storage })[0] || JSONPath({ path: '$.args[0].string', json: storage })[0];
 
         if (!address) {
             throw new Error(

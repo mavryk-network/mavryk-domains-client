@@ -12,7 +12,22 @@ describe('ConseilTezosDomainsProxyContractAddressResolver', () => {
 
         when(conseilClientMock.storage('KT1proxy')).thenResolve({
             prim: 'Pair',
-            args: [{ string: 'KT1act' }, { string: 'tz1OWN' }],
+            args: [
+                {
+                    prim: 'Pair',
+                    args: [
+                        {
+                            string: 'KT1act',
+                        },
+                        {
+                            int: '7687',
+                        },
+                    ],
+                },
+                {
+                    string: 'KT1Own',
+                },
+            ],
         });
         when(conseilClientMock.storage('KT1inv')).thenResolve({
             prim: 'Pair',
