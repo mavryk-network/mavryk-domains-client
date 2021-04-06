@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-rc.0](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.44...v1.0.0-rc.0) (2021-04-06)
+
+
+### Features
+
+* add mainnet contracts ([164d1ef](https://gitlab.com/tezos-domains/client/commit/164d1eff117e746bd8515d17b465f74635b4e3a0))
+
+
+
+
+
 # [1.0.0-beta.44](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.43...v1.0.0-beta.44) (2021-04-01)
 
 

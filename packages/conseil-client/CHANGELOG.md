@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-rc.0](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.44...v1.0.0-rc.0) (2021-04-06)
+
+**Note:** Version bump only for package @tezos-domains/conseil-client
+
+
+
+
+
 # [1.0.0-beta.44](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.43...v1.0.0-beta.44) (2021-04-01)
 
 
