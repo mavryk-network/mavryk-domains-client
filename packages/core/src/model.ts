@@ -20,7 +20,7 @@ export type TLDConfig = {
 };
 
 export type CustomNetworkConfig = { network?: 'custom'; contractAddresses: ContractConfig; tlds: TLDConfig[] } & CommonConfig;
-export type DefaultNetworkConfig = { network?: 'mainnet' | SupportedNetworkType; contractAddresses?: ContractConfig; tlds?: TLDConfig[] } & CommonConfig;
+export type DefaultNetworkConfig = { network?: SupportedNetworkType; contractAddresses?: ContractConfig; tlds?: TLDConfig[] } & CommonConfig;
 
 export type TezosDomainsConfig = DefaultNetworkConfig | CustomNetworkConfig;
 

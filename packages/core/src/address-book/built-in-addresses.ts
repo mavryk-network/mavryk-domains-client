@@ -1,42 +1,42 @@
 export const BuiltInAddresses = {
     mainnet: {
-        nameRegistry: {
-            address: 'TODO',
-            resolveProxyContract: true,
-        },
         'nameRegistry:set_child_record': {
-            address: 'TODO',
+            address: 'KT1QHLk1EMUA8BPH3FvRUeUmbTspmAhb7kpd',
         },
         'nameRegistry:update_record': {
-            address: 'TODO',
+            address: 'KT1H1MqmUM4aK9i1833EBmYCCEfkbt6ZdSBc',
         },
         'nameRegistry:claim_reverse_record': {
-            address: 'TODO',
+            address: 'KT1TnTr6b2YxSx2xUQ8Vz3MoWy771ta66yGx',
         },
         'nameRegistry:update_reverse_record': {
-            address: 'TODO',
+            address: 'KT1J9VpjiH5cmcsskNb8gEXpBtjD4zrAx4Vo',
         },
-        'tldRegistrar:tez': {
-            address: 'TODO',
+        nameRegistry: {
+            address: 'KT1F7JKNqwaoLzRsMio1MQC7zv3jG9dHcDdJ',
             resolveProxyContract: true,
         },
         'tldRegistrar:tez:commit': {
-            address: 'TODO',
+            address: 'KT1P8n2qzJjwMPbHJfi4o8xu6Pe3gaU3u2A3',
+        },
+        'tldRegistrar:tez': {
+            address: 'KT1P8n2qzJjwMPbHJfi4o8xu6Pe3gaU3u2A3',
+            resolveProxyContract: true,
         },
         'tldRegistrar:tez:buy': {
-            address: 'TODO',
+            address: 'KT191reDVKrLxU9rjTSxg53wRqj6zh8pnHgr',
         },
         'tldRegistrar:tez:renew': {
-            address: 'TODO',
+            address: 'KT1EVYBj3f1rZHNeUtq4ZvVxPTs77wuHwARU',
         },
         'tldRegistrar:tez:bid': {
-            address: 'TODO',
-        },
-        'tldRegistrar:tez:settle': {
-            address: 'TODO',
+            address: 'KT1CaSP4dn8wasbMsfdtGiCPgYFW7bvnPRRT',
         },
         'tldRegistrar:tez:withdraw': {
-            address: 'TODO',
+            address: 'KT1CfuAbJQbAGYcjKfvEvbtNUx45LY5hfTVR',
+        },
+        'tldRegistrar:tez:settle': {
+            address: 'KT1MeFfi4TzSCc8CF9j3qq5mecTPdc6YVUPp',
         },
     },
     edonet: {

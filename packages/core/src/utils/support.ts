@@ -1,9 +1,8 @@
 import { BuiltInAddresses } from '../address-book/built-in-addresses';
 
-export type SupportedNetworkType = 'edonet' | 'florencenet';
+export type SupportedNetworkType = 'mainnet' | 'edonet' | 'florencenet';
 
-// TODO: dont filter mainnet when the contracts are deployed
-const SUPPORTED_NETWORKS = Object.keys(BuiltInAddresses).filter(n => n !== 'mainnet' && n !== 'custom');
+const SUPPORTED_NETWORKS = Object.keys(BuiltInAddresses).filter(n => n !== 'custom');
 
 /**
  * Can be used for feature toggles.
