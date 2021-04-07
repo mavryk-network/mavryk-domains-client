@@ -79,19 +79,6 @@ export class TaquitoManagerDataProvider {
         const now = new Date();
         const config = new RpcResponseData(tldStorage.store.config).scalar(MapEncoder)!;
         const label = getLabel(name);
-        let launchDate: Date | null = null;
-        let launchTimestamp = config.get<BigNumber>((parseInt(TLDConfigProperty.DEFAULT_LAUNCH_DATE) + label.length).toString())?.toNumber();
-
-        if (launchTimestamp == null) {
-            launchTimestamp = config.get<BigNumber>(TLDConfigProperty.DEFAULT_LAUNCH_DATE)!.toNumber();
-        }
-
-        if (!launchTimestamp) {
-            return createUnobtainableInfo();
-        }
-
-        launchDate = new Date(launchTimestamp * 1000);
-
         const tldRecordResponse = await this.tezos.getBigMapValue<TLDRegistrarStorage>(
             address,
             s => s.store.records,
@@ -104,6 +91,19 @@ export class TaquitoManagerDataProvider {
         if (tldRecord && tldRecord.expiry > now) {
             return createBuyOrRenewInfo(DomainAcquisitionState.Taken);
         }
+
+        let launchDate: Date | null = null;
+        let launchTimestamp = config.get<BigNumber>((parseInt(TLDConfigProperty.DEFAULT_LAUNCH_DATE) + label.length).toString())?.toNumber();
+
+        if (launchTimestamp == null) {
+            launchTimestamp = config.get<BigNumber>(TLDConfigProperty.DEFAULT_LAUNCH_DATE)!.toNumber();
+        }
+
+        if (!launchTimestamp) {
+            return createUnobtainableInfo();
+        }
+
+        launchDate = new Date(launchTimestamp * 1000);
 
         const auctionStateResponse = await this.tezos.getBigMapValue<TLDRegistrarStorage>(
             address,

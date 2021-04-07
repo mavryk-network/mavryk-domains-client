@@ -40,20 +40,9 @@ describe('TaquitoManagerDataProvider', () => {
     let commitmentGeneratorMock: CommitmentGenerator;
     let validatorMock: DomainNameValidator;
     let operation: TransactionWalletOperation;
+    let config: MichelsonMap<string, any>;
 
     const now = new Date(2020, 8, 11, 20, 0, 0);
-    const config = new MichelsonMap<string, any>();
-    config.set(TLDConfigProperty.MIN_BID_PER_DAY, new BigNumber(1e12));
-    config.set(TLDConfigProperty.MIN_COMMITMENT_AGE, new BigNumber(60));
-    config.set(TLDConfigProperty.MAX_COMMITMENT_AGE, new BigNumber(60 * 60));
-    config.set(TLDConfigProperty.MIN_DURATION, new BigNumber(5));
-    config.set(TLDConfigProperty.MIN_BID_INCREASE_RATIO, new BigNumber(20));
-    config.set(TLDConfigProperty.MIN_AUCTION_PERIOD, new BigNumber(30 * 24 * 60 * 60));
-    config.set(TLDConfigProperty.BID_ADDITIONAL_PERIOD, new BigNumber(24 * 60 * 60));
-    config.set(TLDConfigProperty.DEFAULT_LAUNCH_DATE, new BigNumber(1593561600));
-    config.set('1001', new BigNumber(1596240000));
-    config.set('1002', new BigNumber(1593043200));
-    config.set('1003', new BigNumber(0));
 
     let storage: FakeTLDRegistrarStorage;
     let constants: ConstantsResponse;
@@ -65,6 +54,19 @@ describe('TaquitoManagerDataProvider', () => {
         commitmentGeneratorMock = mock(CommitmentGenerator);
         validatorMock = mock<DomainNameValidator>();
         operation = mock(TransactionWalletOperation);
+
+        config = new MichelsonMap<string, any>();
+        config.set(TLDConfigProperty.MIN_BID_PER_DAY, new BigNumber(1e12));
+        config.set(TLDConfigProperty.MIN_COMMITMENT_AGE, new BigNumber(60));
+        config.set(TLDConfigProperty.MAX_COMMITMENT_AGE, new BigNumber(60 * 60));
+        config.set(TLDConfigProperty.MIN_DURATION, new BigNumber(5));
+        config.set(TLDConfigProperty.MIN_BID_INCREASE_RATIO, new BigNumber(20));
+        config.set(TLDConfigProperty.MIN_AUCTION_PERIOD, new BigNumber(30 * 24 * 60 * 60));
+        config.set(TLDConfigProperty.BID_ADDITIONAL_PERIOD, new BigNumber(24 * 60 * 60));
+        config.set(TLDConfigProperty.DEFAULT_LAUNCH_DATE, new BigNumber(1593561600));
+        config.set('1001', new BigNumber(1596240000));
+        config.set('1002', new BigNumber(1593043200));
+        config.set('1003', new BigNumber(0));
 
         constants = { time_between_blocks: [new BigNumber('30')] } as any;
 
@@ -217,6 +219,19 @@ describe('TaquitoManagerDataProvider', () => {
             expect(() => info.auctionDetails).toThrowError();
             expect(() => info.buyOrRenewDetails).toThrowError();
             expect(() => info.calculatePrice(365)).toThrowError();
+        });
+
+        it('should return info about domain even if tld is not launched yet', async () => {
+            config.set(TLDConfigProperty.DEFAULT_LAUNCH_DATE, 0);
+
+            const info = await dataProvider.getAcquisitionInfo('necroskillz.tez');
+
+            expect(info.acquisitionState).toBe(DomainAcquisitionState.Taken);
+            expect(info.buyOrRenewDetails.minDuration).toBe(5);
+            expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(5e6);
+            expect(info.calculatePrice(365)).toBe(365e6);
+            expect(() => info.auctionDetails).toThrowError();
+            expect(() => info.unobtainableDetails).toThrowError();
         });
 
         it('should return info about auction if within auction period', async () => {
