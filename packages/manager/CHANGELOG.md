@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-rc.1](https://gitlab.com/tezos-domains/client/compare/v1.0.0-rc.0...v1.0.0-rc.1) (2021-04-07)
+
+
+### Bug Fixes
+
+* return Taken status from getAcquisitionInfo for existing domains even if TLD is not launched yet ([63f7d5d](https://gitlab.com/tezos-domains/client/commit/63f7d5d24e2a0924f07e79703e649c961a341a74))
+
+
+
+
+
 # [1.0.0-rc.0](https://gitlab.com/tezos-domains/client/compare/v1.0.0-beta.44...v1.0.0-rc.0) (2021-04-06)
 
 **Note:** Version bump only for package @tezos-domains/manager
