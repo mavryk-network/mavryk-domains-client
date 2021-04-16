@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-rc.2](https://gitlab.com/tezos-domains/client/compare/v1.0.0-rc.1...v1.0.0-rc.2) (2021-04-16)
+
+
+### Features
+
+* **manager:** extract acquisition info calculation, add getTldConfiguration ([a4a0bb6](https://gitlab.com/tezos-domains/client/commit/a4a0bb6746a61d3e3163fe2b3699503aaf01ac45))
+
+
+
+
+
 # [1.0.0-rc.1](https://gitlab.com/tezos-domains/client/compare/v1.0.0-rc.0...v1.0.0-rc.1) (2021-04-07)
 
 
