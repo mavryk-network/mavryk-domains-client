@@ -13,11 +13,12 @@ import {
     UpdateReverseRecordRequest,
     BidRequest,
     SettleRequest,
-    DomainAcquisitionInfo,
+    TLDConfiguration,
 } from './model';
 import { DomainsManager } from './domains-manager';
 import { TezosDomainsOperationFactory } from './operation-factory';
 import { TaquitoManagerDataProvider } from './data-provider';
+import { DomainAcquisitionInfo } from './acquisition-info';
 
 export class BlockchainDomainsManager implements DomainsManager {
     constructor(
@@ -114,6 +115,10 @@ export class BlockchainDomainsManager implements DomainsManager {
 
     getBidderBalance(tld: string, address: string): Promise<number> {
         return this.dataProvider.getBidderBalance(tld, address);
+    }
+
+    getTldConfiguration(tld: string): Promise<TLDConfiguration> {
+        return this.dataProvider.getTldConfiguration(tld);
     }
 
     async bid(tld: string, request: Exact<BidRequest>): Promise<TransactionWalletOperation> {

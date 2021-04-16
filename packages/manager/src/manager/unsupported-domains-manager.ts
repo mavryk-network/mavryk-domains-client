@@ -1,8 +1,8 @@
 import { TransactionWalletOperation, WalletOperation } from '@taquito/taquito';
 import { NotSupportedError } from '@tezos-domains/core';
 
-import { DomainsManager } from '../manager';
-import { CommitmentInfo, DomainAcquisitionInfo } from './model';
+import { DomainAcquisitionInfo, DomainsManager } from '../manager';
+import { CommitmentInfo, TLDConfiguration } from './model';
 
 export class UnsupportedDomainsManager implements DomainsManager {
     setChildRecord(): Promise<TransactionWalletOperation> {
@@ -42,6 +42,10 @@ export class UnsupportedDomainsManager implements DomainsManager {
     }
 
     getBidderBalance(): Promise<number> {
+        throw new NotSupportedError();
+    }
+
+    getTldConfiguration(): Promise<TLDConfiguration> {
         throw new NotSupportedError();
     }
 

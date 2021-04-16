@@ -1,5 +1,6 @@
 import { RpcRequest, encoder, RpcResponse, DateEncoder, RecordMetadata, NormalizeBytesEncoder } from '@tezos-domains/core';
 import { MapEncoder, BigNumberEncoder } from '@tezos-domains/taquito';
+import BigNumber from 'bignumber.js';
 
 @RpcRequest()
 export class SetChildRecordRequest {
@@ -114,111 +115,6 @@ export class AuctionState {
     @encoder(BigNumberEncoder) ownership_period!: number;
 }
 
-export enum DomainAcquisitionState {
-    Unobtainable = 'Unobtainable',
-    Taken = 'Taken',
-    CanBeBought = 'CanBeBought',
-    CanBeAuctioned = 'CanBeAuctioned',
-    AuctionInProgress = 'AuctionInProgress',
-    CanBeSettled = 'CanBeSettled',
-}
-
-export interface DomainAcquisitionAuctionInfo {
-    /** The amount of the last bid in mutez. */
-    lastBid: number;
-    /** The address of the sender of the last bid. */
-    lastBidder: string | null;
-    /** The minimum amount to outbid the current bid in mutez. (Value is `NaN` when auction is ended and waiting to be settled) */
-    nextMinimumBid: number;
-    /** The date at which the auction will end. This may change when bids are added towards the end of an auction. */
-    auctionEnd: Date;
-    /** The number of days that the domain will be registered for after an auction is settled. */
-    registrationDuration: number;
-    /** When a bid is made on an auction that will end in less milliseconds that this value, the end of auction is moved to this value of milliseconds from now. */
-    bidAdditionalPeriod: number;
-}
-
-export interface DomainAcquisitionBuyOrRenewInfo {
-    /** The price to buy or renew the domain for the minimum period [[`minDuration`]]. */
-    pricePerMinDuration: number;
-    /** The minimum duration in days for which it is possible to register or renew a domain. */
-    minDuration: number;
-}
-
-export interface DomainAcquisitionUnobtainableInfo {
-    /** The date since when it is possible to auction and buys this domain from the TLD registrar. */
-    launchDate: Date | null;
-}
-
-export class DomainAcquisitionInfo {
-    get acquisitionState(): DomainAcquisitionState {
-        return this._state;
-    }
-
-    get auctionDetails(): DomainAcquisitionAuctionInfo {
-        this.assertState(
-            'auctionDetails',
-            DomainAcquisitionState.CanBeAuctioned,
-            DomainAcquisitionState.AuctionInProgress,
-            DomainAcquisitionState.CanBeSettled
-        );
-
-        return this._auctionInfo!;
-    }
-
-    get buyOrRenewDetails(): DomainAcquisitionBuyOrRenewInfo {
-        this.assertState('buyOrRenewDetails', DomainAcquisitionState.CanBeBought, DomainAcquisitionState.Taken);
-
-        return this._buyOrRenewInfo!;
-    }
-
-    get unobtainableDetails(): DomainAcquisitionUnobtainableInfo {
-        this.assertState('unobtainableDetails', DomainAcquisitionState.Unobtainable);
-
-        return this._unobtainableInfo!;
-    }
-
-    /**
-     * Calculates buy or renew price for this domain.
-     *
-     * @param duration The number of days for which to calculate the price.
-     * @returns Price for owning the domain for the specified duration in mutez.
-     */
-    calculatePrice(duration: number): number {
-        this.assertState('calculatePrice', DomainAcquisitionState.CanBeBought, DomainAcquisitionState.Taken);
-
-        return this._buyOrRenewInfo!.pricePerMinDuration * (duration / this._buyOrRenewInfo!.minDuration);
-    }
-
-    private constructor(
-        private _state: DomainAcquisitionState,
-        private _auctionInfo?: DomainAcquisitionAuctionInfo,
-        private _buyOrRenewInfo?: DomainAcquisitionBuyOrRenewInfo,
-        private _unobtainableInfo?: DomainAcquisitionUnobtainableInfo
-    ) {}
-
-    /** @internal */
-    static createUnobtainable(unobtainableInfo: DomainAcquisitionUnobtainableInfo): DomainAcquisitionInfo {
-        return new DomainAcquisitionInfo(DomainAcquisitionState.Unobtainable, undefined, undefined, unobtainableInfo);
-    }
-
-    /** @internal */
-    static createAuction(state: DomainAcquisitionState, auctionInfo: DomainAcquisitionAuctionInfo): DomainAcquisitionInfo {
-        return new DomainAcquisitionInfo(state, auctionInfo);
-    }
-
-    /** @internal */
-    static createBuyOrRenew(state: DomainAcquisitionState, fifsInfo: DomainAcquisitionBuyOrRenewInfo): DomainAcquisitionInfo {
-        return new DomainAcquisitionInfo(state, undefined, fifsInfo);
-    }
-
-    private assertState(description: string, ...allowedStates: DomainAcquisitionState[]) {
-        if (!allowedStates.includes(this._state)) {
-            throw new Error(`${description} is only available for states ${allowedStates.join(', ')}.`);
-        }
-    }
-}
-
 export class CommitmentInfo {
     /**
      * Date and time when it becomes possible to buy the domain by the commitment sender
@@ -249,4 +145,15 @@ export class CommitmentInfo {
     async waitUntilUsable(): Promise<void> {
         await new Promise(resolve => setTimeout(() => resolve(), this._usableFrom.getTime() - Date.now()));
     }
+}
+
+export interface TLDConfiguration {
+    maxCommitmentAge: BigNumber;
+    minCommitmentAge: BigNumber;
+    minBidPerDay: BigNumber;
+    minDuration: BigNumber;
+    minBidIncreaseRatio: BigNumber;
+    minAuctionPeriod: BigNumber;
+    bidAdditionalPeriod: BigNumber;
+    launchDates: Record<string, Date | null>;
 }

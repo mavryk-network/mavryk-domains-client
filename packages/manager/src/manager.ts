@@ -12,12 +12,17 @@ export {
     UpdateRecordRequest,
     BidRequest,
     SettleRequest,
+    UpdateReverseRecordRequest,
+} from './manager/model';
+export {
     DomainAcquisitionAuctionInfo,
     DomainAcquisitionBuyOrRenewInfo,
     DomainAcquisitionInfo,
     DomainAcquisitionState,
-    UpdateReverseRecordRequest,
-} from './manager/model';
+    AcquisitionInfoInput,
+    DomainAcquisitionUnobtainableInfo,
+    calculateAcquisitionInfo,
+} from './manager/acquisition-info';
 export { CommitmentGenerator } from './manager/commitment-generator';
 export { UnsupportedDomainsManager } from './manager/unsupported-domains-manager';
 export { TezosDomainsOperationFactory, TaquitoTezosDomainsOperationFactory } from './manager/operation-factory';

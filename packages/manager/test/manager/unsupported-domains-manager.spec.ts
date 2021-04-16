@@ -50,6 +50,12 @@ describe('UnsupportedDomainsManager', () => {
         });
     });
 
+    describe('getTldConfiguration()', () => {
+        it('should return throw', () => {
+            expect(() => resolver.getTldConfiguration('tez')).toThrowError(NotSupportedError);
+        });
+    });
+
     describe('renew()', () => {
         it('should return throw', () => {
             expect(() => resolver.renew('tez', { label: 'necroskillz', duration: 365 })).toThrowError(NotSupportedError);

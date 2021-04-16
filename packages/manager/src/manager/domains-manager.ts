@@ -12,9 +12,10 @@ import {
     UpdateReverseRecordRequest,
     BidRequest,
     SettleRequest,
-    DomainAcquisitionInfo,
 } from './model';
 import { TezosDomainsOperationFactory } from './operation-factory';
+import { TLDConfiguration } from './model';
+import { DomainAcquisitionInfo } from './acquisition-info';
 
 /**
  * An interface that defines functions for buying and updating domains and reverse records.
@@ -119,6 +120,8 @@ export interface DomainsManager {
      * @param address The address for which to get the balance.
      */
     getBidderBalance(tld: string, address: string): Promise<number>;
+
+    getTldConfiguration(tld: string): Promise<TLDConfiguration>;
 
     /**
      * Placed a bid on the specified domain label in an auction.

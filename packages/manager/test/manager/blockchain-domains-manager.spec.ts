@@ -211,6 +211,17 @@ describe('BlockchainDomainsManager', () => {
         });
     });
 
+    describe('getTldConfiguration()', () => {
+        it('should get tld config', async () => {
+            const config = { prop: 'a' };
+            when(dataProviderMock.getTldConfiguration('tez')).thenResolve(config as any);
+
+            const configuration = await manager.getTldConfiguration('tez');
+
+            expect(configuration).toBe(config);
+        });
+    });
+
     describe('bid()', () => {
         it('should call smart contract with bid amount', async () => {
             const request = {
