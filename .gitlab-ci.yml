@@ -127,7 +127,7 @@ test:integration:edonet:
     image: node:${NODE_VERSION}
     allow_failure: false
     script:
-        - TD_NETWORK=edonet TD_RPC_URL=${RPC_URL_EDONET} yarn workspace integration-tests integration-test
+        - TD_NETWORK=edonet TD_RPC_URL=${RPC_URL_EDONET} yarn integration-test
     tags:
         - docker
 
@@ -136,7 +136,7 @@ test:integration:florencenet:
     image: node:${NODE_VERSION}
     allow_failure: false
     script:
-        - TD_NETWORK=florencenet TD_RPC_URL=${RPC_URL_FLORENCENET} yarn workspace integration-tests integration-test
+        - TD_NETWORK=florencenet TD_RPC_URL=${RPC_URL_FLORENCENET} yarn integration-test
     tags:
         - docker
 

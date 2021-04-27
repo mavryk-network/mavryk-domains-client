@@ -14,7 +14,8 @@
     "prepare": "yarn build",
     "version": "yarn",
     "docs": "typedoc --options .typedoc.js --plugin typedoc-plugin-lerna-packages",
-    "update-contracts": "ts-node --script-mode ./scripts/import-addresses.ts"
+    "update-contracts": "ts-node --script-mode ./scripts/import-addresses.ts",
+    "integration-test": "yarn workspace integration-tests integration-test"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
