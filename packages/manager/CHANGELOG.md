@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://gitlab.com/tezos-domains/client/compare/v1.1.0...v1.2.0) (2021-05-12)
+
+
+### Features
+
+* specify storage limit for operations ([e185915](https://gitlab.com/tezos-domains/client/commit/e1859151ba6272fa9e21075950e01d2d1b757989))
+
+
+
+
+
 # [1.1.0](https://gitlab.com/tezos-domains/client/compare/v1.0.0...v1.1.0) (2021-04-27)
 
 
