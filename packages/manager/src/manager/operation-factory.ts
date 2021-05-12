@@ -48,14 +48,12 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
 
         const address = await this.addressBook.lookup(SmartContractType.NameRegistry, entrypoint);
         const encodedRequest = RpcRequestData.fromObject(SetChildRecordRequest, request).encode();
-        const params = await this.tezos.params(address, entrypoint, [
-            encodedRequest.label,
-            encodedRequest.parent,
-            encodedRequest.address,
-            encodedRequest.owner,
-            encodedRequest.data,
-            encodedRequest.expiry,
-        ]);
+        const params = await this.tezos.params(
+            address,
+            entrypoint,
+            [encodedRequest.label, encodedRequest.parent, encodedRequest.address, encodedRequest.owner, encodedRequest.data, encodedRequest.expiry],
+            { storageLimit: 400 }
+        );
 
         this.tracer.trace('<= Prepared.', params);
 
@@ -71,7 +69,9 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
 
         const address = await this.addressBook.lookup(SmartContractType.NameRegistry, entrypoint);
         const encodedRequest = RpcRequestData.fromObject(UpdateRecordRequest, request).encode();
-        const params = await this.tezos.params(address, entrypoint, [encodedRequest.name, encodedRequest.address, encodedRequest.owner, encodedRequest.data]);
+        const params = await this.tezos.params(address, entrypoint, [encodedRequest.name, encodedRequest.address, encodedRequest.owner, encodedRequest.data], {
+            storageLimit: 400,
+        });
 
         this.tracer.trace('<= Prepared.', params);
 
@@ -87,7 +87,7 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
 
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
         const commitmentHash = this.commitmentGenerator.generate(request);
-        const params = await this.tezos.params(address, entrypoint, [commitmentHash]);
+        const params = await this.tezos.params(address, entrypoint, [commitmentHash], { storageLimit: 200 });
 
         this.tracer.trace('<= Prepared.', params);
 
@@ -110,7 +110,7 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
             address,
             entrypoint,
             [encodedRequest.label, encodedRequest.duration, encodedRequest.owner, encodedRequest.address, encodedRequest.data, encodedRequest.nonce],
-            price
+            { amount: price, storageLimit: 800 }
         );
 
         this.tracer.trace('<= Prepared.', params);
@@ -129,7 +129,7 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
         const price = info.calculatePrice(request.duration);
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
         const encodedRequest = RpcRequestData.fromObject(RenewRequest, request).encode();
-        const params = await this.tezos.params(address, entrypoint, [encodedRequest.label, encodedRequest.duration], price);
+        const params = await this.tezos.params(address, entrypoint, [encodedRequest.label, encodedRequest.duration], { amount: price });
 
         this.tracer.trace('<= Prepared.', params);
 
@@ -147,7 +147,7 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
 
         const address = await this.addressBook.lookup(SmartContractType.NameRegistry, entrypoint);
         const encodedRequest = RpcRequestData.fromObject(ReverseRecordRequest, request).encode();
-        const params = await this.tezos.params(address, entrypoint, [encodedRequest.name, encodedRequest.owner]);
+        const params = await this.tezos.params(address, entrypoint, [encodedRequest.name, encodedRequest.owner], { storageLimit: 400 });
 
         this.tracer.trace('<= Prepared.', params);
 
@@ -165,7 +165,9 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
 
         const address = await this.addressBook.lookup(SmartContractType.NameRegistry, entrypoint);
         const encodedRequest = RpcRequestData.fromObject(UpdateReverseRecordRequest, request).encode();
-        const params = await this.tezos.params(address, entrypoint, [encodedRequest.address, encodedRequest.name, encodedRequest.owner]);
+        const params = await this.tezos.params(address, entrypoint, [encodedRequest.address, encodedRequest.name, encodedRequest.owner], {
+            storageLimit: 200,
+        });
 
         this.tracer.trace('<= Prepared.', params);
 
@@ -182,7 +184,10 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
         const balance = await this.dataProvider.getBidderBalance(tld, await this.tezos.getPkh());
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
         const encodedRequest = RpcRequestData.fromObject(BidRequest, request).encode();
-        const params = await this.tezos.params(address, entrypoint, [encodedRequest.label, encodedRequest.bid], Math.max(0, request.bid - balance));
+        const params = await this.tezos.params(address, entrypoint, [encodedRequest.label, encodedRequest.bid], {
+            amount: Math.max(0, request.bid - balance),
+            storageLimit: 200,
+        });
 
         this.tracer.trace('<= Prepared.', params);
 
@@ -198,7 +203,9 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
 
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
         const encodedRequest = RpcRequestData.fromObject(SettleRequest, request).encode();
-        const params = await this.tezos.params(address, entrypoint, [encodedRequest.label, encodedRequest.owner, encodedRequest.address, encodedRequest.data]);
+        const params = await this.tezos.params(address, entrypoint, [encodedRequest.label, encodedRequest.owner, encodedRequest.address, encodedRequest.data], {
+            storageLimit: 800,
+        });
 
         this.tracer.trace('<= Prepared.', params);
 

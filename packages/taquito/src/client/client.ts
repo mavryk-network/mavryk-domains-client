@@ -58,15 +58,18 @@ export class TaquitoClient {
         return operation;
     }
 
-    async params(contractAddress: string, method: string, parameters: any[], amount?: number): Promise<WalletTransferParams> {
+    async params(
+        contractAddress: string,
+        method: string,
+        parameters: any[],
+        transferParams?: { storageLimit?: number; amount?: number }
+    ): Promise<WalletTransferParams> {
         this.tracer.trace(
-            `=> Preparing call for entrypoint '${method}' at '${contractAddress}' with parameters '${JSON.stringify(parameters)}' and amount '${
-                amount ? amount.toString() : 'N/A'
-            }.'`
+            `=> Preparing call for entrypoint '${method}' at '${contractAddress}' with parameters '${JSON.stringify(parameters)}' and params '${JSON.stringify(transferParams)}.'`
         );
 
         const contract = await this.tezos.wallet.at(contractAddress);
-        const params = contract.methods[method](...parameters).toTransferParams({ amount, mutez: true });
+        const params = contract.methods[method](...parameters).toTransferParams({ ...(transferParams || {}), mutez: true });
 
         this.tracer.trace('<= Prepared params.', params);
 

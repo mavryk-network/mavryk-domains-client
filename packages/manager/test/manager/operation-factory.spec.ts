@@ -11,8 +11,15 @@ import {
     DomainNameValidationResult,
 } from '@tezos-domains/core';
 import { TaquitoClient } from '@tezos-domains/taquito';
-import { CommitmentGenerator, CommitmentRequest, DomainAcquisitionInfo, DomainAcquisitionState, TaquitoManagerDataProvider, TaquitoTezosDomainsOperationFactory } from '@tezos-domains/manager';
-import { mock, when, anything, instance, anyString, verify, anyOfClass, deepEqual, anyNumber, capture } from 'ts-mockito';
+import {
+    CommitmentGenerator,
+    CommitmentRequest,
+    DomainAcquisitionInfo,
+    DomainAcquisitionState,
+    TaquitoManagerDataProvider,
+    TaquitoTezosDomainsOperationFactory,
+} from '@tezos-domains/manager';
+import { mock, when, anything, instance, anyString, verify, anyOfClass, deepEqual, capture } from 'ts-mockito';
 import MockDate from 'mockdate';
 import BigNumber from 'bignumber.js';
 
@@ -58,7 +65,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
         when(addressBookMock.lookup(anything(), anything(), anything())).thenCall((type, p1, p2) => Promise.resolve(`${type}addr${p1 || ''}${p2 || ''}`));
 
         when(taquitoClientMock.params(anyString(), anyString(), anything())).thenResolve(params);
-        when(taquitoClientMock.params(anyString(), anyString(), anything(), anyNumber())).thenResolve(params);
+        when(taquitoClientMock.params(anyString(), anyString(), anything(), anything())).thenResolve(params);
         when(taquitoClientMock.getConstants()).thenResolve(constants);
 
         when(operation.opHash).thenReturn('op_hash');
@@ -92,7 +99,8 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
                 taquitoClientMock.params(
                     `${SmartContractType.NameRegistry}addrset_child_record`,
                     'set_child_record',
-                    deepEqual([e('necroskillz'), e('tez'), 'tz1yyy', 'tz1xxx', anyOfClass(MichelsonMap), '2021-11-11T08:00:00.000Z'])
+                    deepEqual([e('necroskillz'), e('tez'), 'tz1yyy', 'tz1xxx', anyOfClass(MichelsonMap), '2021-11-11T08:00:00.000Z']),
+                    deepEqual({ storageLimit: 400 })
                 )
             ).called();
 
@@ -128,7 +136,8 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
                 taquitoClientMock.params(
                     `${SmartContractType.NameRegistry}addrupdate_record`,
                     'update_record',
-                    deepEqual([e('necroskillz.tez'), 'tz1yyy', 'tz1xxx', anyOfClass(MichelsonMap)])
+                    deepEqual([e('necroskillz.tez'), 'tz1yyy', 'tz1xxx', anyOfClass(MichelsonMap)]),
+                    deepEqual({ storageLimit: 400 })
                 )
             ).called();
             expect(capture(taquitoClientMock.params).last()[2][3].get('ttl')).toBe('31');
@@ -156,7 +165,14 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
 
             const p = await operationFactory.commit('tez', request);
 
-            verify(taquitoClientMock.params(`${SmartContractType.TLDRegistrar}addrtezcommit`, 'commit', deepEqual(['commitment']))).called();
+            verify(
+                taquitoClientMock.params(
+                    `${SmartContractType.TLDRegistrar}addrtezcommit`,
+                    'commit',
+                    deepEqual(['commitment']),
+                    deepEqual({ storageLimit: 200 })
+                )
+            ).called();
 
             expect(p).toEqual(params);
         });
@@ -191,7 +207,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
                     `${SmartContractType.TLDRegistrar}addrtezbuy`,
                     'buy',
                     deepEqual([e('alice'), 365, 'tz1xxx', 'tz1yyy', anyOfClass(MichelsonMap), 1]),
-                    1e6 * 365
+                    deepEqual({ amount: 1e6 * 365, storageLimit: 800 })
                 )
             ).called();
 
@@ -228,7 +244,14 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
                 label: 'necroskillz2',
             });
 
-            verify(taquitoClientMock.params(`${SmartContractType.TLDRegistrar}addrtezrenew`, 'renew', deepEqual([e('necroskillz2'), 365]), 365 * 1e6)).called();
+            verify(
+                taquitoClientMock.params(
+                    `${SmartContractType.TLDRegistrar}addrtezrenew`,
+                    'renew',
+                    deepEqual([e('necroskillz2'), 365]),
+                    deepEqual({ amount: 365 * 1e6 })
+                )
+            ).called();
 
             expect(p).toEqual(params);
         });
@@ -254,7 +277,8 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
                 taquitoClientMock.params(
                     `${SmartContractType.NameRegistry}addrclaim_reverse_record`,
                     'claim_reverse_record',
-                    deepEqual([e('necroskillz.tez'), 'tz1xxx'])
+                    deepEqual([e('necroskillz.tez'), 'tz1xxx']),
+                    deepEqual({ storageLimit: 400 })
                 )
             ).called();
 
@@ -292,7 +316,8 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
                 taquitoClientMock.params(
                     `${SmartContractType.NameRegistry}addrupdate_reverse_record`,
                     'update_reverse_record',
-                    deepEqual(['tz1xxx', e('necroskillz.tez'), 'tz1yyy'])
+                    deepEqual(['tz1xxx', e('necroskillz.tez'), 'tz1yyy']),
+                    deepEqual({ storageLimit: 200 })
                 )
             ).called();
 
@@ -331,7 +356,14 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
                 bid: 5e6,
             });
 
-            verify(taquitoClientMock.params(`${SmartContractType.TLDRegistrar}addrtezbid`, 'bid', deepEqual([e('necroskillz'), 5e6]), 5e6)).called();
+            verify(
+                taquitoClientMock.params(
+                    `${SmartContractType.TLDRegistrar}addrtezbid`,
+                    'bid',
+                    deepEqual([e('necroskillz'), 5e6]),
+                    deepEqual({ storageLimit: 200, amount: 5e6 })
+                )
+            ).called();
 
             expect(p).toEqual(params);
         });
@@ -344,7 +376,14 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
                 bid: 5e6,
             });
 
-            verify(taquitoClientMock.params(`${SmartContractType.TLDRegistrar}addrtezbid`, 'bid', deepEqual([e('necroskillz'), 5e6]), 3e6)).called();
+            verify(
+                taquitoClientMock.params(
+                    `${SmartContractType.TLDRegistrar}addrtezbid`,
+                    'bid',
+                    deepEqual([e('necroskillz'), 5e6]),
+                    deepEqual({ storageLimit: 200, amount: 3e6 })
+                )
+            ).called();
 
             expect(p).toEqual(params);
         });
@@ -357,7 +396,14 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
                 bid: 1e6,
             });
 
-            verify(taquitoClientMock.params(`${SmartContractType.TLDRegistrar}addrtezbid`, 'bid', deepEqual([e('necroskillz'), 1e6]), 0)).called();
+            verify(
+                taquitoClientMock.params(
+                    `${SmartContractType.TLDRegistrar}addrtezbid`,
+                    'bid',
+                    deepEqual([e('necroskillz'), 1e6]),
+                    deepEqual({ storageLimit: 200, amount: 0 })
+                )
+            ).called();
 
             expect(p).toEqual(params);
         });
@@ -385,7 +431,8 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
                 taquitoClientMock.params(
                     `${SmartContractType.TLDRegistrar}addrtezsettle`,
                     'settle',
-                    deepEqual([e('necroskillz'), 'tz1xxx', 'tz1yyy', anyOfClass(MichelsonMap)])
+                    deepEqual([e('necroskillz'), 'tz1xxx', 'tz1yyy', anyOfClass(MichelsonMap)]),
+                    deepEqual({ storageLimit: 800 })
                 )
             ).called();
 
