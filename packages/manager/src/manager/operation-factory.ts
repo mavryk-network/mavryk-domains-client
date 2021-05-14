@@ -1,9 +1,19 @@
 import { WalletTransferParams } from '@taquito/taquito';
-import { AddressBook, DomainNameValidationResult, DomainNameValidator, Exact, RpcRequestData, SmartContractType, Tracer } from '@tezos-domains/core';
+import {
+    AdditionalOperationParams,
+    AddressBook,
+    DomainNameValidationResult,
+    DomainNameValidator,
+    Exact,
+    RpcRequestData,
+    SmartContractType,
+    Tracer,
+} from '@tezos-domains/core';
 import { TaquitoClient } from '@tezos-domains/taquito';
 
 import { CommitmentGenerator } from './commitment-generator';
 import { TaquitoManagerDataProvider } from './data-provider';
+import { DEFAULT_STORAGE_LIMITS } from './model';
 import {
     BidRequest,
     BuyRequest,
@@ -17,16 +27,16 @@ import {
 } from './model';
 
 export interface TezosDomainsOperationFactory<TOperationParams> {
-    setChildRecord(request: Exact<SetChildRecordRequest>): Promise<TOperationParams>;
-    updateRecord(request: Exact<UpdateRecordRequest>): Promise<TOperationParams>;
-    commit(tld: string, request: Exact<CommitmentRequest>): Promise<TOperationParams>;
-    buy(tld: string, request: Exact<BuyRequest>): Promise<TOperationParams>;
-    renew(tld: string, request: Exact<RenewRequest>): Promise<TOperationParams>;
-    claimReverseRecord(request: Exact<ReverseRecordRequest>): Promise<TOperationParams>;
-    updateReverseRecord(request: Exact<UpdateReverseRecordRequest>): Promise<TOperationParams>;
-    bid(tld: string, request: Exact<BidRequest>): Promise<TOperationParams>;
-    settle(tld: string, request: Exact<SettleRequest>): Promise<TOperationParams>;
-    withdraw(tld: string, recipient: string): Promise<TOperationParams>;
+    setChildRecord(request: Exact<SetChildRecordRequest>, operationParams?: AdditionalOperationParams): Promise<TOperationParams>;
+    updateRecord(request: Exact<UpdateRecordRequest>, operationParams?: AdditionalOperationParams): Promise<TOperationParams>;
+    commit(tld: string, request: Exact<CommitmentRequest>, operationParams?: AdditionalOperationParams): Promise<TOperationParams>;
+    buy(tld: string, request: Exact<BuyRequest>, operationParams?: AdditionalOperationParams): Promise<TOperationParams>;
+    renew(tld: string, request: Exact<RenewRequest>, operationParams?: AdditionalOperationParams): Promise<TOperationParams>;
+    claimReverseRecord(request: Exact<ReverseRecordRequest>, operationParams?: AdditionalOperationParams): Promise<TOperationParams>;
+    updateReverseRecord(request: Exact<UpdateReverseRecordRequest>, operationParams?: AdditionalOperationParams): Promise<TOperationParams>;
+    bid(tld: string, request: Exact<BidRequest>, operationParams?: AdditionalOperationParams): Promise<TOperationParams>;
+    settle(tld: string, request: Exact<SettleRequest>, operationParams?: AdditionalOperationParams): Promise<TOperationParams>;
+    withdraw(tld: string, recipient: string, operationParams?: AdditionalOperationParams): Promise<TOperationParams>;
 }
 
 export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperationFactory<WalletTransferParams> {
@@ -39,7 +49,7 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
         private validator: DomainNameValidator
     ) {}
 
-    async setChildRecord(request: Exact<SetChildRecordRequest>): Promise<WalletTransferParams> {
+    async setChildRecord(request: Exact<SetChildRecordRequest>, operationParams?: AdditionalOperationParams): Promise<WalletTransferParams> {
         this.assertDomainName(`${request.label}.${request.parent}`);
 
         const entrypoint = 'set_child_record';
@@ -52,7 +62,7 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
             address,
             entrypoint,
             [encodedRequest.label, encodedRequest.parent, encodedRequest.address, encodedRequest.owner, encodedRequest.data, encodedRequest.expiry],
-            { storageLimit: 400 }
+            { storageLimit: DEFAULT_STORAGE_LIMITS[entrypoint], ...operationParams }
         );
 
         this.tracer.trace('<= Prepared.', params);
@@ -60,7 +70,7 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
         return params;
     }
 
-    async updateRecord(request: Exact<UpdateRecordRequest>): Promise<WalletTransferParams> {
+    async updateRecord(request: Exact<UpdateRecordRequest>, operationParams?: AdditionalOperationParams): Promise<WalletTransferParams> {
         this.assertDomainName(request.name);
 
         const entrypoint = 'update_record';
@@ -70,7 +80,8 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
         const address = await this.addressBook.lookup(SmartContractType.NameRegistry, entrypoint);
         const encodedRequest = RpcRequestData.fromObject(UpdateRecordRequest, request).encode();
         const params = await this.tezos.params(address, entrypoint, [encodedRequest.name, encodedRequest.address, encodedRequest.owner, encodedRequest.data], {
-            storageLimit: 400,
+            storageLimit: DEFAULT_STORAGE_LIMITS[entrypoint],
+            ...operationParams,
         });
 
         this.tracer.trace('<= Prepared.', params);
@@ -78,7 +89,7 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
         return params;
     }
 
-    async commit(tld: string, request: Exact<CommitmentRequest>): Promise<WalletTransferParams> {
+    async commit(tld: string, request: Exact<CommitmentRequest>, operationParams?: AdditionalOperationParams): Promise<WalletTransferParams> {
         this.assertDomainName(`${request.label}.${tld}`);
 
         const entrypoint = 'commit';
@@ -87,14 +98,14 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
 
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
         const commitmentHash = this.commitmentGenerator.generate(request);
-        const params = await this.tezos.params(address, entrypoint, [commitmentHash], { storageLimit: 200 });
+        const params = await this.tezos.params(address, entrypoint, [commitmentHash], { storageLimit: DEFAULT_STORAGE_LIMITS[entrypoint], ...operationParams });
 
         this.tracer.trace('<= Prepared.', params);
 
         return params;
     }
 
-    async buy(tld: string, request: Exact<BuyRequest>): Promise<WalletTransferParams> {
+    async buy(tld: string, request: Exact<BuyRequest>, operationParams?: AdditionalOperationParams): Promise<WalletTransferParams> {
         this.assertDomainName(`${request.label}.${tld}`);
 
         const entrypoint = 'buy';
@@ -110,7 +121,7 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
             address,
             entrypoint,
             [encodedRequest.label, encodedRequest.duration, encodedRequest.owner, encodedRequest.address, encodedRequest.data, encodedRequest.nonce],
-            { amount: price, storageLimit: 800 }
+            { amount: price, storageLimit: DEFAULT_STORAGE_LIMITS[entrypoint], ...operationParams }
         );
 
         this.tracer.trace('<= Prepared.', params);
@@ -118,7 +129,7 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
         return params;
     }
 
-    async renew(tld: string, request: Exact<RenewRequest>): Promise<WalletTransferParams> {
+    async renew(tld: string, request: Exact<RenewRequest>, operationParams?: AdditionalOperationParams): Promise<WalletTransferParams> {
         this.assertDomainName(`${request.label}.${tld}`);
 
         const entrypoint = 'renew';
@@ -129,14 +140,14 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
         const price = info.calculatePrice(request.duration);
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
         const encodedRequest = RpcRequestData.fromObject(RenewRequest, request).encode();
-        const params = await this.tezos.params(address, entrypoint, [encodedRequest.label, encodedRequest.duration], { amount: price });
+        const params = await this.tezos.params(address, entrypoint, [encodedRequest.label, encodedRequest.duration], { amount: price, ...operationParams });
 
         this.tracer.trace('<= Prepared.', params);
 
         return params;
     }
 
-    async claimReverseRecord(request: Exact<ReverseRecordRequest>): Promise<WalletTransferParams> {
+    async claimReverseRecord(request: Exact<ReverseRecordRequest>, operationParams?: AdditionalOperationParams): Promise<WalletTransferParams> {
         if (request.name) {
             this.assertDomainName(request.name);
         }
@@ -147,14 +158,14 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
 
         const address = await this.addressBook.lookup(SmartContractType.NameRegistry, entrypoint);
         const encodedRequest = RpcRequestData.fromObject(ReverseRecordRequest, request).encode();
-        const params = await this.tezos.params(address, entrypoint, [encodedRequest.name, encodedRequest.owner], { storageLimit: 400 });
+        const params = await this.tezos.params(address, entrypoint, [encodedRequest.name, encodedRequest.owner], { storageLimit: DEFAULT_STORAGE_LIMITS[entrypoint], ...operationParams });
 
         this.tracer.trace('<= Prepared.', params);
 
         return params;
     }
 
-    async updateReverseRecord(request: Exact<UpdateReverseRecordRequest>): Promise<WalletTransferParams> {
+    async updateReverseRecord(request: Exact<UpdateReverseRecordRequest>, operationParams?: AdditionalOperationParams): Promise<WalletTransferParams> {
         if (request.name) {
             this.assertDomainName(request.name);
         }
@@ -166,7 +177,8 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
         const address = await this.addressBook.lookup(SmartContractType.NameRegistry, entrypoint);
         const encodedRequest = RpcRequestData.fromObject(UpdateReverseRecordRequest, request).encode();
         const params = await this.tezos.params(address, entrypoint, [encodedRequest.address, encodedRequest.name, encodedRequest.owner], {
-            storageLimit: 200,
+            storageLimit: DEFAULT_STORAGE_LIMITS[entrypoint],
+            ...operationParams,
         });
 
         this.tracer.trace('<= Prepared.', params);
@@ -174,7 +186,7 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
         return params;
     }
 
-    async bid(tld: string, request: Exact<BidRequest>): Promise<WalletTransferParams> {
+    async bid(tld: string, request: Exact<BidRequest>, operationParams?: AdditionalOperationParams): Promise<WalletTransferParams> {
         this.assertDomainName(`${request.label}.${tld}`);
 
         const entrypoint = 'bid';
@@ -186,7 +198,8 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
         const encodedRequest = RpcRequestData.fromObject(BidRequest, request).encode();
         const params = await this.tezos.params(address, entrypoint, [encodedRequest.label, encodedRequest.bid], {
             amount: Math.max(0, request.bid - balance),
-            storageLimit: 200,
+            storageLimit: DEFAULT_STORAGE_LIMITS[entrypoint],
+            ...operationParams,
         });
 
         this.tracer.trace('<= Prepared.', params);
@@ -194,7 +207,7 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
         return params;
     }
 
-    async settle(tld: string, request: Exact<SettleRequest>): Promise<WalletTransferParams> {
+    async settle(tld: string, request: Exact<SettleRequest>, operationParams?: AdditionalOperationParams): Promise<WalletTransferParams> {
         this.assertDomainName(`${request.label}.${tld}`);
 
         const entrypoint = 'settle';
@@ -204,7 +217,8 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
         const encodedRequest = RpcRequestData.fromObject(SettleRequest, request).encode();
         const params = await this.tezos.params(address, entrypoint, [encodedRequest.label, encodedRequest.owner, encodedRequest.address, encodedRequest.data], {
-            storageLimit: 800,
+            storageLimit: DEFAULT_STORAGE_LIMITS[entrypoint],
+            ...operationParams,
         });
 
         this.tracer.trace('<= Prepared.', params);
@@ -212,7 +226,7 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
         return params;
     }
 
-    async withdraw(tld: string, recipient: string): Promise<WalletTransferParams> {
+    async withdraw(tld: string, recipient: string, operationParams?: AdditionalOperationParams): Promise<WalletTransferParams> {
         if (!this.validator.supportedTLDs.includes(tld)) {
             throw new Error(`TLD '${tld}' is not supported.`);
         }
@@ -222,7 +236,7 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
         this.tracer.trace(`=> Preparing operation ${entrypoint}.`, recipient);
 
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
-        const params = await this.tezos.params(address, entrypoint, [recipient]);
+        const params = await this.tezos.params(address, entrypoint, [recipient], operationParams);
 
         this.tracer.trace('<= Prepared.', params);
 

@@ -1,5 +1,5 @@
 import { TransactionWalletOperation, WalletTransferParams, WalletOperation } from '@taquito/taquito';
-import { Exact, Tracer, AddressBook, RecordMetadata } from '@tezos-domains/core';
+import { Exact, Tracer, AddressBook, RecordMetadata, AdditionalOperationParams } from '@tezos-domains/core';
 import { TaquitoClient } from '@tezos-domains/taquito';
 import {
     DomainsManager,
@@ -23,6 +23,7 @@ describe('BlockchainDomainsManager', () => {
     let operation: TransactionWalletOperation;
     let batchOperation: WalletOperation;
     let params: WalletTransferParams;
+    let additionalParams: AdditionalOperationParams;
 
     beforeEach(() => {
         taquitoClientMock = mock(TaquitoClient);
@@ -32,22 +33,23 @@ describe('BlockchainDomainsManager', () => {
         operationFactory = mock<TezosDomainsOperationFactory<WalletTransferParams>>();
         operation = mock(TransactionWalletOperation);
         batchOperation = mock(WalletOperation);
+        additionalParams = { storageLimit: 666, gasLimit: 420, fee: 69 };
 
         when(tracerMock.trace(anything(), anything(), anything()));
 
         when(addressBookMock.lookup(anything(), anything())).thenCall((type, p1) => Promise.resolve(`${type}addr${p1 || ''}`));
         when(addressBookMock.lookup(anything(), anything(), anything())).thenCall((type, p1, p2) => Promise.resolve(`${type}addr${p1 || ''}${p2 || ''}`));
 
-        when(operationFactory.bid(anyString(), anything())).thenResolve(params);
-        when(operationFactory.buy(anyString(), anything())).thenResolve(params);
-        when(operationFactory.claimReverseRecord(anything())).thenResolve(params);
-        when(operationFactory.commit(anyString(), anything())).thenResolve(params);
-        when(operationFactory.renew(anyString(), anything())).thenResolve(params);
-        when(operationFactory.setChildRecord(anything())).thenResolve(params);
-        when(operationFactory.settle(anyString(), anything())).thenResolve(params);
-        when(operationFactory.updateRecord(anything())).thenResolve(params);
-        when(operationFactory.updateReverseRecord(anything())).thenResolve(params);
-        when(operationFactory.withdraw(anyString(), anyString())).thenResolve(params);
+        when(operationFactory.bid(anyString(), anything(), anything())).thenResolve(params);
+        when(operationFactory.buy(anyString(), anything(), anything())).thenResolve(params);
+        when(operationFactory.claimReverseRecord(anything(), anything())).thenResolve(params);
+        when(operationFactory.commit(anyString(), anything(), anything())).thenResolve(params);
+        when(operationFactory.renew(anyString(), anything(), anything())).thenResolve(params);
+        when(operationFactory.setChildRecord(anything(), anything())).thenResolve(params);
+        when(operationFactory.settle(anyString(), anything(), anything())).thenResolve(params);
+        when(operationFactory.updateRecord(anything(), anything())).thenResolve(params);
+        when(operationFactory.updateReverseRecord(anything(), anything())).thenResolve(params);
+        when(operationFactory.withdraw(anyString(), anyString(), anything())).thenResolve(params);
 
         when(taquitoClientMock.call(deepEqual(params))).thenResolve(instance(operation));
         when(taquitoClientMock.batch(deepEqual([params]))).thenResolve(instance(batchOperation));
@@ -72,9 +74,9 @@ describe('BlockchainDomainsManager', () => {
                 expiry: new Date(new Date(2021, 10, 11, 8).getTime() - new Date(2021, 10, 11).getTimezoneOffset() * 60000),
             };
 
-            const op = await manager.setChildRecord(request);
+            const op = await manager.setChildRecord(request, additionalParams);
 
-            verify(operationFactory.setChildRecord(request)).called();
+            verify(operationFactory.setChildRecord(request, deepEqual(additionalParams))).called();
 
             expect(op).toBe(instance(operation));
         });
@@ -89,9 +91,9 @@ describe('BlockchainDomainsManager', () => {
                 address: 'tz1yyy',
             };
 
-            const op = await manager.updateRecord(request);
+            const op = await manager.updateRecord(request, additionalParams);
 
-            verify(operationFactory.updateRecord(request)).called();
+            verify(operationFactory.updateRecord(request, deepEqual(additionalParams))).called();
 
             expect(op).toBe(instance(operation));
         });
@@ -101,9 +103,9 @@ describe('BlockchainDomainsManager', () => {
         it('should call smart contract', async () => {
             const params: Exact<CommitmentRequest> = { label: 'necroskillz', owner: 'tz1xxx', nonce: 1 };
 
-            const op = await manager.commit('tez', params);
+            const op = await manager.commit('tez', params, additionalParams);
 
-            verify(operationFactory.commit('tez', params)).called();
+            verify(operationFactory.commit('tez', params, deepEqual(additionalParams))).called();
 
             expect(op).toBe(instance(operation));
         });
@@ -120,9 +122,9 @@ describe('BlockchainDomainsManager', () => {
                 nonce: 1,
             };
 
-            const op = await manager.buy('tez', request);
+            const op = await manager.buy('tez', request, additionalParams);
 
-            verify(operationFactory.buy('tez', request)).called();
+            verify(operationFactory.buy('tez', request, deepEqual(additionalParams))).called();
 
             expect(op).toBe(instance(operation));
         });
@@ -135,9 +137,9 @@ describe('BlockchainDomainsManager', () => {
                 label: 'necroskillz2',
             };
 
-            const op = await manager.renew('tez', request);
+            const op = await manager.renew('tez', request, additionalParams);
 
-            verify(operationFactory.renew('tez', request)).called();
+            verify(operationFactory.renew('tez', request, deepEqual(additionalParams))).called();
 
             expect(op).toBe(instance(operation));
         });
@@ -150,9 +152,9 @@ describe('BlockchainDomainsManager', () => {
                 owner: 'tz1xxx',
             };
 
-            const op = await manager.claimReverseRecord(request);
+            const op = await manager.claimReverseRecord(request, additionalParams);
 
-            verify(operationFactory.claimReverseRecord(request)).called();
+            verify(operationFactory.claimReverseRecord(request, deepEqual(additionalParams))).called();
 
             expect(op).toBe(instance(operation));
         });
@@ -166,9 +168,9 @@ describe('BlockchainDomainsManager', () => {
                 owner: 'tz1yyy',
             };
 
-            const op = await manager.updateReverseRecord(request);
+            const op = await manager.updateReverseRecord(request, additionalParams);
 
-            verify(operationFactory.updateReverseRecord(request)).called();
+            verify(operationFactory.updateReverseRecord(request, deepEqual(additionalParams))).called();
 
             expect(op).toBe(instance(operation));
         });
@@ -229,9 +231,9 @@ describe('BlockchainDomainsManager', () => {
                 bid: 5e6,
             };
 
-            const op = await manager.bid('tez', request);
+            const op = await manager.bid('tez', request, additionalParams);
 
-            verify(operationFactory.bid('tez', request)).called();
+            verify(operationFactory.bid('tez', request, deepEqual(additionalParams))).called();
 
             expect(op).toBe(instance(operation));
         });
@@ -246,9 +248,9 @@ describe('BlockchainDomainsManager', () => {
                 data: new RecordMetadata({ ttl: '31' }),
             };
 
-            const op = await manager.settle('tez', request);
+            const op = await manager.settle('tez', request, additionalParams);
 
-            verify(operationFactory.settle('tez', request)).called();
+            verify(operationFactory.settle('tez', request, deepEqual(additionalParams))).called();
 
             expect(op).toBe(instance(operation));
         });
@@ -256,9 +258,9 @@ describe('BlockchainDomainsManager', () => {
 
     describe('withdraw()', () => {
         it('should call smart contract', async () => {
-            const op = await manager.withdraw('tez', 'tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix');
+            const op = await manager.withdraw('tez', 'tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix', additionalParams);
 
-            verify(operationFactory.withdraw('tez', 'tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix')).called();
+            verify(operationFactory.withdraw('tez', 'tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix', deepEqual(additionalParams))).called();
 
             expect(op).toBe(instance(operation));
         });

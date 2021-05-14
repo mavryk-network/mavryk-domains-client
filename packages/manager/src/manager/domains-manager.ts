@@ -1,5 +1,5 @@
 import { TransactionWalletOperation, WalletTransferParams, WalletOperation } from '@taquito/taquito';
-import { Exact } from '@tezos-domains/core';
+import { AdditionalOperationParams, Exact } from '@tezos-domains/core';
 
 import {
     SetChildRecordRequest,
@@ -27,7 +27,7 @@ export interface DomainsManager {
      *  - Associated contract: [NameRegistry.SetChildRecord](https://docs.tezos.domains/deployed-contracts)
      *  - Associated endpoint: `set_child_record`
      */
-    setChildRecord(request: Exact<SetChildRecordRequest>): Promise<TransactionWalletOperation>;
+    setChildRecord(request: Exact<SetChildRecordRequest>, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation>;
 
     /**
      * Updates an existing owned domain.
@@ -35,7 +35,7 @@ export interface DomainsManager {
      *  - Associated contract: [NameRegistry.UpdateRecord](https://docs.tezos.domains/deployed-contracts)
      *  - Associated endpoint: `update_record`
      */
-    updateRecord(request: Exact<UpdateRecordRequest>): Promise<TransactionWalletOperation>;
+    updateRecord(request: Exact<UpdateRecordRequest>, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation>;
 
     /**
      * Creates and stores a commitment as a first phase of the [Commitment scheme](https://en.wikipedia.org/wiki/Commitment_scheme) to buy a domain using FIFS model.
@@ -45,7 +45,7 @@ export interface DomainsManager {
      *
      * @param tld The name of the top level domain (e.g. `tez`).
      */
-    commit(tld: string, request: Exact<CommitmentRequest>): Promise<TransactionWalletOperation>;
+    commit(tld: string, request: Exact<CommitmentRequest>, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation>;
 
     /**
      * Buys the specified domain as a second phase of the [Commitment scheme](https://en.wikipedia.org/wiki/Commitment_scheme) using FIFS model.
@@ -56,7 +56,7 @@ export interface DomainsManager {
      *
      * @param tld The name of the top level domain (e.g. `tez`).
      */
-    buy(tld: string, request: Exact<BuyRequest>): Promise<TransactionWalletOperation>;
+    buy(tld: string, request: Exact<BuyRequest>, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation>;
 
     /**
      * Renews the specified domain registration for the specified duration.
@@ -66,7 +66,7 @@ export interface DomainsManager {
      *
      * @param tld The name of the top level domain (e.g. `tez`).
      */
-    renew(tld: string, request: Exact<RenewRequest>): Promise<TransactionWalletOperation>;
+    renew(tld: string, request: Exact<RenewRequest>, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation>;
 
     /**
      * Either creates a reverse record for the sender address, or updates the reverse record related to the senders address (in case the sender is different from the reverse record owner).
@@ -74,7 +74,7 @@ export interface DomainsManager {
      *  - Associated contract: [NameRegistry.ClaimReverseRecord](https://docs.tezos.domains/deployed-contracts)
      *  - Associated endpoint: `claim_reverse_record`
      */
-    claimReverseRecord(request: Exact<ReverseRecordRequest>): Promise<TransactionWalletOperation>;
+    claimReverseRecord(request: Exact<ReverseRecordRequest>, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation>;
 
     /**
      * Updates an existing owned reverse record.
@@ -82,7 +82,7 @@ export interface DomainsManager {
      *  - Associated contract: [NameRegistry.UpdateReverseRecord](https://docs.tezos.domains/deployed-contracts)
      *  - Associated endpoint: `update_reverse_record`
      */
-    updateReverseRecord(request: Exact<UpdateReverseRecordRequest>): Promise<TransactionWalletOperation>;
+    updateReverseRecord(request: Exact<UpdateReverseRecordRequest>, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation>;
 
     /**
      * Gets the information about an existing commitment created via [[`commit`]].
@@ -121,6 +121,11 @@ export interface DomainsManager {
      */
     getBidderBalance(tld: string, address: string): Promise<number>;
 
+    /**
+     * Gets the configuration of the specified TLD registrar.
+     * 
+     * @param tld The name of the top level domain (e.g. `tez`).
+     */
     getTldConfiguration(tld: string): Promise<TLDConfiguration>;
 
     /**
@@ -131,7 +136,7 @@ export interface DomainsManager {
      *
      * @param tld The name of the top level domain (e.g. `tez`).
      */
-    bid(tld: string, request: Exact<BidRequest>): Promise<TransactionWalletOperation>;
+    bid(tld: string, request: Exact<BidRequest>, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation>;
 
     /**
      * Claims the specified domain after an auction was won.
@@ -141,7 +146,7 @@ export interface DomainsManager {
      *
      * @param tld The name of the top level domain (e.g. `tez`).
      */
-    settle(tld: string, request: Exact<SettleRequest>): Promise<TransactionWalletOperation>;
+    settle(tld: string, request: Exact<SettleRequest>, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation>;
 
     /**
      * Withdraws all funds stored in the contract under the senders balance (see [[`getBidderBalance`]]) and
@@ -153,7 +158,7 @@ export interface DomainsManager {
      * @param tld The name of the top level domain (e.g. `tez`).
      * @param recipient The address of the recipient of the withdrawn funds.
      */
-    withdraw(tld: string, recipient: string): Promise<TransactionWalletOperation>;
+    withdraw(tld: string, recipient: string, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation>;
 
     /** Execute multiple Tezos Domains operations in a batch. */
     batch(builder: (operationFactory: TezosDomainsOperationFactory<WalletTransferParams>) => Promise<WalletTransferParams[]>): Promise<WalletOperation>;

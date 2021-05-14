@@ -1,5 +1,5 @@
 import { TransactionWalletOperation, WalletTransferParams, WalletOperation } from '@taquito/taquito';
-import { Tracer, Exact } from '@tezos-domains/core';
+import { Tracer, Exact, AdditionalOperationParams } from '@tezos-domains/core';
 import { TaquitoClient } from '@tezos-domains/taquito';
 
 import {
@@ -28,10 +28,10 @@ export class BlockchainDomainsManager implements DomainsManager {
         private dataProvider: TaquitoManagerDataProvider
     ) {}
 
-    async setChildRecord(request: Exact<SetChildRecordRequest>): Promise<TransactionWalletOperation> {
+    async setChildRecord(request: Exact<SetChildRecordRequest>, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation> {
         this.tracer.trace(`=> Executing.`, request);
 
-        const params = await this.operationFactory.setChildRecord(request);
+        const params = await this.operationFactory.setChildRecord(request, operationParams);
         const operation = await this.tezos.call(params);
 
         this.tracer.trace('<= Executed.', operation.opHash);
@@ -39,10 +39,10 @@ export class BlockchainDomainsManager implements DomainsManager {
         return operation;
     }
 
-    async updateRecord(request: Exact<UpdateRecordRequest>): Promise<TransactionWalletOperation> {
+    async updateRecord(request: Exact<UpdateRecordRequest>, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation> {
         this.tracer.trace(`=> Executing.`, request);
 
-        const params = await this.operationFactory.updateRecord(request);
+        const params = await this.operationFactory.updateRecord(request, operationParams);
         const operation = await this.tezos.call(params);
 
         this.tracer.trace('<= Executed.', operation.opHash);
@@ -50,10 +50,10 @@ export class BlockchainDomainsManager implements DomainsManager {
         return operation;
     }
 
-    async commit(tld: string, request: Exact<CommitmentRequest>): Promise<TransactionWalletOperation> {
+    async commit(tld: string, request: Exact<CommitmentRequest>, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation> {
         this.tracer.trace(`=> Executing.`, request);
 
-        const params = await this.operationFactory.commit(tld, request);
+        const params = await this.operationFactory.commit(tld, request, operationParams);
         const operation = await this.tezos.call(params);
 
         this.tracer.trace('<= Executed.', operation.opHash);
@@ -61,10 +61,10 @@ export class BlockchainDomainsManager implements DomainsManager {
         return operation;
     }
 
-    async buy(tld: string, request: Exact<BuyRequest>): Promise<TransactionWalletOperation> {
+    async buy(tld: string, request: Exact<BuyRequest>, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation> {
         this.tracer.trace(`=> Executing.`, request);
 
-        const params = await this.operationFactory.buy(tld, request);
+        const params = await this.operationFactory.buy(tld, request, operationParams);
         const operation = await this.tezos.call(params);
 
         this.tracer.trace('<= Executed.', operation.opHash);
@@ -72,10 +72,10 @@ export class BlockchainDomainsManager implements DomainsManager {
         return operation;
     }
 
-    async renew(tld: string, request: Exact<RenewRequest>): Promise<TransactionWalletOperation> {
+    async renew(tld: string, request: Exact<RenewRequest>, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation> {
         this.tracer.trace(`=> Executing.`, request);
 
-        const params = await this.operationFactory.renew(tld, request);
+        const params = await this.operationFactory.renew(tld, request, operationParams);
         const operation = await this.tezos.call(params);
 
         this.tracer.trace('<= Executed.', operation.opHash);
@@ -83,10 +83,10 @@ export class BlockchainDomainsManager implements DomainsManager {
         return operation;
     }
 
-    async claimReverseRecord(request: Exact<ReverseRecordRequest>): Promise<TransactionWalletOperation> {
+    async claimReverseRecord(request: Exact<ReverseRecordRequest>, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation> {
         this.tracer.trace(`=> Executing.`, request);
 
-        const params = await this.operationFactory.claimReverseRecord(request);
+        const params = await this.operationFactory.claimReverseRecord(request, operationParams);
         const operation = await this.tezos.call(params);
 
         this.tracer.trace('<= Executed.', operation.opHash);
@@ -94,10 +94,10 @@ export class BlockchainDomainsManager implements DomainsManager {
         return operation;
     }
 
-    async updateReverseRecord(request: Exact<UpdateReverseRecordRequest>): Promise<TransactionWalletOperation> {
+    async updateReverseRecord(request: Exact<UpdateReverseRecordRequest>, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation> {
         this.tracer.trace(`=> Executing.`, request);
 
-        const params = await this.operationFactory.updateReverseRecord(request);
+        const params = await this.operationFactory.updateReverseRecord(request, operationParams);
         const operation = await this.tezos.call(params);
 
         this.tracer.trace('<= Executed.', operation.opHash);
@@ -121,10 +121,10 @@ export class BlockchainDomainsManager implements DomainsManager {
         return this.dataProvider.getTldConfiguration(tld);
     }
 
-    async bid(tld: string, request: Exact<BidRequest>): Promise<TransactionWalletOperation> {
+    async bid(tld: string, request: Exact<BidRequest>, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation> {
         this.tracer.trace(`=> Executing.`, request);
 
-        const params = await this.operationFactory.bid(tld, request);
+        const params = await this.operationFactory.bid(tld, request, operationParams);
         const operation = await this.tezos.call(params);
 
         this.tracer.trace('<= Executed.', operation.opHash);
@@ -132,10 +132,10 @@ export class BlockchainDomainsManager implements DomainsManager {
         return operation;
     }
 
-    async settle(tld: string, request: Exact<SettleRequest>): Promise<TransactionWalletOperation> {
+    async settle(tld: string, request: Exact<SettleRequest>, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation> {
         this.tracer.trace(`=> Executing.`, request);
 
-        const params = await this.operationFactory.settle(tld, request);
+        const params = await this.operationFactory.settle(tld, request, operationParams);
         const operation = await this.tezos.call(params);
 
         this.tracer.trace('<= Executed.', operation.opHash);
@@ -143,10 +143,10 @@ export class BlockchainDomainsManager implements DomainsManager {
         return operation;
     }
 
-    async withdraw(tld: string, recipient: string): Promise<TransactionWalletOperation> {
+    async withdraw(tld: string, recipient: string, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation> {
         this.tracer.trace(`=> Executing withdraw.`, recipient);
 
-        const params = await this.operationFactory.withdraw(tld, recipient);
+        const params = await this.operationFactory.withdraw(tld, recipient, operationParams);
         const operation = await this.tezos.call(params);
 
         this.tracer.trace('<= Executed.', operation.opHash);

@@ -9,6 +9,7 @@ import {
     RecordMetadata,
     DomainNameValidator,
     DomainNameValidationResult,
+    AdditionalOperationParams,
 } from '@tezos-domains/core';
 import { TaquitoClient } from '@tezos-domains/taquito';
 import {
@@ -23,6 +24,8 @@ import { mock, when, anything, instance, anyString, verify, anyOfClass, deepEqua
 import MockDate from 'mockdate';
 import BigNumber from 'bignumber.js';
 
+import { DEFAULT_STORAGE_LIMITS } from '../../src/manager/model';
+
 const e = (s: string) => new BytesEncoder().encode(s)!;
 
 describe('TaquitoTezosDomainsOperationFactory', () => {
@@ -35,6 +38,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
     let validatorMock: DomainNameValidator;
     let operation: TransactionWalletOperation;
     let params: WalletTransferParams;
+    let additionalParams: AdditionalOperationParams;
 
     let constants: ConstantsResponse;
 
@@ -49,6 +53,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
 
         params = { amount: 0, to: 'tz1xxx' };
         constants = { time_between_blocks: [new BigNumber('30')] } as any;
+        additionalParams = { gasLimit: 420 };
 
         when(tracerMock.trace(anything(), anything(), anything()));
 
@@ -86,21 +91,24 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
 
     describe('setChildRecord()', () => {
         it('should call smart contract', async () => {
-            const p = await operationFactory.setChildRecord({
-                label: 'necroskillz',
-                parent: 'tez',
-                data: new RecordMetadata({ ttl: '31' }),
-                owner: 'tz1xxx',
-                address: 'tz1yyy',
-                expiry: new Date(new Date(2021, 10, 11, 8).getTime() - new Date(2021, 10, 11).getTimezoneOffset() * 60000),
-            });
+            const p = await operationFactory.setChildRecord(
+                {
+                    label: 'necroskillz',
+                    parent: 'tez',
+                    data: new RecordMetadata({ ttl: '31' }),
+                    owner: 'tz1xxx',
+                    address: 'tz1yyy',
+                    expiry: new Date(new Date(2021, 10, 11, 8).getTime() - new Date(2021, 10, 11).getTimezoneOffset() * 60000),
+                },
+                additionalParams
+            );
 
             verify(
                 taquitoClientMock.params(
                     `${SmartContractType.NameRegistry}addrset_child_record`,
                     'set_child_record',
                     deepEqual([e('necroskillz'), e('tez'), 'tz1yyy', 'tz1xxx', anyOfClass(MichelsonMap), '2021-11-11T08:00:00.000Z']),
-                    deepEqual({ storageLimit: 400 })
+                    deepEqual({ storageLimit: DEFAULT_STORAGE_LIMITS['set_child_record'], ...additionalParams })
                 )
             ).called();
 
@@ -125,19 +133,22 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
 
     describe('updateRecord()', () => {
         it('should call smart contract', async () => {
-            const p = await operationFactory.updateRecord({
-                name: 'necroskillz.tez',
-                data: new RecordMetadata({ ttl: '31' }),
-                owner: 'tz1xxx',
-                address: 'tz1yyy',
-            });
+            const p = await operationFactory.updateRecord(
+                {
+                    name: 'necroskillz.tez',
+                    data: new RecordMetadata({ ttl: '31' }),
+                    owner: 'tz1xxx',
+                    address: 'tz1yyy',
+                },
+                additionalParams
+            );
 
             verify(
                 taquitoClientMock.params(
                     `${SmartContractType.NameRegistry}addrupdate_record`,
                     'update_record',
                     deepEqual([e('necroskillz.tez'), 'tz1yyy', 'tz1xxx', anyOfClass(MichelsonMap)]),
-                    deepEqual({ storageLimit: 400 })
+                    deepEqual({ storageLimit: DEFAULT_STORAGE_LIMITS['update_record'], ...additionalParams })
                 )
             ).called();
             expect(capture(taquitoClientMock.params).last()[2][3].get('ttl')).toBe('31');
@@ -163,14 +174,14 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
 
             when(commitmentGeneratorMock.generate(deepEqual(request))).thenReturn('commitment');
 
-            const p = await operationFactory.commit('tez', request);
+            const p = await operationFactory.commit('tez', request, additionalParams);
 
             verify(
                 taquitoClientMock.params(
                     `${SmartContractType.TLDRegistrar}addrtezcommit`,
                     'commit',
                     deepEqual(['commitment']),
-                    deepEqual({ storageLimit: 200 })
+                    deepEqual({ storageLimit: DEFAULT_STORAGE_LIMITS['commit'], ...additionalParams })
                 )
             ).called();
 
@@ -193,21 +204,25 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
                 })
             );
 
-            const p = await operationFactory.buy('tez', {
-                duration: 365,
-                label: 'alice',
-                owner: 'tz1xxx',
-                address: 'tz1yyy',
-                data: new RecordMetadata({ ttl: '31' }),
-                nonce: 1,
-            });
+            const p = await operationFactory.buy(
+                'tez',
+                {
+                    duration: 365,
+                    label: 'alice',
+                    owner: 'tz1xxx',
+                    address: 'tz1yyy',
+                    data: new RecordMetadata({ ttl: '31' }),
+                    nonce: 1,
+                },
+                additionalParams
+            );
 
             verify(
                 taquitoClientMock.params(
                     `${SmartContractType.TLDRegistrar}addrtezbuy`,
                     'buy',
                     deepEqual([e('alice'), 365, 'tz1xxx', 'tz1yyy', anyOfClass(MichelsonMap), 1]),
-                    deepEqual({ amount: 1e6 * 365, storageLimit: 800 })
+                    deepEqual({ amount: 1e6 * 365, storageLimit: DEFAULT_STORAGE_LIMITS['buy'], ...additionalParams })
                 )
             ).called();
 
@@ -239,17 +254,21 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
                 })
             );
 
-            const p = await operationFactory.renew('tez', {
-                duration: 365,
-                label: 'necroskillz2',
-            });
+            const p = await operationFactory.renew(
+                'tez',
+                {
+                    duration: 365,
+                    label: 'necroskillz2',
+                },
+                additionalParams
+            );
 
             verify(
                 taquitoClientMock.params(
                     `${SmartContractType.TLDRegistrar}addrtezrenew`,
                     'renew',
                     deepEqual([e('necroskillz2'), 365]),
-                    deepEqual({ amount: 365 * 1e6 })
+                    deepEqual({ amount: 365 * 1e6, ...additionalParams })
                 )
             ).called();
 
@@ -268,17 +287,20 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
 
     describe('claimReverseRecord()', () => {
         it('should call smart contract', async () => {
-            const p = await operationFactory.claimReverseRecord({
-                name: 'necroskillz.tez',
-                owner: 'tz1xxx',
-            });
+            const p = await operationFactory.claimReverseRecord(
+                {
+                    name: 'necroskillz.tez',
+                    owner: 'tz1xxx',
+                },
+                additionalParams
+            );
 
             verify(
                 taquitoClientMock.params(
                     `${SmartContractType.NameRegistry}addrclaim_reverse_record`,
                     'claim_reverse_record',
                     deepEqual([e('necroskillz.tez'), 'tz1xxx']),
-                    deepEqual({ storageLimit: 400 })
+                    deepEqual({ storageLimit: DEFAULT_STORAGE_LIMITS['claim_reverse_record'], ...additionalParams })
                 )
             ).called();
 
@@ -306,18 +328,21 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
 
     describe('updateReverseRecord()', () => {
         it('should call smart contract', async () => {
-            const p = await operationFactory.updateReverseRecord({
-                address: 'tz1xxx',
-                name: 'necroskillz.tez',
-                owner: 'tz1yyy',
-            });
+            const p = await operationFactory.updateReverseRecord(
+                {
+                    address: 'tz1xxx',
+                    name: 'necroskillz.tez',
+                    owner: 'tz1yyy',
+                },
+                additionalParams
+            );
 
             verify(
                 taquitoClientMock.params(
                     `${SmartContractType.NameRegistry}addrupdate_reverse_record`,
                     'update_reverse_record',
                     deepEqual(['tz1xxx', e('necroskillz.tez'), 'tz1yyy']),
-                    deepEqual({ storageLimit: 200 })
+                    deepEqual({ storageLimit: DEFAULT_STORAGE_LIMITS['update_reverse_record'], ...additionalParams })
                 )
             ).called();
 
@@ -351,17 +376,21 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
         });
 
         it('should call smart contract with bid amount', async () => {
-            const p = await operationFactory.bid('tez', {
-                label: 'necroskillz',
-                bid: 5e6,
-            });
+            const p = await operationFactory.bid(
+                'tez',
+                {
+                    label: 'necroskillz',
+                    bid: 5e6,
+                },
+                additionalParams
+            );
 
             verify(
                 taquitoClientMock.params(
                     `${SmartContractType.TLDRegistrar}addrtezbid`,
                     'bid',
                     deepEqual([e('necroskillz'), 5e6]),
-                    deepEqual({ storageLimit: 200, amount: 5e6 })
+                    deepEqual({ storageLimit: DEFAULT_STORAGE_LIMITS['bid'], amount: 5e6, ...additionalParams })
                 )
             ).called();
 
@@ -381,7 +410,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
                     `${SmartContractType.TLDRegistrar}addrtezbid`,
                     'bid',
                     deepEqual([e('necroskillz'), 5e6]),
-                    deepEqual({ storageLimit: 200, amount: 3e6 })
+                    deepEqual({ storageLimit: DEFAULT_STORAGE_LIMITS['bid'], amount: 3e6 })
                 )
             ).called();
 
@@ -401,7 +430,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
                     `${SmartContractType.TLDRegistrar}addrtezbid`,
                     'bid',
                     deepEqual([e('necroskillz'), 1e6]),
-                    deepEqual({ storageLimit: 200, amount: 0 })
+                    deepEqual({ storageLimit: DEFAULT_STORAGE_LIMITS['bid'], amount: 0 })
                 )
             ).called();
 
@@ -420,19 +449,23 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
 
     describe('settle()', () => {
         it('should call smart contract', async () => {
-            const p = await operationFactory.settle('tez', {
-                label: 'necroskillz',
-                owner: 'tz1xxx',
-                address: 'tz1yyy',
-                data: new RecordMetadata({ ttl: '31' }),
-            });
+            const p = await operationFactory.settle(
+                'tez',
+                {
+                    label: 'necroskillz',
+                    owner: 'tz1xxx',
+                    address: 'tz1yyy',
+                    data: new RecordMetadata({ ttl: '31' }),
+                },
+                additionalParams
+            );
 
             verify(
                 taquitoClientMock.params(
                     `${SmartContractType.TLDRegistrar}addrtezsettle`,
                     'settle',
                     deepEqual([e('necroskillz'), 'tz1xxx', 'tz1yyy', anyOfClass(MichelsonMap)]),
-                    deepEqual({ storageLimit: 800 })
+                    deepEqual({ storageLimit: DEFAULT_STORAGE_LIMITS['settle'], ...additionalParams })
                 )
             ).called();
 
@@ -455,10 +488,15 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
 
     describe('withdraw()', () => {
         it('should call smart contract', async () => {
-            const p = await operationFactory.withdraw('tez', 'tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix');
+            const p = await operationFactory.withdraw('tez', 'tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix', additionalParams);
 
             verify(
-                taquitoClientMock.params(`${SmartContractType.TLDRegistrar}addrtezwithdraw`, 'withdraw', deepEqual(['tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix']))
+                taquitoClientMock.params(
+                    `${SmartContractType.TLDRegistrar}addrtezwithdraw`,
+                    'withdraw',
+                    deepEqual(['tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix']),
+                    deepEqual(additionalParams)
+                )
             ).called();
 
             expect(p).toEqual(params);

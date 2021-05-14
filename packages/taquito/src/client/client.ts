@@ -1,7 +1,7 @@
 import { TezosToolkit, BigMapAbstraction, TransactionWalletOperation, WalletTransferParams, WalletOperation } from '@taquito/taquito';
 import { ConstantsResponse, OpKind } from '@taquito/rpc';
 import { tzip16 } from '@taquito/tzip16';
-import { Tracer, RpcResponseData, RpcRequestScalarData } from '@tezos-domains/core';
+import { Tracer, RpcResponseData, RpcRequestScalarData, AdditionalOperationParams } from '@tezos-domains/core';
 import NodeCache from 'node-cache';
 
 export class TaquitoClient {
@@ -62,14 +62,16 @@ export class TaquitoClient {
         contractAddress: string,
         method: string,
         parameters: any[],
-        transferParams?: { storageLimit?: number; amount?: number }
+        operationParams?: AdditionalOperationParams & { amount?: number }
     ): Promise<WalletTransferParams> {
         this.tracer.trace(
-            `=> Preparing call for entrypoint '${method}' at '${contractAddress}' with parameters '${JSON.stringify(parameters)}' and params '${JSON.stringify(transferParams)}.'`
+            `=> Preparing call for entrypoint '${method}' at '${contractAddress}' with parameters '${JSON.stringify(parameters)}' and params '${JSON.stringify(
+                operationParams
+            )}.'`
         );
 
         const contract = await this.tezos.wallet.at(contractAddress);
-        const params = contract.methods[method](...parameters).toTransferParams({ ...(transferParams || {}), mutez: true });
+        const params = contract.methods[method](...parameters).toTransferParams({ mutez: true, ...operationParams });
 
         this.tracer.trace('<= Prepared params.', params);
 

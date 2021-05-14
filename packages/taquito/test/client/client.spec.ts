@@ -197,11 +197,11 @@ describe('TaquitoClient', () => {
 
     describe('params()', () => {
         it('should create params for calling contract method', async () => {
-            const p = await client.params('KT1xxx', 'method', ['p1', 'p2'], { amount: 1, storageLimit: 100 });
+            const p = await client.params('KT1xxx', 'method', ['p1', 'p2'], { amount: 1, storageLimit: 100, gasLimit: 420, fee: 69 });
 
             expect(methods.method).toHaveBeenCalledWith('p1', 'p2');
 
-            verify(method.toTransferParams(deepEqual({ amount: 1, mutez: true, storageLimit: 100 }))).called();
+            verify(method.toTransferParams(deepEqual({ amount: 1, mutez: true, storageLimit: 100, gasLimit: 420, fee: 69 }))).called();
 
             expect(p).toBe(params);
         });

@@ -71,3 +71,9 @@ export class NotSupportedError extends Error {
         super('Method not supported.');
     }
 }
+
+export interface AdditionalOperationParams {
+    storageLimit?: number;
+    gasLimit?: number;
+    fee?: number;
+}

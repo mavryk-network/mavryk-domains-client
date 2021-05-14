@@ -157,3 +157,14 @@ export interface TLDConfiguration {
     bidAdditionalPeriod: BigNumber;
     launchDates: Record<string, Date | null>;
 }
+
+export const DEFAULT_STORAGE_LIMITS = {
+    set_child_record: 400,
+    update_record: 400,
+    claim_reverse_record: 400,
+    update_reverse_record: 200,
+    commit: 200,
+    buy: 800,
+    bid: 200,
+    settle: 800,
+};
