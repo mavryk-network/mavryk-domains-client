@@ -5,6 +5,7 @@ jest.mock('@tezos-domains/taquito');
 jest.mock('@taquito/taquito');
 jest.mock('../src/taquito-proxy-contract-address-resolver');
 jest.mock('../src/taquito-resolver-data-provider');
+jest.mock('../src/taquito-data-provider');
 
 import { TezosToolkit } from '@taquito/taquito';
 import { AddressBook, TezosDomainsValidator, UnsupportedDomainNameValidator, Tracer, createTracer } from '@tezos-domains/core';
@@ -22,6 +23,7 @@ import { mock, instance } from 'ts-mockito';
 
 import { TaquitoTezosDomainsProxyContractAddressResolver } from '../src/taquito-proxy-contract-address-resolver';
 import { TaquitoTezosDomainsResolverDataProvider } from '../src/taquito-resolver-data-provider';
+import { TaquitoTezosDomainsDataProvider } from '../src/taquito-data-provider';
 
 class T {}
 class N {}
@@ -40,6 +42,7 @@ describe('TaquitoTezosDomainsClient', () => {
     let nullNameResolver: NullNameResolver;
     let managerDataProvider: TaquitoManagerDataProvider;
     let operationFactory: TaquitoTezosDomainsOperationFactory;
+    let bigMapDataProviderMock: TaquitoTezosDomainsDataProvider;
 
     let unsupportedDomainNameValidator: UnsupportedDomainNameValidator;
     let unsupportedDomainsManager: UnsupportedDomainsManager;
@@ -60,6 +63,7 @@ describe('TaquitoTezosDomainsClient', () => {
         proxyContractAddressResolver = mock(TaquitoTezosDomainsProxyContractAddressResolver);
         managerDataProvider = mock(TaquitoManagerDataProvider);
         operationFactory = mock(TaquitoTezosDomainsOperationFactory);
+        bigMapDataProviderMock = mock(TaquitoTezosDomainsDataProvider);
 
         (TaquitoClient as jest.Mock).mockReturnValue(instance(taquitoClientMock));
         (AddressBook as jest.Mock).mockReturnValue(instance(addressBookMock));
@@ -75,6 +79,7 @@ describe('TaquitoTezosDomainsClient', () => {
         (TaquitoTezosDomainsProxyContractAddressResolver as jest.Mock).mockReturnValue(instance(proxyContractAddressResolver));
         (TaquitoManagerDataProvider as jest.Mock).mockReturnValue(instance(managerDataProvider));
         (TaquitoTezosDomainsOperationFactory as jest.Mock).mockReturnValue(instance(operationFactory));
+        (TaquitoTezosDomainsDataProvider as jest.Mock).mockReturnValue(instance(bigMapDataProviderMock));
     });
 
     describe('config', () => {
@@ -92,7 +97,8 @@ describe('TaquitoTezosDomainsClient', () => {
                 instance(addressBookMock),
                 instance(tracerMock),
                 instance(commitmentGeneratorMock),
-                instance(domainNameValidator)
+                instance(domainNameValidator),
+                instance(bigMapDataProviderMock)
             );
             expect(TaquitoTezosDomainsOperationFactory).toHaveBeenCalledWith(
                 instance(taquitoClientMock),

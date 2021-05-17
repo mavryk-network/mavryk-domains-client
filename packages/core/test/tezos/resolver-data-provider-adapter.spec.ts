@@ -19,6 +19,7 @@ describe('ResolverDataProviderAdapter', () => {
             expiry_key: 'necroskillz.tez',
             owner: 'tz1OWN',
             data: domainData,
+            tzip12_token_id: null
         });
 
         when(dataProviderMock.getDomainRecord('expired.tez')).thenResolve({
@@ -26,6 +27,7 @@ describe('ResolverDataProviderAdapter', () => {
             address: 'tz1NXtvKxbCpWkSmHSAirdxzPbQgicTFwWyc',
             owner: 'tz1OWN',
             data: new RecordMetadata(),
+            tzip12_token_id: 666
         });
 
         when(dataProviderMock.getDomainRecord('no-expiry-key.tez')).thenResolve({
@@ -33,6 +35,7 @@ describe('ResolverDataProviderAdapter', () => {
             address: 'tz1S8U7XJU8vj2SEyLDXH25fhLuEsk4Yr1wZ',
             owner: 'tz1OWN',
             data: new RecordMetadata(),
+            tzip12_token_id: 42
         });
 
         when(dataProviderMock.getDomainExpiry('necroskillz.tez')).thenResolve(new Date(2021, 1, 1));

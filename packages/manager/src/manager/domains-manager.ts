@@ -123,10 +123,17 @@ export interface DomainsManager {
 
     /**
      * Gets the configuration of the specified TLD registrar.
-     * 
+     *
      * @param tld The name of the top level domain (e.g. `tez`).
      */
     getTldConfiguration(tld: string): Promise<TLDConfiguration>;
+
+    /**
+     * Gets the NFT token id for a specified domain name.
+     * 
+     * @param name The name of the domain (e.g. `alice.tez`)
+     */
+    getTokenId(name: string): Promise<number | null>;
 
     /**
      * Placed a bid on the specified domain label in an auction.
@@ -159,6 +166,14 @@ export interface DomainsManager {
      * @param recipient The address of the recipient of the withdrawn funds.
      */
     withdraw(tld: string, recipient: string, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation>;
+
+    /**
+     * Transfers the domain NFT token to a new owner.
+     * 
+     * @param name The name of the domain (e.g. `alice.tez`)
+     * @param newOwner The address to transfer the token to.
+     */
+    transfer(name: string, newOwner: string, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation>;
 
     /** Execute multiple Tezos Domains operations in a batch. */
     batch(builder: (operationFactory: TezosDomainsOperationFactory<WalletTransferParams>) => Promise<WalletTransferParams[]>): Promise<WalletOperation>;

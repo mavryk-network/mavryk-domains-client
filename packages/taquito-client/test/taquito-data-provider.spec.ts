@@ -45,6 +45,7 @@ describe('TaquitoTezosDomainsDataProvider', () => {
             owner: 'tz1OWN',
             level: new BigNumber(3),
             data: domainData,
+            tzip12_token_id: new BigNumber(1)
         } as any;
 
         storage.store.expiry_map[e('necroskillz.tez')] = new Date(2021, 1, 1);
@@ -79,6 +80,7 @@ describe('TaquitoTezosDomainsDataProvider', () => {
             expect(domain?.expiry_key).toBe('necroskillz.tez');
             expect(domain?.owner).toBe('tz1OWN');
             expect(domain?.data.getJson(StandardRecordMetadataKey.TTL)).toBe(420);
+            expect(domain?.tzip12_token_id).toBe(1);
         });
 
         it('should return null if domain does not exist', async () => {

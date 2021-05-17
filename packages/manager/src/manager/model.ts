@@ -102,6 +102,19 @@ export class SettleRequest {
     @encoder(MapEncoder) data!: RecordMetadata;
 }
 
+@RpcRequest()
+export class Tzip12TransferDestination {
+    to_!: string;
+    token_id!: number;
+    amount!: number;
+}
+
+@RpcRequest()
+export class Tzip12TransferRequest {
+    from_!: string;
+    txs!: Tzip12TransferDestination[];
+}
+
 @RpcResponse()
 export class TLDRecord {
     @encoder(DateEncoder) expiry!: Date;

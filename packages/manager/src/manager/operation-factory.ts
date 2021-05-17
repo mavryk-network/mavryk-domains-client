@@ -13,7 +13,7 @@ import { TaquitoClient } from '@tezos-domains/taquito';
 
 import { CommitmentGenerator } from './commitment-generator';
 import { TaquitoManagerDataProvider } from './data-provider';
-import { DEFAULT_STORAGE_LIMITS } from './model';
+import { DEFAULT_STORAGE_LIMITS, Tzip12TransferDestination, Tzip12TransferRequest } from './model';
 import {
     BidRequest,
     BuyRequest,
@@ -37,6 +37,7 @@ export interface TezosDomainsOperationFactory<TOperationParams> {
     bid(tld: string, request: Exact<BidRequest>, operationParams?: AdditionalOperationParams): Promise<TOperationParams>;
     settle(tld: string, request: Exact<SettleRequest>, operationParams?: AdditionalOperationParams): Promise<TOperationParams>;
     withdraw(tld: string, recipient: string, operationParams?: AdditionalOperationParams): Promise<TOperationParams>;
+    transfer(name: string, newOwner: string, operationParams?: AdditionalOperationParams): Promise<TOperationParams>;
 }
 
 export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperationFactory<WalletTransferParams> {
@@ -158,7 +159,10 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
 
         const address = await this.addressBook.lookup(SmartContractType.NameRegistry, entrypoint);
         const encodedRequest = RpcRequestData.fromObject(ReverseRecordRequest, request).encode();
-        const params = await this.tezos.params(address, entrypoint, [encodedRequest.name, encodedRequest.owner], { storageLimit: DEFAULT_STORAGE_LIMITS[entrypoint], ...operationParams });
+        const params = await this.tezos.params(address, entrypoint, [encodedRequest.name, encodedRequest.owner], {
+            storageLimit: DEFAULT_STORAGE_LIMITS[entrypoint],
+            ...operationParams,
+        });
 
         this.tracer.trace('<= Prepared.', params);
 
@@ -237,6 +241,36 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
 
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld, entrypoint);
         const params = await this.tezos.params(address, entrypoint, [recipient], operationParams);
+
+        this.tracer.trace('<= Prepared.', params);
+
+        return params;
+    }
+
+    async transfer(name: string, newOwner: string, operationParams?: AdditionalOperationParams): Promise<WalletTransferParams> {
+        const tokenId = await this.dataProvider.getTokenId(name);
+        if (!tokenId) {
+            throw new Error(`FA2 token id not found for domain ${name}.`);
+        }
+
+        const entrypoint = 'transfer';
+
+        const address = await this.addressBook.lookup(SmartContractType.NameRegistry);
+
+        const request = RpcRequestData.fromObject(Tzip12TransferRequest, {
+            from_: await this.tezos.getPkh(),
+            txs: [
+                RpcRequestData.fromObject(Tzip12TransferDestination, {
+                    to_: newOwner,
+                    amount: 1,
+                    token_id: tokenId,
+                }).encode(),
+            ],
+        }).encode();
+
+        this.tracer.trace(`=> Preparing operation ${entrypoint}.`, name, newOwner);
+
+        const params = await this.tezos.params(address, entrypoint, [[request]], operationParams);
 
         this.tracer.trace('<= Prepared.', params);
 

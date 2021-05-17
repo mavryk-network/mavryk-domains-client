@@ -34,7 +34,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
     let addressBookMock: AddressBook;
     let tracerMock: Tracer;
     let commitmentGeneratorMock: CommitmentGenerator;
-    let dataProvider: TaquitoManagerDataProvider;
+    let dataProviderMock: TaquitoManagerDataProvider;
     let validatorMock: DomainNameValidator;
     let operation: TransactionWalletOperation;
     let params: WalletTransferParams;
@@ -47,7 +47,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
         addressBookMock = mock(AddressBook);
         tracerMock = mock<Tracer>();
         commitmentGeneratorMock = mock(CommitmentGenerator);
-        dataProvider = mock(TaquitoManagerDataProvider);
+        dataProviderMock = mock(TaquitoManagerDataProvider);
         validatorMock = mock<DomainNameValidator>();
         operation = mock(TransactionWalletOperation);
 
@@ -66,6 +66,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
         });
         when(validatorMock.supportedTLDs).thenReturn(['tez']);
 
+        when(addressBookMock.lookup(anything())).thenCall(type => Promise.resolve(`${type}addr`));
         when(addressBookMock.lookup(anything(), anything())).thenCall((type, p1) => Promise.resolve(`${type}addr${p1 || ''}`));
         when(addressBookMock.lookup(anything(), anything(), anything())).thenCall((type, p1, p2) => Promise.resolve(`${type}addr${p1 || ''}${p2 || ''}`));
 
@@ -80,7 +81,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
             instance(addressBookMock),
             instance(tracerMock),
             instance(commitmentGeneratorMock),
-            instance(dataProvider),
+            instance(dataProviderMock),
             instance(validatorMock)
         );
     });
@@ -197,7 +198,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
 
     describe('buy()', () => {
         it('should call smart contract with price', async () => {
-            when(dataProvider.getAcquisitionInfo('alice.tez')).thenResolve(
+            when(dataProviderMock.getAcquisitionInfo('alice.tez')).thenResolve(
                 DomainAcquisitionInfo.createBuyOrRenew(DomainAcquisitionState.CanBeBought, {
                     minDuration: 1,
                     pricePerMinDuration: 1e6,
@@ -247,7 +248,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
 
     describe('renew()', () => {
         it('should call smart contract with price', async () => {
-            when(dataProvider.getAcquisitionInfo('necroskillz2.tez')).thenResolve(
+            when(dataProviderMock.getAcquisitionInfo('necroskillz2.tez')).thenResolve(
                 DomainAcquisitionInfo.createBuyOrRenew(DomainAcquisitionState.Taken, {
                     minDuration: 1,
                     pricePerMinDuration: 1e6,
@@ -372,7 +373,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
 
     describe('bid()', () => {
         beforeEach(() => {
-            when(dataProvider.getBidderBalance('tez', 'tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix')).thenResolve(2e6);
+            when(dataProviderMock.getBidderBalance('tez', 'tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix')).thenResolve(2e6);
         });
 
         it('should call smart contract with bid amount', async () => {
@@ -504,6 +505,26 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
 
         it('should throw if tld is not supported', async () => {
             await expect(() => operationFactory.withdraw('ble', 'tz1VBLpuDKMoJuHRLZ4HrCgRuiLpEr7zZx2E')).rejects.toThrowError("TLD 'ble' is not supported.");
+        });
+    });
+
+    describe('transfer()', () => {
+        it('should call smart contract', async () => {
+            when(dataProviderMock.getTokenId('alice.tez')).thenResolve(1);
+            when(taquitoClientMock.getPkh()).thenResolve('tz1Old');
+
+            const p = await operationFactory.transfer('alice.tez', 'tz1New', additionalParams);
+
+            verify(taquitoClientMock.params(`${SmartContractType.NameRegistry}addr`, 'transfer', anything(), deepEqual(additionalParams))).called();
+
+            const request = capture(taquitoClientMock.params).first()[2][0];
+            expect(request).toEqual([{ from_: 'tz1Old', txs: [{ to_: 'tz1New', token_id: 1, amount: 1 }] }]);
+
+            expect(p).toEqual(params);
+        });
+        
+        it('should throw if token id is null', async () => {
+            await expect(() => operationFactory.transfer('bob.tez', 'tz1VBLpuDKMoJuHRLZ4HrCgRuiLpEr7zZx2E')).rejects.toThrowError();
         });
     });
 });

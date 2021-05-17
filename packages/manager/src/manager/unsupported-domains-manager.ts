@@ -61,6 +61,14 @@ export class UnsupportedDomainsManager implements DomainsManager {
         throw new NotSupportedError();
     }
 
+    getTokenId(): Promise<number | null> {
+        throw new NotSupportedError();
+    }
+
+    transfer(): Promise<TransactionWalletOperation> {
+        throw new NotSupportedError();
+    }
+
     batch(): Promise<WalletOperation> {
         throw new NotSupportedError();
     }

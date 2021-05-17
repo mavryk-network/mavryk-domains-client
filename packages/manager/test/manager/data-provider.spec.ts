@@ -9,6 +9,7 @@ import {
     BytesEncoder,
     DomainNameValidator,
     DomainNameValidationResult,
+    TezosDomainsDataProvider,
 } from '@tezos-domains/core';
 import { TaquitoClient } from '@tezos-domains/taquito';
 import { ConstantsResponse } from '@taquito/rpc';
@@ -39,6 +40,7 @@ describe('TaquitoManagerDataProvider', () => {
     let tracerMock: Tracer;
     let commitmentGeneratorMock: CommitmentGenerator;
     let validatorMock: DomainNameValidator;
+    let tezosDomainsDataProviderMock: TezosDomainsDataProvider;
     let operation: TransactionWalletOperation;
     let config: MichelsonMap<string, any>;
 
@@ -53,6 +55,7 @@ describe('TaquitoManagerDataProvider', () => {
         tracerMock = mock<Tracer>();
         commitmentGeneratorMock = mock(CommitmentGenerator);
         validatorMock = mock<DomainNameValidator>();
+        tezosDomainsDataProviderMock = mock<TezosDomainsDataProvider>();
         operation = mock(TransactionWalletOperation);
 
         config = new MichelsonMap<string, any>();
@@ -116,6 +119,8 @@ describe('TaquitoManagerDataProvider', () => {
 
         when(operation.opHash).thenReturn('op_hash');
 
+        when(tezosDomainsDataProviderMock.getDomainRecord('alice.tez')).thenResolve({ tzip12_token_id: 1 } as any);
+
         MockDate.set(now);
 
         dataProvider = new TaquitoManagerDataProvider(
@@ -123,7 +128,8 @@ describe('TaquitoManagerDataProvider', () => {
             instance(addressBookMock),
             instance(tracerMock),
             instance(commitmentGeneratorMock),
-            instance(validatorMock)
+            instance(validatorMock),
+            instance(tezosDomainsDataProviderMock)
         );
     });
 
@@ -387,7 +393,7 @@ describe('TaquitoManagerDataProvider', () => {
 
         it('should throw if domain name not 2nd level', async () => {
             await expect(() => dataProvider.getAcquisitionInfo('bob.alice.tez')).rejects.toThrowError(
-                "'bob.alice.tez' cannot be acquired. Only 2nd level domains (e.g. 'alice.tez') can be acquired."
+                "Domain 'bob.alice.tez' cannot be acquired. Only 2nd level domains (e.g. 'alice.tez') can be acquired."
             );
         });
 
@@ -427,4 +433,28 @@ describe('TaquitoManagerDataProvider', () => {
             );
         });
     });
+
+    describe('getTokenId()', () => {
+        it('should return tokenId for a domain', async () => {
+            const tokenId = await dataProvider.getTokenId('alice.tez');
+
+            expect(tokenId).toBe(1);
+        });
+
+        it('should return null for non existent domain', async () => {
+            const tokenId = await dataProvider.getTokenId('bob.tez');
+
+            expect(tokenId).toBeNull();
+        });
+
+        it('should throw if domain name is invalid', async () => {
+            await expect(() => dataProvider.getTokenId('invalid.tez')).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
+        });
+
+        it('should throw if domain name not 2nd level', async () => {
+            await expect(() => dataProvider.getTokenId('bob.alice.tez')).rejects.toThrowError(
+                "Domain 'bob.alice.tez' does not have a tokenId. Only 2nd level domains (e.g. 'alice.tez') are NFTs."
+            );
+        });
+    })
 });

@@ -55,4 +55,19 @@ describe('manager', () => {
             expect(info.calculatePrice(365)).toBe(1e6);
         });
     });
+
+    describe('getTokenId()', () => {
+        it('should get existing commitment and return info', async () => {
+            const tokenId = await client.manager.getTokenId(`alice.${client.validator.supportedTLDs[0]}`);
+            const expectedTokenId = db[CONFIG.network]['aliceTokenId'];
+
+            expect(tokenId).toBe(expectedTokenId);
+        });
+
+        it('should return null if domain doesnt exist', async () => {
+            const tokenId = await client.manager.getTokenId(`integration-test-new${Date.now().toString()}.${client.validator.supportedTLDs[0]}`);
+
+            expect(tokenId).toBeNull();
+        });
+    });
 });

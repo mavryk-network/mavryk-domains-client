@@ -5,7 +5,8 @@
             "usableFrom": "2021-03-01T12:42:49.000Z",
             "usableUntil": "2021-03-02T12:42:49.000Z"
         },
-        "price": 1000000
+        "price": 1000000,
+        "aliceTokenId": 5
     },
     "florencenet": {
         "commitment": {
@@ -13,6 +14,7 @@
             "usableFrom": "2021-04-01T10:59:19.000Z",
             "usableUntil": "2021-04-02T10:59:19.000Z"
         },
-        "price": 1000000
+        "price": 1000000,
+        "aliceTokenId": 1
     }
 }

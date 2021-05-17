@@ -11,6 +11,7 @@ import {
     DomainNameValidator,
     getLevel,
     TLDConfigProperty,
+    TezosDomainsDataProvider,
 } from '@tezos-domains/core';
 import { BytesEncoder, getLabel } from '@tezos-domains/core';
 import { TaquitoClient, TLDRegistrarStorage, MapEncoder, BigNumberEncoder } from '@tezos-domains/taquito';
@@ -26,7 +27,8 @@ export class TaquitoManagerDataProvider {
         private addressBook: AddressBook,
         private tracer: Tracer,
         private commitmentGenerator: CommitmentGenerator,
-        private validator: DomainNameValidator
+        private validator: DomainNameValidator,
+        private bigMapDataProvider: TezosDomainsDataProvider
     ) {}
 
     async getCommitment(tld: string, request: Exact<CommitmentRequest>): Promise<CommitmentInfo | null> {
@@ -70,7 +72,7 @@ export class TaquitoManagerDataProvider {
 
     async getAcquisitionInfo(name: string): Promise<DomainAcquisitionInfo> {
         if (getLevel(name) !== 2) {
-            throw new Error(`'${name}' cannot be acquired. Only 2nd level domains (e.g. 'alice.${this.validator.supportedTLDs[0]}') can be acquired.`);
+            throw new Error(`Domain '${name}' cannot be acquired. Only 2nd level domains (e.g. 'alice.${this.validator.supportedTLDs[0]}') can be acquired.`);
         }
         this.assertDomainName(name);
 
@@ -148,6 +150,19 @@ export class TaquitoManagerDataProvider {
         );
 
         return balanceResponse.scalar(BigNumberEncoder) || 0;
+    }
+
+    async getTokenId(name: string): Promise<number | null> {
+        this.assertDomainName(name);
+        if (getLevel(name) !== 2) {
+            throw new Error(
+                `Domain '${name}' does not have a tokenId. Only 2nd level domains (e.g. 'alice.${this.validator.supportedTLDs[0]}') are NFTs.`
+            );
+        }
+
+        const record = await this.bigMapDataProvider.getDomainRecord(name);
+
+        return record?.tzip12_token_id || null;
     }
 
     private assertDomainName(name: string) {

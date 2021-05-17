@@ -154,6 +154,21 @@ export class BlockchainDomainsManager implements DomainsManager {
         return operation;
     }
 
+    getTokenId(name: string): Promise<number | null> {
+        return this.dataProvider.getTokenId(name);
+    }
+    
+    async transfer(name: string, newOwner: string, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation> {
+        this.tracer.trace(`=> Executing transfer.`, name, newOwner);
+
+        const params = await this.operationFactory.transfer(name, newOwner, operationParams);
+        const operation = await this.tezos.call(params);
+
+        this.tracer.trace('<= Executed.', operation.opHash);
+
+        return operation;
+    }
+
     async batch(builder: (operationFactory: TezosDomainsOperationFactory<WalletTransferParams>) => Promise<WalletTransferParams[]>): Promise<WalletOperation> {
         this.tracer.trace(`=> Executing batch.`);
 

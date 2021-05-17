@@ -92,6 +92,18 @@ describe('UnsupportedDomainsManager', () => {
         });
     });
 
+    describe('getTokenId()', () => {
+        it('should return throw', () => {
+            expect(() => resolver.getTokenId('alice.tez')).toThrowError(NotSupportedError);
+        });
+    });
+
+    describe('transfer()', () => {
+        it('should return throw', () => {
+            expect(() => resolver.transfer('alice.tez', 'tz1xxx')).toThrowError(NotSupportedError);
+        });
+    });
+
     describe('batch()', () => {
         it('should return throw', () => {
             expect(() => resolver.batch(() => Promise.resolve([]))).toThrowError(NotSupportedError);

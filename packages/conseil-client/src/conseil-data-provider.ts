@@ -33,9 +33,12 @@ export class ConseilTezosDomainsDataProvider implements TezosDomainsDataProvider
             return null;
         }
 
+        const tokenId = JSONPath({ path: 'args[2].args[0].int', json: mapResult })[0];
+
         const record = {
             address: JSONPath({ path: '$.args[0].args[0].args[0].args[0].string', json: mapResult })[0],
             owner: JSONPath({ path: '$.args[1].args[1].string', json: mapResult })[0],
+            tzip12_token_id: tokenId ? +tokenId : null,
             expiry_key: new RpcResponseData(JSONPath({ path: '$.args[0].args[1].args[0].bytes', json: mapResult })[0]).scalar(BytesEncoder),
             data: new RecordMetadata(dataToObj(JSONPath({ path: '$.args[0].args[0].args[1]', json: mapResult })[0])),
         };

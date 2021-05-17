@@ -16,6 +16,7 @@ export class TaquitoDomainRecord {
     owner!: string;
     @encoder(MapEncoder) data!: RecordMetadata;
     address!: string | null;
+    @encoder(BigNumberEncoder) tzip12_token_id!: number | null;
 }
 
 @RpcResponse()

@@ -43,6 +43,7 @@ export interface DomainRecord {
     owner: string;
     data: RecordMetadata;
     address: string | null;
+    tzip12_token_id: number | null;
 }
 
 export interface DomainRecordInfo<TAddress> {

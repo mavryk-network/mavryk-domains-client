@@ -49,6 +49,10 @@ describe('ConseilTezosDomainsDataProvider', () => {
                     prim: 'Pair',
                     args: [{ int: '3' }, { string: 'tz1OWN' }],
                 },
+                {
+                    prim: 'Pair',
+                    args: [{ int: '777' }],
+                },
             ],
         };
 
@@ -120,6 +124,7 @@ describe('ConseilTezosDomainsDataProvider', () => {
             expect(domain?.address).toBe('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i');
             expect(domain?.expiry_key).toBe('necroskillz.tez');
             expect(domain?.owner).toBe('tz1OWN');
+            expect(domain?.tzip12_token_id).toBe(777);
             expect(domain?.data.getJson(StandardRecordMetadataKey.TTL)).toBe(420);
         });
 

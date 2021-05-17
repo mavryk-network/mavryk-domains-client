@@ -1,5 +1,5 @@
 import { TransactionWalletOperation, WalletTransferParams, WalletOperation } from '@taquito/taquito';
-import { Exact, Tracer, AddressBook, RecordMetadata, AdditionalOperationParams } from '@tezos-domains/core';
+import { Exact, Tracer, RecordMetadata, AdditionalOperationParams } from '@tezos-domains/core';
 import { TaquitoClient } from '@tezos-domains/taquito';
 import {
     DomainsManager,
@@ -16,7 +16,6 @@ import MockDate from 'mockdate';
 describe('BlockchainDomainsManager', () => {
     let manager: DomainsManager;
     let taquitoClientMock: TaquitoClient;
-    let addressBookMock: AddressBook;
     let tracerMock: Tracer;
     let dataProviderMock: TaquitoManagerDataProvider;
     let operationFactory: TezosDomainsOperationFactory<WalletTransferParams>;
@@ -27,7 +26,6 @@ describe('BlockchainDomainsManager', () => {
 
     beforeEach(() => {
         taquitoClientMock = mock(TaquitoClient);
-        addressBookMock = mock(AddressBook);
         tracerMock = mock<Tracer>();
         dataProviderMock = mock(TaquitoManagerDataProvider);
         operationFactory = mock<TezosDomainsOperationFactory<WalletTransferParams>>();
@@ -36,9 +34,6 @@ describe('BlockchainDomainsManager', () => {
         additionalParams = { storageLimit: 666, gasLimit: 420, fee: 69 };
 
         when(tracerMock.trace(anything(), anything(), anything()));
-
-        when(addressBookMock.lookup(anything(), anything())).thenCall((type, p1) => Promise.resolve(`${type}addr${p1 || ''}`));
-        when(addressBookMock.lookup(anything(), anything(), anything())).thenCall((type, p1, p2) => Promise.resolve(`${type}addr${p1 || ''}${p2 || ''}`));
 
         when(operationFactory.bid(anyString(), anything(), anything())).thenResolve(params);
         when(operationFactory.buy(anyString(), anything(), anything())).thenResolve(params);
@@ -50,6 +45,7 @@ describe('BlockchainDomainsManager', () => {
         when(operationFactory.updateRecord(anything(), anything())).thenResolve(params);
         when(operationFactory.updateReverseRecord(anything(), anything())).thenResolve(params);
         when(operationFactory.withdraw(anyString(), anyString(), anything())).thenResolve(params);
+        when(operationFactory.transfer(anyString(), anyString(), anything())).thenResolve(params);
 
         when(taquitoClientMock.call(deepEqual(params))).thenResolve(instance(operation));
         when(taquitoClientMock.batch(deepEqual([params]))).thenResolve(instance(batchOperation));
@@ -263,6 +259,26 @@ describe('BlockchainDomainsManager', () => {
             verify(operationFactory.withdraw('tez', 'tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix', deepEqual(additionalParams))).called();
 
             expect(op).toBe(instance(operation));
+        });
+    });
+
+    describe('transfer()', () => {
+        it('should call smart contract', async () => {
+            const op = await manager.transfer('alice.tez', 'tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix', additionalParams);
+
+            verify(operationFactory.transfer('alice.tez', 'tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix', deepEqual(additionalParams))).called();
+
+            expect(op).toBe(instance(operation));
+        });
+    });
+
+    describe('getTokenId()', () => {
+        it('should get tokenId', async () => {
+            when(dataProviderMock.getTokenId('alice.tez')).thenResolve(1);
+
+            const tokenId = await manager.getTokenId('alice.tez');
+
+            expect(tokenId).toBe(1);
         });
     });
 

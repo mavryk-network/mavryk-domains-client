@@ -6,6 +6,7 @@ import { TaquitoClient } from '@tezos-domains/taquito';
 
 import { TaquitoTezosDomainsProxyContractAddressResolver } from './taquito-proxy-contract-address-resolver';
 import { TaquitoTezosDomainsResolverDataProvider } from './taquito-resolver-data-provider';
+import { TaquitoTezosDomainsDataProvider } from './taquito-data-provider';
 
 export type TaquitoTezosDomainsConfig = TezosDomainsConfig & { tezos: TezosToolkit };
 
@@ -64,7 +65,8 @@ export class TaquitoTezosDomainsClient {
         const addressBook = new AddressBook(proxyContractAddressResolver, config);
         const dataProvider = new TaquitoTezosDomainsResolverDataProvider(tezos, addressBook, tracer);
         const commitmentGenerator = new CommitmentGenerator();
-        const managerDataProvider = new TaquitoManagerDataProvider(tezos, addressBook, tracer, commitmentGenerator, this.validator);
+        const bigMapDataProvider = new TaquitoTezosDomainsDataProvider(tezos, addressBook, tracer);
+        const managerDataProvider = new TaquitoManagerDataProvider(tezos, addressBook, tracer, commitmentGenerator, this.validator, bigMapDataProvider);
         const operationFactory = new TaquitoTezosDomainsOperationFactory(tezos, addressBook, tracer, commitmentGenerator, managerDataProvider, this.validator);
 
         this._manager = new BlockchainDomainsManager(tezos, tracer, operationFactory, managerDataProvider);
