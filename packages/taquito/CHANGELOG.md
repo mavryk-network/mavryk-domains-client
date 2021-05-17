@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://gitlab.com/tezos-domains/client/compare/v1.2.0...v1.3.0) (2021-05-17)
+
+
+### Features
+
+* allow to override operation params (storageLimit, gasLimit, fee) ([d5fd6e0](https://gitlab.com/tezos-domains/client/commit/d5fd6e0ec45fad2bced29d1cf82ded5d5c6e21f3))
+
+
+
+
+
 # [1.2.0](https://gitlab.com/tezos-domains/client/compare/v1.1.0...v1.2.0) (2021-05-12)
 
 

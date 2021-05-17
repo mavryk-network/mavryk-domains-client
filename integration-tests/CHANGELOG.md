@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://gitlab.com/tezos-domains/client/compare/v1.2.0...v1.3.0) (2021-05-17)
+
+
+### Features
+
+* **manager:** add NFT functions getTokenId and transfer ([7063a95](https://gitlab.com/tezos-domains/client/commit/7063a95413ec7292fbb707b2d65422120f2534af))
+
+
+
+
+
 # [1.2.0](https://gitlab.com/tezos-domains/client/compare/v1.1.0...v1.2.0) (2021-05-12)
 
 **Note:** Version bump only for package integration-tests
