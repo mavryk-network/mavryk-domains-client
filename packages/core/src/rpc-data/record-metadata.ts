@@ -32,6 +32,7 @@ export enum StandardRecordMetadataKey {
     GITLAB_PROFILE = 'gitlab:username',
     KEYBASE = 'keybase:username',
     REPOSITORY_URL = 'project:repository_url',
+    WEB_CONTENT_URL = 'web:content_url',
 }
 
 export class RecordMetadata {
