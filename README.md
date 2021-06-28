@@ -24,11 +24,11 @@ import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
 import { Tzip16Module } from '@taquito/tzip16';
 
 async function main() {
-    const tezos = new TezosToolkit('https://edonet-tezos.giganode.io/');
+    const tezos = new TezosToolkit('https://florencenet-tezos.giganode.io/');
     tezos.addExtension(new Tzip16Module());
-    const client = new TaquitoTezosDomainsClient({ tezos, network: 'edonet', caching: { enabled: true } });
+    const client = new TaquitoTezosDomainsClient({ tezos, network: 'florencenet', caching: { enabled: true } });
 
-    const address = await client.resolver.resolveNameToAddress('bob.edo');
+    const address = await client.resolver.resolveNameToAddress('bob.flo');
 
     console.log(address);
 }
@@ -56,12 +56,12 @@ import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
 import { getTld, getLabel, DomainNameValidationResult, RecordMetadata, generateNonce } from '@tezos-domains/core';
 
 async function main() {
-    const tezos = new TezosToolkit('https://edonet-tezos.giganode.io/');
+    const tezos = new TezosToolkit('https://florencenet-tezos.giganode.io/');
     tezos.addExtension(new Tzip16Module());
     tezos.setSignerProvider(new InMemorySigner('<your signing key>'));
-    const client = new TaquitoTezosDomainsClient({ tezos, network: 'edonet' });
+    const client = new TaquitoTezosDomainsClient({ tezos, network: 'florencenet' });
 
-    const name = 'foobar.edo';
+    const name = 'foobar.flo';
 
     // Validate the domain name syntax
     if (client.validator.validateDomainName(name) !== DomainNameValidationResult.VALID) {
@@ -133,12 +133,12 @@ async function main() {
     registerFetch(fetch);
 
     const client = new ConseilTezosDomainsClient({
-        conseil: { server: 'https://edonet-tezos.giganode.io/' },
-        network: 'edonet',
+        conseil: { server: 'https://florencenet-tezos.giganode.io/' },
+        network: 'florencenet',
         caching: { enabled: true },
     });
 
-    const address = await client.resolver.resolveNameToAddress('bob.edo');
+    const address = await client.resolver.resolveNameToAddress('bob.flo');
 
     console.log(address);
 }
@@ -150,7 +150,7 @@ The client takes options that can customize it's behavior.
 
 `network` (default: `'mainnet'`)
 
--   Specifies which contracts addresses to use. There are built in ones specified for `mainnet` and `edonet`. For `custom` you need to also specify `contractAddresses`.
+-   Specifies which contracts addresses to use. There are built in ones specified for `mainnet` and `florencenet`. For `custom` you need to also specify `contractAddresses`.
 
 `contractAddresses` (default: `undefined`)
 

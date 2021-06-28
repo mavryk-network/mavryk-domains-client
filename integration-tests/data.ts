@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+
 export interface FaucetWallet {
     mnemonic: string[];
     secret: string;
@@ -85,6 +87,8 @@ export const TEST_WALLETS: FaucetWallet[] = [
         email: 'dviuzcub.iufnxkko@tezos.example.org',
     },
 ];
+
+dotenv.config();
 
 export const CONFIG = {
     adminAddress: 'tz1VBLpuDKMoJuHRLZ4HrCgRuiLpEr7zZx2E',

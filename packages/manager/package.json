@@ -37,10 +37,10 @@
     "sha.js": "^2.4.11"
   },
   "devDependencies": {
-    "@taquito/michel-codec": "9.0.0",
-    "@taquito/michelson-encoder": "9.0.0",
-    "@taquito/rpc": "9.0.0",
-    "@taquito/taquito": "9.0.0",
+    "@taquito/michel-codec": "9.2.0",
+    "@taquito/michelson-encoder": "9.2.0",
+    "@taquito/rpc": "9.2.0",
+    "@taquito/taquito": "9.2.0",
     "@types/node": "^14.14.6",
     "fake-promise": "^2.5.41",
     "jest": "^26.6.1",

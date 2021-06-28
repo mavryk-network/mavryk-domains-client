@@ -122,21 +122,21 @@ test:conseil-client:
     tags:
         - docker
 
-test:integration:edonet:
-    stage: test
-    image: node:${NODE_VERSION}
-    allow_failure: false
-    script:
-        - TD_NETWORK=edonet TD_RPC_URL=${RPC_URL_EDONET} yarn integration-test
-    tags:
-        - docker
-
 test:integration:florencenet:
     stage: test
     image: node:${NODE_VERSION}
     allow_failure: false
     script:
         - TD_NETWORK=florencenet TD_RPC_URL=${RPC_URL_FLORENCENET} yarn integration-test
+    tags:
+        - docker
+
+test:integration:granadanet:
+    stage: test
+    image: node:${NODE_VERSION}
+    allow_failure: false
+    script:
+        - TD_NETWORK=granadanet TD_RPC_URL=${RPC_URL_GRANADANET} yarn integration-test
     tags:
         - docker
 

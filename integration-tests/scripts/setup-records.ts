@@ -7,6 +7,7 @@ import fs from 'fs-extra';
 import path from 'path';
 
 import { FaucetWallet, CONFIG, DATA } from '../data';
+import { Tzip16Module } from '@taquito/tzip16';
 
 /**
  * Setup integration test data on specified network
@@ -18,8 +19,10 @@ async function setTezos(wallet: FaucetWallet | 'admin') {
     tezos.setProvider({
         config: {
             confirmationPollingIntervalSecond: 5,
-        },
+        }
     });
+
+    tezos.addExtension(new Tzip16Module());
 
     if (wallet === 'admin') {
         tezos.setSignerProvider(await InMemorySigner.fromSecretKey(CONFIG.adminKey));
@@ -67,6 +70,7 @@ export async function commit(name: string, owner: string): Promise<void> {
 
 export async function run(): Promise<void> {
     await setTezos('admin');
+
     const okMetadata = new RecordMetadata();
     okMetadata.setJson(StandardRecordMetadataKey.TTL, 420);
     await createRecord(DATA.ok.name, DATA.ok.address, DATA.ok.address, new Date(2100, 1, 1), okMetadata);

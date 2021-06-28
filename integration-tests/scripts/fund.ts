@@ -2,6 +2,7 @@ import { TezosToolkit } from '@taquito/taquito';
 import { importKey } from '@taquito/signer';
 
 import { CONFIG, FaucetWallet, TEST_WALLETS } from '../data';
+import BigNumber from 'bignumber.js';
 
 const fundWallet: FaucetWallet = {
     mnemonic: ['census', 'choice', 'rural', 'cement', 'eager', 'trip', 'alcohol', 'sail', 'soccer', 'tag', 'orbit', 'print', 'private', 'point', 'unable'],
@@ -13,23 +14,35 @@ const fundWallet: FaucetWallet = {
 }; // Paste faucet json here
 
 async function run() {
-    const tezos = new TezosToolkit(CONFIG.rpcUrl);
+    try {
+        const tezos = new TezosToolkit(CONFIG.rpcUrl);
 
-    await importKey(tezos, fundWallet.email, fundWallet.password, fundWallet.mnemonic.join(' '), fundWallet.secret);
+        for (const wallet of TEST_WALLETS) {
+            await importKey(tezos, wallet.email, wallet.password, wallet.mnemonic.join(' '), wallet.secret);
 
-    const balance = await tezos.rpc.getBalance(fundWallet.pkh);
+            const balance = (await tezos.tz.getBalance(wallet.pkh)).toNumber();
 
-    const share = balance.minus(500000).dividedBy(TEST_WALLETS.length).toNumber();
+            console.log(wallet.pkh, balance);
+        }
 
-    const batch = tezos.batch();
+        await importKey(tezos, fundWallet.email, fundWallet.password, fundWallet.mnemonic.join(' '), fundWallet.secret);
 
-    TEST_WALLETS.forEach(w => batch.withTransfer({ to: w.pkh, amount: share, mutez: true }));
+        const balance = await tezos.rpc.getBalance(fundWallet.pkh);
 
-    const op = await batch.send();
+        const share = balance.minus(500000).dividedBy(TEST_WALLETS.length).decimalPlaces(0, BigNumber.ROUND_FLOOR).toNumber();
 
-    await op.confirmation();
+        const batch = tezos.contract.batch();
 
-    console.log(`Transferred ${share / 1e6} XTZ to each of the ${TEST_WALLETS.length} bot addresses.`);
+        TEST_WALLETS.forEach(w => batch.withTransfer({ to: w.pkh, amount: share, mutez: true }));
+
+        const op = await batch.send();
+
+        await op.confirmation();
+
+        console.log(`Transferred ${share / 1e6} XTZ to each of the ${TEST_WALLETS.length} bot addresses.`);
+    } catch (err) {
+        console.error(err);
+    }
 }
 
-void run().catch(e => console.error(e));
+void run();

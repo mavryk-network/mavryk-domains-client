@@ -28,18 +28,18 @@ describe('AddressBook', () => {
         await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'tez', 'buy')).resolves.toBe(BuiltInAddresses.mainnet['tldRegistrar:tez:buy'].address);
     });
 
-    it('should resolve built-in addresses for edonet', async () => {
-        init({ network: 'edonet' });
+    it('should resolve built-in addresses for florencenet', async () => {
+        init({ network: 'florencenet' });
 
-        await expect(addressBook.lookup(SmartContractType.NameRegistry)).resolves.toBe(`${BuiltInAddresses.edonet['nameRegistry'].address}_actual`);
+        await expect(addressBook.lookup(SmartContractType.NameRegistry)).resolves.toBe(`${BuiltInAddresses.florencenet['nameRegistry'].address}_actual`);
         await expect(addressBook.lookup(SmartContractType.NameRegistry, 'set_child_record')).resolves.toBe(
-            BuiltInAddresses.edonet['nameRegistry:set_child_record'].address
+            BuiltInAddresses.florencenet['nameRegistry:set_child_record'].address
         );
-        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'edo')).resolves.toBe(
-            `${BuiltInAddresses.edonet['tldRegistrar:edo'].address}_actual`
+        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'flo')).resolves.toBe(
+            `${BuiltInAddresses.florencenet['tldRegistrar:flo'].address}_actual`
         );
-        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'edo', 'buy')).resolves.toBe(
-            BuiltInAddresses.edonet['tldRegistrar:edo:buy'].address
+        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'flo', 'buy')).resolves.toBe(
+            BuiltInAddresses.florencenet['tldRegistrar:flo:buy'].address
         );
     });
 
@@ -50,7 +50,7 @@ describe('AddressBook', () => {
     });
 
     it('should disregard network when resolving custom addresses', async () => {
-        init({ network: 'edonet', contractAddresses: { nameRegistry: { address: 'custom_nr' } } });
+        init({ network: 'florencenet', contractAddresses: { nameRegistry: { address: 'custom_nr' } } });
 
         await expect(addressBook.lookup(SmartContractType.NameRegistry)).resolves.toBe('custom_nr');
     });
