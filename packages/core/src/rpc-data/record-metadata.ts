@@ -33,6 +33,7 @@ export enum StandardRecordMetadataKey {
     KEYBASE = 'keybase:username',
     REPOSITORY_URL = 'project:repository_url',
     WEB_CONTENT_URL = 'web:content_url',
+    WEB_REDIRECT_URL = 'web:redirect_url',
 }
 
 export class RecordMetadata {
