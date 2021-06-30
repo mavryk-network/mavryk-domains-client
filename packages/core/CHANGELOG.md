@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://gitlab.com/tezos-domains/client/compare/v1.3.0...v1.4.0) (2021-06-30)
+
+
+### Features
+
+* add web:content_url metadata key ([cef85af](https://gitlab.com/tezos-domains/client/commit/cef85afc7c537699b238d18ff0b5ce951a88cc1a))
+* add web:redirect_url metadata key ([24f321d](https://gitlab.com/tezos-domains/client/commit/24f321d4d70265441d7391d5451ef1771cd25c63))
+* support variable domain prices base on number of letters ([a5c5ba1](https://gitlab.com/tezos-domains/client/commit/a5c5ba18ece5d876885cd107ee1421f16f0048d5))
+
+
+
+
+
 # [1.3.0](https://gitlab.com/tezos-domains/client/compare/v1.2.0...v1.3.0) (2021-05-17)
 
 
