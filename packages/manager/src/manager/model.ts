@@ -163,12 +163,12 @@ export class CommitmentInfo {
 export interface TLDConfiguration {
     maxCommitmentAge: BigNumber;
     minCommitmentAge: BigNumber;
-    minBidPerDay: BigNumber;
     minDuration: BigNumber;
     minBidIncreaseRatio: BigNumber;
     minAuctionPeriod: BigNumber;
     bidAdditionalPeriod: BigNumber;
     launchDates: Record<string, Date | null>;
+    standardPrices: Record<string, BigNumber>;
 }
 
 export const DEFAULT_STORAGE_LIMITS = {

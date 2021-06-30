@@ -70,6 +70,7 @@ describe('TaquitoManagerDataProvider', () => {
         config.set('1001', new BigNumber(1596240000));
         config.set('1002', new BigNumber(1593043200));
         config.set('1003', new BigNumber(0));
+        config.set('2004', new BigNumber(2e12));
 
         constants = { time_between_blocks: [new BigNumber('30')] } as any;
 
@@ -187,6 +188,17 @@ describe('TaquitoManagerDataProvider', () => {
             expect(info.buyOrRenewDetails.minDuration).toBe(5);
             expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(5e6);
             expect(info.calculatePrice(365)).toBe(365e6);
+            expect(() => info.auctionDetails).toThrowError();
+            expect(() => info.unobtainableDetails).toThrowError();
+        });
+
+        it('should get info about a new expensive domain that can be bought (4 letter)', async () => {
+            const info = await dataProvider.getAcquisitionInfo('alic.tez');
+
+            expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeBought);
+            expect(info.buyOrRenewDetails.minDuration).toBe(5);
+            expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(10e6);
+            expect(info.calculatePrice(365)).toBe(730e6);
             expect(() => info.auctionDetails).toThrowError();
             expect(() => info.unobtainableDetails).toThrowError();
         });

@@ -116,7 +116,9 @@ export class TaquitoManagerDataProvider {
         const config = new RpcResponseData(tldStorage.store.config).scalar(MapEncoder)!;
 
         const defaultProperties = Object.values(TLDConfigProperty) as string[];
-        const launchDateKeys = [TLDConfigProperty.DEFAULT_LAUNCH_DATE as string].concat(config.keys().filter(k => !defaultProperties.includes(k)));
+        const otherKeys = [TLDConfigProperty.DEFAULT_LAUNCH_DATE as string].concat(config.keys().filter(k => !defaultProperties.includes(k)));
+        const launchDateKeys = otherKeys.filter(k => isKeyRange(k, 1000, 2000));
+        const standardPriceKeys = otherKeys.filter(k => isKeyRange(k, 2000, 3000));
 
         const launchDates: Record<string, Date | null> = {};
         for (const launchDateKey of launchDateKeys) {
@@ -124,16 +126,27 @@ export class TaquitoManagerDataProvider {
             launchDates[launchDateKey] = timestamp ? new Date(timestamp * 1000) : null;
         }
 
+        const standardPrices: Record<string, BigNumber> = {};
+        standardPrices[TLDConfigProperty.DEFAULT_STANDARD_PRICE] = config.get<BigNumber>(TLDConfigProperty.MIN_BID_PER_DAY)!;
+        for (const standardPriceKey of standardPriceKeys) {
+            standardPrices[standardPriceKey] = config.get<BigNumber>(standardPriceKey)!;
+        }
+
         return {
             minCommitmentAge: config.get<BigNumber>(TLDConfigProperty.MIN_COMMITMENT_AGE)!,
             maxCommitmentAge: config.get<BigNumber>(TLDConfigProperty.MAX_COMMITMENT_AGE)!,
             minDuration: config.get<BigNumber>(TLDConfigProperty.MIN_DURATION)!,
-            minBidPerDay: config.get<BigNumber>(TLDConfigProperty.MIN_BID_PER_DAY)!,
             minAuctionPeriod: config.get<BigNumber>(TLDConfigProperty.MIN_AUCTION_PERIOD)!,
             minBidIncreaseRatio: config.get<BigNumber>(TLDConfigProperty.MIN_BID_INCREASE_RATIO)!,
             bidAdditionalPeriod: config.get<BigNumber>(TLDConfigProperty.BID_ADDITIONAL_PERIOD)!,
             launchDates,
+            standardPrices
         };
+
+        function isKeyRange(key: string, min: number, max: number) {
+            const no = parseInt(key);
+            return no >= min && no < max;
+        }
     }
 
     async getBidderBalance(tld: string, address: string): Promise<number> {
@@ -155,9 +168,7 @@ export class TaquitoManagerDataProvider {
     async getTokenId(name: string): Promise<number | null> {
         this.assertDomainName(name);
         if (getLevel(name) !== 2) {
-            throw new Error(
-                `Domain '${name}' does not have a tokenId. Only 2nd level domains (e.g. 'alice.${this.validator.supportedTLDs[0]}') are NFTs.`
-            );
+            throw new Error(`Domain '${name}' does not have a tokenId. Only 2nd level domains (e.g. 'alice.${this.validator.supportedTLDs[0]}') are NFTs.`);
         }
 
         const record = await this.bigMapDataProvider.getDomainRecord(name);

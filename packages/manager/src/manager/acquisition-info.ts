@@ -110,7 +110,7 @@ export class DomainAcquisitionInfo {
 export interface AcquisitionInfoInput {
     tldConfiguration: Pick<
         TLDConfiguration,
-        'minDuration' | 'minBidPerDay' | 'minAuctionPeriod' | 'minBidIncreaseRatio' | 'bidAdditionalPeriod' | 'launchDates'
+        'minDuration' | 'minAuctionPeriod' | 'minBidIncreaseRatio' | 'bidAdditionalPeriod' | 'launchDates' | 'standardPrices'
     >;
     name: string;
     existingDomain?: {
@@ -128,7 +128,13 @@ export function calculateAcquisitionInfo(input: AcquisitionInfoInput): DomainAcq
     const now = new Date();
     const label = getLabel(input.name);
     const minDuration = input.tldConfiguration.minDuration.toNumber();
-    const minBid = getPricePerMinDuration(input.tldConfiguration.minBidPerDay);
+    const defaultStandardPriceIndex = parseInt(TLDConfigProperty.DEFAULT_STANDARD_PRICE);
+    let standardPricePerDay = input.tldConfiguration.standardPrices[defaultStandardPriceIndex + label.length];
+    if (!standardPricePerDay) {
+        standardPricePerDay = input.tldConfiguration.standardPrices[defaultStandardPriceIndex];
+    }
+
+    const minBid = getPricePerMinDuration(standardPricePerDay);
 
     if (input.existingDomain && (!input.existingDomain.expiry || input.existingDomain.expiry > now)) {
         return createBuyOrRenewInfo(DomainAcquisitionState.Taken);

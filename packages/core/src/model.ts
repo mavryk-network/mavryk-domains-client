@@ -65,6 +65,7 @@ export enum TLDConfigProperty {
     MIN_AUCTION_PERIOD = '5',
     BID_ADDITIONAL_PERIOD = '6',
     DEFAULT_LAUNCH_DATE = '1000',
+    DEFAULT_STANDARD_PRICE = '2000'
 }
 
 export class NotSupportedError extends Error {
