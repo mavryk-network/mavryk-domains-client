@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://gitlab.com/tezos-domains/client/compare/v1.4.0...v1.5.0) (2021-07-13)
+
+
+### Features
+
+* support granadanet ([8047e11](https://gitlab.com/tezos-domains/client/commit/8047e11ca51e2b1fb50508e52fc42cddc0aa7b10))
+
+
+
+
+
+
 # [1.4.0](https://gitlab.com/tezos-domains/client/compare/v1.3.0...v1.4.0) (2021-06-30)
 
 **Note:** Version bump only for package @tezos-domains/taquito-client
