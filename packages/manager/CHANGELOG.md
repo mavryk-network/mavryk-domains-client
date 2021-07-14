@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://gitlab.com/tezos-domains/client/compare/v1.5.0...v1.6.0) (2021-07-14)
+
+
+### Features
+
+* **manager:** use minimal_block_delay for calculating wait time instead of time_between_blocks ([c6b1130](https://gitlab.com/tezos-domains/client/commit/c6b113034e8ed3c92f7a22689678390a6f56c1fe))
+
+
+
+
+
 # [1.5.0](https://gitlab.com/tezos-domains/client/compare/v1.4.0...v1.5.0) (2021-07-13)
 
 
