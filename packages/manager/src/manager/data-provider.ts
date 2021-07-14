@@ -39,7 +39,8 @@ export class TaquitoManagerDataProvider {
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld);
         const commitmentHash = this.commitmentGenerator.generate(request);
         const constants = await this.tezos.getConstants();
-        const timeBetweenBlocks = constants.time_between_blocks[0].toNumber() * 1000;
+        const minimalBlockDelay = constants.minimal_block_delay?.times(1000).toNumber();
+        const timeBetweenBlocks = constants.time_between_blocks[0].times(1000).toNumber();
 
         this.tracer.trace('!! Calculated commitment hash for given parameters.', commitmentHash);
 
@@ -60,7 +61,7 @@ export class TaquitoManagerDataProvider {
         const minAge = tldConfiguration.minCommitmentAge.times(1000).toNumber();
         const maxAge = tldConfiguration.maxCommitmentAge.times(1000).toNumber();
 
-        const usableFrom = new Date(commitment.getTime() + Math.max(0, minAge - timeBetweenBlocks));
+        const usableFrom = new Date(commitment.getTime() + Math.max(0, minAge - (minimalBlockDelay || timeBetweenBlocks)));
         const usableUntil = new Date(commitment.getTime() + maxAge);
 
         this.tracer.trace(
@@ -140,7 +141,7 @@ export class TaquitoManagerDataProvider {
             minBidIncreaseRatio: config.get<BigNumber>(TLDConfigProperty.MIN_BID_INCREASE_RATIO)!,
             bidAdditionalPeriod: config.get<BigNumber>(TLDConfigProperty.BID_ADDITIONAL_PERIOD)!,
             launchDates,
-            standardPrices
+            standardPrices,
         };
 
         function isKeyRange(key: string, min: number, max: number) {

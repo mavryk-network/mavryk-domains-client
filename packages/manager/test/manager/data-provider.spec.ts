@@ -72,7 +72,7 @@ describe('TaquitoManagerDataProvider', () => {
         config.set('1003', new BigNumber(0));
         config.set('2004', new BigNumber(2e12));
 
-        constants = { time_between_blocks: [new BigNumber('30')] } as any;
+        constants = { time_between_blocks: [new BigNumber('30')], minimal_block_delay: new BigNumber('15') } as any;
 
         storage = {
             store: {
@@ -147,6 +147,20 @@ describe('TaquitoManagerDataProvider', () => {
             const commitment = await dataProvider.getCommitment('tez', params);
 
             expect(commitment!.created.toISOString()).toBe('2020-10-01T10:00:00.000Z');
+            expect(commitment!.usableFrom.toISOString()).toBe('2020-10-01T10:00:45.000Z');
+            expect(commitment!.usableUntil.toISOString()).toBe('2020-10-01T11:00:00.000Z');
+        });
+
+        it('should fall back to time_between_blocks for old protocols', async () => {
+            delete constants.minimal_block_delay;
+            
+            const params: Exact<CommitmentRequest> = { label: 'necroskillz', owner: 'tz1xxx', nonce: 1 };
+
+            when(commitmentGeneratorMock.generate(deepEqual(params))).thenReturn('commitment');
+
+            const commitment = await dataProvider.getCommitment('tez', params);
+
+            expect(commitment!.created.toISOString()).toBe('2020-10-01T10:00:00.000Z');
             expect(commitment!.usableFrom.toISOString()).toBe('2020-10-01T10:00:30.000Z');
             expect(commitment!.usableUntil.toISOString()).toBe('2020-10-01T11:00:00.000Z');
         });
@@ -162,7 +176,7 @@ describe('TaquitoManagerDataProvider', () => {
         });
 
         it('should not set usableFrom before created', async () => {
-            constants.time_between_blocks = [new BigNumber('90')];
+            constants.minimal_block_delay = new BigNumber('90');
             const params: Exact<CommitmentRequest> = { label: 'necroskillz', owner: 'tz1xxx', nonce: 1 };
 
             when(commitmentGeneratorMock.generate(deepEqual(params))).thenReturn('commitment');
