@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://gitlab.com/tezos-domains/client/compare/v1.6.0...v1.7.0) (2021-07-28)
+
+
+### Features
+
+* support taquito 10 ([33501c6](https://gitlab.com/tezos-domains/client/commit/33501c673dace1e9a0447204ccfbf96fb0b530ed))
+
+
+
+
+
 # [1.6.0](https://gitlab.com/tezos-domains/client/compare/v1.5.0...v1.6.0) (2021-07-14)
 
 
