@@ -6,8 +6,9 @@ describe('isTezosDomainsSupportedNetwork()', () => {
         expect(isTezosDomainsSupportedNetwork('carthagenet')).toBe(false);
         expect(isTezosDomainsSupportedNetwork('delphinet')).toBe(false);
         expect(isTezosDomainsSupportedNetwork('edonet')).toBe(false);
-        expect(isTezosDomainsSupportedNetwork('florencenet')).toBe(true);
+        expect(isTezosDomainsSupportedNetwork('florencenet')).toBe(false);
         expect(isTezosDomainsSupportedNetwork('granadanet')).toBe(true);
+        expect(isTezosDomainsSupportedNetwork('hangzhounet')).toBe(true);
         expect(isTezosDomainsSupportedNetwork('custom')).toBe(false);
         expect(isTezosDomainsSupportedNetwork('gibberish')).toBe(false);
         expect(isTezosDomainsSupportedNetwork('')).toBe(false);

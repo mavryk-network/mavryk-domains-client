@@ -40,112 +40,6 @@ export const BuiltInAddresses = {
         },
     },
     custom: null,
-    florencenet: {
-        'nameRegistry:set_child_record': {
-            address: 'KT1UG9DUYqtCF7XUqjH4QNGF2naoh7D1mscR',
-        },
-        'nameRegistry:update_record': {
-            address: 'KT1GZQLAbp9ekSHutKzaoo6yW5AofhYPRQ3q',
-        },
-        'nameRegistry:claim_reverse_record': {
-            address: 'KT1GJFHpra47WtwZH9uVsjwLPqgfL7LDQJhp',
-        },
-        'nameRegistry:update_reverse_record': {
-            address: 'KT1X21jVp6ooHAkPCj3zvCWyNoqQ312dPFid',
-        },
-        nameRegistry: {
-            address: 'KT1PCx2zUqbaCtg8UcyHn31cMD9yaMHLvL6N',
-            resolveProxyContract: true,
-        },
-        'tldRegistrar:flo:commit': {
-            address: 'KT1GTSgwuuB5c2ceGhqhTk4nedZznXYFzh1J',
-        },
-        'tldRegistrar:flo': {
-            address: 'KT1GTSgwuuB5c2ceGhqhTk4nedZznXYFzh1J',
-            resolveProxyContract: true,
-        },
-        'tldRegistrar:flo:buy': {
-            address: 'KT1E8XRnTzrF49Z33wuB5WzEurPGrN1ASb1w',
-        },
-        'tldRegistrar:flo:renew': {
-            address: 'KT1DFMXRc57XmK1YCZnYtYM7ZZCZ1CTCF7Q3',
-        },
-        'tldRegistrar:flo:bid': {
-            address: 'KT1W89CnCQxAwaZRnRefyAnBU7rUBP8s6fez',
-        },
-        'tldRegistrar:flo:withdraw': {
-            address: 'KT1AheQhiqZRW3SGX7XiRJZgZzGfNTQNV4nQ',
-        },
-        'tldRegistrar:flo:settle': {
-            address: 'KT1SmSRa18zpw5G514LJBkZm8ynAxrKpp5Tg',
-        },
-        'tldRegistrar:a1:commit': {
-            address: 'KT1JP6eYx6Z53SW8TCrKZCcZno61CJUjWvWp',
-        },
-        'tldRegistrar:a1': {
-            address: 'KT1JP6eYx6Z53SW8TCrKZCcZno61CJUjWvWp',
-            resolveProxyContract: true,
-        },
-        'tldRegistrar:a1:buy': {
-            address: 'KT1NJbBbczKYNF3CWn9pXwLjhSg99jUG2Fjd',
-        },
-        'tldRegistrar:a1:renew': {
-            address: 'KT1FPh3iejT98uTsxH1fSz3WPGnMmMjLpwDp',
-        },
-        'tldRegistrar:a1:bid': {
-            address: 'KT1NyigaEvn3Xpmnp567H7De1hqaTAo9drNh',
-        },
-        'tldRegistrar:a1:withdraw': {
-            address: 'KT1VbTTGzABsZez3YHmZo2NnAmjZf6bfddwJ',
-        },
-        'tldRegistrar:a1:settle': {
-            address: 'KT1PZfDZ5JiTmxKuxL9hteXafyjUY6evrFwX',
-        },
-        'tldRegistrar:a2:commit': {
-            address: 'KT1XiyeQzUWPpo1x8AYGQZA4wEDhVAfkKg99',
-        },
-        'tldRegistrar:a2': {
-            address: 'KT1XiyeQzUWPpo1x8AYGQZA4wEDhVAfkKg99',
-            resolveProxyContract: true,
-        },
-        'tldRegistrar:a2:buy': {
-            address: 'KT1AgkojjS56AF4n1Kg8ueWyUK1uNWncjRrE',
-        },
-        'tldRegistrar:a2:renew': {
-            address: 'KT1WQ4S1UamDy1g5UBLvozSgprStrq6i3xrx',
-        },
-        'tldRegistrar:a2:bid': {
-            address: 'KT1RfaxpqJ2rGD3umeS85N4e7PGGibA5Qcgg',
-        },
-        'tldRegistrar:a2:withdraw': {
-            address: 'KT1FQjUog81bN1ixL6U3X5EWzrD87qkCic3y',
-        },
-        'tldRegistrar:a2:settle': {
-            address: 'KT1LdvFBCftEZ1fkwBseXkxx8XfAiCmqtRuE',
-        },
-        'tldRegistrar:a3:commit': {
-            address: 'KT1MiAUbR16Sz3vWpp8HYdiiybGeLvzH6inP',
-        },
-        'tldRegistrar:a3': {
-            address: 'KT1MiAUbR16Sz3vWpp8HYdiiybGeLvzH6inP',
-            resolveProxyContract: true,
-        },
-        'tldRegistrar:a3:buy': {
-            address: 'KT18p1t2fyJTDALqzimiMQe7gAGHeFbc9PRt',
-        },
-        'tldRegistrar:a3:renew': {
-            address: 'KT1Cx3iRQ2xZsDJ62FZ6hd4B8o9g4jq93N3J',
-        },
-        'tldRegistrar:a3:bid': {
-            address: 'KT19WncaVpfnNTFnKDKJuztXWjvVjo198wKm',
-        },
-        'tldRegistrar:a3:withdraw': {
-            address: 'KT19DyPDFYUbJa3EHKv8jz5Wsa36QWNVWY3k',
-        },
-        'tldRegistrar:a3:settle': {
-            address: 'KT1MHCnvYGxLcqFyDFbdAXSGZUKrbREWQbdV',
-        },
-    },
     granadanet: {
         'nameRegistry:set_child_record': {
             address: 'KT1XHghF15LrLKx26T9UQnzGH4xq2gNiP24s',
@@ -250,6 +144,112 @@ export const BuiltInAddresses = {
         },
         'tldRegistrar:a3:settle': {
             address: 'KT1GU1LG5fKmotTdGTc1aCzTtGZE7PjENWwo',
+        },
+    },
+    hangzhounet: {
+        'nameRegistry:set_child_record': {
+            address: 'KT1EDRAvezJSnggeW8D7XQmRjZ3Qc2prB1eW',
+        },
+        'nameRegistry:update_record': {
+            address: 'KT1XS6EMCwPQAMUdKjUpxWu6C2BBaaCD8SFx',
+        },
+        'nameRegistry:claim_reverse_record': {
+            address: 'KT1X5Uc8kzattovyhEemu2GPXxMaynNkLTRn',
+        },
+        'nameRegistry:update_reverse_record': {
+            address: 'KT1QScBcuKdoDiAE2hqknyeSUn4tUdvLtU7M',
+        },
+        nameRegistry: {
+            address: 'KT1C7YadFD6LWwL3DJVWkVFZuPtPQ7Dsu4jP',
+            resolveProxyContract: true,
+        },
+        'tldRegistrar:han:commit': {
+            address: 'KT1FYmLfoC2fKsiNzAmsULCZqrZzC4PvnCDM',
+        },
+        'tldRegistrar:han': {
+            address: 'KT1FYmLfoC2fKsiNzAmsULCZqrZzC4PvnCDM',
+            resolveProxyContract: true,
+        },
+        'tldRegistrar:han:buy': {
+            address: 'KT1H169zX22yZcAGfDqE2epLMTd5hUD8X3Zh',
+        },
+        'tldRegistrar:han:renew': {
+            address: 'KT1PNBWMra3JtPWjEiQ7t1F9mnFRXKv2Gyov',
+        },
+        'tldRegistrar:han:bid': {
+            address: 'KT195VQzxJGAooLJDXr6ufaj9ZsrWB9L1tZL',
+        },
+        'tldRegistrar:han:withdraw': {
+            address: 'KT1BrCbScQvJ5cVbQM53VaA3hNsAGcCkxcQn',
+        },
+        'tldRegistrar:han:settle': {
+            address: 'KT1HiUQ49u4vZY8fznxeCcNjMVF6t8cuBJ2e',
+        },
+        'tldRegistrar:a1:commit': {
+            address: 'KT1RWUnmFrqq9Rq4wdyqNkWL1jhP6hJDvEeg',
+        },
+        'tldRegistrar:a1': {
+            address: 'KT1RWUnmFrqq9Rq4wdyqNkWL1jhP6hJDvEeg',
+            resolveProxyContract: true,
+        },
+        'tldRegistrar:a1:buy': {
+            address: 'KT1KsK7WtCQxSwe5bCaD3RHN8HmSSUEYUmKs',
+        },
+        'tldRegistrar:a1:renew': {
+            address: 'KT1XbcdzaEuAV69vqGgctBMuVWWempGJbGxN',
+        },
+        'tldRegistrar:a1:bid': {
+            address: 'KT1Ema9PhWZeKp23VJwGQxVUnbsMbFi5BnmA',
+        },
+        'tldRegistrar:a1:withdraw': {
+            address: 'KT1RnyRdvH1yLoZH8daV496sMZaTzQeTu5pA',
+        },
+        'tldRegistrar:a1:settle': {
+            address: 'KT1M1pJ9wuwPcaudfm8DMU3PQzWL2jG26A4K',
+        },
+        'tldRegistrar:a2:commit': {
+            address: 'KT1HRGFUZZmDFXhQ3QmkWQp9rzJBTHG573Jv',
+        },
+        'tldRegistrar:a2': {
+            address: 'KT1HRGFUZZmDFXhQ3QmkWQp9rzJBTHG573Jv',
+            resolveProxyContract: true,
+        },
+        'tldRegistrar:a2:buy': {
+            address: 'KT1RWKrF3eTygs7tZud2KZsAgrkPLaHYoDeT',
+        },
+        'tldRegistrar:a2:renew': {
+            address: 'KT1MLVddmwBZwmGty1nkx7m3TKMacFbaeFYN',
+        },
+        'tldRegistrar:a2:bid': {
+            address: 'KT1K6q2eLMfJF4avbP6Zar6XsejNyoxaPdhF',
+        },
+        'tldRegistrar:a2:withdraw': {
+            address: 'KT1Uq41nRVhxwgdkdBf15KxeGhpV1qP8BxYz',
+        },
+        'tldRegistrar:a2:settle': {
+            address: 'KT1DcjqxBMFqcniWf8x4HsFPucTVQywK1zLJ',
+        },
+        'tldRegistrar:a3:commit': {
+            address: 'KT1LPwzq6jUoV52UvHgjE9WWnduonkDHXgLm',
+        },
+        'tldRegistrar:a3': {
+            address: 'KT1LPwzq6jUoV52UvHgjE9WWnduonkDHXgLm',
+            resolveProxyContract: true,
+        },
+        'tldRegistrar:a3:buy': {
+            address: 'KT1V1o6RqZZNxWG5QC6WhZCgJFvPG1vgd4dn',
+        },
+        'tldRegistrar:a3:renew': {
+            address: 'KT18jn7sG48LYoxGXuJTyU5tDsfDE7KHKefM',
+        },
+        'tldRegistrar:a3:bid': {
+            address: 'KT1ReeVGr5EGdmv4eu2qNMCJ59Esfu5dmqRG',
+        },
+        'tldRegistrar:a3:withdraw': {
+            address: 'KT1RRRspkeqxDjPLedPYEMV7AeRAymNBakNy',
+        },
+        'tldRegistrar:a3:settle': {
+            address: 'KT1FqQwzbK5RKkMrrCErxPeHDjHBPfJ6KsVb',
         },
     },
 };

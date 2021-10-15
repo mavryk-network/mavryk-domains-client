@@ -1,20 +1,12 @@
 {
-    "florencenet": {
-        "commitment": {
-            "created": "2021-04-01T10:59:19.000Z",
-            "usableFrom": "2021-04-01T10:59:19.000Z",
-            "usableUntil": "2021-04-02T10:59:19.000Z"
-        },
-        "price": 1000000,
-        "aliceTokenId": 1
-    },
     "granadanet": {
         "price": 1000000,
         "aliceTokenId": 1,
-        "commitment": {
-            "created": "2021-06-01T14:39:38.000Z",
-            "usableFrom": "2021-06-01T14:39:53.000Z",
-            "usableUntil": "2021-06-02T14:39:38.000Z"
-        }
+        "commitment": { "created": "2021-06-01T14:39:38.000Z", "usableFrom": "2021-06-01T14:39:53.000Z", "usableUntil": "2021-06-02T14:39:38.000Z" }
+    },
+    "hangzhounet": {
+        "price": 1000000,
+        "aliceTokenId": 1,
+        "commitment": { "created": "2021-10-15T09:57:08.000Z", "usableFrom": "2021-10-15T09:57:08.000Z", "usableUntil": "2021-10-16T09:57:08.000Z" }
     }
 }

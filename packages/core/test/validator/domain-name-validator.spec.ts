@@ -67,7 +67,7 @@ describe('TezosDomainsValidator', () => {
 
         it('should override tlds for known network', () => {
             init({
-                network: 'florencenet',
+                network: 'hangzhounet',
                 tlds: [{ name: 'test', validator: testValidatorFn }],
             });
 

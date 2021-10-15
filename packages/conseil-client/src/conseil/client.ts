@@ -39,7 +39,16 @@ export class ConseilClient {
 
         const mapKey = TezosMessageUtils.encodeBigMapKey(Buffer.from(TezosMessageUtils.writePackedData(encodedKey, keyType), 'hex'));
 
-        const value = await TezosNodeReader.getValueForBigMapKey(this.config.server, mapid, mapKey);
+        let value: any;
+        try {
+            value = await TezosNodeReader.getValueForBigMapKey(this.config.server, mapid, mapKey);
+        } catch (err) {
+            if (err.httpStatus === 404) {
+                value = null;
+            } else {
+                throw err;
+            }
+        }
 
         this.tracer.trace(`<= Received big map value.`, value);
 

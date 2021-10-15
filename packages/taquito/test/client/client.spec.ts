@@ -101,7 +101,7 @@ describe('TaquitoClient', () => {
         when(view.executeView('param')).thenResolve('test-value');
         when(rpcClientMock.getConstants()).thenResolve(constants);
         when(tracerMock.trace(anything(), anything()));
-        when(batch.send()).thenResolve(instance(batchOperation));
+        when(batch.send()).thenResolve(instance(batchOperation as any));
         when(walletProviderMock.batch).thenReturn(batchSpy);
 
         client = new TaquitoClient(instance(tezosToolkitMock), instance(tracerMock));

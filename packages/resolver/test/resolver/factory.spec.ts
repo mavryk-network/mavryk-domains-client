@@ -48,7 +48,7 @@ describe('createResolver()', () => {
 
     it('should setup with custom config', () => {
         const config: TezosDomainsConfig = {
-            network: 'florencenet',
+            network: 'hangzhounet',
             tracing: true,
             caching: { enabled: true, defaultRecordTtl: 50, defaultReverseRecordTtl: 60 },
         };
