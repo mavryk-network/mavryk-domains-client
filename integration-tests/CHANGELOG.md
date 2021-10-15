@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://gitlab.com/tezos-domains/client/compare/v1.7.0...v1.8.0) (2021-10-15)
+
+
+### Features
+
+* add hangzhou, remove florence ([098cc39](https://gitlab.com/tezos-domains/client/commit/098cc399395c29819c30c9134697b29ed1f9316e))
+
+
+
+
+
 # [1.7.0](https://gitlab.com/tezos-domains/client/compare/v1.6.0...v1.7.0) (2021-07-28)
 
 
