@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.9.0](https://gitlab.com/tezos-domains/client/compare/v1.8.0...v1.9.0) (2021-11-11)
+
+
+### Features
+
+* switch to hangzhou2 ([f866e64](https://gitlab.com/tezos-domains/client/commit/f866e64d4dea304ce30a56ea73576280fc5e8e3b))
+
+
+
+
+
 # [1.8.0](https://gitlab.com/tezos-domains/client/compare/v1.7.0...v1.8.0) (2021-10-15)
 
 
