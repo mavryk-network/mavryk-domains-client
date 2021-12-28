@@ -19,6 +19,7 @@ export class AddressBook {
                 throw new Error(
                     `Built in address configuration for network ${network} not found. Supported built-in networks are: ${Object.keys(BuiltInAddresses)
                         .filter(n => n !== 'custom')
+                        // eslint-disable-next-line sonarjs/no-nested-template-literals
                         .map(n => `'${n}'`)
                         .join(', ')}.`
                 );

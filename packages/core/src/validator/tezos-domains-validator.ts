@@ -25,6 +25,7 @@ export class TezosDomainsValidator implements DomainNameValidator {
                 throw new Error(
                     `Built in tlds configuration for network ${network} not found. Supported built-in networks are: ${Object.keys(BuiltInTLDs)
                         .filter(n => n !== 'custom')
+                        // eslint-disable-next-line sonarjs/no-nested-template-literals
                         .map(n => `'${n}'`)
                         .join(', ')}.`
                 );

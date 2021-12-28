@@ -122,15 +122,6 @@ test:conseil-client:
     tags:
         - docker
 
-test:integration:granadanet:
-    stage: test
-    image: node:${NODE_VERSION}
-    allow_failure: false
-    script:
-        - TD_NETWORK=granadanet TD_RPC_URL=${RPC_URL_GRANADANET} yarn integration-test
-    tags:
-        - docker
-
 test:integration:hangzhounet:
     stage: test
     image: node:${NODE_VERSION}
