@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.10.0](https://gitlab.com/tezos-domains/client/compare/v1.9.0...v1.10.0) (2021-12-28)
+
+
+### Features
+
+* support taquito 11 ([1aaaac9](https://gitlab.com/tezos-domains/client/commit/1aaaac9e9419161726605bcc49d3a725802c41e7))
+
+
+
+
+
 # [1.9.0](https://gitlab.com/tezos-domains/client/compare/v1.8.0...v1.9.0) (2021-11-11)
 
 **Note:** Version bump only for package @tezos-domains/taquito-client
