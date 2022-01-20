@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.0](https://gitlab.com/tezos-domains/client/compare/v1.10.0...v1.11.0) (2022-01-20)
+
+**Note:** Version bump only for package integration-tests
+
+
+
+
+
 # [1.10.0](https://gitlab.com/tezos-domains/client/compare/v1.9.0...v1.10.0) (2021-12-28)
 
 
