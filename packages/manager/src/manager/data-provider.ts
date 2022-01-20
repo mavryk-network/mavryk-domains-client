@@ -12,6 +12,7 @@ import {
     getLevel,
     TLDConfigProperty,
     TezosDomainsDataProvider,
+    DomainRecord,
 } from '@tezos-domains/core';
 import { BytesEncoder, getLabel } from '@tezos-domains/core';
 import { TaquitoClient, TLDRegistrarStorage, MapEncoder, BigNumberEncoder } from '@tezos-domains/taquito';
@@ -175,6 +176,14 @@ export class TaquitoManagerDataProvider {
         const record = await this.bigMapDataProvider.getDomainRecord(name);
 
         return record?.tzip12_token_id || null;
+    }
+
+    async getDomainRecord(name: string): Promise<DomainRecord | null> {
+        this.assertDomainName(name);
+
+        const record = await this.bigMapDataProvider.getDomainRecord(name);
+
+        return record ?? null;
     }
 
     private assertDomainName(name: string) {

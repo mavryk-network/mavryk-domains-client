@@ -39,7 +39,6 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
     let operation: TransactionWalletOperation;
     let params: WalletTransferParams;
     let additionalParams: AdditionalOperationParams;
-
     let constants: ConstantsResponse;
 
     beforeEach(() => {
@@ -510,8 +509,13 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
 
     describe('transfer()', () => {
         it('should call smart contract', async () => {
-            when(dataProviderMock.getTokenId('alice.tez')).thenResolve(1);
-            when(taquitoClientMock.getPkh()).thenResolve('tz1Old');
+            when(dataProviderMock.getDomainRecord('alice.tez')).thenResolve({
+                owner: 'tz1Old',
+                tzip12_token_id: 1,
+                address: null,
+                data: new RecordMetadata({ ttl: '31' }),
+                expiry_key: null,
+            });
 
             const p = await operationFactory.transfer('alice.tez', 'tz1New', additionalParams);
 
@@ -522,7 +526,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
 
             expect(p).toEqual(params);
         });
-        
+
         it('should throw if token id is null', async () => {
             await expect(() => operationFactory.transfer('bob.tez', 'tz1VBLpuDKMoJuHRLZ4HrCgRuiLpEr7zZx2E')).rejects.toThrowError();
         });

@@ -1,7 +1,14 @@
 import { TezosDomainsConfig, AddressBook, TezosDomainsValidator, createTracer, DomainNameValidator, UnsupportedDomainNameValidator } from '@tezos-domains/core';
 import { TezosToolkit } from '@taquito/taquito';
 import { NameResolver, NullNameResolver, createResolver } from '@tezos-domains/resolver';
-import { DomainsManager, CommitmentGenerator, BlockchainDomainsManager, UnsupportedDomainsManager, TaquitoManagerDataProvider, TaquitoTezosDomainsOperationFactory } from '@tezos-domains/manager';
+import {
+    DomainsManager,
+    CommitmentGenerator,
+    BlockchainDomainsManager,
+    UnsupportedDomainsManager,
+    TaquitoManagerDataProvider,
+    TaquitoTezosDomainsOperationFactory,
+} from '@tezos-domains/manager';
 import { TaquitoClient } from '@tezos-domains/taquito';
 
 import { TaquitoTezosDomainsProxyContractAddressResolver } from './taquito-proxy-contract-address-resolver';

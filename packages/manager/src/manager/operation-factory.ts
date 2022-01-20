@@ -248,22 +248,21 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
     }
 
     async transfer(name: string, newOwner: string, operationParams?: AdditionalOperationParams): Promise<WalletTransferParams> {
-        const tokenId = await this.dataProvider.getTokenId(name);
-        if (!tokenId) {
+        const domain = await this.dataProvider.getDomainRecord(name);
+        if (!domain?.tzip12_token_id) {
             throw new Error(`FA2 token id not found for domain ${name}.`);
         }
 
         const entrypoint = 'transfer';
-
         const address = await this.addressBook.lookup(SmartContractType.NameRegistry);
 
         const request = RpcRequestData.fromObject(Tzip12TransferRequest, {
-            from_: await this.tezos.getPkh(),
+            from_: domain.owner,
             txs: [
                 RpcRequestData.fromObject(Tzip12TransferDestination, {
                     to_: newOwner,
                     amount: 1,
-                    token_id: tokenId,
+                    token_id: domain.tzip12_token_id,
                 }).encode(),
             ],
         }).encode();

@@ -153,7 +153,7 @@ describe('TaquitoManagerDataProvider', () => {
 
         it('should fall back to time_between_blocks for old protocols', async () => {
             delete constants.minimal_block_delay;
-            
+
             const params: Exact<CommitmentRequest> = { label: 'necroskillz', owner: 'tz1xxx', nonce: 1 };
 
             when(commitmentGeneratorMock.generate(deepEqual(params))).thenReturn('commitment');
@@ -482,5 +482,23 @@ describe('TaquitoManagerDataProvider', () => {
                 "Domain 'bob.alice.tez' does not have a tokenId. Only 2nd level domains (e.g. 'alice.tez') are NFTs."
             );
         });
-    })
+    });
+
+    describe('getDomainRecord()', () => {
+        it('should return tokenId for a domain', async () => {
+            const domain = await dataProvider.getDomainRecord('alice.tez');
+
+            expect(domain).toEqual({ tzip12_token_id: 1 });
+        });
+
+        it('should return null for non existent domain', async () => {
+            const tokenId = await dataProvider.getDomainRecord('bob.tez');
+
+            expect(tokenId).toBeNull();
+        });
+
+        it('should throw if domain name is invalid', async () => {
+            await expect(() => dataProvider.getTokenId('invalid.tez')).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
+        });
+    });
 });
