@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.12.0](https://gitlab.com/tezos-domains/client/compare/v1.11.0...v1.12.0) (2022-03-02)
+
+
+### Features
+
+* remove granadanet, add ithacanet ([a6b86d9](https://gitlab.com/tezos-domains/client/commit/a6b86d9d4a50d01cc88276e992c8caeb5a1cba31))
+
+
+
+
+
 # [1.11.0](https://gitlab.com/tezos-domains/client/compare/v1.10.0...v1.11.0) (2022-01-20)
 
 
