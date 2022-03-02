@@ -19,7 +19,7 @@ async function setTezos(wallet: FaucetWallet | 'admin') {
     tezos.setProvider({
         config: {
             confirmationPollingIntervalSecond: 5,
-        }
+        },
     });
 
     tezos.addExtension(new Tzip16Module());
@@ -73,12 +73,11 @@ export async function run(): Promise<void> {
 
     const okMetadata = new RecordMetadata();
     okMetadata.setJson(StandardRecordMetadataKey.TTL, 420);
-    await createRecord(DATA.ok.name, DATA.ok.address, DATA.ok.address, new Date(2100, 1, 1), okMetadata);
 
+    await createRecord(DATA.ok.name, DATA.ok.address, DATA.ok.address, new Date(2100, 1, 1), okMetadata);
     await setTezos(DATA.ok.wallet);
 
     await createReverseRecord(DATA.ok.address, DATA.ok.name);
-
     await setTezos('admin');
     await commit(`commit.${client.validator.supportedTLDs[0]}`, CONFIG.adminAddress);
     const commitment = await client.manager.getCommitment(client.validator.supportedTLDs[0], { label: 'commit', owner: CONFIG.adminAddress, nonce: 1 });

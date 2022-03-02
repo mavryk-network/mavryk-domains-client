@@ -151,20 +151,6 @@ describe('TaquitoManagerDataProvider', () => {
             expect(commitment!.usableUntil.toISOString()).toBe('2020-10-01T11:00:00.000Z');
         });
 
-        it('should fall back to time_between_blocks for old protocols', async () => {
-            delete constants.minimal_block_delay;
-
-            const params: Exact<CommitmentRequest> = { label: 'necroskillz', owner: 'tz1xxx', nonce: 1 };
-
-            when(commitmentGeneratorMock.generate(deepEqual(params))).thenReturn('commitment');
-
-            const commitment = await dataProvider.getCommitment('tez', params);
-
-            expect(commitment!.created.toISOString()).toBe('2020-10-01T10:00:00.000Z');
-            expect(commitment!.usableFrom.toISOString()).toBe('2020-10-01T10:00:30.000Z');
-            expect(commitment!.usableUntil.toISOString()).toBe('2020-10-01T11:00:00.000Z');
-        });
-
         it('should return null if no commitment is found', async () => {
             const params: Exact<CommitmentRequest> = { label: 'necroskillz', owner: 'tz1xxx', nonce: 1 };
 

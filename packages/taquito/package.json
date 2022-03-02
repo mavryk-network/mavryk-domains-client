@@ -30,13 +30,13 @@
   },
   "dependencies": {
     "@tezos-domains/core": "^1.11.0",
-    "bignumber.js": "^9.0.1",
+    "bignumber.js": "^9.0.2",
     "node-cache": "^5.1.2"
   },
   "devDependencies": {
-    "@taquito/rpc": "11.1.0",
-    "@taquito/taquito": "11.1.0",
-    "@taquito/tzip16": "11.1.0",
+    "@taquito/rpc": "11.2.0",
+    "@taquito/taquito": "11.2.0",
+    "@taquito/tzip16": "11.2.0",
     "@types/node": "^14.14.6",
     "fake-promise": "^2.5.41",
     "jest": "^26.6.1",

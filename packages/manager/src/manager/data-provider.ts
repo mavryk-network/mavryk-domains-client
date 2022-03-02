@@ -1,26 +1,26 @@
 import {
-    Tracer,
-    Exact,
-    SmartContractType,
-    RpcRequestData,
-    DateEncoder,
-    getTld,
-    RpcResponseData,
     AddressBook,
+    BytesEncoder,
+    DateEncoder,
     DomainNameValidationResult,
     DomainNameValidator,
-    getLevel,
-    TLDConfigProperty,
-    TezosDomainsDataProvider,
     DomainRecord,
+    Exact,
+    getLabel,
+    getLevel,
+    getTld,
+    RpcRequestData,
+    RpcResponseData,
+    SmartContractType,
+    TezosDomainsDataProvider,
+    TLDConfigProperty,
+    Tracer,
 } from '@tezos-domains/core';
-import { BytesEncoder, getLabel } from '@tezos-domains/core';
-import { TaquitoClient, TLDRegistrarStorage, MapEncoder, BigNumberEncoder } from '@tezos-domains/taquito';
+import { BigNumberEncoder, MapEncoder, TaquitoClient, TLDRegistrarStorage } from '@tezos-domains/taquito';
 import BigNumber from 'bignumber.js';
-
-import { CommitmentRequest, CommitmentInfo, TLDRecord, AuctionState, TLDConfiguration } from './model';
-import { CommitmentGenerator } from './commitment-generator';
 import { AcquisitionInfoInput, calculateAcquisitionInfo, DomainAcquisitionInfo } from './acquisition-info';
+import { CommitmentGenerator } from './commitment-generator';
+import { AuctionState, CommitmentInfo, CommitmentRequest, TLDConfiguration, TLDRecord } from './model';
 
 export class TaquitoManagerDataProvider {
     constructor(
@@ -40,8 +40,7 @@ export class TaquitoManagerDataProvider {
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld);
         const commitmentHash = this.commitmentGenerator.generate(request);
         const constants = await this.tezos.getConstants();
-        const minimalBlockDelay = constants.minimal_block_delay?.times(1000).toNumber();
-        const timeBetweenBlocks = constants.time_between_blocks[0].times(1000).toNumber();
+        const minimalBlockDelay = constants.minimal_block_delay!.times(1000).toNumber();
 
         this.tracer.trace('!! Calculated commitment hash for given parameters.', commitmentHash);
 
@@ -62,7 +61,7 @@ export class TaquitoManagerDataProvider {
         const minAge = tldConfiguration.minCommitmentAge.times(1000).toNumber();
         const maxAge = tldConfiguration.maxCommitmentAge.times(1000).toNumber();
 
-        const usableFrom = new Date(commitment.getTime() + Math.max(0, minAge - (minimalBlockDelay || timeBetweenBlocks)));
+        const usableFrom = new Date(commitment.getTime() + Math.max(0, minAge - minimalBlockDelay));
         const usableUntil = new Date(commitment.getTime() + maxAge);
 
         this.tracer.trace(
