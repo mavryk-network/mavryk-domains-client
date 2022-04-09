@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.13.0](https://gitlab.com/tezos-domains/client/compare/v1.12.0...v1.13.0) (2022-04-09)
+
+
+### Features
+
+* support taquito 12.0.3 ([83628de](https://gitlab.com/tezos-domains/client/commit/83628ded83a90711a3fdbea541b2bcdf00366ba4))
+
+
+
+
+
 # [1.12.0](https://gitlab.com/tezos-domains/client/compare/v1.11.0...v1.12.0) (2022-03-02)
 
 
