@@ -2539,6 +2539,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@stablelib/bytes", [
+        ["npm:1.0.1", {
+          "packageLocation": "./.yarn/cache/@stablelib-bytes-npm-1.0.1-397232fa65-ad12d62d04.zip/node_modules/@stablelib/bytes/",
+          "packageDependencies": [
+            ["@stablelib/bytes", "npm:1.0.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@stablelib/constant-time", [
+        ["npm:1.0.1", {
+          "packageLocation": "./.yarn/cache/@stablelib-constant-time-npm-1.0.1-47c922000e-f5ae6eee01.zip/node_modules/@stablelib/constant-time/",
+          "packageDependencies": [
+            ["@stablelib/constant-time", "npm:1.0.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@stablelib/ed25519", [
         ["npm:1.0.2", {
           "packageLocation": "./.yarn/cache/@stablelib-ed25519-npm-1.0.2-03092f989c-4ac81421a1.zip/node_modules/@stablelib/ed25519/",
@@ -2569,12 +2587,59 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@stablelib/keyagreement", [
+        ["npm:1.0.1", {
+          "packageLocation": "./.yarn/cache/@stablelib-keyagreement-npm-1.0.1-b0bb3e9122-123a1e4b27.zip/node_modules/@stablelib/keyagreement/",
+          "packageDependencies": [
+            ["@stablelib/keyagreement", "npm:1.0.1"],
+            ["@stablelib/bytes", "npm:1.0.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@stablelib/nacl", [
+        ["npm:1.0.3", {
+          "packageLocation": "./.yarn/cache/@stablelib-nacl-npm-1.0.3-6949276c1c-587257a773.zip/node_modules/@stablelib/nacl/",
+          "packageDependencies": [
+            ["@stablelib/nacl", "npm:1.0.3"],
+            ["@stablelib/poly1305", "npm:1.0.1"],
+            ["@stablelib/random", "npm:1.0.1"],
+            ["@stablelib/wipe", "npm:1.0.1"],
+            ["@stablelib/x25519", "npm:1.0.2"],
+            ["@stablelib/xsalsa20", "npm:1.0.2"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@stablelib/poly1305", [
+        ["npm:1.0.1", {
+          "packageLocation": "./.yarn/cache/@stablelib-poly1305-npm-1.0.1-f2b5f57a00-bc3bd54607.zip/node_modules/@stablelib/poly1305/",
+          "packageDependencies": [
+            ["@stablelib/poly1305", "npm:1.0.1"],
+            ["@stablelib/constant-time", "npm:1.0.1"],
+            ["@stablelib/wipe", "npm:1.0.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@stablelib/random", [
         ["npm:1.0.1", {
           "packageLocation": "./.yarn/cache/@stablelib-random-npm-1.0.1-5ecb0bdef7-e1dbce6eba.zip/node_modules/@stablelib/random/",
           "packageDependencies": [
             ["@stablelib/random", "npm:1.0.1"],
             ["@stablelib/binary", "npm:1.0.1"],
+            ["@stablelib/wipe", "npm:1.0.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@stablelib/salsa20", [
+        ["npm:1.0.2", {
+          "packageLocation": "./.yarn/cache/@stablelib-salsa20-npm-1.0.2-d57f6a51fa-076eec37f2.zip/node_modules/@stablelib/salsa20/",
+          "packageDependencies": [
+            ["@stablelib/salsa20", "npm:1.0.2"],
+            ["@stablelib/binary", "npm:1.0.1"],
+            ["@stablelib/constant-time", "npm:1.0.1"],
             ["@stablelib/wipe", "npm:1.0.1"]
           ],
           "linkType": "HARD",
@@ -2601,6 +2666,30 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@stablelib/x25519", [
+        ["npm:1.0.2", {
+          "packageLocation": "./.yarn/cache/@stablelib-x25519-npm-1.0.2-45de02587c-b4bf18e1ee.zip/node_modules/@stablelib/x25519/",
+          "packageDependencies": [
+            ["@stablelib/x25519", "npm:1.0.2"],
+            ["@stablelib/keyagreement", "npm:1.0.1"],
+            ["@stablelib/random", "npm:1.0.1"],
+            ["@stablelib/wipe", "npm:1.0.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@stablelib/xsalsa20", [
+        ["npm:1.0.2", {
+          "packageLocation": "./.yarn/cache/@stablelib-xsalsa20-npm-1.0.2-e7a5c2f8f2-65fc0bbf3d.zip/node_modules/@stablelib/xsalsa20/",
+          "packageDependencies": [
+            ["@stablelib/xsalsa20", "npm:1.0.2"],
+            ["@stablelib/binary", "npm:1.0.1"],
+            ["@stablelib/salsa20", "npm:1.0.2"],
+            ["@stablelib/wipe", "npm:1.0.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@szmarczak/http-timer", [
         ["npm:4.0.5", {
           "packageLocation": "./.yarn/cache/@szmarczak-http-timer-npm-4.0.5-03463d10ab-13d8f71dbd.zip/node_modules/@szmarczak/http-timer/",
@@ -2612,31 +2701,42 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@taquito/http-utils", [
-        ["npm:11.2.0", {
-          "packageLocation": "./.yarn/cache/@taquito-http-utils-npm-11.2.0-b0d8d48c60-36e269c3e0.zip/node_modules/@taquito/http-utils/",
+        ["npm:12.0.3", {
+          "packageLocation": "./.yarn/cache/@taquito-http-utils-npm-12.0.3-8aa7cdb3e8-af885dbe18.zip/node_modules/@taquito/http-utils/",
           "packageDependencies": [
-            ["@taquito/http-utils", "npm:11.2.0"],
-            ["xhr2-cookies", "npm:1.1.0"]
+            ["@taquito/http-utils", "npm:12.0.3"],
+            ["axios", "npm:0.26.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@taquito/local-forging", [
+        ["npm:12.0.3", {
+          "packageLocation": "./.yarn/cache/@taquito-local-forging-npm-12.0.3-2771dc17a7-932acd3031.zip/node_modules/@taquito/local-forging/",
+          "packageDependencies": [
+            ["@taquito/local-forging", "npm:12.0.3"],
+            ["@taquito/utils", "npm:12.0.3"],
+            ["bignumber.js", "npm:9.0.2"]
           ],
           "linkType": "HARD",
         }]
       ]],
       ["@taquito/michel-codec", [
-        ["npm:11.2.0", {
-          "packageLocation": "./.yarn/cache/@taquito-michel-codec-npm-11.2.0-3e193dcfa6-235093f8df.zip/node_modules/@taquito/michel-codec/",
+        ["npm:12.0.3", {
+          "packageLocation": "./.yarn/cache/@taquito-michel-codec-npm-12.0.3-f090d8b1ee-41df9bfbc2.zip/node_modules/@taquito/michel-codec/",
           "packageDependencies": [
-            ["@taquito/michel-codec", "npm:11.2.0"]
+            ["@taquito/michel-codec", "npm:12.0.3"]
           ],
           "linkType": "HARD",
         }]
       ]],
       ["@taquito/michelson-encoder", [
-        ["npm:11.2.0", {
-          "packageLocation": "./.yarn/cache/@taquito-michelson-encoder-npm-11.2.0-35386852ca-86345a5a10.zip/node_modules/@taquito/michelson-encoder/",
+        ["npm:12.0.3", {
+          "packageLocation": "./.yarn/cache/@taquito-michelson-encoder-npm-12.0.3-899d91fdc4-cac0db2d28.zip/node_modules/@taquito/michelson-encoder/",
           "packageDependencies": [
-            ["@taquito/michelson-encoder", "npm:11.2.0"],
-            ["@taquito/rpc", "npm:11.2.0"],
-            ["@taquito/utils", "npm:11.2.0"],
+            ["@taquito/michelson-encoder", "npm:12.0.3"],
+            ["@taquito/rpc", "npm:12.0.3"],
+            ["@taquito/utils", "npm:12.0.3"],
             ["bignumber.js", "npm:9.0.2"],
             ["fast-json-stable-stringify", "npm:2.1.0"]
           ],
@@ -2644,26 +2744,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@taquito/rpc", [
-        ["npm:11.2.0", {
-          "packageLocation": "./.yarn/cache/@taquito-rpc-npm-11.2.0-e516a95808-2d24279ffb.zip/node_modules/@taquito/rpc/",
+        ["npm:12.0.3", {
+          "packageLocation": "./.yarn/cache/@taquito-rpc-npm-12.0.3-87802e0871-f4dbc46db3.zip/node_modules/@taquito/rpc/",
           "packageDependencies": [
-            ["@taquito/rpc", "npm:11.2.0"],
-            ["@taquito/http-utils", "npm:11.2.0"],
-            ["@taquito/utils", "npm:11.2.0"],
+            ["@taquito/rpc", "npm:12.0.3"],
+            ["@taquito/http-utils", "npm:12.0.3"],
+            ["@taquito/utils", "npm:12.0.3"],
             ["bignumber.js", "npm:9.0.2"]
           ],
           "linkType": "HARD",
         }]
       ]],
       ["@taquito/signer", [
-        ["npm:11.2.0", {
-          "packageLocation": "./.yarn/cache/@taquito-signer-npm-11.2.0-99b9353881-507abd19be.zip/node_modules/@taquito/signer/",
+        ["npm:12.0.3", {
+          "packageLocation": "./.yarn/cache/@taquito-signer-npm-12.0.3-fb6f8c9e07-18857f73fb.zip/node_modules/@taquito/signer/",
           "packageDependencies": [
-            ["@taquito/signer", "npm:11.2.0"],
-            ["@taquito/taquito", "npm:11.2.0"],
-            ["@taquito/utils", "npm:11.2.0"],
+            ["@taquito/signer", "npm:12.0.3"],
+            ["@stablelib/blake2b", "npm:1.0.1"],
+            ["@stablelib/ed25519", "npm:1.0.2"],
+            ["@stablelib/nacl", "npm:1.0.3"],
+            ["@taquito/taquito", "npm:12.0.3"],
+            ["@taquito/utils", "npm:12.0.3"],
             ["elliptic", "npm:6.5.4"],
-            ["libsodium-wrappers", "npm:0.7.8"],
             ["pbkdf2", "npm:3.1.2"],
             ["typedarray-to-buffer", "npm:4.0.0"]
           ],
@@ -2671,15 +2773,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@taquito/taquito", [
-        ["npm:11.2.0", {
-          "packageLocation": "./.yarn/cache/@taquito-taquito-npm-11.2.0-51db935a0e-ba64f79851.zip/node_modules/@taquito/taquito/",
+        ["npm:12.0.3", {
+          "packageLocation": "./.yarn/cache/@taquito-taquito-npm-12.0.3-adc03fb283-0f29eddd1c.zip/node_modules/@taquito/taquito/",
           "packageDependencies": [
-            ["@taquito/taquito", "npm:11.2.0"],
-            ["@taquito/http-utils", "npm:11.2.0"],
-            ["@taquito/michel-codec", "npm:11.2.0"],
-            ["@taquito/michelson-encoder", "npm:11.2.0"],
-            ["@taquito/rpc", "npm:11.2.0"],
-            ["@taquito/utils", "npm:11.2.0"],
+            ["@taquito/taquito", "npm:12.0.3"],
+            ["@taquito/http-utils", "npm:12.0.3"],
+            ["@taquito/local-forging", "npm:12.0.3"],
+            ["@taquito/michel-codec", "npm:12.0.3"],
+            ["@taquito/michelson-encoder", "npm:12.0.3"],
+            ["@taquito/rpc", "npm:12.0.3"],
+            ["@taquito/utils", "npm:12.0.3"],
             ["bignumber.js", "npm:9.0.2"],
             ["rxjs", "npm:6.6.3"]
           ],
@@ -2687,15 +2790,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@taquito/tzip16", [
-        ["npm:11.2.0", {
-          "packageLocation": "./.yarn/cache/@taquito-tzip16-npm-11.2.0-4a05446ad9-574178e606.zip/node_modules/@taquito/tzip16/",
+        ["npm:12.0.3", {
+          "packageLocation": "./.yarn/cache/@taquito-tzip16-npm-12.0.3-dd9a7b8614-cb3ed9858a.zip/node_modules/@taquito/tzip16/",
           "packageDependencies": [
-            ["@taquito/tzip16", "npm:11.2.0"],
-            ["@taquito/http-utils", "npm:11.2.0"],
-            ["@taquito/michelson-encoder", "npm:11.2.0"],
-            ["@taquito/rpc", "npm:11.2.0"],
-            ["@taquito/taquito", "npm:11.2.0"],
-            ["@taquito/utils", "npm:11.2.0"],
+            ["@taquito/tzip16", "npm:12.0.3"],
+            ["@taquito/http-utils", "npm:12.0.3"],
+            ["@taquito/michelson-encoder", "npm:12.0.3"],
+            ["@taquito/rpc", "npm:12.0.3"],
+            ["@taquito/taquito", "npm:12.0.3"],
+            ["@taquito/utils", "npm:12.0.3"],
             ["bignumber.js", "npm:9.0.2"],
             ["crypto-js", "npm:4.1.1"]
           ],
@@ -2703,10 +2806,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@taquito/utils", [
-        ["npm:11.2.0", {
-          "packageLocation": "./.yarn/cache/@taquito-utils-npm-11.2.0-032c180021-a6aaa45207.zip/node_modules/@taquito/utils/",
+        ["npm:12.0.3", {
+          "packageLocation": "./.yarn/cache/@taquito-utils-npm-12.0.3-b4887eb34c-7763b1385a.zip/node_modules/@taquito/utils/",
           "packageDependencies": [
-            ["@taquito/utils", "npm:11.2.0"],
+            ["@taquito/utils", "npm:12.0.3"],
             ["@stablelib/blake2b", "npm:1.0.1"],
             ["@stablelib/ed25519", "npm:1.0.2"],
             ["@types/bs58check", "npm:2.1.0"],
@@ -2806,10 +2909,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/$$virtual/@tezos-domains-manager-virtual-0df0a5fea2/1/packages/manager/",
           "packageDependencies": [
             ["@tezos-domains/manager", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/manager"],
-            ["@taquito/michel-codec", "npm:11.2.0"],
-            ["@taquito/michelson-encoder", "npm:11.2.0"],
-            ["@taquito/rpc", "npm:11.2.0"],
-            ["@taquito/taquito", "npm:11.2.0"],
+            ["@taquito/michel-codec", "npm:12.0.3"],
+            ["@taquito/michelson-encoder", "npm:12.0.3"],
+            ["@taquito/rpc", "npm:12.0.3"],
+            ["@taquito/taquito", "npm:12.0.3"],
             ["@tezos-domains/core", "workspace:packages/core"],
             ["@tezos-domains/taquito", "virtual:0df0a5fea2f43012685e246f7a1481d916a0ca4f82b3be0a2db593ef743f1fc5039bc06b4313d232ba761616702c0ba4692e4263ef3dca1447f6f8fee5b6db75#workspace:packages/taquito"],
             ["@types/node", "npm:14.14.6"],
@@ -2847,10 +2950,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/manager/",
           "packageDependencies": [
             ["@tezos-domains/manager", "workspace:packages/manager"],
-            ["@taquito/michel-codec", "npm:11.2.0"],
-            ["@taquito/michelson-encoder", "npm:11.2.0"],
-            ["@taquito/rpc", "npm:11.2.0"],
-            ["@taquito/taquito", "npm:11.2.0"],
+            ["@taquito/michel-codec", "npm:12.0.3"],
+            ["@taquito/michelson-encoder", "npm:12.0.3"],
+            ["@taquito/rpc", "npm:12.0.3"],
+            ["@taquito/taquito", "npm:12.0.3"],
             ["@tezos-domains/core", "workspace:packages/core"],
             ["@tezos-domains/taquito", "virtual:0df0a5fea2f43012685e246f7a1481d916a0ca4f82b3be0a2db593ef743f1fc5039bc06b4313d232ba761616702c0ba4692e4263ef3dca1447f6f8fee5b6db75#workspace:packages/taquito"],
             ["@types/node", "npm:14.14.6"],
@@ -2903,9 +3006,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/$$virtual/@tezos-domains-taquito-virtual-f458b9ffe3/1/packages/taquito/",
           "packageDependencies": [
             ["@tezos-domains/taquito", "virtual:0df0a5fea2f43012685e246f7a1481d916a0ca4f82b3be0a2db593ef743f1fc5039bc06b4313d232ba761616702c0ba4692e4263ef3dca1447f6f8fee5b6db75#workspace:packages/taquito"],
-            ["@taquito/rpc", "npm:11.2.0"],
-            ["@taquito/taquito", "npm:11.2.0"],
-            ["@taquito/tzip16", "npm:11.2.0"],
+            ["@taquito/rpc", "npm:12.0.3"],
+            ["@taquito/taquito", "npm:12.0.3"],
+            ["@taquito/tzip16", "npm:12.0.3"],
             ["@tezos-domains/core", "workspace:packages/core"],
             ["@types/node", "npm:14.14.6"],
             ["@types/taquito__rpc", null],
@@ -2939,9 +3042,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/taquito/",
           "packageDependencies": [
             ["@tezos-domains/taquito", "workspace:packages/taquito"],
-            ["@taquito/rpc", "npm:11.2.0"],
-            ["@taquito/taquito", "npm:11.2.0"],
-            ["@taquito/tzip16", "npm:11.2.0"],
+            ["@taquito/rpc", "npm:12.0.3"],
+            ["@taquito/taquito", "npm:12.0.3"],
+            ["@taquito/tzip16", "npm:12.0.3"],
             ["@tezos-domains/core", "workspace:packages/core"],
             ["@types/node", "npm:14.14.6"],
             ["bignumber.js", "npm:9.0.2"],
@@ -2967,7 +3070,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/$$virtual/@tezos-domains-taquito-client-virtual-c6c4bf1402/1/packages/taquito-client/",
           "packageDependencies": [
             ["@tezos-domains/taquito-client", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/taquito-client"],
-            ["@taquito/taquito", "npm:11.2.0"],
+            ["@taquito/taquito", "npm:12.0.3"],
             ["@tezos-domains/core", "workspace:packages/core"],
             ["@tezos-domains/manager", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/manager"],
             ["@tezos-domains/resolver", "workspace:packages/resolver"],
@@ -2999,7 +3102,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/taquito-client/",
           "packageDependencies": [
             ["@tezos-domains/taquito-client", "workspace:packages/taquito-client"],
-            ["@taquito/taquito", "npm:11.2.0"],
+            ["@taquito/taquito", "npm:12.0.3"],
             ["@tezos-domains/core", "workspace:packages/core"],
             ["@tezos-domains/manager", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/manager"],
             ["@tezos-domains/resolver", "workspace:packages/resolver"],
@@ -4310,6 +4413,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/aws4-npm-1.10.0-74d09999c1-f8c20a0031.zip/node_modules/aws4/",
           "packageDependencies": [
             ["aws4", "npm:1.10.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["axios", [
+        ["npm:0.26.1", {
+          "packageLocation": "./.yarn/cache/axios-npm-0.26.1-a6641ce4e3-139698e390.zip/node_modules/axios/",
+          "packageDependencies": [
+            ["axios", "npm:0.26.1"],
+            ["follow-redirects", "virtual:a6641ce4e3bdcc0997f8f53d9481b67c5d38e21276de8eeee7bf92881685b3ad5600bae416c2af904ceab8132bac649e7efd0af93f18e158e0e65ee05a263d72#npm:1.14.9"]
           ],
           "linkType": "HARD",
         }]
@@ -5649,15 +5762,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["convert-source-map", "npm:1.7.0"],
             ["safe-buffer", "npm:5.1.2"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["cookiejar", [
-        ["npm:2.1.2", {
-          "packageLocation": "./.yarn/cache/cookiejar-npm-2.1.2-081d78ab06-4c733c15c1.zip/node_modules/cookiejar/",
-          "packageDependencies": [
-            ["cookiejar", "npm:2.1.2"]
           ],
           "linkType": "HARD",
         }]
@@ -7217,6 +7321,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["follow-redirects", [
+        ["npm:1.14.9", {
+          "packageLocation": "./.yarn/cache/follow-redirects-npm-1.14.9-522f191631-1b602c548b.zip/node_modules/follow-redirects/",
+          "packageDependencies": [
+            ["follow-redirects", "npm:1.14.9"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:a6641ce4e3bdcc0997f8f53d9481b67c5d38e21276de8eeee7bf92881685b3ad5600bae416c2af904ceab8132bac649e7efd0af93f18e158e0e65ee05a263d72#npm:1.14.9", {
+          "packageLocation": "./.yarn/$$virtual/follow-redirects-virtual-2db68225c5/0/cache/follow-redirects-npm-1.14.9-522f191631-1b602c548b.zip/node_modules/follow-redirects/",
+          "packageDependencies": [
+            ["follow-redirects", "virtual:a6641ce4e3bdcc0997f8f53d9481b67c5d38e21276de8eeee7bf92881685b3ad5600bae416c2af904ceab8132bac649e7efd0af93f18e158e0e65ee05a263d72#npm:1.14.9"],
+            ["debug", null]
+          ],
+          "packagePeers": [
+            "debug"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["for-in", [
         ["npm:1.0.2", {
           "packageLocation": "./.yarn/cache/for-in-npm-1.0.2-37e3d7aae5-e8d7280a65.zip/node_modules/for-in/",
@@ -8396,11 +8520,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./integration-tests/",
           "packageDependencies": [
             ["integration-tests", "workspace:integration-tests"],
-            ["@taquito/michelson-encoder", "npm:11.2.0"],
-            ["@taquito/signer", "npm:11.2.0"],
-            ["@taquito/taquito", "npm:11.2.0"],
-            ["@taquito/tzip16", "npm:11.2.0"],
-            ["@taquito/utils", "npm:11.2.0"],
+            ["@taquito/michelson-encoder", "npm:12.0.3"],
+            ["@taquito/signer", "npm:12.0.3"],
+            ["@taquito/taquito", "npm:12.0.3"],
+            ["@taquito/tzip16", "npm:12.0.3"],
+            ["@taquito/utils", "npm:12.0.3"],
             ["@tezos-domains/conseil-client", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/conseil-client"],
             ["@tezos-domains/core", "workspace:packages/core"],
             ["@tezos-domains/manager", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/manager"],
@@ -9948,25 +10072,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["read-package-json-fast", "npm:1.2.1"],
             ["semver", "npm:7.3.2"],
             ["stringify-package", "npm:1.0.1"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["libsodium", [
-        ["npm:0.7.8", {
-          "packageLocation": "./.yarn/cache/libsodium-npm-0.7.8-93671f4a66-c87ff45a59.zip/node_modules/libsodium/",
-          "packageDependencies": [
-            ["libsodium", "npm:0.7.8"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["libsodium-wrappers", [
-        ["npm:0.7.8", {
-          "packageLocation": "./.yarn/cache/libsodium-wrappers-npm-0.7.8-69e5ec9c0b-e99a017afe.zip/node_modules/libsodium-wrappers/",
-          "packageDependencies": [
-            ["libsodium-wrappers", "npm:0.7.8"],
-            ["libsodium", "npm:0.7.8"]
           ],
           "linkType": "HARD",
         }]
@@ -15447,16 +15552,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             "@types/utf-8-validate",
             "bufferutil",
             "utf-8-validate"
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["xhr2-cookies", [
-        ["npm:1.1.0", {
-          "packageLocation": "./.yarn/cache/xhr2-cookies-npm-1.1.0-3c53c13f2e-e69e77bc34.zip/node_modules/xhr2-cookies/",
-          "packageDependencies": [
-            ["xhr2-cookies", "npm:1.1.0"],
-            ["cookiejar", "npm:2.1.2"]
           ],
           "linkType": "HARD",
         }]

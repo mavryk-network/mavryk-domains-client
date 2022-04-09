@@ -1,13 +1,13 @@
-import { TezosToolkit } from '@taquito/taquito';
-import { InMemorySigner, importKey } from '@taquito/signer';
+import { importKey, InMemorySigner } from '@taquito/signer';
+import { PollingSubscribeProvider, TezosToolkit } from '@taquito/taquito';
+import { Tzip16Module } from '@taquito/tzip16';
 import { getLabel, getTld, LatinDomainNameValidator, RecordMetadata, StandardRecordMetadataKey } from '@tezos-domains/core';
 import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import path from 'path';
+import { CONFIG, DATA, FaucetWallet } from '../data';
 
-import { FaucetWallet, CONFIG, DATA } from '../data';
-import { Tzip16Module } from '@taquito/tzip16';
 
 /**
  * Setup integration test data on specified network
@@ -16,11 +16,8 @@ let client: TaquitoTezosDomainsClient;
 
 async function setTezos(wallet: FaucetWallet | 'admin') {
     const tezos = new TezosToolkit(CONFIG.rpcUrl);
-    tezos.setProvider({
-        config: {
-            confirmationPollingIntervalSecond: 5,
-        },
-    });
+    
+    tezos.setStreamProvider(tezos.getFactory(PollingSubscribeProvider)({ pollingIntervalMilliseconds: 5000 }));
 
     tezos.addExtension(new Tzip16Module());
 
