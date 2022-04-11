@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.13.1](https://gitlab.com/tezos-domains/client/compare/v1.13.0...v1.13.1) (2022-04-11)
+
+
+### Bug Fixes
+
+* update peerDependencies property ([aaa9009](https://gitlab.com/tezos-domains/client/commit/aaa9009e20c1156dc30852cf60b803be0cd2d691))
+
+
+
+
+
 # [1.13.0](https://gitlab.com/tezos-domains/client/compare/v1.12.0...v1.13.0) (2022-04-09)
 
 
