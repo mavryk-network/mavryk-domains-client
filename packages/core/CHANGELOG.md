@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.14.0-alpha.1](https://gitlab.com/tezos-domains/client/compare/v1.14.0-alpha.0...v1.14.0-alpha.1) (2022-04-13)
+
+
+### Bug Fixes
+
+* update to latest oracle registrar contract address ([8b56cbc](https://gitlab.com/tezos-domains/client/commit/8b56cbcbf9068e086c0dda9093fc3a1a3d87b77b))
+
+
+
+
+
 # [1.14.0-alpha.0](https://gitlab.com/tezos-domains/client/compare/v1.13.1...v1.14.0-alpha.0) (2022-04-13)
 
 
