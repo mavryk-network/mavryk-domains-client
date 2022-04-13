@@ -9,6 +9,7 @@ export enum DomainAcquisitionState {
     CanBeAuctioned = 'CanBeAuctioned',
     AuctionInProgress = 'AuctionInProgress',
     CanBeSettled = 'CanBeSettled',
+    CanBeClaimed = 'CanBeClaimed',
 }
 
 export interface DomainAcquisitionAuctionInfo {
@@ -100,6 +101,11 @@ export class DomainAcquisitionInfo {
         return new DomainAcquisitionInfo(state, undefined, fifsInfo);
     }
 
+    /** @internal */
+    static createClaimable(): DomainAcquisitionInfo {
+        return new DomainAcquisitionInfo(DomainAcquisitionState.CanBeClaimed);
+    }
+
     private assertState(description: string, ...allowedStates: DomainAcquisitionState[]) {
         if (!allowedStates.includes(this._state)) {
             throw new Error(`${description} is only available for states ${allowedStates.join(', ')}.`);
@@ -110,7 +116,7 @@ export class DomainAcquisitionInfo {
 export interface AcquisitionInfoInput {
     tldConfiguration: Pick<
         TLDConfiguration,
-        'minDuration' | 'minAuctionPeriod' | 'minBidIncreaseRatio' | 'bidAdditionalPeriod' | 'launchDates' | 'standardPrices'
+        'minDuration' | 'minAuctionPeriod' | 'minBidIncreaseRatio' | 'bidAdditionalPeriod' | 'launchDates' | 'standardPrices' | 'isClaimable'
     >;
     name: string;
     existingDomain?: {
@@ -125,6 +131,12 @@ export interface AcquisitionInfoInput {
 }
 
 export function calculateAcquisitionInfo(input: AcquisitionInfoInput): DomainAcquisitionInfo {
+    let launchDate: Date | null | undefined = undefined;
+
+    if (input.tldConfiguration.isClaimable) {
+        return createClaimableInfo();
+    }
+
     const now = new Date();
     const label = getLabel(input.name);
     const minDuration = input.tldConfiguration.minDuration.toNumber();
@@ -141,7 +153,7 @@ export function calculateAcquisitionInfo(input: AcquisitionInfoInput): DomainAcq
     }
 
     const defaultLaunchDateIndex = parseInt(TLDConfigProperty.DEFAULT_LAUNCH_DATE);
-    let launchDate = input.tldConfiguration.launchDates[(defaultLaunchDateIndex + label.length).toString()];
+    launchDate = input.tldConfiguration.launchDates[(defaultLaunchDateIndex + label.length).toString()];
 
     if (launchDate === undefined) {
         launchDate = input.tldConfiguration.launchDates[defaultLaunchDateIndex.toString()];
@@ -219,6 +231,10 @@ export function calculateAcquisitionInfo(input: AcquisitionInfoInput): DomainAcq
 
     function createUnobtainableInfo() {
         return DomainAcquisitionInfo.createUnobtainable({ launchDate: launchDate || null });
+    }
+
+    function createClaimableInfo() {
+        return DomainAcquisitionInfo.createClaimable();
     }
 
     function getPricePerMinDuration(pricePerDay: BigNumber) {

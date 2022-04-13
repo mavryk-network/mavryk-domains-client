@@ -75,9 +75,17 @@ export class TaquitoManagerDataProvider {
         if (getLevel(name) !== 2) {
             throw new Error(`Domain '${name}' cannot be acquired. Only 2nd level domains (e.g. 'alice.${this.validator.supportedTLDs[0]}') can be acquired.`);
         }
+
         this.assertDomainName(name);
 
-        const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, getTld(name));
+        const tld = getTld(name);
+        const tldConfiguration = await this.getTldConfiguration(tld);
+
+        if (tldConfiguration.isClaimable) {
+            return DomainAcquisitionInfo.createClaimable();
+        }
+
+        const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld);
         const label = getLabel(name);
         const tldRecordResponse = await this.tezos.getBigMapValue<TLDRegistrarStorage>(
             address,
@@ -104,7 +112,7 @@ export class TaquitoManagerDataProvider {
         }
 
         return calculateAcquisitionInfo({
-            tldConfiguration: await this.getTldConfiguration(getTld(name)),
+            tldConfiguration,
             name: name,
             existingDomain: tldRecord ? { expiry: tldRecord.expiry } : undefined,
             existingAuction,
@@ -112,6 +120,21 @@ export class TaquitoManagerDataProvider {
     }
 
     async getTldConfiguration(tld: string): Promise<TLDConfiguration> {
+        const isClaimableTld = this.validator.isClaimableTld(tld);
+        if (isClaimableTld) {
+            return {
+                isClaimable: true,
+                minCommitmentAge: new BigNumber(0),
+                maxCommitmentAge: new BigNumber(0),
+                minDuration: new BigNumber(0),
+                minAuctionPeriod: new BigNumber(0),
+                minBidIncreaseRatio: new BigNumber(0),
+                bidAdditionalPeriod: new BigNumber(0),
+                launchDates: {},
+                standardPrices: {},
+            };
+        }
+
         const address = await this.addressBook.lookup(SmartContractType.TLDRegistrar, tld);
         const tldStorage = await this.tezos.storage<TLDRegistrarStorage>(address);
         const config = new RpcResponseData(tldStorage.store.config).scalar(MapEncoder)!;

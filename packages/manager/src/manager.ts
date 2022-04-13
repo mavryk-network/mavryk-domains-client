@@ -1,29 +1,31 @@
 import './manager/domains-manager';
 
+export {
+    AcquisitionInfoInput,
+    calculateAcquisitionInfo,
+    DomainAcquisitionAuctionInfo,
+    DomainAcquisitionBuyOrRenewInfo,
+    DomainAcquisitionInfo,
+    DomainAcquisitionState,
+    DomainAcquisitionUnobtainableInfo
+} from './manager/acquisition-info';
 export { BlockchainDomainsManager } from './manager/blockchain-domains-manager';
+export { CommitmentGenerator } from './manager/commitment-generator';
+export { TaquitoManagerDataProvider } from './manager/data-provider';
 export { DomainsManager } from './manager/domains-manager';
 export {
+    BidRequest,
     BuyRequest,
+    ClaimRequest,
     CommitmentInfo,
     CommitmentRequest,
     RenewRequest,
     ReverseRecordRequest,
     SetChildRecordRequest,
-    UpdateRecordRequest,
-    BidRequest,
     SettleRequest,
-    UpdateReverseRecordRequest,
+    UpdateRecordRequest,
+    UpdateReverseRecordRequest
 } from './manager/model';
-export {
-    DomainAcquisitionAuctionInfo,
-    DomainAcquisitionBuyOrRenewInfo,
-    DomainAcquisitionInfo,
-    DomainAcquisitionState,
-    AcquisitionInfoInput,
-    DomainAcquisitionUnobtainableInfo,
-    calculateAcquisitionInfo,
-} from './manager/acquisition-info';
-export { CommitmentGenerator } from './manager/commitment-generator';
+export { TaquitoTezosDomainsOperationFactory, TezosDomainsOperationFactory } from './manager/operation-factory';
 export { UnsupportedDomainsManager } from './manager/unsupported-domains-manager';
-export { TezosDomainsOperationFactory, TaquitoTezosDomainsOperationFactory } from './manager/operation-factory';
-export { TaquitoManagerDataProvider } from './manager/data-provider';
+

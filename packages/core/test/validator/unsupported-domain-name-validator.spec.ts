@@ -31,4 +31,10 @@ describe('NullNameResolver', () => {
             expect(() => validator.removeSupportedTld('tez')).toThrowError();
         });
     });
+
+    describe('isClaimableTld()', () => {
+        it('should throw error', () => {
+            expect(() => validator.isClaimableTld('tez')).toThrowError();
+        });
+    });
 });

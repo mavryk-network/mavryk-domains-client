@@ -1,17 +1,16 @@
-import { TransactionWalletOperation, MichelsonMap, WalletTransferParams } from '@taquito/taquito';
 import { ConstantsResponse } from '@taquito/rpc';
+import { MichelsonMap, TransactionWalletOperation, WalletTransferParams } from '@taquito/taquito';
 import {
-    SmartContractType,
-    Exact,
-    Tracer,
+    AdditionalOperationParams,
     AddressBook,
     BytesEncoder,
-    RecordMetadata,
-    DomainNameValidator,
     DomainNameValidationResult,
-    AdditionalOperationParams,
+    DomainNameValidator,
+    Exact,
+    RecordMetadata,
+    SmartContractType,
+    Tracer,
 } from '@tezos-domains/core';
-import { TaquitoClient } from '@tezos-domains/taquito';
 import {
     CommitmentGenerator,
     CommitmentRequest,
@@ -20,10 +19,10 @@ import {
     TaquitoManagerDataProvider,
     TaquitoTezosDomainsOperationFactory,
 } from '@tezos-domains/manager';
-import { mock, when, anything, instance, anyString, verify, anyOfClass, deepEqual, capture } from 'ts-mockito';
-import MockDate from 'mockdate';
+import { TaquitoClient } from '@tezos-domains/taquito';
 import BigNumber from 'bignumber.js';
-
+import MockDate from 'mockdate';
+import { anyOfClass, anyString, anything, capture, deepEqual, instance, mock, verify, when } from 'ts-mockito';
 import { DEFAULT_STORAGE_LIMITS } from '../../src/manager/model';
 
 const e = (s: string) => new BytesEncoder().encode(s)!;
@@ -529,6 +528,46 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
 
         it('should throw if token id is null', async () => {
             await expect(() => operationFactory.transfer('bob.tez', 'tz1VBLpuDKMoJuHRLZ4HrCgRuiLpEr7zZx2E')).rejects.toThrowError();
+        });
+    });
+
+    describe('claim()', () => {
+        it('should call smart contract with parameters', async () => {
+            when(validatorMock.validateDomainName('so-valid.com')).thenCall(() => DomainNameValidationResult.VALID);
+
+            const timestamp = new Date().toISOString();
+            const p = await operationFactory.claim(
+                'signature',
+                {
+                    label: 'so-valid',
+                    tld: 'com',
+                    owner: 'tz1xxx',
+                    timestamp,
+                },
+                additionalParams
+            );
+
+            verify(
+                taquitoClientMock.params(
+                    `${SmartContractType.OracleRegistrar}addr`,
+                    'claim',
+                    deepEqual([e('so-valid'), e('com'), 'tz1xxx', timestamp, 'signature']),
+                    deepEqual({ ...additionalParams })
+                )
+            ).called();
+
+            expect(p).toEqual(params);
+        });
+
+        it('should throw if domain name is invalid', async () => {
+            await expect(() =>
+                operationFactory.claim('signature', {
+                    label: 'invalid',
+                    tld: 'tez',
+                    owner: 'tz1xxx',
+                    timestamp: new Date().toISOString(),
+                })
+            ).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
         });
     });
 });

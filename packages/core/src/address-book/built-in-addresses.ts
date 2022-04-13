@@ -251,5 +251,8 @@ export const BuiltInAddresses = {
         'tldRegistrar:a3:settle': {
             address: 'KT1W4wuv5zsQS2fvR6wr5GYYRRXjKADLiD66',
         },
+        oracleRegistrar: {
+            address: 'KT1X9se9JdF8Z5JpZfHLTaTW878umtQ1nZde',
+        },
     },
 };

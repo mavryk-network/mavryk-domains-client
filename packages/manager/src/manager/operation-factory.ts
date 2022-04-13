@@ -10,18 +10,20 @@ import {
     Tracer,
 } from '@tezos-domains/core';
 import { TaquitoClient } from '@tezos-domains/taquito';
-
 import { CommitmentGenerator } from './commitment-generator';
 import { TaquitoManagerDataProvider } from './data-provider';
-import { DEFAULT_STORAGE_LIMITS, Tzip12TransferDestination, Tzip12TransferRequest } from './model';
 import {
     BidRequest,
     BuyRequest,
+    ClaimRequest,
     CommitmentRequest,
+    DEFAULT_STORAGE_LIMITS,
     RenewRequest,
     ReverseRecordRequest,
     SetChildRecordRequest,
     SettleRequest,
+    Tzip12TransferDestination,
+    Tzip12TransferRequest,
     UpdateRecordRequest,
     UpdateReverseRecordRequest,
 } from './model';
@@ -38,6 +40,7 @@ export interface TezosDomainsOperationFactory<TOperationParams> {
     settle(tld: string, request: Exact<SettleRequest>, operationParams?: AdditionalOperationParams): Promise<TOperationParams>;
     withdraw(tld: string, recipient: string, operationParams?: AdditionalOperationParams): Promise<TOperationParams>;
     transfer(name: string, newOwner: string, operationParams?: AdditionalOperationParams): Promise<TOperationParams>;
+    claim(signature: string, request: Exact<ClaimRequest>, operationParams?: AdditionalOperationParams): Promise<TOperationParams>;
 }
 
 export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperationFactory<WalletTransferParams> {
@@ -270,6 +273,30 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
         this.tracer.trace(`=> Preparing operation ${entrypoint}.`, name, newOwner);
 
         const params = await this.tezos.params(address, entrypoint, [[request]], operationParams);
+
+        this.tracer.trace('<= Prepared.', params);
+
+        return params;
+    }
+
+    async claim(signature: string, request: Exact<ClaimRequest>, operationParams?: AdditionalOperationParams): Promise<WalletTransferParams> {
+        this.assertDomainName(`${request.label}.${request.tld}`);
+
+        const entrypoint = 'claim';
+
+        this.tracer.trace(`=> Preparing operation ${entrypoint}.`, request);
+
+        const address = await this.addressBook.lookup(SmartContractType.OracleRegistrar);
+        const encodedRequest = RpcRequestData.fromObject(ClaimRequest, request).encode();
+
+        const params = await this.tezos.params(
+            address,
+            entrypoint,
+            [encodedRequest.label, encodedRequest.tld, encodedRequest.owner, encodedRequest.timestamp, signature],
+            {
+                ...operationParams,
+            }
+        );
 
         this.tracer.trace('<= Prepared.', params);
 

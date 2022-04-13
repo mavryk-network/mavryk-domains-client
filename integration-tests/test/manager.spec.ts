@@ -5,6 +5,7 @@ import fs from 'fs-extra';
 import path from 'path';
 
 import { CONFIG } from '../data';
+import { DomainNameValidationResult } from '@tezos-domains/core/src/core';
 
 const db = fs.readJSONSync(path.join(__dirname, './data.json'));
 
@@ -53,6 +54,17 @@ describe('manager', () => {
             expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(1e6);
             expect(info.buyOrRenewDetails.minDuration).toBe(365);
             expect(info.calculatePrice(365)).toBe(1e6);
+        });
+
+        it('should throw error for claimable domain', async () => {
+            const tezos = new TezosToolkit(CONFIG.rpcUrl);
+            client = new TaquitoTezosDomainsClient({
+                network: CONFIG.network,
+                claimableTlds: [{ name: 'com', validator: () => DomainNameValidationResult.VALID }],
+                tezos,
+            });
+
+            await expect(client.manager.getAcquisitionInfo(`alice.com}`)).rejects.toThrow();
         });
     });
 

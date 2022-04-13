@@ -10,6 +10,11 @@ export interface DomainNameValidator {
     supportedTLDs: string[];
 
     /**
+     * Returns true if tld is supported by the OracleRegistrar
+     */
+    isClaimableTld(tld: string): boolean;
+
+    /**
      * Validates whether the specified domain name is valid.
      */
     validateDomainName(name: string): DomainNameValidationResult;
@@ -18,7 +23,7 @@ export interface DomainNameValidator {
      * Adds a supported tld. You don't need to call this in most cases.
      */
     addSupportedTld(tld: string, validator: DomainNameValidatorFn): void;
-    
+
     /**
      * Removes a supported tld. You don't need to call this in most cases.
      */

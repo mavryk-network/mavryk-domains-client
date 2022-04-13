@@ -1,6 +1,6 @@
+import { NotSupportedError } from '../model';
 import { DomainNameValidator } from './domain-name-validator';
 import { DomainNameValidationResult } from './validators';
-import { NotSupportedError } from '../model';
 
 export class UnsupportedDomainNameValidator implements DomainNameValidator {
     get supportedTLDs(): string[] {
@@ -9,6 +9,10 @@ export class UnsupportedDomainNameValidator implements DomainNameValidator {
 
     validateDomainName(): DomainNameValidationResult {
         return DomainNameValidationResult.INVALID_TLD;
+    }
+
+    isClaimableTld(): boolean {
+        throw new Error('Method not implemented.');
     }
 
     addSupportedTld(): void {

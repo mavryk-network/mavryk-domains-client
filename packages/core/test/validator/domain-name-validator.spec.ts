@@ -17,11 +17,22 @@ describe('TezosDomainsValidator', () => {
         it('should return INVALID_TLD if tld is not supported', () => {
             expect(validator.validateDomainName('a.ble')).toBe(DomainNameValidationResult.INVALID_TLD);
         });
+
+        it('should have supported claimable tlds for network', () => {
+            init({
+                claimableTlds: [
+                    { name: 'com', validator: () => DomainNameValidationResult.VALID },
+                    { name: 'dev', validator: () => DomainNameValidationResult.VALID },
+                ],
+            });
+
+            expect(validator.supportedTLDs).toEqual(['tez', 'com', 'dev']);
+        });
     });
 
     it('should return INVALID_NAME if domain name starts or ends with -', () => {
         init();
-        
+
         expect(validator.validateDomainName('-aa.tez')).toBe(DomainNameValidationResult.INVALID_NAME);
         expect(validator.validateDomainName('aa-.tez')).toBe(DomainNameValidationResult.INVALID_NAME);
         expect(validator.validateDomainName('aa.-bb.tez')).toBe(DomainNameValidationResult.INVALID_NAME);
@@ -41,7 +52,9 @@ describe('TezosDomainsValidator', () => {
             expect(validator.validateDomainName('a$a.tez')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
             expect(validator.validateDomainName('a_a.tez')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
             expect(validator.validateDomainName('$$.tez')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
-            expect(validator.validateDomainName('abcdefghij1234567890abcdefghij1234567890abcdefghij1234567890abcdefghij1234567890abcdefghij123456789!.tez')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
+            expect(
+                validator.validateDomainName('abcdefghij1234567890abcdefghij1234567890abcdefghij1234567890abcdefghij1234567890abcdefghij123456789!.tez')
+            ).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
         });
 
         it('should return INVALID_LENGTH label is too long', () => {
@@ -97,7 +110,7 @@ describe('TezosDomainsValidator', () => {
         });
 
         describe('removeSupportedTld', () => {
-            it('should allow to add a tld', () => {
+            it('should allow to remove a tld', () => {
                 init({ tlds: [{ name: 'test', validator: testValidatorFn }] });
 
                 expect(validator.validateDomainName('custom.test')).toBe(DomainNameValidationResult.VALID);
@@ -105,6 +118,30 @@ describe('TezosDomainsValidator', () => {
                 validator.removeSupportedTld('test');
 
                 expect(validator.validateDomainName('custom.test')).toBe(DomainNameValidationResult.INVALID_TLD);
+            });
+        });
+
+        describe('addSupportedClaimableTld', () => {
+            it('should allow to add a claimable tld', () => {
+                init();
+
+                expect(validator.validateDomainName('custom.com')).toBe(DomainNameValidationResult.INVALID_TLD);
+
+                validator.addSupportedClaimableTld('com', testValidatorFn);
+
+                expect(validator.validateDomainName('custom.com')).toBe(DomainNameValidationResult.VALID);
+            });
+        });
+
+        describe('removeSupportedClaimableTld', () => {
+            it('should allow to remove a claimable tld', () => {
+                init({ claimableTlds: [{ name: 'com', validator: testValidatorFn }] });
+
+                expect(validator.validateDomainName('custom.com')).toBe(DomainNameValidationResult.VALID);
+
+                validator.removeSupportedClaimableTld('com');
+
+                expect(validator.validateDomainName('custom.com')).toBe(DomainNameValidationResult.INVALID_TLD);
             });
         });
     });

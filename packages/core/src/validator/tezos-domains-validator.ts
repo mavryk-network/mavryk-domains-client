@@ -7,10 +7,13 @@ import { normalizeDomainName } from '../utils/convert';
 
 export class TezosDomainsValidator implements DomainNameValidator {
     private validators: Map<string, DomainNameValidatorFn> = new Map();
+    private claimableValidators: Map<string, DomainNameValidatorFn> = new Map();
     private tlds: string[] = [];
+    private claimableTlds: string[] = [];
 
     constructor(config?: TezosDomainsConfig) {
         const network = config?.network || 'mainnet';
+
         if (network === 'custom' && !config?.tlds) {
             throw new Error(`When network type is 'custom', it is required to specify 'tlds'.`);
         }
@@ -32,11 +35,19 @@ export class TezosDomainsValidator implements DomainNameValidator {
             }
         }
 
+        if (config?.claimableTlds) {
+            config.claimableTlds.forEach(t => this.addSupportedClaimableTld(t.name, t.validator));
+        }
+
         tlds.forEach(tld => this.addSupportedTld(tld.name, tld.validator));
     }
 
     get supportedTLDs(): string[] {
-        return this.tlds;
+        return this.tlds.concat(this.claimableTlds);
+    }
+
+    isClaimableTld(tld: string): boolean {
+        return this.claimableTlds.includes(tld);
     }
 
     validateDomainName(name: string): DomainNameValidationResult {
@@ -46,19 +57,20 @@ export class TezosDomainsValidator implements DomainNameValidator {
             return DomainNameValidationResult.INVALID_NAME;
         }
 
-        if (this.tlds.includes(name)) {
+        if (this.tlds.includes(name) || this.claimableTlds.includes(name)) {
             // tld itself
             return DomainNameValidationResult.VALID;
         }
 
         const tld = getTld(name);
         const nameWithoutTld = stripTld(name);
-
         if (!this.supportedTLDs.includes(tld)) {
             return DomainNameValidationResult.INVALID_TLD;
         }
 
-        return this.validators.get(tld)!(nameWithoutTld, tld);
+        const validator = this.validators.get(tld) ?? this.claimableValidators.get(tld);
+
+        return validator!(nameWithoutTld, tld);
     }
 
     addSupportedTld(tld: string, validator: DomainNameValidatorFn): void {
@@ -66,8 +78,18 @@ export class TezosDomainsValidator implements DomainNameValidator {
         this.validators.set(tld, validator);
     }
 
+    addSupportedClaimableTld(tld: string, validator: DomainNameValidatorFn): void {
+        this.claimableTlds.push(tld);
+        this.claimableValidators.set(tld, validator);
+    }
+
     removeSupportedTld(tld: string): void {
         this.tlds = this.tlds.filter(tld => tld !== tld);
         this.validators.delete(tld);
+    }
+
+    removeSupportedClaimableTld(tld: string): void {
+        this.claimableTlds = this.claimableTlds.filter(tld => tld !== tld);
+        this.claimableValidators.delete(tld);
     }
 }

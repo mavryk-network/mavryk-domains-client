@@ -128,6 +128,21 @@ export class AuctionState {
     @encoder(BigNumberEncoder) ownership_period!: number;
 }
 
+@RpcRequest()
+export class ClaimRequest {
+    /** The first part of the domain name (e.g. `alice` if full domain name is `alice.com`) */
+    @encoder(NormalizeBytesEncoder) label!: string;
+
+    /** The tld of the domain (e.g. `com` if full domain name is `alice.com`) */
+    @encoder(NormalizeBytesEncoder) tld!: string;
+
+    /** The address that should be set as the owner of the domain record. */
+    owner!: string;
+
+    /** The ISO Timestamp of when the payload was signed */
+    timestamp!: string;
+}
+
 export class CommitmentInfo {
     /**
      * Date and time when it becomes possible to buy the domain by the commitment sender
@@ -169,6 +184,7 @@ export interface TLDConfiguration {
     bidAdditionalPeriod: BigNumber;
     launchDates: Record<string, Date | null>;
     standardPrices: Record<string, BigNumber>;
+    isClaimable?: boolean;
 }
 
 export const DEFAULT_STORAGE_LIMITS = {

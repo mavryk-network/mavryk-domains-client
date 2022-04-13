@@ -5,6 +5,7 @@ import { SupportedNetworkType } from './utils/support';
 export enum SmartContractType {
     TLDRegistrar = 'tldRegistrar',
     NameRegistry = 'nameRegistry',
+    OracleRegistrar = 'oracleRegistrar',
 }
 
 export type CachingConfig = { enabled: boolean; defaultRecordTtl?: number; defaultReverseRecordTtl?: number };
@@ -19,8 +20,14 @@ export type TLDConfig = {
     validator: DomainNameValidatorFn;
 };
 
-export type CustomNetworkConfig = { network?: 'custom'; contractAddresses: ContractConfig; tlds: TLDConfig[] } & CommonConfig;
-export type DefaultNetworkConfig = { network?: SupportedNetworkType; contractAddresses?: ContractConfig; tlds?: TLDConfig[] } & CommonConfig;
+export type CustomNetworkConfig = { network?: 'custom'; contractAddresses: ContractConfig; tlds: TLDConfig[]; claimableTlds?: TLDConfig[] } & CommonConfig;
+
+export type DefaultNetworkConfig = {
+    network?: SupportedNetworkType;
+    contractAddresses?: ContractConfig;
+    tlds?: TLDConfig[];
+    claimableTlds?: TLDConfig[];
+} & CommonConfig;
 
 export type TezosDomainsConfig = DefaultNetworkConfig | CustomNetworkConfig;
 
@@ -65,7 +72,7 @@ export enum TLDConfigProperty {
     MIN_AUCTION_PERIOD = '5',
     BID_ADDITIONAL_PERIOD = '6',
     DEFAULT_LAUNCH_DATE = '1000',
-    DEFAULT_STANDARD_PRICE = '2000'
+    DEFAULT_STANDARD_PRICE = '2000',
 }
 
 export class NotSupportedError extends Error {

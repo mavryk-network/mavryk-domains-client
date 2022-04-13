@@ -1,25 +1,22 @@
-import { TransactionWalletOperation, MichelsonMap } from '@taquito/taquito';
+import { ConstantsResponse } from '@taquito/rpc';
+import { MichelsonMap, TransactionWalletOperation } from '@taquito/taquito';
 import {
-    SmartContractType,
-    Exact,
-    RpcRequestScalarData,
-    RpcResponseData,
-    Tracer,
     AddressBook,
     BytesEncoder,
-    DomainNameValidator,
-    DomainNameValidationResult,
-    TezosDomainsDataProvider,
-} from '@tezos-domains/core';
-import { TaquitoClient } from '@tezos-domains/taquito';
-import { ConstantsResponse } from '@taquito/rpc';
-import { CommitmentGenerator, DomainAcquisitionState, CommitmentRequest, TaquitoManagerDataProvider } from '@tezos-domains/manager';
-import { mock, when, anyFunction, anything, instance, deepEqual, anyString } from 'ts-mockito';
-import MockDate from 'mockdate';
-import BigNumber from 'bignumber.js';
 
-import { TLDRecord, AuctionState } from '../../src/manager/model';
+    DomainNameValidationResult, DomainNameValidator, Exact,
+    RpcRequestScalarData,
+    RpcResponseData, SmartContractType,
+    TezosDomainsDataProvider, Tracer
+} from '@tezos-domains/core';
+import { CommitmentGenerator, CommitmentRequest, DomainAcquisitionState, TaquitoManagerDataProvider } from '@tezos-domains/manager';
+import { TaquitoClient } from '@tezos-domains/taquito';
+import BigNumber from 'bignumber.js';
+import MockDate from 'mockdate';
+import { anyFunction, anyString, anything, deepEqual, instance, mock, when } from 'ts-mockito';
 import { TLDConfigProperty } from '../../../core/src/model';
+import { AuctionState, TLDRecord } from '../../src/manager/model';
+
 
 interface FakeTLDRegistrarStorage {
     store: {
@@ -397,6 +394,12 @@ describe('TaquitoManagerDataProvider', () => {
             expect(() => info.buyOrRenewDetails).toThrowError();
             expect(() => info.unobtainableDetails).toThrowError();
             expect(() => info.calculatePrice(365)).toThrowError();
+        });
+
+        it('should return claimable state', async () => {
+            when(validatorMock.isClaimableTld('com')).thenReturn(true);
+            const state = await dataProvider.getAcquisitionInfo('claimable.com');
+            expect(state.acquisitionState).toBe(DomainAcquisitionState.CanBeClaimed);
         });
 
         it('should throw if domain name is invalid', async () => {
