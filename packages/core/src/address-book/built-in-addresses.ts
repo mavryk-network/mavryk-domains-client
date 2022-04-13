@@ -252,7 +252,7 @@ export const BuiltInAddresses = {
             address: 'KT1W4wuv5zsQS2fvR6wr5GYYRRXjKADLiD66',
         },
         oracleRegistrar: {
-            address: 'KT1X9se9JdF8Z5JpZfHLTaTW878umtQ1nZde',
+            address: 'KT1Kwvtw9XFaqsEB7akfLbV45EyCvzH7vPHE',
         },
     },
 };
