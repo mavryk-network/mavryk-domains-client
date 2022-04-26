@@ -9,7 +9,7 @@
   "files": [
     "dist"
   ],
-  "version": "1.14.0-alpha.1",
+  "version": "1.14.0-alpha.2",
   "description": "A library for resolving tezos domains.",
   "author": "Necroskillz <necroskillz@gmail.com>",
   "license": "Apache-2.0",
@@ -24,7 +24,7 @@
     "url": "https://gitlab.com/tezos-domains/client/issues"
   },
   "dependencies": {
-    "@tezos-domains/core": "^1.14.0-alpha.1",
+    "@tezos-domains/core": "^1.14.0-alpha.2",
     "node-cache": "^5.1.2"
   },
   "devDependencies": {

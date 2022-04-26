@@ -9,7 +9,7 @@
   "files": [
     "dist"
   ],
-  "version": "1.14.0-alpha.1",
+  "version": "1.14.0-alpha.2",
   "description": "A library for interacting with tezos blockchain using taquito.",
   "author": "Necroskillz <necroskillz@gmail.com>",
   "license": "Apache-2.0",
@@ -27,15 +27,15 @@
     "@taquito/taquito": ">=12.0.3 <13.0.0"
   },
   "dependencies": {
-    "@tezos-domains/core": "^1.14.0-alpha.1",
-    "@tezos-domains/manager": "^1.14.0-alpha.1",
-    "@tezos-domains/resolver": "^1.14.0-alpha.1",
-    "@tezos-domains/taquito": "^1.14.0-alpha.1",
+    "@tezos-domains/core": "^1.14.0-alpha.2",
+    "@tezos-domains/manager": "^1.14.0-alpha.2",
+    "@tezos-domains/resolver": "^1.14.0-alpha.2",
+    "@tezos-domains/taquito": "^1.14.0-alpha.2",
     "bignumber.js": "^9.0.2",
     "node-cache": "^5.1.2"
   },
   "devDependencies": {
-    "@taquito/taquito": "12.0.3",
+    "@taquito/taquito": "^12.1.0",
     "@types/node": "^14.14.6",
     "fake-promise": "^2.5.41",
     "jest": "^26.6.1",
