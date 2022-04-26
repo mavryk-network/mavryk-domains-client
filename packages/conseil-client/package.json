@@ -9,7 +9,7 @@
   "files": [
     "dist"
   ],
-  "version": "1.14.0-alpha.2",
+  "version": "1.14.0-alpha.3",
   "description": "A library for interacting with tezos blockchain using conseil.",
   "author": "Necroskillz <necroskillz@gmail.com>",
   "license": "Apache-2.0",
@@ -27,9 +27,9 @@
     "conseiljs": "^5.0.5"
   },
   "dependencies": {
-    "@tezos-domains/core": "^1.14.0-alpha.2",
-    "@tezos-domains/manager": "^1.14.0-alpha.2",
-    "@tezos-domains/resolver": "^1.14.0-alpha.2",
+    "@tezos-domains/core": "^1.14.0-alpha.3",
+    "@tezos-domains/manager": "^1.14.0-alpha.3",
+    "@tezos-domains/resolver": "^1.14.0-alpha.3",
     "node-cache": "^5.1.2"
   },
   "devDependencies": {
