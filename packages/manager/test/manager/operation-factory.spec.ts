@@ -23,7 +23,7 @@ import { TaquitoClient } from '@tezos-domains/taquito';
 import BigNumber from 'bignumber.js';
 import MockDate from 'mockdate';
 import { anyOfClass, anyString, anything, capture, deepEqual, instance, mock, verify, when } from 'ts-mockito';
-import { DEFAULT_STORAGE_LIMITS } from '../../src/manager/model';
+import { DEFAULT_STORAGE_LIMITS, TLDConfiguration } from '../../src/manager/model';
 
 const e = (s: string) => new BytesEncoder().encode(s)!;
 
@@ -534,6 +534,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
     describe('claim()', () => {
         it('should call smart contract with parameters', async () => {
             when(validatorMock.validateDomainName('so-valid.com')).thenCall(() => DomainNameValidationResult.VALID);
+            when(dataProviderMock.getTldConfiguration('com')).thenResolve(<TLDConfiguration>{ claimPrice: new BigNumber(1_500_000) });
 
             const timestamp = new Date().toISOString();
             const p = await operationFactory.claim(
@@ -552,7 +553,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
                     `${SmartContractType.OracleRegistrar}addr`,
                     'claim',
                     deepEqual([e('so-valid'), e('com'), 'tz1xxx', timestamp, 'signature']),
-                    deepEqual({ ...additionalParams })
+                    deepEqual({ ...additionalParams, amount: 1_500_000 })
                 )
             ).called();
 

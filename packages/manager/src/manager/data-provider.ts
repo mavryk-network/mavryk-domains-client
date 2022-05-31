@@ -16,7 +16,7 @@ import {
     TLDConfigProperty,
     Tracer,
 } from '@tezos-domains/core';
-import { BigNumberEncoder, MapEncoder, TaquitoClient, TLDRegistrarStorage } from '@tezos-domains/taquito';
+import { BigNumberEncoder, MapEncoder, OracleRegistrarStorage, TaquitoClient, TLDRegistrarStorage } from '@tezos-domains/taquito';
 import BigNumber from 'bignumber.js';
 import { AcquisitionInfoInput, calculateAcquisitionInfo, DomainAcquisitionInfo } from './acquisition-info';
 import { CommitmentGenerator } from './commitment-generator';
@@ -122,6 +122,9 @@ export class TaquitoManagerDataProvider {
     async getTldConfiguration(tld: string): Promise<TLDConfiguration> {
         const isClaimableTld = this.validator.isClaimableTld(tld);
         if (isClaimableTld) {
+            const address = await this.addressBook.lookup(SmartContractType.OracleRegistrar);
+            const oracleStorage = await this.tezos.storage<OracleRegistrarStorage>(address);
+
             return {
                 isClaimable: true,
                 minCommitmentAge: new BigNumber(0),
@@ -132,6 +135,7 @@ export class TaquitoManagerDataProvider {
                 bidAdditionalPeriod: new BigNumber(0),
                 launchDates: {},
                 standardPrices: {},
+                claimPrice: oracleStorage.claim_price,
             };
         }
 

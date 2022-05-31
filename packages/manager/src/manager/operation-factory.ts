@@ -286,6 +286,9 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
 
         this.tracer.trace(`=> Preparing operation ${entrypoint}.`, request);
 
+        const tldConfig = await this.dataProvider.getTldConfiguration(request.tld);
+        const price = tldConfig.claimPrice;
+
         const address = await this.addressBook.lookup(SmartContractType.OracleRegistrar);
         const encodedRequest = RpcRequestData.fromObject(ClaimRequest, request).encode();
 
@@ -294,6 +297,7 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
             entrypoint,
             [encodedRequest.label, encodedRequest.tld, encodedRequest.owner, encodedRequest.timestamp, signature],
             {
+                amount: price?.toNumber(),
                 ...operationParams,
             }
         );

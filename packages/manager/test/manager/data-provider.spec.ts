@@ -3,11 +3,14 @@ import { MichelsonMap, TransactionWalletOperation } from '@taquito/taquito';
 import {
     AddressBook,
     BytesEncoder,
-
-    DomainNameValidationResult, DomainNameValidator, Exact,
+    DomainNameValidationResult,
+    DomainNameValidator,
+    Exact,
     RpcRequestScalarData,
-    RpcResponseData, SmartContractType,
-    TezosDomainsDataProvider, Tracer
+    RpcResponseData,
+    SmartContractType,
+    TezosDomainsDataProvider,
+    Tracer
 } from '@tezos-domains/core';
 import { CommitmentGenerator, CommitmentRequest, DomainAcquisitionState, TaquitoManagerDataProvider } from '@tezos-domains/manager';
 import { TaquitoClient } from '@tezos-domains/taquito';
@@ -17,7 +20,6 @@ import { anyFunction, anyString, anything, deepEqual, instance, mock, when } fro
 import { TLDConfigProperty } from '../../../core/src/model';
 import { AuctionState, TLDRecord } from '../../src/manager/model';
 
-
 interface FakeTLDRegistrarStorage {
     store: {
         records: Record<string, Exact<TLDRecord>>;
@@ -26,6 +28,14 @@ interface FakeTLDRegistrarStorage {
         auctions: Record<string, AuctionState>;
         bidder_balances: Record<string, BigNumber>;
     };
+}
+
+interface FakeOracleRegistrarStorage {
+    set_child_record: string;
+    admin: string;
+    max_timestamp_age: number;
+    claim_price: BigNumber;
+    treasury: string;
 }
 
 const e = (s: string) => new BytesEncoder().encode(s)!;
@@ -106,6 +116,7 @@ describe('TaquitoManagerDataProvider', () => {
         });
         when(validatorMock.supportedTLDs).thenReturn(['tez']);
 
+        when(addressBookMock.lookup(anything())).thenCall(type => Promise.resolve(`${type}addr`));
         when(addressBookMock.lookup(anything(), anything())).thenCall((type, p1) => Promise.resolve(`${type}addr${p1 || ''}`));
         when(addressBookMock.lookup(anything(), anything(), anything())).thenCall((type, p1, p2) => Promise.resolve(`${type}addr${p1 || ''}${p2 || ''}`));
 
@@ -113,6 +124,9 @@ describe('TaquitoManagerDataProvider', () => {
             taquitoClientMock.getBigMapValue(`${SmartContractType.TLDRegistrar}addrtez`, anyFunction(), anything())
         ).thenCall((_, selector, key: RpcRequestScalarData<string>) => Promise.resolve(new RpcResponseData(selector(storage)[key.encode()!])));
         when(taquitoClientMock.storage(`${SmartContractType.TLDRegistrar}addrtez`)).thenResolve(storage);
+        when(taquitoClientMock.storage(`${SmartContractType.OracleRegistrar}addr`)).thenResolve(<FakeOracleRegistrarStorage>{
+            claim_price: new BigNumber(1_500_000),
+        });
         when(taquitoClientMock.getConstants()).thenResolve(constants);
 
         when(operation.opHash).thenReturn('op_hash');

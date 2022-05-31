@@ -1,5 +1,5 @@
-import { RpcRequest, encoder, RpcResponse, DateEncoder, RecordMetadata, NormalizeBytesEncoder } from '@tezos-domains/core';
-import { MapEncoder, BigNumberEncoder } from '@tezos-domains/taquito';
+import { DateEncoder, encoder, NormalizeBytesEncoder, RecordMetadata, RpcRequest, RpcResponse } from '@tezos-domains/core';
+import { BigNumberEncoder, MapEncoder } from '@tezos-domains/taquito';
 import BigNumber from 'bignumber.js';
 
 @RpcRequest()
@@ -185,6 +185,7 @@ export interface TLDConfiguration {
     launchDates: Record<string, Date | null>;
     standardPrices: Record<string, BigNumber>;
     isClaimable?: boolean;
+    claimPrice?: BigNumber;
 }
 
 export const DEFAULT_STORAGE_LIMITS = {
