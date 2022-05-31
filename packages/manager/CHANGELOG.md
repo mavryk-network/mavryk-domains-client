@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.14.0](https://gitlab.com/tezos-domains/client/compare/v1.14.0-alpha.3...v1.14.0) (2022-05-31)
+
+
+### Features
+
+* add support for claimable domain price ([3e29a2a](https://gitlab.com/tezos-domains/client/commit/3e29a2ac310c83b77564662e70a8b715436dad2d))
+
+
+
+
+
 # [1.14.0-alpha.3](https://gitlab.com/tezos-domains/client/compare/v1.14.0-alpha.1...v1.14.0-alpha.3) (2022-04-26)
 
 
