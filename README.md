@@ -24,9 +24,9 @@ import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
 import { Tzip16Module } from '@taquito/tzip16';
 
 async function main() {
-    const tezos = new TezosToolkit('https://hangzhounet.smartpy.io');
+    const tezos = new TezosToolkit('https://ithacanet.smartpy.io');
     tezos.addExtension(new Tzip16Module());
-    const client = new TaquitoTezosDomainsClient({ tezos, network: 'hangzhounet', caching: { enabled: true } });
+    const client = new TaquitoTezosDomainsClient({ tezos, network: 'ithacanet', caching: { enabled: true } });
 
     const address = await client.resolver.resolveNameToAddress('bob.flo');
 
@@ -56,10 +56,10 @@ import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
 import { getTld, getLabel, DomainNameValidationResult, RecordMetadata, generateNonce } from '@tezos-domains/core';
 
 async function main() {
-    const tezos = new TezosToolkit('https://hangzhounet.smartpy.io');
+    const tezos = new TezosToolkit('https://ithacanet.smartpy.io');
     tezos.addExtension(new Tzip16Module());
     tezos.setSignerProvider(new InMemorySigner('<your signing key>'));
-    const client = new TaquitoTezosDomainsClient({ tezos, network: 'hangzhounet' });
+    const client = new TaquitoTezosDomainsClient({ tezos, network: 'ithacanet' });
 
     const name = 'foobar.flo';
 
@@ -133,8 +133,8 @@ async function main() {
     registerFetch(fetch);
 
     const client = new ConseilTezosDomainsClient({
-        conseil: { server: 'https://hangzhounet.smartpy.io' },
-        network: 'hangzhounet',
+        conseil: { server: 'https://ithacanet.smartpy.io' },
+        network: 'ithacanet',
         caching: { enabled: true },
     });
 
@@ -150,7 +150,7 @@ The client takes options that can customize it's behavior.
 
 `network` (default: `'mainnet'`)
 
--   Specifies which contracts addresses to use. There are built in ones specified for `mainnet` and `hangzhounet`. For `custom` you need to also specify `contractAddresses`.
+-   Specifies which contracts addresses to use. There are built in ones specified for `mainnet` and `ithacanet`. For `custom` you need to also specify `contractAddresses`.
 
 `contractAddresses` (default: `undefined`)
 

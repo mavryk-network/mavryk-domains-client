@@ -1,6 +1,6 @@
 import { BuiltInAddresses } from '../address-book/built-in-addresses';
 
-export type SupportedNetworkType = 'mainnet' | 'hangzhounet' | 'ithacanet';
+export type SupportedNetworkType = 'mainnet' | 'ithacanet';
 
 const SUPPORTED_NETWORKS = Object.keys(BuiltInAddresses).filter(n => n !== 'custom');
 
