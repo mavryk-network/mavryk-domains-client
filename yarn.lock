@@ -2383,13 +2383,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tezos-domains/conseil-client@^1.14.0, @tezos-domains/conseil-client@workspace:packages/conseil-client":
+"@tezos-domains/conseil-client@^1.15.0, @tezos-domains/conseil-client@workspace:packages/conseil-client":
   version: 0.0.0-use.local
   resolution: "@tezos-domains/conseil-client@workspace:packages/conseil-client"
   dependencies:
-    "@tezos-domains/core": ^1.14.0
-    "@tezos-domains/manager": ^1.14.0
-    "@tezos-domains/resolver": ^1.14.0
+    "@tezos-domains/core": ^1.15.0
+    "@tezos-domains/manager": ^1.15.0
+    "@tezos-domains/resolver": ^1.15.0
     "@types/node": ^14.14.6
     conseiljs: 5.0.9
     fake-promise: ^2.5.41
@@ -2411,7 +2411,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tezos-domains/core@^1.14.0, @tezos-domains/core@workspace:packages/core":
+"@tezos-domains/core@^1.15.0, @tezos-domains/core@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@tezos-domains/core@workspace:packages/core"
   dependencies:
@@ -2432,7 +2432,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tezos-domains/manager@^1.14.0, @tezos-domains/manager@workspace:packages/manager":
+"@tezos-domains/manager@^1.15.0, @tezos-domains/manager@workspace:packages/manager":
   version: 0.0.0-use.local
   resolution: "@tezos-domains/manager@workspace:packages/manager"
   dependencies:
@@ -2440,8 +2440,8 @@ __metadata:
     "@taquito/michelson-encoder": ^12.1.0
     "@taquito/rpc": ^12.1.0
     "@taquito/taquito": ^12.1.0
-    "@tezos-domains/core": ^1.14.0
-    "@tezos-domains/taquito": ^1.14.0
+    "@tezos-domains/core": ^1.15.0
+    "@tezos-domains/taquito": ^1.15.0
     "@types/node": ^14.14.6
     "@types/sha.js": ^2.4.0
     bignumber.js: ^9.0.2
@@ -2466,11 +2466,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tezos-domains/resolver@^1.14.0, @tezos-domains/resolver@workspace:packages/resolver":
+"@tezos-domains/resolver@^1.15.0, @tezos-domains/resolver@workspace:packages/resolver":
   version: 0.0.0-use.local
   resolution: "@tezos-domains/resolver@workspace:packages/resolver"
   dependencies:
-    "@tezos-domains/core": ^1.14.0
+    "@tezos-domains/core": ^1.15.0
     "@types/node": ^14.14.6
     bignumber.js: ^9.0.2
     fake-promise: ^2.5.41
@@ -2489,15 +2489,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tezos-domains/taquito-client@^1.14.0, @tezos-domains/taquito-client@workspace:packages/taquito-client":
+"@tezos-domains/taquito-client@^1.15.0, @tezos-domains/taquito-client@workspace:packages/taquito-client":
   version: 0.0.0-use.local
   resolution: "@tezos-domains/taquito-client@workspace:packages/taquito-client"
   dependencies:
     "@taquito/taquito": ^12.1.0
-    "@tezos-domains/core": ^1.14.0
-    "@tezos-domains/manager": ^1.14.0
-    "@tezos-domains/resolver": ^1.14.0
-    "@tezos-domains/taquito": ^1.14.0
+    "@tezos-domains/core": ^1.15.0
+    "@tezos-domains/manager": ^1.15.0
+    "@tezos-domains/resolver": ^1.15.0
+    "@tezos-domains/taquito": ^1.15.0
     "@types/node": ^14.14.6
     bignumber.js: ^9.0.2
     fake-promise: ^2.5.41
@@ -2518,14 +2518,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tezos-domains/taquito@^1.14.0, @tezos-domains/taquito@workspace:packages/taquito":
+"@tezos-domains/taquito@^1.15.0, @tezos-domains/taquito@workspace:packages/taquito":
   version: 0.0.0-use.local
   resolution: "@tezos-domains/taquito@workspace:packages/taquito"
   dependencies:
     "@taquito/rpc": ^12.1.0
     "@taquito/taquito": ^12.1.0
     "@taquito/tzip16": ^12.1.0
-    "@tezos-domains/core": ^1.14.0
+    "@tezos-domains/core": ^1.15.0
     "@types/node": ^14.14.6
     bignumber.js: ^9.0.2
     fake-promise: ^2.5.41
@@ -7317,10 +7317,10 @@ __metadata:
     "@taquito/taquito": ^12.1.0
     "@taquito/tzip16": ^12.1.0
     "@taquito/utils": ^12.1.0
-    "@tezos-domains/conseil-client": ^1.14.0
-    "@tezos-domains/core": ^1.14.0
-    "@tezos-domains/manager": ^1.14.0
-    "@tezos-domains/taquito-client": ^1.14.0
+    "@tezos-domains/conseil-client": ^1.15.0
+    "@tezos-domains/core": ^1.15.0
+    "@tezos-domains/manager": ^1.15.0
+    "@tezos-domains/taquito-client": ^1.15.0
     "@types/dotenv": ^8.2.0
     "@types/fs-extra": ^9.0.2
     "@types/loglevel": ^1.6.3

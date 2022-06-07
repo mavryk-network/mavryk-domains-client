@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.15.0](https://gitlab.com/tezos-domains/client/compare/v1.14.0...v1.15.0) (2022-06-07)
+
+
+### Features
+
+* add mainnet dns oracle address ([9de7d4a](https://gitlab.com/tezos-domains/client/commit/9de7d4a829c50ce6d6cb2205ef6b3ff5d6ebf438))
+
+
+
+
+
 # [1.14.0](https://gitlab.com/tezos-domains/client/compare/v1.14.0-alpha.3...v1.14.0) (2022-05-31)
 
 
