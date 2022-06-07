@@ -38,6 +38,9 @@ export const BuiltInAddresses = {
         'tldRegistrar:tez:settle': {
             address: 'KT1MeFfi4TzSCc8CF9j3qq5mecTPdc6YVUPp',
         },
+        oracleRegistrar: {
+            address: 'KT1MMkh1VMT8d5BVuBP2whf7RXCWeMdUfkXu',
+        },
     },
     custom: null,
     ithacanet: {
