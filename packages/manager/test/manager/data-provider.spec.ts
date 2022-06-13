@@ -10,7 +10,7 @@ import {
     RpcResponseData,
     SmartContractType,
     TezosDomainsDataProvider,
-    Tracer
+    Tracer,
 } from '@tezos-domains/core';
 import { CommitmentGenerator, CommitmentRequest, DomainAcquisitionState, TaquitoManagerDataProvider } from '@tezos-domains/manager';
 import { TaquitoClient } from '@tezos-domains/taquito';
@@ -107,13 +107,15 @@ describe('TaquitoManagerDataProvider', () => {
 
         when(tracerMock.trace(anything(), anything(), anything()));
 
-        when(validatorMock.validateDomainName(anyString())).thenCall(name => {
+        const validationFunction = (name: string) => {
             if (name === 'invalid.tez') {
                 return DomainNameValidationResult.INVALID_NAME;
             }
 
             return DomainNameValidationResult.VALID;
-        });
+        };
+        when(validatorMock.isValidWithKnownTld(anyString())).thenCall(validationFunction);
+        when(validatorMock.validateDomainName(anyString())).thenCall(validationFunction);
         when(validatorMock.supportedTLDs).thenReturn(['tez']);
 
         when(addressBookMock.lookup(anything())).thenCall(type => Promise.resolve(`${type}addr`));

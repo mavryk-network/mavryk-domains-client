@@ -33,7 +33,7 @@ export class TaquitoManagerDataProvider {
     ) {}
 
     async getCommitment(tld: string, request: Exact<CommitmentRequest>): Promise<CommitmentInfo | null> {
-        this.assertDomainName(`${request.label}.${tld}`);
+        this.assertDomainWithValidTld(`${request.label}.${tld}`);
 
         this.tracer.trace('=> Getting existing commitment.', tld, request);
 
@@ -76,7 +76,7 @@ export class TaquitoManagerDataProvider {
             throw new Error(`Domain '${name}' cannot be acquired. Only 2nd level domains (e.g. 'alice.${this.validator.supportedTLDs[0]}') can be acquired.`);
         }
 
-        this.assertDomainName(name);
+        this.assertDomainWithValidTld(name);
 
         const tld = getTld(name);
         const tldConfiguration = await this.getTldConfiguration(tld);
@@ -195,6 +195,7 @@ export class TaquitoManagerDataProvider {
 
     async getTokenId(name: string): Promise<number | null> {
         this.assertDomainName(name);
+
         if (getLevel(name) !== 2) {
             throw new Error(`Domain '${name}' does not have a tokenId. Only 2nd level domains (e.g. 'alice.${this.validator.supportedTLDs[0]}') are NFTs.`);
         }
@@ -214,6 +215,18 @@ export class TaquitoManagerDataProvider {
 
     private assertDomainName(name: string) {
         const validation = this.validator.validateDomainName(name);
+
+        if (validation === DomainNameValidationResult.VALID) {
+            return;
+        }
+
+        this.tracer.trace('!! Domain name validation failed.', validation);
+
+        throw new Error(`'${name}' is not a valid domain name.`);
+    }
+
+    private assertDomainWithValidTld(name: string) {
+        const validation = this.validator.isValidWithKnownTld(name);
 
         if (validation === DomainNameValidationResult.VALID) {
             return;

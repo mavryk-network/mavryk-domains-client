@@ -55,13 +55,17 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
 
         when(tracerMock.trace(anything(), anything(), anything()));
 
-        when(validatorMock.validateDomainName(anyString())).thenCall(name => {
+        const validationFunction = (name: string) => {
             if (name === 'invalid.tez') {
                 return DomainNameValidationResult.INVALID_NAME;
             }
 
             return DomainNameValidationResult.VALID;
-        });
+        };
+
+        when(validatorMock.validateDomainName(anyString())).thenCall(validationFunction);
+        when(validatorMock.isValidWithKnownTld(anyString())).thenCall(validationFunction);
+
         when(validatorMock.supportedTLDs).thenReturn(['tez']);
 
         when(addressBookMock.lookup(anything())).thenCall(type => Promise.resolve(`${type}addr`));
@@ -306,15 +310,6 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
             expect(p).toEqual(params);
         });
 
-        it('should throw if domain name is invalid', async () => {
-            await expect(() =>
-                operationFactory.claimReverseRecord({
-                    name: 'invalid.tez',
-                    owner: 'tz1xxx',
-                })
-            ).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
-        });
-
         it('should not throw if domain name is null', async () => {
             const p = await operationFactory.claimReverseRecord({
                 name: null,
@@ -322,6 +317,15 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
             });
 
             expect(p).toEqual(params);
+        });
+
+        it('should throw if domain name is invalid', async () => {
+            await expect(() =>
+                operationFactory.claimReverseRecord({
+                    name: 'invalid.tez',
+                    owner: 'tz1xxx',
+                })
+            ).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
         });
     });
 
@@ -348,16 +352,6 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
             expect(p).toEqual(params);
         });
 
-        it('should throw if domain name is invalid', async () => {
-            await expect(() =>
-                operationFactory.updateReverseRecord({
-                    address: 'tz1xxx',
-                    name: 'invalid.tez',
-                    owner: 'tz1yyy',
-                })
-            ).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
-        });
-
         it('should not throw if domain name is null', async () => {
             const p = await operationFactory.updateReverseRecord({
                 address: 'tz1xxx',
@@ -366,6 +360,16 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
             });
 
             expect(p).toEqual(params);
+        });
+
+        it('should throw if domain name is invalid', async () => {
+            await expect(() =>
+                operationFactory.updateReverseRecord({
+                    address: 'tz1xxx',
+                    name: 'invalid.tez',
+                    owner: 'tz1yyy',
+                })
+            ).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
         });
     });
 
@@ -533,7 +537,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
 
     describe('claim()', () => {
         it('should call smart contract with parameters', async () => {
-            when(validatorMock.validateDomainName('so-valid.com')).thenCall(() => DomainNameValidationResult.VALID);
+            when(validatorMock.isValidWithKnownTld('so-valid.com')).thenCall(() => DomainNameValidationResult.VALID);
             when(dataProviderMock.getTldConfiguration('com')).thenResolve(<TLDConfiguration>{ claimPrice: new BigNumber(1_500_000) });
 
             const timestamp = new Date().toISOString();

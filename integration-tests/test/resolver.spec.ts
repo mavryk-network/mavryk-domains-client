@@ -90,7 +90,6 @@ describe('resolver', () => {
                 { description: 'should return null for non existent address', from: '404.test', to: null },
                 { description: 'should resolve address for infinite validity record', from: DATA.noExpiration.name, to: DATA.noExpiration.address },
                 { description: 'should return null for a record with null address', from: DATA.emptyAddress.name, to: null },
-                { description: 'should return null for tld', from: 'test', to: null },
             ];
 
             TEST_CASES.forEach(t => {

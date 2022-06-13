@@ -8,6 +8,10 @@ export class UnsupportedDomainNameValidator implements DomainNameValidator {
     }
 
     validateDomainName(): DomainNameValidationResult {
+        return DomainNameValidationResult.INVALID_NAME;
+    }
+
+    isValidWithKnownTld(): DomainNameValidationResult {
         return DomainNameValidationResult.INVALID_TLD;
     }
 

@@ -33,3 +33,32 @@ export const LatinDomainNameValidator: DomainNameValidatorFn = (name: string) =>
 
     return DomainNameValidationResult.VALID;
 };
+
+export const LengthDomainNameValidator: DomainNameValidatorFn = (name: string, tld: string) => {
+    if (name.length < 1) {
+        return DomainNameValidationResult.TOO_SHORT;
+    }
+
+    const noSpaceResult = NoSpacesValidator(name, tld);
+    if (noSpaceResult !== DomainNameValidationResult.VALID) {
+        return noSpaceResult;
+    }
+
+    const parts = tokenizeDomainName(name);
+
+    for (const part of parts) {
+        if (part.length > 100) {
+            return DomainNameValidationResult.TOO_LONG;
+        }
+
+        if (!part) {
+            return DomainNameValidationResult.UNSUPPORTED_CHARACTERS;
+        }
+    }
+
+    return DomainNameValidationResult.VALID;
+};
+
+export const NoSpacesValidator = (name: string, tld = ''): DomainNameValidationResult => {
+    return /\s+/.test(tld) || /\s+/.test(name) ? DomainNameValidationResult.UNSUPPORTED_CHARACTERS : DomainNameValidationResult.VALID;
+};

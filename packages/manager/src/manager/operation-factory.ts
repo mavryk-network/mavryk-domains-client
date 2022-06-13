@@ -94,7 +94,7 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
     }
 
     async commit(tld: string, request: Exact<CommitmentRequest>, operationParams?: AdditionalOperationParams): Promise<WalletTransferParams> {
-        this.assertDomainName(`${request.label}.${tld}`);
+        this.assertDomainWithValidTld(`${request.label}.${tld}`);
 
         const entrypoint = 'commit';
 
@@ -110,7 +110,7 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
     }
 
     async buy(tld: string, request: Exact<BuyRequest>, operationParams?: AdditionalOperationParams): Promise<WalletTransferParams> {
-        this.assertDomainName(`${request.label}.${tld}`);
+        this.assertDomainWithValidTld(`${request.label}.${tld}`);
 
         const entrypoint = 'buy';
 
@@ -134,7 +134,7 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
     }
 
     async renew(tld: string, request: Exact<RenewRequest>, operationParams?: AdditionalOperationParams): Promise<WalletTransferParams> {
-        this.assertDomainName(`${request.label}.${tld}`);
+        this.assertDomainWithValidTld(`${request.label}.${tld}`);
 
         const entrypoint = 'renew';
 
@@ -194,7 +194,7 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
     }
 
     async bid(tld: string, request: Exact<BidRequest>, operationParams?: AdditionalOperationParams): Promise<WalletTransferParams> {
-        this.assertDomainName(`${request.label}.${tld}`);
+        this.assertDomainWithValidTld(`${request.label}.${tld}`);
 
         const entrypoint = 'bid';
 
@@ -215,7 +215,7 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
     }
 
     async settle(tld: string, request: Exact<SettleRequest>, operationParams?: AdditionalOperationParams): Promise<WalletTransferParams> {
-        this.assertDomainName(`${request.label}.${tld}`);
+        this.assertDomainWithValidTld(`${request.label}.${tld}`);
 
         const entrypoint = 'settle';
 
@@ -280,7 +280,7 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
     }
 
     async claim(signature: string, request: Exact<ClaimRequest>, operationParams?: AdditionalOperationParams): Promise<WalletTransferParams> {
-        this.assertDomainName(`${request.label}.${request.tld}`);
+        this.assertDomainWithValidTld(`${request.label}.${request.tld}`);
 
         const entrypoint = 'claim';
 
@@ -309,6 +309,18 @@ export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperatio
 
     private assertDomainName(name: string) {
         const validation = this.validator.validateDomainName(name);
+
+        if (validation === DomainNameValidationResult.VALID) {
+            return;
+        }
+
+        this.tracer.trace('!! Domain name validation failed.', validation);
+
+        throw new Error(`'${name}' is not a valid domain name.`);
+    }
+
+    private assertDomainWithValidTld(name: string) {
+        const validation = this.validator.isValidWithKnownTld(name);
 
         if (validation === DomainNameValidationResult.VALID) {
             return;

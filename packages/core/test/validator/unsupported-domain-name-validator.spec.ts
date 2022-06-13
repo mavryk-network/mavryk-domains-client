@@ -15,8 +15,15 @@ describe('NullNameResolver', () => {
 
     describe('validateDomainName()', () => {
         it('should return invalid', () => {
-            expect(validator.validateDomainName('necroskillz.tez')).toBe(DomainNameValidationResult.INVALID_TLD);
-            expect(validator.validateDomainName('whatever')).toBe(DomainNameValidationResult.INVALID_TLD);
+            expect(validator.validateDomainName('necroskillz.tez')).toBe(DomainNameValidationResult.INVALID_NAME);
+            expect(validator.validateDomainName('whatever')).toBe(DomainNameValidationResult.INVALID_NAME);
+        });
+    });
+
+    describe('isValidWithKnownTld()', () => {
+        it('should return invalid', () => {
+            expect(validator.isValidWithKnownTld('necroskillz.tez')).toBe(DomainNameValidationResult.INVALID_TLD);
+            expect(validator.isValidWithKnownTld('whatever')).toBe(DomainNameValidationResult.INVALID_TLD);
         });
     });
 
