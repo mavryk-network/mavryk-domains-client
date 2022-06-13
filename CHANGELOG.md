@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.16.0](https://gitlab.com/tezos-domains/client/compare/v1.15.0...v1.16.0) (2022-06-13)
+
+
+### Features
+
+* update validation restrictions ([1c8117f](https://gitlab.com/tezos-domains/client/commit/1c8117fd8bdf8211ca90e5f39c3f36fd64c5bd87))
+
+
+
+
+
 # [1.15.0](https://gitlab.com/tezos-domains/client/compare/v1.14.0...v1.15.0) (2022-06-07)
 
 
