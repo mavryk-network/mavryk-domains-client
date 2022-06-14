@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.17.0](https://gitlab.com/tezos-domains/client/compare/v1.16.0...v1.17.0) (2022-06-14)
+
+
+### Features
+
+* add jakarta support ([569f8e1](https://gitlab.com/tezos-domains/client/commit/569f8e1bf08d9c1a754b21ab0bd152869d5b0568))
+
+
+
+
+
 # [1.16.0](https://gitlab.com/tezos-domains/client/compare/v1.15.0...v1.16.0) (2022-06-13)
 
 **Note:** Version bump only for package @tezos-domains/taquito-client
