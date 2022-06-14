@@ -24,7 +24,7 @@
     "url": "https://gitlab.com/tezos-domains/client/issues"
   },
   "peerDependencies": {
-    "@taquito/taquito": ">=12.0.3 <13.0.0"
+    "@taquito/taquito": ">=12.0.3 <14.0.0"
   },
   "dependencies": {
     "@tezos-domains/core": "^1.16.0",
@@ -35,7 +35,7 @@
     "node-cache": "^5.1.2"
   },
   "devDependencies": {
-    "@taquito/taquito": "^12.1.0",
+    "@taquito/taquito": "13.0.0",
     "@types/node": "^14.14.6",
     "fake-promise": "^2.5.41",
     "jest": "^26.6.1",

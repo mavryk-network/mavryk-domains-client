@@ -1,16 +1,32 @@
 import { TezosToolkit } from '@taquito/taquito';
 import { importKey } from '@taquito/signer';
 
-import { CONFIG, FaucetWallet, TEST_WALLETS } from '../data';
+import { CONFIG, TEST_WALLETS } from '../data';
 import BigNumber from 'bignumber.js';
 
-const fundWallet: FaucetWallet = {
-    mnemonic: ['census', 'choice', 'rural', 'cement', 'eager', 'trip', 'alcohol', 'sail', 'soccer', 'tag', 'orbit', 'print', 'private', 'point', 'unable'],
-    secret: '6d94b01069b92550129262c04a7c620d596eeff8',
-    amount: '670522094',
-    pkh: 'tz1WEZA1QMAf6K1837DJZns8AN9s8jhqoJ7J',
-    password: '33Sqixo3rl',
-    email: 'tlcbcoty.srqpgtal@tezos.example.org',
+const fundWallet = {
+    pkh: 'tz1Uio2cVPWdyByZ3RUyTJ4Fm8fvo6RXLNxN',
+    mnemonic: [
+        'member',
+        'noise',
+        'myself',
+        'muscle',
+        'garden',
+        'normal',
+        'air',
+        'stick',
+        'yellow',
+        'midnight',
+        'sport',
+        'throw',
+        'coconut',
+        'remind',
+        'private',
+    ],
+    email: 'axlctyoj.cgccmcmp@teztnets.xyz',
+    password: 'GFVHLrWHwc',
+    amount: '94431585355',
+    activation_code: '821e53695e1b9b34840c7aaf9b768516e75bf474',
 }; // Paste faucet json here
 
 async function run() {
@@ -25,7 +41,7 @@ async function run() {
             console.log(wallet.pkh, balance);
         }
 
-        await importKey(tezos, fundWallet.email, fundWallet.password, fundWallet.mnemonic.join(' '), fundWallet.secret);
+        await importKey(tezos, fundWallet.email, fundWallet.password, fundWallet.mnemonic.join(' '), fundWallet.activation_code);
 
         const balance = await tezos.rpc.getBalance(fundWallet.pkh);
 

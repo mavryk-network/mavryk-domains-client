@@ -91,7 +91,7 @@ export const TEST_WALLETS: FaucetWallet[] = [
 dotenv.config();
 
 export const CONFIG = {
-    adminAddress: 'tz1VBLpuDKMoJuHRLZ4HrCgRuiLpEr7zZx2E',
+    adminAddress: process.env.TD_ADMIN!,
     adminKey: process.env.TD_ADMIN_SIGN_KEY!,
     rpcUrl: process.env.TD_RPC_URL!,
     network: process.env.TD_NETWORK! as any

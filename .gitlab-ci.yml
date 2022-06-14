@@ -131,6 +131,15 @@ test:integration:ithacanet:
     tags:
         - docker
 
+test:integration:jakartanet:
+    stage: test
+    image: node:${NODE_VERSION}
+    allow_failure: false
+    script:
+        - TD_NETWORK=jakartanet TD_RPC_URL=${RPC_URL_JAKARTANET} TD_ADMIN=${TD_ADMIN_JAKARTA} TD_ADMIN_SIGN_KEY=${TD_ADMIN_SIGN_KEY_JAKARTANET} yarn integration-test
+    tags:
+        - docker
+
 deploy_typedoc:
     stage: deploy
     image: mcr.microsoft.com/azure-cli
