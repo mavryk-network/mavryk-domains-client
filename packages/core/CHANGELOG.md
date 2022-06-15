@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.17.1](https://gitlab.com/tezos-domains/client/compare/v1.17.0...v1.17.1) (2022-06-15)
+
+
+### Bug Fixes
+
+* add dns oracle registrar for jakartanet ([8ad4086](https://gitlab.com/tezos-domains/client/commit/8ad4086f7caef050f8f939212ad5abe807cb3fb2))
+
+
+
+
+
 # [1.17.0](https://gitlab.com/tezos-domains/client/compare/v1.16.0...v1.17.0) (2022-06-14)
 
 
