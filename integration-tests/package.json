@@ -6,7 +6,7 @@
     "setup-records": "ts-node --script-mode ./scripts/setup-records.ts",
     "fund": "ts-node --script-mode ./scripts/fund.ts"
   },
-  "version": "1.17.1",
+  "version": "1.18.0",
   "author": "Necroskillz <necroskillz@gmail.com>",
   "repository": {
     "type": "git",
@@ -21,10 +21,10 @@
     "@taquito/taquito": "13.0.0",
     "@taquito/tzip16": "13.0.0",
     "@taquito/utils": "13.0.0",
-    "@tezos-domains/conseil-client": "^1.17.1",
-    "@tezos-domains/core": "^1.17.1",
-    "@tezos-domains/manager": "^1.17.1",
-    "@tezos-domains/taquito-client": "^1.17.1",
+    "@tezos-domains/conseil-client": "^1.18.0",
+    "@tezos-domains/core": "^1.18.0",
+    "@tezos-domains/manager": "^1.18.0",
+    "@tezos-domains/taquito-client": "^1.18.0",
     "@types/fs-extra": "^9.0.2",
     "@types/loglevel": "^1.6.3",
     "@types/minimist": "^1.2.0",
