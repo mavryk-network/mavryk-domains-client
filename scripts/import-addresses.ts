@@ -1,7 +1,7 @@
 import * as fs from 'fs-extra';
-import * as path from 'path';
-import minimist from 'minimist';
 import { camelCase, snakeCase } from 'lodash';
+import minimist from 'minimist';
+import * as path from 'path';
 
 async function run() {
     const args = minimist(process.argv.slice(2), {
@@ -13,6 +13,17 @@ async function run() {
 
     const network = args['network'];
     const inputFile = args['file'];
+
+    if (!network) {
+        console.error('`--network` parameter was not provided');
+        return;
+    }
+
+    if (!inputFile) {
+        console.error('`--file` parameter was not provided');
+        return;
+    }
+
     const addressesFile = path.join(__dirname, '../packages/core/src/address-book/built-in-addresses.ts');
     const addresses = require(addressesFile).BuiltInAddresses;
 

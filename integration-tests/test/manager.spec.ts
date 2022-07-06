@@ -1,11 +1,11 @@
-import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
-import { DomainAcquisitionState } from '@tezos-domains/manager';
 import { TezosToolkit } from '@taquito/taquito';
+import { DomainNameValidationResult } from '@tezos-domains/core/src/core';
+import { DomainAcquisitionState } from '@tezos-domains/manager';
+import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
 import fs from 'fs-extra';
 import path from 'path';
-
 import { CONFIG } from '../data';
-import { DomainNameValidationResult } from '@tezos-domains/core/src/core';
+
 
 const db = fs.readJSONSync(path.join(__dirname, './data.json'));
 
