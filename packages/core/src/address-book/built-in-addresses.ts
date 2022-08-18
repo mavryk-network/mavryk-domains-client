@@ -255,7 +255,7 @@ export const BuiltInAddresses = {
             address: 'KT1F2P5VweUnN5YNMLtpfSh2SSe61TzdaoA6',
         },
         oracleRegistrar: {
-            address: 'KT1GBZDGVJ85Sg4t3ppjGiRn4382fPeo3f3T',
+            address: 'KT1UPyEnjcPfGuCaJprna2v9YL9CyBkZfzTX',
         },
     },
 };
