@@ -9,7 +9,7 @@
   "files": [
     "dist"
   ],
-  "version": "1.18.0",
+  "version": "1.18.1",
   "description": "Base library for interacting with tezos domains smart contracts.",
   "author": "Necroskillz <necroskillz@gmail.com>",
   "license": "Apache-2.0",

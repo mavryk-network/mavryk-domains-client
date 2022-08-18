@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.18.1](https://gitlab.com/tezos-domains/client/compare/v1.18.0...v1.18.1) (2022-08-18)
+
+
+### Bug Fixes
+
+* update jakarta oracle registrar address ([2558adb](https://gitlab.com/tezos-domains/client/commit/2558adb4cba242daccc5c65687c7dd01e8302bfa))
+
+
+
+
+
 # [1.18.0](https://gitlab.com/tezos-domains/client/compare/v1.17.1...v1.18.0) (2022-07-06)
 
 
