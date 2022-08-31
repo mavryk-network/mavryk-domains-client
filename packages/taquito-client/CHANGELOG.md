@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.19.0](https://gitlab.com/tezos-domains/client/compare/v1.18.1...v1.19.0) (2022-08-31)
+
+
+### Features
+
+* add kathmandu support ([97b42ce](https://gitlab.com/tezos-domains/client/commit/97b42cea69966bf6ec83ba7d8ef151a80d066ad1))
+
+
+
+
+
 ## [1.18.1](https://gitlab.com/tezos-domains/client/compare/v1.18.0...v1.18.1) (2022-08-18)
 
 **Note:** Version bump only for package @tezos-domains/taquito-client
