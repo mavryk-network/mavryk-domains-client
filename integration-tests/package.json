@@ -16,11 +16,11 @@
     "url": "https://gitlab.com/tezos-domains/client/issues"
   },
   "devDependencies": {
-    "@taquito/michelson-encoder": "13.0.0",
-    "@taquito/signer": "13.0.0",
-    "@taquito/taquito": "13.0.0",
-    "@taquito/tzip16": "13.0.0",
-    "@taquito/utils": "13.0.0",
+    "@taquito/michelson-encoder": "13.0.1",
+    "@taquito/signer": "13.0.1",
+    "@taquito/taquito": "13.0.1",
+    "@taquito/tzip16": "13.0.1",
+    "@taquito/utils": "13.0.1",
     "@tezos-domains/conseil-client": "^1.18.1",
     "@tezos-domains/core": "^1.18.1",
     "@tezos-domains/manager": "^1.18.1",

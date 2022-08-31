@@ -1,72 +1,73 @@
 {
-  "private": true,
-  "name": "root",
-  "scripts": {
-    "lerna": "lerna",
-    "build": "lerna run build",
-    "test": "lerna run test",
-    "watch": "lerna run --parallel watch",
-    "cut-release": "lerna version --sign-git-commit --force-publish",
-    "cut-prerelease": "yarn cut-release --conventional-prerelease",
-    "publish": "lerna publish from-git",
-    "commit": "git-cz",
-    "lint": "eslint --ext .ts ./",
-    "prepare": "yarn build",
-    "version": "yarn",
-    "docs": "typedoc --options .typedoc.js --plugin typedoc-plugin-lerna-packages",
-    "update-contracts": "ts-node --script-mode ./scripts/import-addresses.ts",
-    "integration-test": "yarn workspace integration-tests integration-test"
-  },
-  "devDependencies": {
-    "@commitlint/cli": "^11.0.0",
-    "@commitlint/config-conventional": "^11.0.0",
-    "@commitlint/config-lerna-scopes": "^11.0.0",
-    "@lerna/project": "^3.21.0",
-    "@types/fs-extra": "^9.0.2",
-    "@types/jest": "^26.0.15",
-    "@types/lodash": "^4.14.163",
-    "@types/minimist": "^1.2.0",
-    "@types/node": "^14.14.6",
-    "@typescript-eslint/eslint-plugin": "^4.6.0",
-    "@typescript-eslint/parser": "^4.6.0",
-    "@yarnpkg/pnpify": "^2.3.3",
-    "commitizen": "^4.2.2",
-    "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^7.12.1",
-    "eslint-plugin-jest": "^24.1.0",
-    "fs-extra": "^9.0.1",
-    "glob": "^7.1.6",
-    "husky": "^4.3.0",
-    "jest": "^26.6.1",
-    "lerna": "^3.22.1",
-    "lodash": "^4.17.20",
-    "minimist": "^1.2.5",
-    "prettier": "^2.1.2",
-    "ts-node": "^9.0.0",
-    "typedoc": "^0.19.2",
-    "typedoc-plugin-lerna-packages": "^0.3.1",
-    "typescript": "^4.0.5"
-  },
-  "dependenciesMeta": {
-    "@taquito/taquito": {
-      "built": false
+    "private": true,
+    "name": "root",
+    "scripts": {
+        "lerna": "lerna",
+        "build": "lerna run build",
+        "test": "lerna run test",
+        "watch": "lerna run --parallel watch",
+        "cut-release": "lerna version --sign-git-commit --force-publish",
+        "cut-prerelease": "yarn cut-release --conventional-prerelease",
+        "publish": "lerna publish from-git",
+        "commit": "git-cz",
+        "lint": "eslint --ext .ts ./",
+        "prepare": "yarn build",
+        "version": "yarn",
+        "docs": "typedoc --options .typedoc.js --plugin typedoc-plugin-lerna-packages",
+        "update-contracts": "ts-node --script-mode ./scripts/import-addresses.ts",
+        "copy-to-app": "ts-node --script-mode ./scripts/copy-to-local-app.ts",
+        "integration-test": "yarn workspace integration-tests integration-test"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^11.0.0",
+        "@commitlint/config-conventional": "^11.0.0",
+        "@commitlint/config-lerna-scopes": "^11.0.0",
+        "@lerna/project": "^3.21.0",
+        "@types/fs-extra": "^9.0.2",
+        "@types/jest": "^26.0.15",
+        "@types/lodash": "^4.14.163",
+        "@types/minimist": "^1.2.0",
+        "@types/node": "^14.14.6",
+        "@typescript-eslint/eslint-plugin": "^4.6.0",
+        "@typescript-eslint/parser": "^4.6.0",
+        "@yarnpkg/pnpify": "^2.3.3",
+        "commitizen": "^4.2.2",
+        "cz-conventional-changelog": "^3.3.0",
+        "eslint": "^7.12.1",
+        "eslint-plugin-jest": "^24.1.0",
+        "fs-extra": "^9.0.1",
+        "glob": "^7.1.6",
+        "husky": "^4.3.0",
+        "jest": "^26.6.1",
+        "lerna": "^3.22.1",
+        "lodash": "^4.17.20",
+        "minimist": "^1.2.5",
+        "prettier": "^2.1.2",
+        "ts-node": "^9.0.0",
+        "typedoc": "^0.19.2",
+        "typedoc-plugin-lerna-packages": "^0.3.1",
+        "typescript": "^4.0.5"
+    },
+    "dependenciesMeta": {
+        "@taquito/taquito": {
+            "built": false
+        }
+    },
+    "workspaces": [
+        "packages/*",
+        "integration-tests"
+    ],
+    "husky": {
+        "hooks": {
+            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+        }
+    },
+    "config": {
+        "commitizen": {
+            "path": "cz-conventional-changelog"
+        }
+    },
+    "dependencies": {
+        "eslint-plugin-sonarjs": "^0.11.0"
     }
-  },
-  "workspaces": [
-    "packages/*",
-    "integration-tests"
-  ],
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
-  },
-  "dependencies": {
-    "eslint-plugin-sonarjs": "^0.11.0"
-  }
 }

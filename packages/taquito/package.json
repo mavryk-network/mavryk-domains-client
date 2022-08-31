@@ -34,9 +34,9 @@
     "node-cache": "^5.1.2"
   },
   "devDependencies": {
-    "@taquito/rpc": "13.0.0",
-    "@taquito/taquito": "13.0.0",
-    "@taquito/tzip16": "13.0.0",
+    "@taquito/rpc": "13.0.1",
+    "@taquito/taquito": "13.0.1",
+    "@taquito/tzip16": "13.0.1",
     "@types/node": "^14.14.6",
     "fake-promise": "^2.5.41",
     "jest": "^26.6.1",

@@ -5,28 +5,12 @@ import { CONFIG, TEST_WALLETS } from '../data';
 import BigNumber from 'bignumber.js';
 
 const fundWallet = {
-    pkh: 'tz1YS1HsjdxcbZLfaf4zqPsoTGDBy581WUWo',
-    mnemonic: [
-        'notable',
-        'creek',
-        'announce',
-        'holiday',
-        'pact',
-        'blush',
-        'broccoli',
-        'car',
-        'debris',
-        'setup',
-        'lyrics',
-        'powder',
-        'liquid',
-        'expand',
-        'clip',
-    ],
-    email: 'rdofsats.zuofcjym@teztnets.xyz',
-    password: '5O9UbsOaxC',
-    amount: '3596748010',
-    activation_code: 'd66e24dd4ba64902db6c9755fb70a5bc1b1f8ef0',
+    pkh: 'tz1WgKeoZLuGntp6ZpWVKTBTXcLWKCgBsdPn',
+    mnemonic: ['wage', 'refuse', 'lucky', 'trigger', 'hunt', 'gold', 'trash', 'relax', 'limb', 'sunny', 'inject', 'modify', 'property', 'swear', 'tip'],
+    email: 'zefklflt.wtnzugmr@teztnets.xyz',
+    password: 's9iPRlkruo',
+    amount: '13230302906',
+    activation_code: '759f51485da86bfe72c4b28a57409eed7ba2e3a4',
 }; // Paste faucet json here
 
 async function run() {
