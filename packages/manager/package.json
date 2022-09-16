@@ -24,10 +24,10 @@
     "url": "https://gitlab.com/tezos-domains/client/issues"
   },
   "peerDependencies": {
-    "@taquito/michel-codec": ">=12.0.3 <14.0.0",
-    "@taquito/michelson-encoder": ">=12.0.3 <14.0.0",
-    "@taquito/rpc": ">=12.0.3 <14.0.0",
-    "@taquito/taquito": ">=12.0.3 <14.0.0"
+    "@taquito/michel-codec": ">=12.0.3",
+    "@taquito/michelson-encoder": ">=12.0.3",
+    "@taquito/rpc": ">=12.0.3",
+    "@taquito/taquito": ">=12.0.3"
   },
   "dependencies": {
     "@tezos-domains/core": "^1.19.0",
@@ -37,10 +37,10 @@
     "sha.js": "^2.4.11"
   },
   "devDependencies": {
-    "@taquito/michel-codec": "13.0.1",
-    "@taquito/michelson-encoder": "13.0.1",
-    "@taquito/rpc": "13.0.1",
-    "@taquito/taquito": "13.0.1",
+    "@taquito/michel-codec": "14.0.0",
+    "@taquito/michelson-encoder": "14.0.0",
+    "@taquito/rpc": "14.0.0",
+    "@taquito/taquito": "14.0.0",
     "@types/node": "^14.14.6",
     "fake-promise": "^2.5.41",
     "jest": "^26.6.1",
