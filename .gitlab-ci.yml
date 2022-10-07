@@ -25,6 +25,9 @@ build:
             - dist/typedoc
     tags:
         - docker
+    only:
+        - merge_requests
+        - branches
 
 test:core:
     stage: test
@@ -132,6 +135,7 @@ test:integration:ghostnet:
         - docker
     only:
         - merge_requests
+        - branches
 
 test:integration:kathmandunet:
     stage: test
@@ -143,17 +147,7 @@ test:integration:kathmandunet:
         - docker
     only:
         - merge_requests
-
-test:integration:jakartanet:
-    stage: test
-    image: node:${NODE_VERSION}
-    allow_failure: false
-    script:
-        - TD_NETWORK=jakartanet TD_RPC_URL=${RPC_URL_JAKARTANET} TD_ADMIN=${TD_ADMIN_JAKARTA} TD_ADMIN_SIGN_KEY=${TD_ADMIN_SIGN_KEY_JAKARTANET} yarn integration-test
-    tags:
-        - docker
-    only:
-        - merge_requests
+        - branches
 
 deploy_typedoc:
     stage: deploy
