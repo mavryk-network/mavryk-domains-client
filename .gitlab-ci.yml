@@ -130,6 +130,8 @@ test:integration:ghostnet:
         - TD_NETWORK=ghostnet TD_RPC_URL=${RPC_URL_GHOSTNET} TD_ADMIN_SIGN_KEY=${TD_ADMIN_SIGN_KEY} yarn integration-test
     tags:
         - docker
+    only:
+        - merge_requests
 
 test:integration:kathmandunet:
     stage: test
@@ -139,6 +141,8 @@ test:integration:kathmandunet:
         - TD_NETWORK=kathmandunet TD_RPC_URL=${RPC_URL_KATHMANDUNET} TD_ADMIN_SIGN_KEY=${TD_ADMIN_SIGN_KEY} yarn integration-test
     tags:
         - docker
+    only:
+        - merge_requests
 
 test:integration:jakartanet:
     stage: test
@@ -148,6 +152,8 @@ test:integration:jakartanet:
         - TD_NETWORK=jakartanet TD_RPC_URL=${RPC_URL_JAKARTANET} TD_ADMIN=${TD_ADMIN_JAKARTA} TD_ADMIN_SIGN_KEY=${TD_ADMIN_SIGN_KEY_JAKARTANET} yarn integration-test
     tags:
         - docker
+    only:
+        - merge_requests
 
 deploy_typedoc:
     stage: deploy
