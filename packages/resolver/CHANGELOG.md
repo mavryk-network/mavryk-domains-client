@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.21.0](https://gitlab.com/tezos-domains/client/compare/v1.20.0...v1.21.0) (2022-10-09)
+
+
+### Features
+
+* remove jakartanet support ([80d8399](https://gitlab.com/tezos-domains/client/commit/80d8399d4b22b2957bdb6528d2eefa3fe128076a))
+
+
+
+
+
 # [1.20.0](https://gitlab.com/tezos-domains/client/compare/v1.19.0...v1.20.0) (2022-09-16)
 
 **Note:** Version bump only for package @tezos-domains/resolver

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.21.0](https://gitlab.com/tezos-domains/client/compare/v1.20.0...v1.21.0) (2022-10-09)
+
+
+### Bug Fixes
+
+* **core:** import 'crypto' replaced with conditional require ([6aeba24](https://gitlab.com/tezos-domains/client/commit/6aeba24ee4d2ab22c7bd913492d67a5d75c70dff))
+
+
+### Features
+
+* remove jakartanet support ([80d8399](https://gitlab.com/tezos-domains/client/commit/80d8399d4b22b2957bdb6528d2eefa3fe128076a))
+
+
+
+
+
 # [1.20.0](https://gitlab.com/tezos-domains/client/compare/v1.19.0...v1.20.0) (2022-09-16)
 
 **Note:** Version bump only for package @tezos-domains/core
