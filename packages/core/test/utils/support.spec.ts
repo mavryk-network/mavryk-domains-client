@@ -12,7 +12,7 @@ describe('isTezosDomainsSupportedNetwork()', () => {
         expect(isTezosDomainsSupportedNetwork('ithacanet')).toBe(false);
         expect(isTezosDomainsSupportedNetwork('ghostnet')).toBe(true);
         expect(isTezosDomainsSupportedNetwork('kathmandunet')).toBe(true);
-        expect(isTezosDomainsSupportedNetwork('jakartanet')).toBe(true);
+        expect(isTezosDomainsSupportedNetwork('jakartanet')).toBe(false);
         expect(isTezosDomainsSupportedNetwork('custom')).toBe(false);
         expect(isTezosDomainsSupportedNetwork('gibberish')).toBe(false);
         expect(isTezosDomainsSupportedNetwork('')).toBe(false);

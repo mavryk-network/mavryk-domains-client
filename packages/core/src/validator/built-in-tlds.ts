@@ -14,11 +14,5 @@ export const BuiltInTLDs = {
         { name: 'a2', validator: LatinDomainNameValidator },
         { name: 'a3', validator: LatinDomainNameValidator },
     ],
-    jakartanet: [
-        { name: 'jak', validator: LatinDomainNameValidator },
-        { name: 'a1', validator: LatinDomainNameValidator },
-        { name: 'a2', validator: LatinDomainNameValidator },
-        { name: 'a3', validator: LatinDomainNameValidator },
-    ],
     custom: null,
 };

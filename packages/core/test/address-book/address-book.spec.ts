@@ -28,18 +28,18 @@ describe('AddressBook', () => {
         await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'tez', 'buy')).resolves.toBe(BuiltInAddresses.mainnet['tldRegistrar:tez:buy'].address);
     });
 
-    it('should resolve built-in addresses for jakartanet', async () => {
-        init({ network: 'jakartanet' });
+    it('should resolve built-in addresses for kathmandunet', async () => {
+        init({ network: 'kathmandunet' });
 
-        await expect(addressBook.lookup(SmartContractType.NameRegistry)).resolves.toBe(`${BuiltInAddresses.jakartanet['nameRegistry'].address}_actual`);
+        await expect(addressBook.lookup(SmartContractType.NameRegistry)).resolves.toBe(`${BuiltInAddresses.kathmandunet['nameRegistry'].address}_actual`);
         await expect(addressBook.lookup(SmartContractType.NameRegistry, 'set_child_record')).resolves.toBe(
-            BuiltInAddresses.jakartanet['nameRegistry:set_child_record'].address
+            BuiltInAddresses.kathmandunet['nameRegistry:set_child_record'].address
         );
-        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'jak')).resolves.toBe(
-            `${BuiltInAddresses.jakartanet['tldRegistrar:jak'].address}_actual`
+        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'kat')).resolves.toBe(
+            `${BuiltInAddresses.kathmandunet['tldRegistrar:kat'].address}_actual`
         );
-        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'jak', 'buy')).resolves.toBe(
-            BuiltInAddresses.jakartanet['tldRegistrar:jak:buy'].address
+        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'kat', 'buy')).resolves.toBe(
+            BuiltInAddresses.kathmandunet['tldRegistrar:kat:buy'].address
         );
     });
 
@@ -50,7 +50,7 @@ describe('AddressBook', () => {
     });
 
     it('should disregard network when resolving custom addresses', async () => {
-        init({ network: 'jakartanet', contractAddresses: { nameRegistry: { address: 'custom_nr' } } });
+        init({ network: 'kathmandunet', contractAddresses: { nameRegistry: { address: 'custom_nr' } } });
 
         await expect(addressBook.lookup(SmartContractType.NameRegistry)).resolves.toBe('custom_nr');
     });

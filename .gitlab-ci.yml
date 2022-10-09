@@ -28,6 +28,7 @@ build:
     only:
         - merge_requests
         - branches
+        - tags
 
 test:core:
     stage: test
@@ -136,6 +137,7 @@ test:integration:ghostnet:
     only:
         - merge_requests
         - branches
+        - tags
 
 test:integration:kathmandunet:
     stage: test
@@ -148,6 +150,7 @@ test:integration:kathmandunet:
     only:
         - merge_requests
         - branches
+        - tags
 
 deploy_typedoc:
     stage: deploy
