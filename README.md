@@ -1,10 +1,10 @@
 # Tezos Domains Client
 
-Library for resolving and managing tezos domains. Can be used with [taquito](https://tezostaquito.io/) or [conseiljs](https://cryptonomic.github.io/ConseilJS/#/).
+Library for resolving and managing tezos domains. Can be used with [Taquito](https://tezostaquito.io/) or [ConseilJS](https://cryptonomic.github.io/ConseilJS/#/).
 
 _WARNING: This project is in beta. We welcome users and feedback, please be aware that this project is a work in progress._
 
-## Getting started with taquito
+## Using the library with Taquito
 
 ### 1) Install `@tezos-domains/taquito-client` package
 
@@ -106,7 +106,7 @@ async function main() {
 }
 ```
 
-## Getting started with conseiljs
+## Using the library with ConseilJS
 
 ### 1) Install `@tezos-domains/conseil-client` package
 
@@ -179,3 +179,16 @@ The client takes options that can customize it's behavior.
 `conseil` (required)
 
 -   `server` Specifies tezos rpc url to make requests to.
+
+## Developping and building locally
+This project requires [Yarn](https://yarnpkg.com/).
+
+### Building
+```
+yarn build
+```
+
+### Running tests
+```
+yarn test
+```
