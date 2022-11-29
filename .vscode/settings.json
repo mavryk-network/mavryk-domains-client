@@ -7,6 +7,6 @@
     "**/.yarn": true,
     "**/.pnp.*": true,
     "**/dist": true,
-    "**/*.d.ts": true,
+    "**/*.d.ts": true
   }
 }
