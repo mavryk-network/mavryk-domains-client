@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.22.0](https://gitlab.com/tezos-domains/client/compare/v1.21.0...v1.22.0) (2022-11-29)
+
+
+### Features
+
+* update to taquito 14.1.0 ([96b885e](https://gitlab.com/tezos-domains/client/commit/96b885e249912d03baa17f244e110305c05e2fe2))
+
+
+
+
+
 # [1.21.0](https://gitlab.com/tezos-domains/client/compare/v1.20.0...v1.21.0) (2022-10-09)
 
 **Note:** Version bump only for package @tezos-domains/taquito-client
