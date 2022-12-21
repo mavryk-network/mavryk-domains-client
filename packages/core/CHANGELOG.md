@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.23.0](https://gitlab.com/tezos-domains/client/compare/v1.22.0...v1.23.0) (2022-12-21)
+
+
+### Features
+
+* update to limanet ([c1a6e1d](https://gitlab.com/tezos-domains/client/commit/c1a6e1d255c7c2b68a697d27208fea519375e551))
+
+
+
+
+
 # [1.22.0](https://gitlab.com/tezos-domains/client/compare/v1.21.0...v1.22.0) (2022-11-29)
 
 **Note:** Version bump only for package @tezos-domains/core
