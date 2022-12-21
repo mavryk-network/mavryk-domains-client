@@ -2708,7 +2708,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@taquito/local-forging", "npm:14.0.0"],\
             ["@taquito/utils", "npm:14.0.0"],\
-            ["bignumber.js", "npm:9.1.1"]\
+            ["bignumber.js", "npm:9.1.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -2729,7 +2729,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@taquito/michelson-encoder", "npm:14.0.0"],\
             ["@taquito/rpc", "npm:14.0.0"],\
             ["@taquito/utils", "npm:14.0.0"],\
-            ["bignumber.js", "npm:9.1.1"],\
+            ["bignumber.js", "npm:9.1.0"],\
             ["fast-json-stable-stringify", "npm:2.1.0"]\
           ],\
           "linkType": "HARD"\
@@ -2742,7 +2742,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@taquito/rpc", "npm:14.0.0"],\
             ["@taquito/http-utils", "npm:14.0.0"],\
             ["@taquito/utils", "npm:14.0.0"],\
-            ["bignumber.js", "npm:9.1.1"]\
+            ["bignumber.js", "npm:9.1.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -2775,7 +2775,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@taquito/michelson-encoder", "npm:14.0.0"],\
             ["@taquito/rpc", "npm:14.0.0"],\
             ["@taquito/utils", "npm:14.0.0"],\
-            ["bignumber.js", "npm:9.1.1"],\
+            ["bignumber.js", "npm:9.1.0"],\
             ["rxjs", "npm:6.6.3"]\
           ],\
           "linkType": "HARD"\
@@ -2791,7 +2791,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@taquito/rpc", "npm:14.0.0"],\
             ["@taquito/taquito", "npm:14.0.0"],\
             ["@taquito/utils", "npm:14.0.0"],\
-            ["bignumber.js", "npm:9.1.1"],\
+            ["bignumber.js", "npm:9.1.0"],\
             ["crypto-js", "npm:4.1.1"]\
           ],\
           "linkType": "HARD"\
@@ -2805,7 +2805,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@stablelib/blake2b", "npm:1.0.1"],\
             ["@stablelib/ed25519", "npm:1.0.3"],\
             ["@types/bs58check", "npm:2.1.0"],\
-            ["bignumber.js", "npm:9.1.1"],\
+            ["bignumber.js", "npm:9.1.0"],\
             ["blakejs", "npm:1.2.1"],\
             ["bs58check", "npm:2.1.2"],\
             ["buffer", "npm:6.0.3"],\
@@ -4594,24 +4594,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["bignumber.js", [\
-        ["npm:9.0.1", {\
-          "packageLocation": "./.yarn/cache/bignumber.js-npm-9.0.1-270d0c8a55-6e72f6069d.zip/node_modules/bignumber.js/",\
-          "packageDependencies": [\
-            ["bignumber.js", "npm:9.0.1"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:9.1.0", {\
           "packageLocation": "./.yarn/cache/bignumber.js-npm-9.1.0-4f54bd1083-52ec2bb5a3.zip/node_modules/bignumber.js/",\
           "packageDependencies": [\
             ["bignumber.js", "npm:9.1.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:9.1.1", {\
-          "packageLocation": "./.yarn/cache/bignumber.js-npm-9.1.1-5929e8d8dc-ad243b7e2f.zip/node_modules/bignumber.js/",\
-          "packageDependencies": [\
-            ["bignumber.js", "npm:9.1.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -5594,7 +5580,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["conseiljs", "npm:5.0.9"],\
             ["big-integer", "npm:1.6.50"],\
-            ["bignumber.js", "npm:9.0.1"],\
+            ["bignumber.js", "npm:9.1.0"],\
             ["blakejs", "npm:1.1.0"],\
             ["bs58check", "npm:2.1.2"],\
             ["jsonpath-plus", "npm:5.1.0"],\

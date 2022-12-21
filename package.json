@@ -62,7 +62,8 @@
         "@taquito/http-utils": "14.0.0",
         "@taquito/rpc": "14.0.0",
         "@taquito/local-forging": "14.0.0",
-        "@taquito/michel-codec": "14.0.0"
+        "@taquito/michel-codec": "14.0.0",
+        "bignumber.js": "9.1.0"
     },
     "workspaces": [
         "packages/*",
