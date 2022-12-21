@@ -8,8 +8,8 @@ export const BuiltInTLDs = {
         { name: 'a2', validator: LatinDomainNameValidator },
         { name: 'a3', validator: LatinDomainNameValidator },
     ],
-    kathmandunet: [
-        { name: 'kat', validator: LatinDomainNameValidator },
+    limanet: [
+        { name: 'lim', validator: LatinDomainNameValidator },
         { name: 'a1', validator: LatinDomainNameValidator },
         { name: 'a2', validator: LatinDomainNameValidator },
         { name: 'a3', validator: LatinDomainNameValidator },

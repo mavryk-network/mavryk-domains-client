@@ -1,1 +1,12 @@
-{"ghostnet":{"price":1000000,"aliceTokenId":1,"commitment":{"created":"2022-07-06T11:47:50.000Z","usableFrom":"2022-07-06T11:47:50.000Z","usableUntil":"2022-07-07T11:47:50.000Z"}},"kathmandunet":{"price":1000000,"aliceTokenId":1,"commitment":{"created":"2022-07-29T15:22:50.000Z","usableFrom":"2022-07-29T15:22:50.000Z","usableUntil":"2022-07-30T15:22:50.000Z"}}}
+{
+    "ghostnet": {
+        "price": 1000000,
+        "aliceTokenId": 1,
+        "commitment": { "created": "2022-07-06T11:47:50.000Z", "usableFrom": "2022-07-06T11:47:50.000Z", "usableUntil": "2022-07-07T11:47:50.000Z" }
+    },
+    "limanet": {
+        "price": 1000000,
+        "aliceTokenId": 1,
+        "commitment": { "created": "2022-11-30T15:49:05.000Z", "usableFrom": "2022-11-30T15:49:05.000Z", "usableUntil": "2022-12-01T15:49:05.000Z" }
+    }
+}

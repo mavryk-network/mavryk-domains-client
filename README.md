@@ -24,9 +24,9 @@ import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
 import { Tzip16Module } from '@taquito/tzip16';
 
 async function main() {
-    const tezos = new TezosToolkit('https://kathmandunet.smartpy.io');
+    const tezos = new TezosToolkit('https://limanet.smartpy.io');
     tezos.addExtension(new Tzip16Module());
-    const client = new TaquitoTezosDomainsClient({ tezos, network: 'kathmandunet', caching: { enabled: true } });
+    const client = new TaquitoTezosDomainsClient({ tezos, network: 'limanet', caching: { enabled: true } });
 
     const address = await client.resolver.resolveNameToAddress('bob.flo');
 
@@ -56,10 +56,10 @@ import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
 import { getTld, getLabel, DomainNameValidationResult, RecordMetadata, generateNonce } from '@tezos-domains/core';
 
 async function main() {
-    const tezos = new TezosToolkit('https://kathmandunet.smartpy.io');
+    const tezos = new TezosToolkit('https://limanet.smartpy.io');
     tezos.addExtension(new Tzip16Module());
     tezos.setSignerProvider(new InMemorySigner('<your signing key>'));
-    const client = new TaquitoTezosDomainsClient({ tezos, network: 'kathmandunet' });
+    const client = new TaquitoTezosDomainsClient({ tezos, network: 'limanet' });
 
     const name = 'foobar.flo';
 
@@ -133,8 +133,8 @@ async function main() {
     registerFetch(fetch);
 
     const client = new ConseilTezosDomainsClient({
-        conseil: { server: 'https://kathmandunet.smartpy.io' },
-        network: 'kathmandunet',
+        conseil: { server: 'https://limanet.smartpy.io' },
+        network: 'limanet',
         caching: { enabled: true },
     });
 
@@ -150,7 +150,7 @@ The client takes options that can customize it's behavior.
 
 `network` (default: `'mainnet'`)
 
--   Specifies which contracts addresses to use. There are built in ones specified for `mainnet` and `kathmandunet`. For `custom` you need to also specify `contractAddresses`.
+-   Specifies which contracts addresses to use. There are built in ones specified for `mainnet` and `limanet`. For `custom` you need to also specify `contractAddresses`.
 
 `contractAddresses` (default: `undefined`)
 

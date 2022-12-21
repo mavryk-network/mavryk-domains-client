@@ -139,12 +139,12 @@ test:integration:ghostnet:
         - branches
         - tags
 
-test:integration:kathmandunet:
+test:integration:limanet:
     stage: test
     image: node:${NODE_VERSION}
     allow_failure: false
     script:
-        - TD_NETWORK=kathmandunet TD_RPC_URL=${RPC_URL_KATHMANDUNET} TD_ADMIN_SIGN_KEY=${TD_ADMIN_SIGN_KEY} yarn integration-test
+        - TD_NETWORK=limanet TD_RPC_URL=${RPC_URL_LIMANET} TD_ADMIN_SIGN_KEY=${TD_ADMIN_SIGN_KEY} yarn integration-test
     tags:
         - docker
     only:
