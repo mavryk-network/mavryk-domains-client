@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.24.0](https://gitlab.com/tezos-domains/client/compare/v1.23.0...v1.24.0) (2023-02-07)
+
+
+### Bug Fixes
+
+* force bignumber.js to work with taquito version ([27dcadd](https://gitlab.com/tezos-domains/client/commit/27dcadd4282c54a7ae08f41f1faadea70416129a))
+
+
+### Features
+
+* upgrade to taquito 15.1 ([e50770d](https://gitlab.com/tezos-domains/client/commit/e50770d29b2ffd351667bbdff6f1d77184928332))
+
+
+
+
+
 # [1.23.0](https://gitlab.com/tezos-domains/client/compare/v1.22.0...v1.23.0) (2022-12-21)
 
 
