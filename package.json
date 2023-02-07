@@ -53,18 +53,6 @@
             "built": false
         }
     },
-    "resolutions": {
-        "@taquito/michelson-encoder": "14.0.0",
-        "@taquito/signer": "14.0.0",
-        "@taquito/taquito": "14.0.0",
-        "@taquito/tzip16": "14.0.0",
-        "@taquito/utils": "14.0.0",
-        "@taquito/http-utils": "14.0.0",
-        "@taquito/rpc": "14.0.0",
-        "@taquito/local-forging": "14.0.0",
-        "@taquito/michel-codec": "14.0.0",
-        "bignumber.js": "9.1.0"
-    },
     "workspaces": [
         "packages/*",
         "integration-tests"

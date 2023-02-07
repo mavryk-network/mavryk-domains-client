@@ -2570,6 +2570,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@stablelib/hmac", [\
+        ["npm:1.0.1", {\
+          "packageLocation": "./.yarn/cache/@stablelib-hmac-npm-1.0.1-5f0464fe55-e3b93f7144.zip/node_modules/@stablelib/hmac/",\
+          "packageDependencies": [\
+            ["@stablelib/hmac", "npm:1.0.1"],\
+            ["@stablelib/constant-time", "npm:1.0.1"],\
+            ["@stablelib/hash", "npm:1.0.1"],\
+            ["@stablelib/wipe", "npm:1.0.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@stablelib/int", [\
         ["npm:1.0.1", {\
           "packageLocation": "./.yarn/cache/@stablelib-int-npm-1.0.1-c8f9f3f48e-65bfbf50a3.zip/node_modules/@stablelib/int/",\
@@ -2599,6 +2611,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@stablelib/wipe", "npm:1.0.1"],\
             ["@stablelib/x25519", "npm:1.0.3"],\
             ["@stablelib/xsalsa20", "npm:1.0.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@stablelib/pbkdf2", [\
+        ["npm:1.0.1", {\
+          "packageLocation": "./.yarn/cache/@stablelib-pbkdf2-npm-1.0.1-2426eb9c18-d1326e5901.zip/node_modules/@stablelib/pbkdf2/",\
+          "packageDependencies": [\
+            ["@stablelib/pbkdf2", "npm:1.0.1"],\
+            ["@stablelib/binary", "npm:1.0.1"],\
+            ["@stablelib/hash", "npm:1.0.1"],\
+            ["@stablelib/hmac", "npm:1.0.1"],\
+            ["@stablelib/wipe", "npm:1.0.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -2693,70 +2718,76 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@taquito/http-utils", [\
-        ["npm:14.0.0", {\
-          "packageLocation": "./.yarn/cache/@taquito-http-utils-npm-14.0.0-a3f22e4e3e-a797de9508.zip/node_modules/@taquito/http-utils/",\
+        ["npm:15.1.0", {\
+          "packageLocation": "./.yarn/cache/@taquito-http-utils-npm-15.1.0-7e2e9fe87e-8fc2b117a4.zip/node_modules/@taquito/http-utils/",\
           "packageDependencies": [\
-            ["@taquito/http-utils", "npm:14.0.0"],\
+            ["@taquito/http-utils", "npm:15.1.0"],\
+            ["@vespaiach/axios-fetch-adapter", "virtual:7e2e9fe87e4dab38c6b6414d4f288d2aceb32caf9e9904894253cf149a7dbbf3ae1126645d0b785f9e793eec5c7c4f50cff347aaae58593ab1976deabac7291a#https://github.com/ecadlabs/axios-fetch-adapter.git#commit=05cf8ba547aae387933939850231e8abaf323efe"],\
             ["axios", "npm:0.26.1"]\
           ],\
           "linkType": "HARD"\
         }]\
       ]],\
       ["@taquito/local-forging", [\
-        ["npm:14.0.0", {\
-          "packageLocation": "./.yarn/cache/@taquito-local-forging-npm-14.0.0-7318d455e5-fac7af2704.zip/node_modules/@taquito/local-forging/",\
+        ["npm:15.1.0", {\
+          "packageLocation": "./.yarn/cache/@taquito-local-forging-npm-15.1.0-73e64fdab6-0f87dd7245.zip/node_modules/@taquito/local-forging/",\
           "packageDependencies": [\
-            ["@taquito/local-forging", "npm:14.0.0"],\
-            ["@taquito/utils", "npm:14.0.0"],\
-            ["bignumber.js", "npm:9.1.0"]\
+            ["@taquito/local-forging", "npm:15.1.0"],\
+            ["@taquito/utils", "npm:15.1.0"],\
+            ["bignumber.js", "npm:9.1.1"]\
           ],\
           "linkType": "HARD"\
         }]\
       ]],\
       ["@taquito/michel-codec", [\
-        ["npm:14.0.0", {\
-          "packageLocation": "./.yarn/cache/@taquito-michel-codec-npm-14.0.0-c38d0abc31-0b5af4f6d1.zip/node_modules/@taquito/michel-codec/",\
+        ["npm:15.1.0", {\
+          "packageLocation": "./.yarn/cache/@taquito-michel-codec-npm-15.1.0-bdbdd882bd-28dfac5d2e.zip/node_modules/@taquito/michel-codec/",\
           "packageDependencies": [\
-            ["@taquito/michel-codec", "npm:14.0.0"]\
+            ["@taquito/michel-codec", "npm:15.1.0"]\
           ],\
           "linkType": "HARD"\
         }]\
       ]],\
       ["@taquito/michelson-encoder", [\
-        ["npm:14.0.0", {\
-          "packageLocation": "./.yarn/cache/@taquito-michelson-encoder-npm-14.0.0-606bfbd7e3-4b796bc8f0.zip/node_modules/@taquito/michelson-encoder/",\
+        ["npm:15.1.0", {\
+          "packageLocation": "./.yarn/cache/@taquito-michelson-encoder-npm-15.1.0-86e54f8c1e-62c2057d37.zip/node_modules/@taquito/michelson-encoder/",\
           "packageDependencies": [\
-            ["@taquito/michelson-encoder", "npm:14.0.0"],\
-            ["@taquito/rpc", "npm:14.0.0"],\
-            ["@taquito/utils", "npm:14.0.0"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["@taquito/michelson-encoder", "npm:15.1.0"],\
+            ["@taquito/rpc", "npm:15.1.0"],\
+            ["@taquito/utils", "npm:15.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["fast-json-stable-stringify", "npm:2.1.0"]\
           ],\
           "linkType": "HARD"\
         }]\
       ]],\
       ["@taquito/rpc", [\
-        ["npm:14.0.0", {\
-          "packageLocation": "./.yarn/cache/@taquito-rpc-npm-14.0.0-80dddde42e-ce5bc208c3.zip/node_modules/@taquito/rpc/",\
+        ["npm:15.1.0", {\
+          "packageLocation": "./.yarn/cache/@taquito-rpc-npm-15.1.0-8fbb56c53c-5f9c891f11.zip/node_modules/@taquito/rpc/",\
           "packageDependencies": [\
-            ["@taquito/rpc", "npm:14.0.0"],\
-            ["@taquito/http-utils", "npm:14.0.0"],\
-            ["@taquito/utils", "npm:14.0.0"],\
-            ["bignumber.js", "npm:9.1.0"]\
+            ["@taquito/rpc", "npm:15.1.0"],\
+            ["@taquito/http-utils", "npm:15.1.0"],\
+            ["@taquito/utils", "npm:15.1.0"],\
+            ["bignumber.js", "npm:9.1.1"]\
           ],\
           "linkType": "HARD"\
         }]\
       ]],\
       ["@taquito/signer", [\
-        ["npm:14.0.0", {\
-          "packageLocation": "./.yarn/cache/@taquito-signer-npm-14.0.0-51a9b664f6-0f206f3861.zip/node_modules/@taquito/signer/",\
+        ["npm:15.1.0", {\
+          "packageLocation": "./.yarn/cache/@taquito-signer-npm-15.1.0-a6248eb4aa-790fb65ba2.zip/node_modules/@taquito/signer/",\
           "packageDependencies": [\
-            ["@taquito/signer", "npm:14.0.0"],\
+            ["@taquito/signer", "npm:15.1.0"],\
             ["@stablelib/blake2b", "npm:1.0.1"],\
             ["@stablelib/ed25519", "npm:1.0.3"],\
+            ["@stablelib/hmac", "npm:1.0.1"],\
             ["@stablelib/nacl", "npm:1.0.4"],\
-            ["@taquito/taquito", "npm:14.0.0"],\
-            ["@taquito/utils", "npm:14.0.0"],\
+            ["@stablelib/pbkdf2", "npm:1.0.1"],\
+            ["@stablelib/sha512", "npm:1.0.1"],\
+            ["@taquito/taquito", "npm:15.1.0"],\
+            ["@taquito/utils", "npm:15.1.0"],\
+            ["@types/bn.js", "npm:5.1.1"],\
+            ["bip39", "npm:3.0.4"],\
             ["elliptic", "npm:6.5.4"],\
             ["pbkdf2", "npm:3.1.2"],\
             ["typedarray-to-buffer", "npm:4.0.0"]\
@@ -2765,47 +2796,47 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@taquito/taquito", [\
-        ["npm:14.0.0", {\
-          "packageLocation": "./.yarn/cache/@taquito-taquito-npm-14.0.0-c8ea25c374-8168c6312b.zip/node_modules/@taquito/taquito/",\
+        ["npm:15.1.0", {\
+          "packageLocation": "./.yarn/cache/@taquito-taquito-npm-15.1.0-af2c121eb5-56118e16f7.zip/node_modules/@taquito/taquito/",\
           "packageDependencies": [\
-            ["@taquito/taquito", "npm:14.0.0"],\
-            ["@taquito/http-utils", "npm:14.0.0"],\
-            ["@taquito/local-forging", "npm:14.0.0"],\
-            ["@taquito/michel-codec", "npm:14.0.0"],\
-            ["@taquito/michelson-encoder", "npm:14.0.0"],\
-            ["@taquito/rpc", "npm:14.0.0"],\
-            ["@taquito/utils", "npm:14.0.0"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["@taquito/taquito", "npm:15.1.0"],\
+            ["@taquito/http-utils", "npm:15.1.0"],\
+            ["@taquito/local-forging", "npm:15.1.0"],\
+            ["@taquito/michel-codec", "npm:15.1.0"],\
+            ["@taquito/michelson-encoder", "npm:15.1.0"],\
+            ["@taquito/rpc", "npm:15.1.0"],\
+            ["@taquito/utils", "npm:15.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["rxjs", "npm:6.6.3"]\
           ],\
           "linkType": "HARD"\
         }]\
       ]],\
       ["@taquito/tzip16", [\
-        ["npm:14.0.0", {\
-          "packageLocation": "./.yarn/cache/@taquito-tzip16-npm-14.0.0-fe41fea4bd-b6fb113f14.zip/node_modules/@taquito/tzip16/",\
+        ["npm:15.1.0", {\
+          "packageLocation": "./.yarn/cache/@taquito-tzip16-npm-15.1.0-d8447fbab7-41333f1528.zip/node_modules/@taquito/tzip16/",\
           "packageDependencies": [\
-            ["@taquito/tzip16", "npm:14.0.0"],\
-            ["@taquito/http-utils", "npm:14.0.0"],\
-            ["@taquito/michelson-encoder", "npm:14.0.0"],\
-            ["@taquito/rpc", "npm:14.0.0"],\
-            ["@taquito/taquito", "npm:14.0.0"],\
-            ["@taquito/utils", "npm:14.0.0"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["@taquito/tzip16", "npm:15.1.0"],\
+            ["@taquito/http-utils", "npm:15.1.0"],\
+            ["@taquito/michelson-encoder", "npm:15.1.0"],\
+            ["@taquito/rpc", "npm:15.1.0"],\
+            ["@taquito/taquito", "npm:15.1.0"],\
+            ["@taquito/utils", "npm:15.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["crypto-js", "npm:4.1.1"]\
           ],\
           "linkType": "HARD"\
         }]\
       ]],\
       ["@taquito/utils", [\
-        ["npm:14.0.0", {\
-          "packageLocation": "./.yarn/cache/@taquito-utils-npm-14.0.0-c51ca915f5-7446a04541.zip/node_modules/@taquito/utils/",\
+        ["npm:15.1.0", {\
+          "packageLocation": "./.yarn/cache/@taquito-utils-npm-15.1.0-a25ad5cc1b-4621299402.zip/node_modules/@taquito/utils/",\
           "packageDependencies": [\
-            ["@taquito/utils", "npm:14.0.0"],\
+            ["@taquito/utils", "npm:15.1.0"],\
             ["@stablelib/blake2b", "npm:1.0.1"],\
             ["@stablelib/ed25519", "npm:1.0.3"],\
             ["@types/bs58check", "npm:2.1.0"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["blakejs", "npm:1.2.1"],\
             ["bs58check", "npm:2.1.2"],\
             ["buffer", "npm:6.0.3"],\
@@ -2902,10 +2933,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/@tezos-domains-manager-virtual-0df0a5fea2/1/packages/manager/",\
           "packageDependencies": [\
             ["@tezos-domains/manager", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/manager"],\
-            ["@taquito/michel-codec", "npm:14.0.0"],\
-            ["@taquito/michelson-encoder", "npm:14.0.0"],\
-            ["@taquito/rpc", "npm:14.0.0"],\
-            ["@taquito/taquito", "npm:14.0.0"],\
+            ["@taquito/michel-codec", "npm:15.1.0"],\
+            ["@taquito/michelson-encoder", "npm:15.1.0"],\
+            ["@taquito/rpc", "npm:15.1.0"],\
+            ["@taquito/taquito", "npm:15.1.0"],\
             ["@tezos-domains/core", "workspace:packages/core"],\
             ["@tezos-domains/taquito", "virtual:0df0a5fea2f43012685e246f7a1481d916a0ca4f82b3be0a2db593ef743f1fc5039bc06b4313d232ba761616702c0ba4692e4263ef3dca1447f6f8fee5b6db75#workspace:packages/taquito"],\
             ["@types/node", "npm:14.14.6"],\
@@ -2914,7 +2945,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/taquito__michelson-encoder", null],\
             ["@types/taquito__rpc", null],\
             ["@types/taquito__taquito", null],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["fake-promise", "npm:2.5.41"],\
             ["jest", "npm:26.6.1"],\
             ["jest-junit", "npm:12.0.0"],\
@@ -2943,15 +2974,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/manager/",\
           "packageDependencies": [\
             ["@tezos-domains/manager", "workspace:packages/manager"],\
-            ["@taquito/michel-codec", "npm:14.0.0"],\
-            ["@taquito/michelson-encoder", "npm:14.0.0"],\
-            ["@taquito/rpc", "npm:14.0.0"],\
-            ["@taquito/taquito", "npm:14.0.0"],\
+            ["@taquito/michel-codec", "npm:15.1.0"],\
+            ["@taquito/michelson-encoder", "npm:15.1.0"],\
+            ["@taquito/rpc", "npm:15.1.0"],\
+            ["@taquito/taquito", "npm:15.1.0"],\
             ["@tezos-domains/core", "workspace:packages/core"],\
             ["@tezos-domains/taquito", "virtual:0df0a5fea2f43012685e246f7a1481d916a0ca4f82b3be0a2db593ef743f1fc5039bc06b4313d232ba761616702c0ba4692e4263ef3dca1447f6f8fee5b6db75#workspace:packages/taquito"],\
             ["@types/node", "npm:14.14.6"],\
             ["@types/sha.js", "npm:2.4.0"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["fake-promise", "npm:2.5.41"],\
             ["jest", "npm:26.6.1"],\
             ["jest-junit", "npm:12.0.0"],\
@@ -2976,7 +3007,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@tezos-domains/resolver", "workspace:packages/resolver"],\
             ["@tezos-domains/core", "workspace:packages/core"],\
             ["@types/node", "npm:14.14.6"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["fake-promise", "npm:2.5.41"],\
             ["jest", "npm:26.6.1"],\
             ["jest-junit", "npm:12.0.0"],\
@@ -2999,15 +3030,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/@tezos-domains-taquito-virtual-f458b9ffe3/1/packages/taquito/",\
           "packageDependencies": [\
             ["@tezos-domains/taquito", "virtual:0df0a5fea2f43012685e246f7a1481d916a0ca4f82b3be0a2db593ef743f1fc5039bc06b4313d232ba761616702c0ba4692e4263ef3dca1447f6f8fee5b6db75#workspace:packages/taquito"],\
-            ["@taquito/rpc", "npm:14.0.0"],\
-            ["@taquito/taquito", "npm:14.0.0"],\
-            ["@taquito/tzip16", "npm:14.0.0"],\
+            ["@taquito/rpc", "npm:15.1.0"],\
+            ["@taquito/taquito", "npm:15.1.0"],\
+            ["@taquito/tzip16", "npm:15.1.0"],\
             ["@tezos-domains/core", "workspace:packages/core"],\
             ["@types/node", "npm:14.14.6"],\
             ["@types/taquito__rpc", null],\
             ["@types/taquito__taquito", null],\
             ["@types/taquito__tzip16", null],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["fake-promise", "npm:2.5.41"],\
             ["jest", "npm:26.6.1"],\
             ["jest-junit", "npm:12.0.0"],\
@@ -3035,12 +3066,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/taquito/",\
           "packageDependencies": [\
             ["@tezos-domains/taquito", "workspace:packages/taquito"],\
-            ["@taquito/rpc", "npm:14.0.0"],\
-            ["@taquito/taquito", "npm:14.0.0"],\
-            ["@taquito/tzip16", "npm:14.0.0"],\
+            ["@taquito/rpc", "npm:15.1.0"],\
+            ["@taquito/taquito", "npm:15.1.0"],\
+            ["@taquito/tzip16", "npm:15.1.0"],\
             ["@tezos-domains/core", "workspace:packages/core"],\
             ["@types/node", "npm:14.14.6"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["fake-promise", "npm:2.5.41"],\
             ["jest", "npm:26.6.1"],\
             ["jest-junit", "npm:12.0.0"],\
@@ -3063,14 +3094,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/@tezos-domains-taquito-client-virtual-c6c4bf1402/1/packages/taquito-client/",\
           "packageDependencies": [\
             ["@tezos-domains/taquito-client", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/taquito-client"],\
-            ["@taquito/taquito", "npm:14.0.0"],\
+            ["@taquito/taquito", "npm:15.1.0"],\
             ["@tezos-domains/core", "workspace:packages/core"],\
             ["@tezos-domains/manager", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/manager"],\
             ["@tezos-domains/resolver", "workspace:packages/resolver"],\
             ["@tezos-domains/taquito", "virtual:0df0a5fea2f43012685e246f7a1481d916a0ca4f82b3be0a2db593ef743f1fc5039bc06b4313d232ba761616702c0ba4692e4263ef3dca1447f6f8fee5b6db75#workspace:packages/taquito"],\
             ["@types/node", "npm:14.14.6"],\
             ["@types/taquito__taquito", null],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["fake-promise", "npm:2.5.41"],\
             ["jest", "npm:26.6.1"],\
             ["jest-junit", "npm:12.0.0"],\
@@ -3095,13 +3126,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/taquito-client/",\
           "packageDependencies": [\
             ["@tezos-domains/taquito-client", "workspace:packages/taquito-client"],\
-            ["@taquito/taquito", "npm:14.0.0"],\
+            ["@taquito/taquito", "npm:15.1.0"],\
             ["@tezos-domains/core", "workspace:packages/core"],\
             ["@tezos-domains/manager", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/manager"],\
             ["@tezos-domains/resolver", "workspace:packages/resolver"],\
             ["@tezos-domains/taquito", "virtual:0df0a5fea2f43012685e246f7a1481d916a0ca4f82b3be0a2db593ef743f1fc5039bc06b4313d232ba761616702c0ba4692e4263ef3dca1447f6f8fee5b6db75#workspace:packages/taquito"],\
             ["@types/node", "npm:14.14.6"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["fake-promise", "npm:2.5.41"],\
             ["jest", "npm:26.6.1"],\
             ["jest-junit", "npm:12.0.0"],\
@@ -3177,6 +3208,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@types/babel__traverse", "npm:7.0.15"],\
             ["@babel/types", "npm:7.10.5"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/bn.js", [\
+        ["npm:5.1.1", {\
+          "packageLocation": "./.yarn/cache/@types-bn.js-npm-5.1.1-346449981b-e50ed2dd3a.zip/node_modules/@types/bn.js/",\
+          "packageDependencies": [\
+            ["@types/bn.js", "npm:5.1.1"],\
+            ["@types/node", "npm:14.0.24"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -3387,6 +3428,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/node", [\
+        ["npm:11.11.6", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-11.11.6-40abad0842-075f1c011c.zip/node_modules/@types/node/",\
+          "packageDependencies": [\
+            ["@types/node", "npm:11.11.6"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:13.13.52", {\
           "packageLocation": "./.yarn/cache/@types-node-npm-13.13.52-95159539bb-8f1afff497.zip/node_modules/@types/node/",\
           "packageDependencies": [\
@@ -3686,6 +3734,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/visitor-keys", "npm:4.6.0"],\
             ["@typescript-eslint/types", "npm:4.6.0"],\
             ["eslint-visitor-keys", "npm:2.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@vespaiach/axios-fetch-adapter", [\
+        ["https://github.com/ecadlabs/axios-fetch-adapter.git#commit=05cf8ba547aae387933939850231e8abaf323efe", {\
+          "packageLocation": "./.yarn/cache/@vespaiach-axios-fetch-adapter-https-394e2174a0-91f70e312d.zip/node_modules/@vespaiach/axios-fetch-adapter/",\
+          "packageDependencies": [\
+            ["@vespaiach/axios-fetch-adapter", "https://github.com/ecadlabs/axios-fetch-adapter.git#commit=05cf8ba547aae387933939850231e8abaf323efe"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:7e2e9fe87e4dab38c6b6414d4f288d2aceb32caf9e9904894253cf149a7dbbf3ae1126645d0b785f9e793eec5c7c4f50cff347aaae58593ab1976deabac7291a#https://github.com/ecadlabs/axios-fetch-adapter.git#commit=05cf8ba547aae387933939850231e8abaf323efe", {\
+          "packageLocation": "./.yarn/__virtual__/@vespaiach-axios-fetch-adapter-virtual-b2d9711e10/0/cache/@vespaiach-axios-fetch-adapter-https-394e2174a0-91f70e312d.zip/node_modules/@vespaiach/axios-fetch-adapter/",\
+          "packageDependencies": [\
+            ["@vespaiach/axios-fetch-adapter", "virtual:7e2e9fe87e4dab38c6b6414d4f288d2aceb32caf9e9904894253cf149a7dbbf3ae1126645d0b785f9e793eec5c7c4f50cff347aaae58593ab1976deabac7291a#https://github.com/ecadlabs/axios-fetch-adapter.git#commit=05cf8ba547aae387933939850231e8abaf323efe"],\
+            ["@types/axios", null],\
+            ["axios", "npm:0.26.1"]\
+          ],\
+          "packagePeers": [\
+            "@types/axios",\
+            "axios"\
           ],\
           "linkType": "HARD"\
         }]\
@@ -4594,10 +4664,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["bignumber.js", [\
-        ["npm:9.1.0", {\
-          "packageLocation": "./.yarn/cache/bignumber.js-npm-9.1.0-4f54bd1083-52ec2bb5a3.zip/node_modules/bignumber.js/",\
+        ["npm:9.0.1", {\
+          "packageLocation": "./.yarn/cache/bignumber.js-npm-9.0.1-270d0c8a55-6e72f6069d.zip/node_modules/bignumber.js/",\
           "packageDependencies": [\
-            ["bignumber.js", "npm:9.1.0"]\
+            ["bignumber.js", "npm:9.0.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:9.1.1", {\
+          "packageLocation": "./.yarn/cache/bignumber.js-npm-9.1.1-5929e8d8dc-ad243b7e2f.zip/node_modules/bignumber.js/",\
+          "packageDependencies": [\
+            ["bignumber.js", "npm:9.1.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -4623,6 +4700,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/binjumper-npm-0.1.4-8ed133195d-d956dd2a01.zip/node_modules/binjumper/",\
           "packageDependencies": [\
             ["binjumper", "npm:0.1.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["bip39", [\
+        ["npm:3.0.4", {\
+          "packageLocation": "./.yarn/cache/bip39-npm-3.0.4-7c69c9182f-79ce1600a0.zip/node_modules/bip39/",\
+          "packageDependencies": [\
+            ["bip39", "npm:3.0.4"],\
+            ["@types/node", "npm:11.11.6"],\
+            ["create-hash", "npm:1.2.0"],\
+            ["pbkdf2", "npm:3.1.2"],\
+            ["randombytes", "npm:2.1.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -5580,7 +5670,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["conseiljs", "npm:5.0.9"],\
             ["big-integer", "npm:1.6.50"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.0.1"],\
             ["blakejs", "npm:1.1.0"],\
             ["bs58check", "npm:2.1.2"],\
             ["jsonpath-plus", "npm:5.1.0"],\
@@ -8497,11 +8587,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./integration-tests/",\
           "packageDependencies": [\
             ["integration-tests", "workspace:integration-tests"],\
-            ["@taquito/michelson-encoder", "npm:14.0.0"],\
-            ["@taquito/signer", "npm:14.0.0"],\
-            ["@taquito/taquito", "npm:14.0.0"],\
-            ["@taquito/tzip16", "npm:14.0.0"],\
-            ["@taquito/utils", "npm:14.0.0"],\
+            ["@taquito/michelson-encoder", "npm:15.1.0"],\
+            ["@taquito/signer", "npm:15.1.0"],\
+            ["@taquito/taquito", "npm:15.1.0"],\
+            ["@taquito/tzip16", "npm:15.1.0"],\
+            ["@taquito/utils", "npm:15.1.0"],\
             ["@tezos-domains/conseil-client", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/conseil-client"],\
             ["@tezos-domains/core", "workspace:packages/core"],\
             ["@tezos-domains/manager", "virtual:fa477393f1a229410b80e68b69304c4c8806e14fd621d59c23e05b9b51eabae0372b20fed6b0503ec54ccbfe4b322de2771bb2cdd4827869edf1410aeb760432#workspace:packages/manager"],\
@@ -8512,7 +8602,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/minimist", "npm:1.2.0"],\
             ["@types/node", "npm:14.14.6"],\
             ["@types/node-fetch", "npm:2.5.7"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["chalk", "npm:4.1.0"],\
             ["conseiljs", "npm:5.0.9"],\
             ["dotenv", "npm:10.0.0"],\
@@ -12662,6 +12752,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["randexp", "npm:0.4.6"],\
             ["discontinuous-range", "npm:1.0.0"],\
             ["ret", "npm:0.1.15"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["randombytes", [\
+        ["npm:2.1.0", {\
+          "packageLocation": "./.yarn/cache/randombytes-npm-2.1.0-e3da76bccf-d779499376.zip/node_modules/randombytes/",\
+          "packageDependencies": [\
+            ["randombytes", "npm:2.1.0"],\
+            ["safe-buffer", "npm:5.2.1"]\
           ],\
           "linkType": "HARD"\
         }]\
