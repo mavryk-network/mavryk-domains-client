@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.25.0](https://gitlab.com/tezos-domains/client/compare/v1.24.0...v1.25.0) (2023-05-08)
+
+
+### Features
+
+* add governance profile to standard record metadata ([b06b258](https://gitlab.com/tezos-domains/client/commit/b06b258ce5378a61063c6a3b938441eca8278cd4))
+
+
+
+
+
 # [1.24.0](https://gitlab.com/tezos-domains/client/compare/v1.23.0...v1.24.0) (2023-02-07)
 
 
