@@ -1,8 +1,8 @@
-import { TypedRpcDataEncoder } from './data-encoder';
 import { Constructable } from '../utils/types';
-import { RpcResponseData } from './rpc-response-data';
-import { RpcRequestScalarData } from './rpc-request-data';
+import { TypedRpcDataEncoder } from './data-encoder';
 import { JsonBytesEncoder } from './encoders/json-bytes-encoder';
+import { RpcRequestScalarData } from './rpc-request-data';
+import { RpcResponseData } from './rpc-response-data';
 
 export enum StandardRecordMetadataKey {
     TTL = 'td:ttl',
@@ -34,6 +34,7 @@ export enum StandardRecordMetadataKey {
     REPOSITORY_URL = 'project:repository_url',
     WEB_CONTENT_URL = 'web:content_url',
     WEB_REDIRECT_URL = 'web:redirect_url',
+    GOVERNANCE_PROFILE_URL = 'web:governance_profile_url',
 }
 
 export class RecordMetadata {
