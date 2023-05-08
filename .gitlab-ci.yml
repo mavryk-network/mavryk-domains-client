@@ -139,19 +139,6 @@ test:integration:ghostnet:
         - branches
         - tags
 
-test:integration:limanet:
-    stage: test
-    image: node:${NODE_VERSION}
-    allow_failure: false
-    script:
-        - TD_NETWORK=limanet TD_RPC_URL=${RPC_URL_LIMANET} TD_ADMIN_SIGN_KEY=${TD_ADMIN_SIGN_KEY} yarn integration-test
-    tags:
-        - docker
-    only:
-        - merge_requests
-        - branches
-        - tags
-
 deploy_typedoc:
     stage: deploy
     image: mcr.microsoft.com/azure-cli
