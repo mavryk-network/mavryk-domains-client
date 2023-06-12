@@ -10,7 +10,7 @@ import {
     RpcResponseData,
     SmartContractType,
     TezosDomainsDataProvider,
-    Tracer,
+    Tracer
 } from '@tezos-domains/core';
 import { CommitmentGenerator, CommitmentRequest, DomainAcquisitionState, TaquitoManagerDataProvider } from '@tezos-domains/manager';
 import { TaquitoClient } from '@tezos-domains/taquito';
@@ -95,6 +95,14 @@ describe('TaquitoManagerDataProvider', () => {
 
         storage.store.records[e('necroskillz')] = { expiry: new Date(2021, 0, 1) };
         storage.store.records[e('expired')] = { expiry: new Date(2019, 1, 1) };
+
+        storage.store.records[e('settlement-expired')] = { expiry: new Date(2022, 1, 1) };
+        storage.store.auctions[e('settlement-expired')] = {
+            ends_at: new Date(2020, 1, 1, 0, 0, 0),
+            last_bid: new BigNumber(1e7) as any,
+            last_bidder: 'tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix',
+            ownership_period: new BigNumber(365) as any,
+        };
 
         storage.store.auctions[e('auction')] = {
             ends_at: new Date(2020, 7, 3, 0, 0, 0),
@@ -312,6 +320,25 @@ describe('TaquitoManagerDataProvider', () => {
             expect(info.calculatePrice(365)).toBe(365e6);
             expect(() => info.auctionDetails).toThrowError();
             expect(() => info.unobtainableDetails).toThrowError();
+        });
+
+        it('should get info about an auction if domain expired after an unsettled auction', async () => {
+            MockDate.set(new Date(2022, 1, 6, 0, 0, 0));
+
+            const info = await dataProvider.getAcquisitionInfo('settlement-expired.tez');
+
+            expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeAuctioned);
+
+            expect(info.auctionDetails.auctionEnd.toISOString()).toBe(new Date(new Date(2022, 2, 3, 0, 0, 0).getTime()).toISOString());
+            expect(info.auctionDetails.lastBid).toBe(0);
+            expect(info.auctionDetails.lastBidder).toBeNull();
+            expect(info.auctionDetails.nextMinimumBid).toBe(5e6);
+            expect(info.auctionDetails.registrationDuration).toBe(5);
+            expect(info.auctionDetails.bidAdditionalPeriod).toBe(24 * 60 * 60 * 1000);
+
+            expect(() => info.unobtainableDetails).toThrowError();
+            expect(() => info.buyOrRenewDetails).toThrowError();
+            expect(() => info.calculatePrice(365)).toThrowError();
         });
 
         it('should return unobtainable if launch date for particular label length is not launched yet', async () => {

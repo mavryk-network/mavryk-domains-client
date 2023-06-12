@@ -1,6 +1,7 @@
 import { getLabel, TLDConfigProperty } from '@tezos-domains/core';
 import BigNumber from 'bignumber.js';
 import { TLDConfiguration } from './model';
+import { maxDate } from './utils';
 
 export enum DomainAcquisitionState {
     Unobtainable = 'Unobtainable',
@@ -168,7 +169,7 @@ export function calculateAcquisitionInfo(input: AcquisitionInfoInput): DomainAcq
     const bidAdditionalPeriod = input.tldConfiguration.bidAdditionalPeriod.times(1000).toNumber();
 
     if (input.existingAuction) {
-        const maxSettlementDate = input.existingAuction.ownedUntil;
+        const maxSettlementDate = maxDate(input.existingAuction.ownedUntil, input.existingDomain?.expiry);
         if (now >= maxSettlementDate) {
             const maxNewAuctionDate = new Date(maxSettlementDate.getTime() + minAuctionPeriod);
             if (now < maxNewAuctionDate) {
