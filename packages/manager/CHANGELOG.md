@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.1](https://gitlab.com/tezos-domains/client/compare/v1.25.0...v1.25.1) (2023-06-12)
+
+
+### Bug Fixes
+
+* auction period for domains with old expired auction settlement that also have expired ([4b73774](https://gitlab.com/tezos-domains/client/commit/4b73774e11ff0455032b3ef134a1252c6398fdf1))
+
+
+
+
+
 # [1.25.0](https://gitlab.com/tezos-domains/client/compare/v1.24.0...v1.25.0) (2023-05-08)
 
 **Note:** Version bump only for package @tezos-domains/manager
