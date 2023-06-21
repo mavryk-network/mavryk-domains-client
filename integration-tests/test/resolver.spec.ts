@@ -1,14 +1,14 @@
 import { TezosToolkit } from '@taquito/taquito';
 import { Tzip16Module } from '@taquito/tzip16';
-import { LatinDomainNameValidator, StandardRecordMetadataKey } from '@tezos-domains/core';
-import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
 import { ConseilTezosDomainsClient } from '@tezos-domains/conseil-client';
+import { LatinDomainNameValidator, StandardRecordMetadataKey } from '@tezos-domains/core';
 import { NameResolver } from '@tezos-domains/resolver';
-import fetch from 'node-fetch';
-import * as log from 'loglevel';
-
-import { DATA, CONFIG } from '../data';
+import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
 import { registerFetch, registerLogger } from 'conseiljs';
+import * as log from 'loglevel';
+import fetch from 'node-fetch';
+import { CONFIG, DATA } from '../data';
+
 
 interface TestCase {
     description: string;

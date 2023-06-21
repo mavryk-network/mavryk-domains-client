@@ -1,16 +1,15 @@
 import {
-    TezosDomainsDataProvider,
-    Tracer,
-    DomainRecord,
-    ReverseRecord,
     AddressBook,
-    SmartContractType,
-    RpcRequestData,
     BytesEncoder,
     DateEncoder,
+    DomainRecord,
+    ReverseRecord,
+    RpcRequestData,
+    SmartContractType,
+    TezosDomainsDataProvider,
+    Tracer
 } from '@tezos-domains/core';
-import { TaquitoClient, NameRegistryStorage } from '@tezos-domains/taquito';
-
+import { NameRegistryStorage, TaquitoClient } from '@tezos-domains/taquito';
 import { TaquitoDomainRecord, TaquitoReverseRecord } from './model';
 
 export class TaquitoTezosDomainsDataProvider implements TezosDomainsDataProvider {

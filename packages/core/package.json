@@ -1,47 +1,49 @@
 {
-  "name": "@tezos-domains/core",
-  "scripts": {
-    "build": "rimraf dist && rollup -c rollup.config.ts",
-    "watch": "rollup -c rollup.config.ts -w",
-    "test": "jest",
-    "test:watch": "yarn test --watchAll"
-  },
-  "files": [
-    "dist"
-  ],
-  "version": "1.25.1",
-  "description": "Base library for interacting with tezos domains smart contracts.",
-  "author": "Necroskillz <necroskillz@gmail.com>",
-  "license": "Apache-2.0",
-  "main": "dist/core.umd.js",
-  "module": "dist/core.es2015.js",
-  "typings": "dist/public_api.d.ts",
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@gitlab.com/tezos-domains/client.git"
-  },
-  "bugs": {
-    "url": "https://gitlab.com/tezos-domains/client/issues"
-  },
-  "devDependencies": {
-    "@types/node": "^14.14.6",
-    "fake-promise": "^2.5.41",
-    "jest": "^26.6.1",
-    "jest-junit": "^12.0.0",
-    "mockdate": "^3.0.2",
-    "rimraf": "^3.0.2",
-    "rollup": "^2.33.1",
-    "rollup-plugin-sourcemaps": "^0.6.3",
-    "rollup-plugin-typescript2": "^0.29.0",
-    "ts-jest": "^26.4.3",
-    "ts-mockito": "^2.6.1",
-    "tslib": "^2.0.3",
-    "typescript": "^4.0.5"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "dependencies": {
-    "idna-uts46-hx": "^3.3.0"
-  }
+    "name": "@tezos-domains/core",
+    "scripts": {
+        "build": "rimraf dist && rollup -c rollup.config.ts",
+        "watch": "rollup -c rollup.config.ts -w",
+        "test": "jest",
+        "test:watch": "yarn test --watchAll"
+    },
+    "files": [
+        "dist"
+    ],
+    "version": "1.25.1",
+    "description": "Base library for interacting with tezos domains smart contracts.",
+    "author": "Necroskillz <necroskillz@gmail.com>",
+    "license": "Apache-2.0",
+    "main": "dist/core.umd.js",
+    "module": "dist/core.es2015.js",
+    "typings": "dist/public_api.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@gitlab.com/tezos-domains/client.git"
+    },
+    "bugs": {
+        "url": "https://gitlab.com/tezos-domains/client/issues"
+    },
+    "devDependencies": {
+        "@types/lodash.isplainobject": "4.0.7",
+        "@types/node": "^14.14.6",
+        "fake-promise": "^2.5.41",
+        "jest": "^26.6.1",
+        "jest-junit": "^12.0.0",
+        "mockdate": "^3.0.2",
+        "rimraf": "^3.0.2",
+        "rollup": "^2.33.1",
+        "rollup-plugin-sourcemaps": "^0.6.3",
+        "rollup-plugin-typescript2": "^0.29.0",
+        "ts-jest": "^26.4.3",
+        "ts-mockito": "^2.6.1",
+        "tslib": "^2.0.3",
+        "typescript": "^4.0.5"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "dependencies": {
+        "idna-uts46-hx": "^3.3.0",
+        "lodash.isplainobject": "4.0.6"
+    }
 }

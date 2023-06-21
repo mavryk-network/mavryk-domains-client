@@ -1,16 +1,58 @@
 import { encoder, RpcResponse, RpcResponseData } from '@tezos-domains/core';
-
 import { FakeEncoder } from './fake-encoder';
+
+class SomeClass {
+    /**
+     *
+     */
+    constructor(public val: number) {}
+
+    method() {
+        return -1;
+    }
+}
 
 @RpcResponse()
 class FakeResponse {
     prop1!: string;
+    value: SomeClass | null | undefined;
     @encoder(FakeEncoder) prop2!: string;
 }
 
 class InvalidFakeResponse {
     @encoder(FakeEncoder) prop!: string;
 }
+
+const responseTests = [
+    {
+        input: {},
+        expected: {},
+    },
+    {
+        input: null,
+        expected: null,
+    },
+    {
+        input: undefined,
+        expected: null,
+    },
+    {
+        input: { prop1: { Some: 'tz1...' } },
+        expected: { prop1: 'tz1...' },
+    },
+    {
+        input: { prop1: { Some: 'tz1...' }, value: new SomeClass(12), prop2: 'some-name' },
+        expected: { prop1: 'tz1...', value: new SomeClass(12), prop2: 'some-namedecoded' },
+    },
+    {
+        input: { Some: { prop1: { Some: 'tz1...' }, value: null, prop2: { Some: 'some-name' } } },
+        expected: { prop1: 'tz1...', value: null, prop2: 'some-namedecoded' },
+    },
+    {
+        input: { Some: { value: { Some: new SomeClass(12) }, prop2: { Some: 'some-name' } } },
+        expected: { value: new SomeClass(12), prop2: 'some-namedecoded' },
+    },
+];
 
 describe('RpcRequestData', () => {
     describe('scalar()', () => {
@@ -24,11 +66,19 @@ describe('RpcRequestData', () => {
     });
 
     describe('decode()', () => {
-        it('should create request data', () => {
-            const response = new RpcResponseData({ prop1: 'a', prop2: 'b' }).decode(FakeResponse)!;
+        responseTests.forEach(({ input, expected }, index) => {
+            it(`should create response data for case: ${index}`, () => {
+                const response = new RpcResponseData(input).decode(FakeResponse)!;
 
-            expect(response.prop1).toBe('a');
-            expect(response.prop2).toBe('bdecoded');
+                expect(response?.prop1).toEqual(expected?.prop1);
+                expect(response?.prop2).toEqual(expected?.prop2);
+                expect(response?.value).toEqual(expected?.value);
+
+                if (response?.value) {
+                    // eslint-disable-next-line jest/no-conditional-expect
+                    expect(response.value.method()).toBe(-1);
+                }
+            });
         });
 
         it('should return null if data is null', () => {

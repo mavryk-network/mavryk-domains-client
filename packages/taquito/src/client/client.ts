@@ -1,7 +1,7 @@
-import { TezosToolkit, BigMapAbstraction, TransactionWalletOperation, WalletTransferParams, WalletOperation } from '@taquito/taquito';
 import { ConstantsResponse, OpKind } from '@taquito/rpc';
+import { BigMapAbstraction, TezosToolkit, TransactionWalletOperation, WalletOperation, WalletTransferParams } from '@taquito/taquito';
 import { tzip16 } from '@taquito/tzip16';
-import { Tracer, RpcResponseData, RpcRequestScalarData, AdditionalOperationParams } from '@tezos-domains/core';
+import { AdditionalOperationParams, RpcRequestScalarData, RpcResponseData, Tracer } from '@tezos-domains/core';
 import NodeCache from 'node-cache';
 
 export class TaquitoClient {

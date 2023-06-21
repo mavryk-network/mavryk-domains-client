@@ -1,6 +1,6 @@
 import { Constructable } from '../utils/types';
+import { cleanupResponse } from './cleanup-taquito-response';
 import { TypedRpcDataEncoder } from './data-encoder';
-
 export class RpcResponseData {
     constructor(private rawValue: unknown) {}
 
@@ -21,7 +21,7 @@ export class RpcResponseData {
 
         const result = new type();
 
-        Object.assign(result, this.rawValue);
+        Object.assign(result, cleanupResponse(this.rawValue));
 
         return result;
     }

@@ -14,7 +14,7 @@ import {
     SmartContractType,
     TezosDomainsDataProvider,
     TLDConfigProperty,
-    Tracer,
+    Tracer
 } from '@tezos-domains/core';
 import { BigNumberEncoder, MapEncoder, OracleRegistrarStorage, TaquitoClient, TLDRegistrarStorage } from '@tezos-domains/taquito';
 import BigNumber from 'bignumber.js';

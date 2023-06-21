@@ -2294,59 +2294,70 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@taquito/http-utils@npm:^15.1.0":
-  version: 15.1.0
-  resolution: "@taquito/http-utils@npm:15.1.0"
+"@taquito/core@npm:17.0.0, @taquito/core@npm:^17.0.0":
+  version: 17.0.0
+  resolution: "@taquito/core@npm:17.0.0"
+  checksum: 4fa35052fa14547d0a650b50977b9511de07e26937de8c969d7cd5e5a619b35328ffffda59977834f24e185ff13e07a82c44dc0dea3e6863da9e3fcdf2ce2b14
+  languageName: node
+  linkType: hard
+
+"@taquito/http-utils@npm:^17.0.0":
+  version: 17.0.0
+  resolution: "@taquito/http-utils@npm:17.0.0"
   dependencies:
-    "@vespaiach/axios-fetch-adapter": "github:ecadlabs/axios-fetch-adapter"
+    "@taquito/core": ^17.0.0
     axios: ^0.26.0
-  checksum: 8fc2b117a4bf4bf38e78da2f9ab5c123a237b9dc24a9d8d3c1dda4fee454e55df669dbfa9aa36794deefedb5f8271bb51b018e97ae48815eb1fd2eca1167d959
+  checksum: 443d52ae203830c6a720b25a047340f860eea287074ba1e806927ae108d5002c4191073475cc1df0aa14d34cf770319d51fcdf7a0f8f0d17a45f5a60f35df835
   languageName: node
   linkType: hard
 
-"@taquito/local-forging@npm:^15.1.0":
-  version: 15.1.0
-  resolution: "@taquito/local-forging@npm:15.1.0"
+"@taquito/local-forging@npm:^17.0.0":
+  version: 17.0.0
+  resolution: "@taquito/local-forging@npm:17.0.0"
   dependencies:
-    "@taquito/utils": ^15.1.0
+    "@taquito/core": ^17.0.0
+    "@taquito/utils": ^17.0.0
     bignumber.js: ^9.1.0
-  checksum: 0f87dd7245dfd07351d821c6d57db5137cfa3ff6a8f89cb7b7456a477fd44c903ddaee30b4ec1c88a730a936fde4b1eb5f41099584dc35955c8efaa1bd5ad0ba
+  checksum: 075c771da27dcdf5abb3dbff153e42a11fa903e0384bb796b4ca1a4667d00b44ee9e53620d38485e789a1c8184b6becb85591adcf92acaf795be1be679a02f83
   languageName: node
   linkType: hard
 
-"@taquito/michel-codec@npm:15.1.0, @taquito/michel-codec@npm:^15.1.0":
-  version: 15.1.0
-  resolution: "@taquito/michel-codec@npm:15.1.0"
-  checksum: 28dfac5d2e7415769d8be53abff184cd7db9bc9e956fffa7b59022ef880f3ca716e8b252bf72b93ede079afd8d370bd8968361a417f9bfff27ab53471104b895
-  languageName: node
-  linkType: hard
-
-"@taquito/michelson-encoder@npm:15.1.0, @taquito/michelson-encoder@npm:^15.1.0":
-  version: 15.1.0
-  resolution: "@taquito/michelson-encoder@npm:15.1.0"
+"@taquito/michel-codec@npm:17.0.0, @taquito/michel-codec@npm:^17.0.0":
+  version: 17.0.0
+  resolution: "@taquito/michel-codec@npm:17.0.0"
   dependencies:
-    "@taquito/rpc": ^15.1.0
-    "@taquito/utils": ^15.1.0
+    "@taquito/core": ^17.0.0
+  checksum: 3b5712a6b1813c69d1ccc9826e578e16f7022896aba0de7e440b0c04469d53d9210adad5ce58c919348a149912706ba5f2494d98cd23d4ec7fc747dc8f0b4bdc
+  languageName: node
+  linkType: hard
+
+"@taquito/michelson-encoder@npm:17.0.0, @taquito/michelson-encoder@npm:^17.0.0":
+  version: 17.0.0
+  resolution: "@taquito/michelson-encoder@npm:17.0.0"
+  dependencies:
+    "@taquito/rpc": ^17.0.0
+    "@taquito/utils": ^17.0.0
     bignumber.js: ^9.1.0
     fast-json-stable-stringify: ^2.1.0
-  checksum: 62c2057d37e32e00f8dd636feb6b83d0302fc18e0ad12bd53b03e61e448656ebec68f46f6331b05ad73456e53dd3e5b80add6fad10bde95d2999cd5f4d955a29
+  checksum: 5f1f98de47d6edc77bdc936dab5008fe4c7afc5941cba3f4df032edc16dfcf1aa1affaacd283ab466d15d805530bf3013f34344bc6cdeabe6400f8e5b24f19c6
   languageName: node
   linkType: hard
 
-"@taquito/rpc@npm:15.1.0, @taquito/rpc@npm:^15.1.0":
-  version: 15.1.0
-  resolution: "@taquito/rpc@npm:15.1.0"
+"@taquito/rpc@npm:17.0.0, @taquito/rpc@npm:^17.0.0":
+  version: 17.0.0
+  resolution: "@taquito/rpc@npm:17.0.0"
   dependencies:
-    "@taquito/http-utils": ^15.1.0
-    "@taquito/utils": ^15.1.0
+    "@taquito/core": ^17.0.0
+    "@taquito/http-utils": ^17.0.0
+    "@taquito/utils": ^17.0.0
     bignumber.js: ^9.1.0
-  checksum: 5f9c891f11b9d24fc1defee9372eb0f4f7bc2a0959b0b2db1f17b8dcead42a8f5f1f09091bca08802c78d4a4339af11345f34928c6fba9357877790ff40d1c03
+  checksum: d0ed0803c8989e05835e346f00314f09b6de33bf8b8ad8725cb526f451f3d6062cb8ca694bd7f89f0e21b3f59699c638e6cba48dc734d7df1f7cd362d798b1f7
   languageName: node
   linkType: hard
 
-"@taquito/signer@npm:15.1.0":
-  version: 15.1.0
-  resolution: "@taquito/signer@npm:15.1.0"
+"@taquito/signer@npm:17.0.0":
+  version: 17.0.0
+  resolution: "@taquito/signer@npm:17.0.0"
   dependencies:
     "@stablelib/blake2b": ^1.0.1
     "@stablelib/ed25519": ^1.0.3
@@ -2354,54 +2365,56 @@ __metadata:
     "@stablelib/nacl": ^1.0.4
     "@stablelib/pbkdf2": ^1.0.1
     "@stablelib/sha512": ^1.0.1
-    "@taquito/taquito": ^15.1.0
-    "@taquito/utils": ^15.1.0
+    "@taquito/taquito": ^17.0.0
+    "@taquito/utils": ^17.0.0
     "@types/bn.js": ^5.1.1
-    bip39: ^3.0.4
+    bip39: 3.0.4
     elliptic: ^6.5.4
     pbkdf2: ^3.1.2
     typedarray-to-buffer: ^4.0.0
-  checksum: 790fb65ba232855dab5b6f130675eabc881c8b088a116f81c432e213a45555a9026bd6485de4ca9cdd99d8b621e416b8c2d0cbc1d95422538dcec52f9a732ab8
+  checksum: 4665e6f3777cc52b0a6af7dbd7fbf188fa15978fca6ee25a72e3178b2507475f0bcbe02cd94736e92e0fa40f096c54ee743b367b6fd049dc14686650f117cc4a
   languageName: node
   linkType: hard
 
-"@taquito/taquito@npm:15.1.0, @taquito/taquito@npm:^15.1.0":
-  version: 15.1.0
-  resolution: "@taquito/taquito@npm:15.1.0"
+"@taquito/taquito@npm:17.0.0, @taquito/taquito@npm:^17.0.0":
+  version: 17.0.0
+  resolution: "@taquito/taquito@npm:17.0.0"
   dependencies:
-    "@taquito/http-utils": ^15.1.0
-    "@taquito/local-forging": ^15.1.0
-    "@taquito/michel-codec": ^15.1.0
-    "@taquito/michelson-encoder": ^15.1.0
-    "@taquito/rpc": ^15.1.0
-    "@taquito/utils": ^15.1.0
+    "@taquito/core": ^17.0.0
+    "@taquito/http-utils": ^17.0.0
+    "@taquito/local-forging": ^17.0.0
+    "@taquito/michel-codec": ^17.0.0
+    "@taquito/michelson-encoder": ^17.0.0
+    "@taquito/rpc": ^17.0.0
+    "@taquito/utils": ^17.0.0
     bignumber.js: ^9.1.0
     rxjs: ^6.6.3
-  checksum: 56118e16f7a82a69126a408dfa1cbabe03ff35aa5277f7016e19dc7268ab563cb73fdd4d9fc25d12fe9c6112a1beef589d5c237738cfc7943d0b78ce9d8a608c
+  checksum: 18e968f1d4139e885f6f190f1a2c9898eb31b3c8f496e287de8d9a84f03f6968176f7e2361b31a46b1cd0559ba96c8120474ff781f064364fa55fea945807366
   languageName: node
   linkType: hard
 
-"@taquito/tzip16@npm:15.1.0":
-  version: 15.1.0
-  resolution: "@taquito/tzip16@npm:15.1.0"
+"@taquito/tzip16@npm:17.0.0":
+  version: 17.0.0
+  resolution: "@taquito/tzip16@npm:17.0.0"
   dependencies:
-    "@taquito/http-utils": ^15.1.0
-    "@taquito/michelson-encoder": ^15.1.0
-    "@taquito/rpc": ^15.1.0
-    "@taquito/taquito": ^15.1.0
-    "@taquito/utils": ^15.1.0
+    "@taquito/http-utils": ^17.0.0
+    "@taquito/michelson-encoder": ^17.0.0
+    "@taquito/rpc": ^17.0.0
+    "@taquito/taquito": ^17.0.0
+    "@taquito/utils": ^17.0.0
     bignumber.js: ^9.1.0
     crypto-js: ^4.1.1
-  checksum: 41333f152826d6f769960ab7ead7d8561127fbae188312c5ac1af459dc9f0a54c33b378f405a2686d6fdbc2b20aa03042c9fc4bd4c1cf5f310026502ba83ac19
+  checksum: 149f2c5aab3954fa244977b9b981b7418d5d35efded5bc3aabf3bef8e461d962cf92bb6c8a6d1ee4237b53967396ba37ec8b507e33fafde5bb3e79e9c594f03f
   languageName: node
   linkType: hard
 
-"@taquito/utils@npm:15.1.0, @taquito/utils@npm:^15.1.0":
-  version: 15.1.0
-  resolution: "@taquito/utils@npm:15.1.0"
+"@taquito/utils@npm:17.0.0, @taquito/utils@npm:^17.0.0":
+  version: 17.0.0
+  resolution: "@taquito/utils@npm:17.0.0"
   dependencies:
     "@stablelib/blake2b": ^1.0.1
     "@stablelib/ed25519": ^1.0.3
+    "@taquito/core": ^17.0.0
     "@types/bs58check": ^2.1.0
     bignumber.js: ^9.1.0
     blakejs: ^1.2.1
@@ -2409,7 +2422,7 @@ __metadata:
     buffer: ^6.0.3
     elliptic: ^6.5.4
     typedarray-to-buffer: ^4.0.0
-  checksum: 46212994022c3dc347709565adf0042ce3b791e41244dab1f909d8eb13e9384485f9dc12b8a383b6986fc7db48bcdb6fbeb41eb46028b849e2ea9057ab04e0fe
+  checksum: d6c0ed7d7eb6a967830d608e1205d32b7d9ae92df8bf6e57ab5fe47e357ea82cdbf77b82f073d0e571240287bb2dcbebef5b46c47ca428b5c9024cd121a8ad05
   languageName: node
   linkType: hard
 
@@ -2445,11 +2458,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tezos-domains/core@workspace:packages/core"
   dependencies:
+    "@types/lodash.isplainobject": 4.0.7
     "@types/node": ^14.14.6
     fake-promise: ^2.5.41
     idna-uts46-hx: ^3.3.0
     jest: ^26.6.1
     jest-junit: ^12.0.0
+    lodash.isplainobject: 4.0.6
     mockdate: ^3.0.2
     rimraf: ^3.0.2
     rollup: ^2.33.1
@@ -2466,10 +2481,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tezos-domains/manager@workspace:packages/manager"
   dependencies:
-    "@taquito/michel-codec": 15.1.0
-    "@taquito/michelson-encoder": 15.1.0
-    "@taquito/rpc": 15.1.0
-    "@taquito/taquito": 15.1.0
+    "@taquito/michel-codec": 17.0.0
+    "@taquito/michelson-encoder": 17.0.0
+    "@taquito/rpc": 17.0.0
+    "@taquito/taquito": 17.0.0
     "@tezos-domains/core": ^1.25.1
     "@tezos-domains/taquito": ^1.25.1
     "@types/node": ^14.14.6
@@ -2489,10 +2504,10 @@ __metadata:
     tslib: ^2.0.3
     typescript: ^4.0.5
   peerDependencies:
-    "@taquito/michel-codec": ">=15.1.0"
-    "@taquito/michelson-encoder": ">=15.1.0"
-    "@taquito/rpc": ">=15.1.0"
-    "@taquito/taquito": ">=15.1.0"
+    "@taquito/michel-codec": ">=17.0.0"
+    "@taquito/michelson-encoder": ">=17.0.0"
+    "@taquito/rpc": ">=17.0.0"
+    "@taquito/taquito": ">=17.0.0"
   languageName: unknown
   linkType: soft
 
@@ -2523,7 +2538,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tezos-domains/taquito-client@workspace:packages/taquito-client"
   dependencies:
-    "@taquito/taquito": 15.1.0
+    "@taquito/taquito": 17.0.0
     "@tezos-domains/core": ^1.25.1
     "@tezos-domains/manager": ^1.25.1
     "@tezos-domains/resolver": ^1.25.1
@@ -2544,7 +2559,7 @@ __metadata:
     tslib: ^2.0.3
     typescript: ^4.0.5
   peerDependencies:
-    "@taquito/taquito": ">=15.1.0"
+    "@taquito/taquito": ">=17.0.0"
   languageName: unknown
   linkType: soft
 
@@ -2552,9 +2567,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tezos-domains/taquito@workspace:packages/taquito"
   dependencies:
-    "@taquito/rpc": 15.1.0
-    "@taquito/taquito": 15.1.0
-    "@taquito/tzip16": 15.1.0
+    "@taquito/core": 17.0.0
+    "@taquito/rpc": 17.0.0
+    "@taquito/taquito": 17.0.0
+    "@taquito/tzip16": 17.0.0
     "@tezos-domains/core": ^1.25.1
     "@types/node": ^14.14.6
     bignumber.js: ^9.1.0
@@ -2572,9 +2588,10 @@ __metadata:
     tslib: ^2.0.3
     typescript: ^4.0.5
   peerDependencies:
-    "@taquito/rpc": ">=15.1.0"
-    "@taquito/taquito": ">=15.1.0"
-    "@taquito/tzip16": ">=15.1.0"
+    "@taquito/core": ">=17.0.0"
+    "@taquito/rpc": ">=17.0.0"
+    "@taquito/taquito": ">=17.0.0"
+    "@taquito/tzip16": ">=17.0.0"
   languageName: unknown
   linkType: soft
 
@@ -2788,6 +2805,22 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: ee0d098693bf4af44be756eed02daf95f5d0fd4b5b02da952a5952e08842baddf6a986a9ea5f9e460729782f1a0a47848c892ad96ea188b66a363feb49a1536f
+  languageName: node
+  linkType: hard
+
+"@types/lodash.isplainobject@npm:4.0.7":
+  version: 4.0.7
+  resolution: "@types/lodash.isplainobject@npm:4.0.7"
+  dependencies:
+    "@types/lodash": "*"
+  checksum: a3946dbcef66c5931073c0c8a0ecc2bd38a6bf808daa018d1af7db5e980fdb4bc03664ffe3c583c6a8e0a082bbcfba8328b32b96a5a955569ee5704e92bf0b3a
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:*":
+  version: 4.14.195
+  resolution: "@types/lodash@npm:4.14.195"
+  checksum: 39b75ca635b3fa943d17d3d3aabc750babe4c8212485a4df166fe0516e39288e14b0c60afc6e21913cc0e5a84734633c71e617e2bd14eaa1cf51b8d7799c432e
   languageName: node
   linkType: hard
 
@@ -3032,15 +3065,6 @@ __metadata:
     "@typescript-eslint/types": 4.6.0
     eslint-visitor-keys: ^2.0.0
   checksum: 3fedb6995688420323da8f0ebb489027108f11078577f5c5af334a84efadb893ecb3144b48f21b2ec076c79df1a07b909be3feb87ce9affcdc53f3fc069bdcb3
-  languageName: node
-  linkType: hard
-
-"@vespaiach/axios-fetch-adapter@github:ecadlabs/axios-fetch-adapter":
-  version: 0.3.1
-  resolution: "@vespaiach/axios-fetch-adapter@https://github.com/ecadlabs/axios-fetch-adapter.git#commit=05cf8ba547aae387933939850231e8abaf323efe"
-  peerDependencies:
-    axios: ">=0.26.0"
-  checksum: 91f70e312d2a51e51f0ed17988d4abe90caba5da0472e3c84ff5ed18285ad2ebe4a80cd4b2dd97e8ec70887709f9b86d30573da869e563dcdd8857a9d3a27375
   languageName: node
   linkType: hard
 
@@ -3846,7 +3870,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bip39@npm:^3.0.4":
+"bip39@npm:3.0.4":
   version: 3.0.4
   resolution: "bip39@npm:3.0.4"
   dependencies:
@@ -7350,11 +7374,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "integration-tests@workspace:integration-tests"
   dependencies:
-    "@taquito/michelson-encoder": 15.1.0
-    "@taquito/signer": 15.1.0
-    "@taquito/taquito": 15.1.0
-    "@taquito/tzip16": 15.1.0
-    "@taquito/utils": 15.1.0
+    "@taquito/michelson-encoder": 17.0.0
+    "@taquito/signer": 17.0.0
+    "@taquito/taquito": 17.0.0
+    "@taquito/tzip16": 17.0.0
+    "@taquito/utils": 17.0.0
     "@tezos-domains/conseil-client": ^1.25.1
     "@tezos-domains/core": ^1.25.1
     "@tezos-domains/manager": ^1.25.1
@@ -8873,6 +8897,13 @@ __metadata:
   version: 4.4.0
   resolution: "lodash.ismatch@npm:4.4.0"
   checksum: a393917578842705c7fc1a30fb80613d1ac42d20b67eb26a2a6004d6d61ee90b419f9eb320508ddcd608e328d91eeaa2651411727eaa9a12534ed6ccb02fc705
+  languageName: node
+  linkType: hard
+
+"lodash.isplainobject@npm:4.0.6":
+  version: 4.0.6
+  resolution: "lodash.isplainobject@npm:4.0.6"
+  checksum: 29c6351f281e0d9a1d58f1a4c8f4400924b4c79f18dfc4613624d7d54784df07efaff97c1ff2659f3e085ecf4fff493300adc4837553104cef2634110b0d5337
   languageName: node
   linkType: hard
 
