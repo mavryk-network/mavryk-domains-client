@@ -1,15 +1,15 @@
-import { SmartContractType, RpcRequestScalarData, RpcResponseData, Tracer, BytesEncoder, AddressBook } from '@tezos-domains/core';
-import { TaquitoClient } from '@tezos-domains/taquito';
+import { SmartContractType, RpcRequestScalarData, RpcResponseData, Tracer, BytesEncoder, AddressBook } from '@mavrykdynamics/mavryk-domains-core';
+import { TaquitoClient } from '@mavrykdynamics/mavryk-domains-taquito';
 import { mock, when, anything, instance, anyString } from 'ts-mockito';
-import { StandardRecordMetadataKey } from '@tezos-domains/core';
-import { MichelsonMap } from '@taquito/taquito';
+import { StandardRecordMetadataKey } from '@mavrykdynamics/mavryk-domains-core';
+import { MichelsonMap } from '@mavrykdynamics/taquito';
 
-import { TaquitoTezosDomainsResolverDataProvider } from '../src/taquito-resolver-data-provider';
+import { TaquitoMavrykDomainsResolverDataProvider } from '../src/taquito-resolver-data-provider';
 
 const e = (s: string) => new BytesEncoder().encode(s)!;
 
-describe('TaquitoTezosDomainsResolverDataProvider', () => {
-    let dataProvider: TaquitoTezosDomainsResolverDataProvider;
+describe('TaquitoMavrykDomainsResolverDataProvider', () => {
+    let dataProvider: TaquitoMavrykDomainsResolverDataProvider;
     let taquitoClientMock: TaquitoClient;
     let addressBookMock: AddressBook;
     let tracerMock: Tracer;
@@ -32,16 +32,16 @@ describe('TaquitoTezosDomainsResolverDataProvider', () => {
             'resolve-name': {},
         };
 
-        records['resolve-name'][e('necroskillz.tez')] = {
-            name: e('necroskillz.tez'),
-            address: 'tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i',
+        records['resolve-name'][e('necroskillz.mav')] = {
+            name: e('necroskillz.mav'),
+            address: 'mv1K91dgHkrxFgQdML1HBk1nUwhBDHhXSfwa',
             data: domainData,
             expiry: '2021-01-11T11:01:00.000Z',
         };
 
-        records['resolve-address']['tz1dkLSGXbGxocN1QgxAp5tnYhY8VAaZ4kQp'] = {
-            name: e('play.necroskillz.tez'),
-            address: 'tz1dkLSGXbGxocN1QgxAp5tnYhY8VAaZ4kQp',
+        records['resolve-address']['mv1Q6r6jTAiFyM9sxirr12rqhLBnBqRJNuqY'] = {
+            name: e('play.necroskillz.mav'),
+            address: 'mv1Q6r6jTAiFyM9sxirr12rqhLBnBqRJNuqY',
             data: domainData,
             expiry: '2022-01-11T11:01:00.000Z',
         } as any;
@@ -60,21 +60,21 @@ describe('TaquitoTezosDomainsResolverDataProvider', () => {
             }
         );
 
-        dataProvider = new TaquitoTezosDomainsResolverDataProvider(instance(taquitoClientMock), instance(addressBookMock), instance(tracerMock));
+        dataProvider = new TaquitoMavrykDomainsResolverDataProvider(instance(taquitoClientMock), instance(addressBookMock), instance(tracerMock));
     });
 
     describe('resolveDomainInfo()', () => {
         it('should return info about a domain', async () => {
-            const domain = await dataProvider.resolveDomainInfo('necroskillz.tez');
+            const domain = await dataProvider.resolveDomainInfo('necroskillz.mav');
 
-            expect(domain?.address).toBe('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i');
-            expect(domain?.name).toBe('necroskillz.tez');
+            expect(domain?.address).toBe('mv1K91dgHkrxFgQdML1HBk1nUwhBDHhXSfwa');
+            expect(domain?.name).toBe('necroskillz.mav');
             expect(domain?.expiry?.toISOString()).toBe('2021-01-11T11:01:00.000Z');
             expect(domain?.data.getJson(StandardRecordMetadataKey.TTL)).toBe(420);
         });
 
         it('should return null if domain does not exist', async () => {
-            const domain = await dataProvider.resolveDomainInfo('lol.necroskillz.tez');
+            const domain = await dataProvider.resolveDomainInfo('lol.necroskillz.mav');
 
             expect(domain).toBeNull();
         });
@@ -82,16 +82,16 @@ describe('TaquitoTezosDomainsResolverDataProvider', () => {
 
     describe('resolveReverseRecordDomainInfo()', () => {
         it('should return info about a reverse record', async () => {
-            const reverseRecordDomain = await dataProvider.resolveReverseRecordDomainInfo('tz1dkLSGXbGxocN1QgxAp5tnYhY8VAaZ4kQp');
+            const reverseRecordDomain = await dataProvider.resolveReverseRecordDomainInfo('mv1Q6r6jTAiFyM9sxirr12rqhLBnBqRJNuqY');
 
-            expect(reverseRecordDomain?.address).toBe('tz1dkLSGXbGxocN1QgxAp5tnYhY8VAaZ4kQp');
-            expect(reverseRecordDomain?.name).toBe('play.necroskillz.tez');
+            expect(reverseRecordDomain?.address).toBe('mv1Q6r6jTAiFyM9sxirr12rqhLBnBqRJNuqY');
+            expect(reverseRecordDomain?.name).toBe('play.necroskillz.mav');
             expect(reverseRecordDomain?.expiry?.toISOString()).toBe('2022-01-11T11:01:00.000Z');
             expect(reverseRecordDomain?.data.getJson(StandardRecordMetadataKey.TTL)).toBe(420);
         });
 
         it('should return null if reverse record does not exist', async () => {
-            const reverseRecordDomain = await dataProvider.resolveReverseRecordDomainInfo('tz1gwaYxn9mkHQAuHttKgFMJmpf4WfUBmcm5');
+            const reverseRecordDomain = await dataProvider.resolveReverseRecordDomainInfo('mv1UpxxcUmbZfd43JCQweMzWt9B4SDpKBMFk');
 
             expect(reverseRecordDomain).toBeNull();
         });

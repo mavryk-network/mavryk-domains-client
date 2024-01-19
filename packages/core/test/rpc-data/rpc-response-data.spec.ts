@@ -1,4 +1,4 @@
-import { encoder, RpcResponse, RpcResponseData } from '@tezos-domains/core';
+import { encoder, RpcResponse, RpcResponseData } from '@mavrykdynamics/mavryk-domains-core';
 import { FakeEncoder } from './fake-encoder';
 
 class SomeClass {
@@ -37,16 +37,16 @@ const responseTests = [
         expected: null,
     },
     {
-        input: { prop1: { Some: 'tz1...' } },
-        expected: { prop1: 'tz1...' },
+        input: { prop1: { Some: 'mv1...' } },
+        expected: { prop1: 'mv1...' },
     },
     {
-        input: { prop1: { Some: 'tz1...' }, value: new SomeClass(12), prop2: 'some-name' },
-        expected: { prop1: 'tz1...', value: new SomeClass(12), prop2: 'some-namedecoded' },
+        input: { prop1: { Some: 'mv1...' }, value: new SomeClass(12), prop2: 'some-name' },
+        expected: { prop1: 'mv1...', value: new SomeClass(12), prop2: 'some-namedecoded' },
     },
     {
-        input: { Some: { prop1: { Some: 'tz1...' }, value: null, prop2: { Some: 'some-name' } } },
-        expected: { prop1: 'tz1...', value: null, prop2: 'some-namedecoded' },
+        input: { Some: { prop1: { Some: 'mv1...' }, value: null, prop2: { Some: 'some-name' } } },
+        expected: { prop1: 'mv1...', value: null, prop2: 'some-namedecoded' },
     },
     {
         input: { Some: { value: { Some: new SomeClass(12) }, prop2: { Some: 'some-name' } } },

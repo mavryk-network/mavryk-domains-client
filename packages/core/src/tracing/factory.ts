@@ -1,6 +1,6 @@
 import { ConsoleTracer, NoopTracer, Tracer } from './tracer';
-import { TezosDomainsConfig } from '../model';
+import { MavrykDomainsConfig } from '../model';
 
-export function createTracer(config: TezosDomainsConfig): Tracer {
+export function createTracer(config: MavrykDomainsConfig): Tracer {
     return config.tracing ? new ConsoleTracer() : new NoopTracer();
 }

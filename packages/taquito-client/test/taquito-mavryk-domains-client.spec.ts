@@ -1,48 +1,48 @@
-jest.mock('@tezos-domains/core');
-jest.mock('@tezos-domains/resolver');
-jest.mock('@tezos-domains/manager');
-jest.mock('@tezos-domains/taquito');
-jest.mock('@taquito/taquito');
+jest.mock('@mavrykdynamics/mavryk-domains-core');
+jest.mock('@mavrykdynamics/mavryk-domains-resolver');
+jest.mock('@mavrykdynamics/mavryk-domains-manager');
+jest.mock('@mavrykdynamics/mavryk-domains-taquito');
+jest.mock('@mavrykdynamics/taquito');
 jest.mock('../src/taquito-proxy-contract-address-resolver');
 jest.mock('../src/taquito-resolver-data-provider');
 jest.mock('../src/taquito-data-provider');
 
-import { TezosToolkit } from '@taquito/taquito';
-import { AddressBook, TezosDomainsValidator, UnsupportedDomainNameValidator, Tracer, createTracer } from '@tezos-domains/core';
-import { TaquitoClient } from '@tezos-domains/taquito';
+import { TezosToolkit } from '@mavrykdynamics/taquito';
+import { AddressBook, MavrykDomainsValidator, UnsupportedDomainNameValidator, Tracer, createTracer } from '@mavrykdynamics/mavryk-domains-core';
+import { TaquitoClient } from '@mavrykdynamics/mavryk-domains-taquito';
 import {
     BlockchainDomainsManager,
     CommitmentGenerator,
     UnsupportedDomainsManager,
     TaquitoManagerDataProvider,
-    TaquitoTezosDomainsOperationFactory,
-} from '@tezos-domains/manager';
-import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
-import { NameResolver, NullNameResolver, createResolver } from '@tezos-domains/resolver';
+    TaquitoMavrykDomainsOperationFactory,
+} from '@mavrykdynamics/mavryk-domains-manager';
+import { TaquitoMavrykDomainsClient } from '@mavrykdynamics/mavryk-domains-taquito-client';
+import { NameResolver, NullNameResolver, createResolver } from '@mavrykdynamics/mavryk-domains-resolver';
 import { mock, instance } from 'ts-mockito';
 
-import { TaquitoTezosDomainsProxyContractAddressResolver } from '../src/taquito-proxy-contract-address-resolver';
-import { TaquitoTezosDomainsResolverDataProvider } from '../src/taquito-resolver-data-provider';
-import { TaquitoTezosDomainsDataProvider } from '../src/taquito-data-provider';
+import { TaquitoMavrykDomainsProxyContractAddressResolver } from '../src/taquito-proxy-contract-address-resolver';
+import { TaquitoMavrykDomainsResolverDataProvider } from '../src/taquito-resolver-data-provider';
+import { TaquitoMavrykDomainsDataProvider } from '../src/taquito-data-provider';
 
 class T {}
 class N {}
 
-describe('TaquitoTezosDomainsClient', () => {
+describe('TaquitoMavrykDomainsClient', () => {
     let taquitoClientMock: TaquitoClient;
     let addressBookMock: AddressBook;
     let tracerMock: Tracer;
     let blockchainDomainsManagerMock: BlockchainDomainsManager;
     let commitmentGeneratorMock: CommitmentGenerator;
     let nameResolverMock: NameResolver;
-    let domainNameValidator: TezosDomainsValidator;
+    let domainNameValidator: MavrykDomainsValidator;
     let tezosToolkitMock: TezosToolkit;
-    let dataProviderMock: TaquitoTezosDomainsResolverDataProvider;
-    let proxyContractAddressResolver: TaquitoTezosDomainsProxyContractAddressResolver;
+    let dataProviderMock: TaquitoMavrykDomainsResolverDataProvider;
+    let proxyContractAddressResolver: TaquitoMavrykDomainsProxyContractAddressResolver;
     let nullNameResolver: NullNameResolver;
     let managerDataProvider: TaquitoManagerDataProvider;
-    let operationFactory: TaquitoTezosDomainsOperationFactory;
-    let bigMapDataProviderMock: TaquitoTezosDomainsDataProvider;
+    let operationFactory: TaquitoMavrykDomainsOperationFactory;
+    let bigMapDataProviderMock: TaquitoMavrykDomainsDataProvider;
 
     let unsupportedDomainNameValidator: UnsupportedDomainNameValidator;
     let unsupportedDomainsManager: UnsupportedDomainsManager;
@@ -54,16 +54,16 @@ describe('TaquitoTezosDomainsClient', () => {
         blockchainDomainsManagerMock = mock(BlockchainDomainsManager);
         commitmentGeneratorMock = mock(CommitmentGenerator);
         nameResolverMock = mock(N) as any;
-        domainNameValidator = mock(TezosDomainsValidator);
+        domainNameValidator = mock(MavrykDomainsValidator);
         tezosToolkitMock = mock(TezosToolkit);
         nullNameResolver = mock(NullNameResolver);
         unsupportedDomainNameValidator = mock(UnsupportedDomainNameValidator);
         unsupportedDomainsManager = mock(UnsupportedDomainsManager);
-        dataProviderMock = mock(TaquitoTezosDomainsResolverDataProvider);
-        proxyContractAddressResolver = mock(TaquitoTezosDomainsProxyContractAddressResolver);
+        dataProviderMock = mock(TaquitoMavrykDomainsResolverDataProvider);
+        proxyContractAddressResolver = mock(TaquitoMavrykDomainsProxyContractAddressResolver);
         managerDataProvider = mock(TaquitoManagerDataProvider);
-        operationFactory = mock(TaquitoTezosDomainsOperationFactory);
-        bigMapDataProviderMock = mock(TaquitoTezosDomainsDataProvider);
+        operationFactory = mock(TaquitoMavrykDomainsOperationFactory);
+        bigMapDataProviderMock = mock(TaquitoMavrykDomainsDataProvider);
 
         (TaquitoClient as jest.Mock).mockReturnValue(instance(taquitoClientMock));
         (AddressBook as jest.Mock).mockReturnValue(instance(addressBookMock));
@@ -71,26 +71,26 @@ describe('TaquitoTezosDomainsClient', () => {
         (BlockchainDomainsManager as jest.Mock).mockReturnValue(instance(blockchainDomainsManagerMock));
         (CommitmentGenerator as jest.Mock).mockReturnValue(instance(commitmentGeneratorMock));
         (createResolver as jest.Mock).mockReturnValue(instance(nameResolverMock));
-        (TezosDomainsValidator as jest.Mock).mockReturnValue(instance(domainNameValidator));
+        (MavrykDomainsValidator as jest.Mock).mockReturnValue(instance(domainNameValidator));
         (NullNameResolver as jest.Mock).mockReturnValue(instance(nullNameResolver));
         (UnsupportedDomainNameValidator as jest.Mock).mockReturnValue(instance(unsupportedDomainNameValidator));
         (UnsupportedDomainsManager as jest.Mock).mockReturnValue(instance(unsupportedDomainsManager));
-        (TaquitoTezosDomainsResolverDataProvider as jest.Mock).mockReturnValue(instance(dataProviderMock));
-        (TaquitoTezosDomainsProxyContractAddressResolver as jest.Mock).mockReturnValue(instance(proxyContractAddressResolver));
+        (TaquitoMavrykDomainsResolverDataProvider as jest.Mock).mockReturnValue(instance(dataProviderMock));
+        (TaquitoMavrykDomainsProxyContractAddressResolver as jest.Mock).mockReturnValue(instance(proxyContractAddressResolver));
         (TaquitoManagerDataProvider as jest.Mock).mockReturnValue(instance(managerDataProvider));
-        (TaquitoTezosDomainsOperationFactory as jest.Mock).mockReturnValue(instance(operationFactory));
-        (TaquitoTezosDomainsDataProvider as jest.Mock).mockReturnValue(instance(bigMapDataProviderMock));
+        (TaquitoMavrykDomainsOperationFactory as jest.Mock).mockReturnValue(instance(operationFactory));
+        (TaquitoMavrykDomainsDataProvider as jest.Mock).mockReturnValue(instance(bigMapDataProviderMock));
     });
 
     describe('config', () => {
         it('should setup with config', () => {
             const config = { tezos: instance(tezosToolkitMock) };
-            new TaquitoTezosDomainsClient(config);
+            new TaquitoMavrykDomainsClient(config);
 
             expect(TaquitoClient).toHaveBeenCalledWith(instance(tezosToolkitMock), instance(tracerMock));
-            expect(TaquitoTezosDomainsProxyContractAddressResolver).toHaveBeenCalledWith(instance(taquitoClientMock));
+            expect(TaquitoMavrykDomainsProxyContractAddressResolver).toHaveBeenCalledWith(instance(taquitoClientMock));
             expect(AddressBook).toHaveBeenCalledWith(instance(proxyContractAddressResolver), config);
-            expect(TaquitoTezosDomainsResolverDataProvider).toHaveBeenCalledWith(instance(taquitoClientMock), instance(addressBookMock), instance(tracerMock));
+            expect(TaquitoMavrykDomainsResolverDataProvider).toHaveBeenCalledWith(instance(taquitoClientMock), instance(addressBookMock), instance(tracerMock));
             expect(CommitmentGenerator).toHaveBeenCalled();
             expect(TaquitoManagerDataProvider).toHaveBeenCalledWith(
                 instance(taquitoClientMock),
@@ -100,7 +100,7 @@ describe('TaquitoTezosDomainsClient', () => {
                 instance(domainNameValidator),
                 instance(bigMapDataProviderMock)
             );
-            expect(TaquitoTezosDomainsOperationFactory).toHaveBeenCalledWith(
+            expect(TaquitoMavrykDomainsOperationFactory).toHaveBeenCalledWith(
                 instance(taquitoClientMock),
                 instance(addressBookMock),
                 instance(tracerMock),
@@ -120,7 +120,7 @@ describe('TaquitoTezosDomainsClient', () => {
 
         describe('setConfig()', () => {
             it('should recreate parts', () => {
-                const client = new TaquitoTezosDomainsClient({ tezos: instance(tezosToolkitMock) });
+                const client = new TaquitoMavrykDomainsClient({ tezos: instance(tezosToolkitMock) });
 
                 const newManager = mock(BlockchainDomainsManager);
                 const newResolver = mock(N) as any;
@@ -136,10 +136,10 @@ describe('TaquitoTezosDomainsClient', () => {
     });
 
     describe('functionality', () => {
-        let client: TaquitoTezosDomainsClient;
+        let client: TaquitoMavrykDomainsClient;
 
         beforeEach(() => {
-            client = new TaquitoTezosDomainsClient({ tezos: instance(tezosToolkitMock) });
+            client = new TaquitoMavrykDomainsClient({ tezos: instance(tezosToolkitMock) });
         });
 
         it('should expose manager', () => {
@@ -160,7 +160,7 @@ describe('TaquitoTezosDomainsClient', () => {
 
         describe('Unsupported', () => {
             it('should provide unsupported instance', () => {
-                client = TaquitoTezosDomainsClient.Unsupported;
+                client = TaquitoMavrykDomainsClient.Unsupported;
 
                 expect(client.isSupported).toBe(false);
 
@@ -170,7 +170,7 @@ describe('TaquitoTezosDomainsClient', () => {
             });
 
             it('should not allow to change config', () => {
-                expect(() => TaquitoTezosDomainsClient.Unsupported.setConfig({ tezos: instance(tezosToolkitMock) })).toThrowError();
+                expect(() => TaquitoMavrykDomainsClient.Unsupported.setConfig({ tezos: instance(tezosToolkitMock) })).toThrowError();
             });
         });
     });

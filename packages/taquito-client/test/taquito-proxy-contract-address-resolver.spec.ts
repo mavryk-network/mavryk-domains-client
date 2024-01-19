@@ -1,10 +1,10 @@
-import { TaquitoClient } from '@tezos-domains/taquito';
+import { TaquitoClient } from '@mavrykdynamics/mavryk-domains-taquito';
 
-import { TaquitoTezosDomainsProxyContractAddressResolver } from '../src/taquito-proxy-contract-address-resolver';
+import { TaquitoMavrykDomainsProxyContractAddressResolver } from '../src/taquito-proxy-contract-address-resolver';
 import { mock, instance, when } from 'ts-mockito';
 
-describe('TaquitoTezosDomainsProxyContractAddressResolver', () => {
-    let proxyContractAddressResolver: TaquitoTezosDomainsProxyContractAddressResolver;
+describe('TaquitoMavrykDomainsProxyContractAddressResolver', () => {
+    let proxyContractAddressResolver: TaquitoMavrykDomainsProxyContractAddressResolver;
     let taquitoClientMock: TaquitoClient;
 
     beforeEach(() => {
@@ -13,7 +13,7 @@ describe('TaquitoTezosDomainsProxyContractAddressResolver', () => {
         when(taquitoClientMock.storage('KT1proxy')).thenResolve({ contract: 'KT1act' });
         when(taquitoClientMock.storage('KT1inv')).thenResolve({ la: 'x' });
 
-        proxyContractAddressResolver = new TaquitoTezosDomainsProxyContractAddressResolver(instance(taquitoClientMock));
+        proxyContractAddressResolver = new TaquitoMavrykDomainsProxyContractAddressResolver(instance(taquitoClientMock));
     });
 
     describe('getAddress', () => {

@@ -1,5 +1,5 @@
 {
-    "name": "@tezos-domains/core",
+    "name": "@mavrykdynamics/mavryk-domains-core",
     "scripts": {
         "build": "rimraf dist && rollup -c rollup.config.ts",
         "watch": "rollup -c rollup.config.ts -w",
@@ -10,7 +10,7 @@
         "dist"
     ],
     "version": "1.26.0",
-    "description": "Base library for interacting with tezos domains smart contracts.",
+    "description": "Base library for interacting with mavryk domains smart contracts.",
     "author": "Necroskillz <necroskillz@gmail.com>",
     "license": "Apache-2.0",
     "main": "dist/core.umd.js",
@@ -18,10 +18,10 @@
     "typings": "dist/public_api.d.ts",
     "repository": {
         "type": "git",
-        "url": "git+ssh://git@gitlab.com/tezos-domains/client.git"
+        "url": "git+ssh://git@gitlab.com/mavryk-network/mavryk-domains-client.git"
     },
     "bugs": {
-        "url": "https://gitlab.com/tezos-domains/client/issues"
+        "url": "https://gitlab.com/mavryk-network/mavryk-domains-client/issues"
     },
     "devDependencies": {
         "@types/lodash.isplainobject": "4.0.7",

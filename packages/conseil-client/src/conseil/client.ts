@@ -1,4 +1,4 @@
-import { Tracer, RpcRequestScalarData } from '@tezos-domains/core';
+import { Tracer, RpcRequestScalarData } from '@mavrykdynamics/mavryk-domains-core';
 import { TezosMessageUtils, TezosNodeReader } from 'conseiljs';
 import NodeCache from 'node-cache';
 

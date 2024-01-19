@@ -1,4 +1,4 @@
-import { BigMapAbstraction, MichelsonMap } from '@taquito/taquito';
+import { BigMapAbstraction, MichelsonMap } from '@mavrykdynamics/taquito';
 import BigNumber from 'bignumber.js';
 
 export interface NameRegistryStorage {

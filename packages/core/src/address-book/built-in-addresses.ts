@@ -16,26 +16,26 @@ export const BuiltInAddresses = {
             address: 'KT1F7JKNqwaoLzRsMio1MQC7zv3jG9dHcDdJ',
             resolveProxyContract: true,
         },
-        'tldRegistrar:tez:commit': {
+        'tldRegistrar:mav:commit': {
             address: 'KT1P8n2qzJjwMPbHJfi4o8xu6Pe3gaU3u2A3',
         },
-        'tldRegistrar:tez': {
+        'tldRegistrar:mav': {
             address: 'KT1P8n2qzJjwMPbHJfi4o8xu6Pe3gaU3u2A3',
             resolveProxyContract: true,
         },
-        'tldRegistrar:tez:buy': {
+        'tldRegistrar:mav:buy': {
             address: 'KT191reDVKrLxU9rjTSxg53wRqj6zh8pnHgr',
         },
-        'tldRegistrar:tez:renew': {
+        'tldRegistrar:mav:renew': {
             address: 'KT1EVYBj3f1rZHNeUtq4ZvVxPTs77wuHwARU',
         },
-        'tldRegistrar:tez:bid': {
+        'tldRegistrar:mav:bid': {
             address: 'KT1CaSP4dn8wasbMsfdtGiCPgYFW7bvnPRRT',
         },
-        'tldRegistrar:tez:withdraw': {
+        'tldRegistrar:mav:withdraw': {
             address: 'KT1CfuAbJQbAGYcjKfvEvbtNUx45LY5hfTVR',
         },
-        'tldRegistrar:tez:settle': {
+        'tldRegistrar:mav:settle': {
             address: 'KT1MeFfi4TzSCc8CF9j3qq5mecTPdc6YVUPp',
         },
         oracleRegistrar: {

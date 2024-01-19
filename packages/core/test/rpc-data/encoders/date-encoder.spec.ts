@@ -1,4 +1,4 @@
-import { DateEncoder } from '@tezos-domains/core';
+import { DateEncoder } from '@mavrykdynamics/mavryk-domains-core';
 
 describe('DateEncoder', () => {
     let encoder: DateEncoder;

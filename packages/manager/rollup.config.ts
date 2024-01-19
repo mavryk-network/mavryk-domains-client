@@ -6,11 +6,11 @@ const pkg = require('./package.json');
 export default {
     input: `public_api.ts`,
     output: [
-        { file: pkg.main, name: 'tezosDomainsManager', format: 'umd', sourcemap: true },
+        { file: pkg.main, name: 'mavrykDomainsManager', format: 'umd', sourcemap: true },
         { file: pkg.module, format: 'es', sourcemap: true },
     ],
     // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
-    external: ['@tezos-domains/core', '@taquito/taquito', '@taquito/michelson-encoder', 'bignumber.js', 'sha.js'],
+    external: ['@mavrykdynamics/mavryk-domains-core', '@mavrykdynamics/taquito', '@mavrykdynamics/taquito-michelson-encoder', 'bignumber.js', 'sha.js'],
     watch: {
         include: 'src/**',
     },

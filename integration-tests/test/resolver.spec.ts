@@ -1,9 +1,9 @@
-import { TezosToolkit } from '@taquito/taquito';
-import { Tzip16Module } from '@taquito/tzip16';
-import { ConseilTezosDomainsClient } from '@tezos-domains/conseil-client';
-import { LatinDomainNameValidator, StandardRecordMetadataKey } from '@tezos-domains/core';
-import { NameResolver } from '@tezos-domains/resolver';
-import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
+import { TezosToolkit } from '@mavrykdynamics/taquito';
+import { Tzip16Module } from '@mavrykdynamics/taquito-tzip16';
+import { ConseilMavrykDomainsClient } from '@mavrykdynamics/mavryk-domains-conseil-client';
+import { LatinDomainNameValidator, StandardRecordMetadataKey } from '@mavrykdynamics/mavryk-domains-core';
+import { NameResolver } from '@mavrykdynamics/mavryk-domains-resolver';
+import { TaquitoMavrykDomainsClient } from '@mavrykdynamics/mavryk-domains-taquito-client';
 import { registerFetch, registerLogger } from 'conseiljs';
 import * as log from 'loglevel';
 import fetch from 'node-fetch';
@@ -26,7 +26,7 @@ describe('resolver', () => {
             const tezos = new TezosToolkit(CONFIG.rpcUrl);
             tezos.addExtension(new Tzip16Module());
 
-            const client = new TaquitoTezosDomainsClient({
+            const client = new TaquitoMavrykDomainsClient({
                 network: CONFIG.network,
                 tezos,
                 caching: { enabled: true },
@@ -45,7 +45,7 @@ describe('resolver', () => {
             registerLogger(logger);
             registerFetch(fetch);
 
-            const client = new ConseilTezosDomainsClient({
+            const client = new ConseilMavrykDomainsClient({
                 network: CONFIG.network,
                 conseil: { server: CONFIG.rpcUrl },
                 caching: { enabled: true },
@@ -124,7 +124,7 @@ describe('resolver', () => {
             const TEST_CASES: TestCase[] = [
                 { description: 'should resolve name', from: DATA.ok.address, to: DATA.ok.name },
                 { description: 'should return null for non existent reverse record', from: DATA.expired.address, to: null },
-                { description: 'should return null reverse record with expired record', from: 'tz1NXtvKxbCpWkSmHSAirdxzPbQgicTFwWyc', to: null },
+                { description: 'should return null reverse record with expired record', from: 'mv196vE7a8B9mv7ptdAGExRtXctuPBCL4id7', to: null },
                 { description: 'should resolve name for infinite validity record', from: DATA.noExpiration.address, to: DATA.noExpiration.name },
                 { description: 'should return null for empty reverse record', from: DATA.emptyReverseRecord.address, to: null },
             ];

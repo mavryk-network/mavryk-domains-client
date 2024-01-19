@@ -1,7 +1,7 @@
 import { LatinDomainNameValidator } from './validators';
 
 export const BuiltInTLDs = {
-    mainnet: [{ name: 'tez', validator: LatinDomainNameValidator }],
+    mainnet: [{ name: 'mav', validator: LatinDomainNameValidator }],
     ghostnet: [
         { name: 'gho', validator: LatinDomainNameValidator },
         { name: 'a1', validator: LatinDomainNameValidator },

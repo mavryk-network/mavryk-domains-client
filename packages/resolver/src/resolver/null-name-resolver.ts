@@ -1,4 +1,4 @@
-import { DomainInfo, ReverseRecordDomainInfo } from '@tezos-domains/core';
+import { DomainInfo, ReverseRecordDomainInfo } from '@mavrykdynamics/mavryk-domains-core';
 
 import { NameResolver } from './name-resolver';
 

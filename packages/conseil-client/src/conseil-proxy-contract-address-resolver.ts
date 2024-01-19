@@ -1,9 +1,9 @@
-import { TezosDomainsProxyContractAddressResolver } from '@tezos-domains/core';
+import { MavrykDomainsProxyContractAddressResolver } from '@mavrykdynamics/mavryk-domains-core';
 import { JSONPath } from 'jsonpath-plus';
 
 import { ConseilClient } from './conseil/client';
 
-export class ConseilTezosDomainsProxyContractAddressResolver implements TezosDomainsProxyContractAddressResolver {
+export class ConseilMavrykDomainsProxyContractAddressResolver implements MavrykDomainsProxyContractAddressResolver {
     constructor(private conseil: ConseilClient) {}
 
     async getAddress(proxyContractAddress: string): Promise<string> {

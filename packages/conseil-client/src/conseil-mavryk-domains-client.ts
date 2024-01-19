@@ -1,23 +1,23 @@
 import {
     AddressBook,
-    TezosDomainsValidator,
+    MavrykDomainsValidator,
     createTracer,
     DomainNameValidator,
     UnsupportedDomainNameValidator,
     ResolverDataProviderAdapter,
-} from '@tezos-domains/core';
-import { NameResolver, NullNameResolver, createResolver } from '@tezos-domains/resolver';
+} from '@mavrykdynamics/mavryk-domains-core';
+import { NameResolver, NullNameResolver, createResolver } from '@mavrykdynamics/mavryk-domains-resolver';
 
-import { ConseilTezosDomainsProxyContractAddressResolver } from './conseil-proxy-contract-address-resolver';
-import { ConseilTezosDomainsDataProvider } from './conseil-data-provider';
-import { ConseilTezosDomainsConfig } from './model';
+import { ConseilMavrykDomainsProxyContractAddressResolver } from './conseil-proxy-contract-address-resolver';
+import { ConseilMavrykDomainsDataProvider } from './conseil-data-provider';
+import { ConseilMavrykDomainsConfig } from './model';
 import { ConseilClient } from './conseil/client';
 
 /**
  * Facade class that surfaces all of the libraries capability and allow it's configuration.
  * Uses conseiljs framework.
  */
-export class ConseilTezosDomainsClient {
+export class ConseilMavrykDomainsClient {
     private _resolver!: NameResolver;
     private _validator!: DomainNameValidator;
     private _supported = true;
@@ -36,45 +36,45 @@ export class ConseilTezosDomainsClient {
         return this._resolver;
     }
 
-    /** Whether this is supported instance of `ConseilTezosDomainsClient` (as opposed to `ConseilTezosDomainsClient.Unsupported`) */
+    /** Whether this is supported instance of `ConseilMavrykDomainsClient` (as opposed to `ConseilMavrykDomainsClient.Unsupported`) */
     get isSupported(): boolean {
         return this._supported;
     }
 
-    constructor(config: ConseilTezosDomainsConfig) {
+    constructor(config: ConseilMavrykDomainsConfig) {
         if (config) {
             this.setConfig(config);
         }
     }
 
-    setConfig(config: ConseilTezosDomainsConfig): void {
+    setConfig(config: ConseilMavrykDomainsConfig): void {
         if (!this._supported) {
             throw new Error('Invalid operation. Unsupported client cannot be modified.');
         }
 
-        this._validator = new TezosDomainsValidator(config);
+        this._validator = new MavrykDomainsValidator(config);
 
         const tracer = createTracer(config);
         const conseil = new ConseilClient(config.conseil, tracer);
-        const proxyContractAddressResolver = new ConseilTezosDomainsProxyContractAddressResolver(conseil);
+        const proxyContractAddressResolver = new ConseilMavrykDomainsProxyContractAddressResolver(conseil);
         const addressBook = new AddressBook(proxyContractAddressResolver, config);
-        const dataProvider = new ConseilTezosDomainsDataProvider(conseil, addressBook, tracer);
+        const dataProvider = new ConseilMavrykDomainsDataProvider(conseil, addressBook, tracer);
 
         this._resolver = createResolver(config, new ResolverDataProviderAdapter(dataProvider, tracer), tracer, this.validator);
     }
 
     /**
      * Gets a singleton instance with method that are stubbed and return null or default value, or throw an exception.
-     * This instance can be used in an app that supports multiple networks where on some of them Tezos Domains are supported
+     * This instance can be used in an app that supports multiple networks where on some of them Mavryk Domains are supported
      * and on other not supported (contracts are not deployed etc.).
      *
      * @example
      * ```
      * function getClient(network: string) {
-     *     if(isTezosDomainsSupportedNetwork(network)) {
-     *          return new ConseilTezosDomainsClient({ network, tezos });
+     *     if(isMavrykDomainsSupportedNetwork(network)) {
+     *          return new ConseilMavrykDomainsClient({ network, tezos });
      *     } else {
-     *          return ConseilTezosDomainsClient.Unsupported;
+     *          return ConseilMavrykDomainsClient.Unsupported;
      *     }
      * }
      *
@@ -84,11 +84,11 @@ export class ConseilTezosDomainsClient {
      *     // ...
      * }
      *
-     * await client.resolver.resolveNameToAddress('alice.tez'); // returns null
+     * await client.resolver.resolveNameToAddress('alice.mav'); // returns null
      * ```
      */
-    static get Unsupported(): ConseilTezosDomainsClient {
-        const client = new ConseilTezosDomainsClient(null as any);
+    static get Unsupported(): ConseilMavrykDomainsClient {
+        const client = new ConseilMavrykDomainsClient(null as any);
         client.setUnsupported();
         return client;
     }

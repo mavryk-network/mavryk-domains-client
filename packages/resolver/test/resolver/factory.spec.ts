@@ -1,10 +1,10 @@
-jest.mock('@tezos-domains/core');
+jest.mock('@mavrykdynamics/mavryk-domains-core');
 jest.mock('../../src/resolver/blockchain-name-resolver');
 jest.mock('../../src/resolver/cached-name-resolver');
 jest.mock('../../src/resolver/name-normalizing-name-resolver');
 
-import { DomainNameValidator, Tracer, TezosDomainsConfig, TezosDomainsResolverDataProvider } from '@tezos-domains/core';
-import { createResolver } from '@tezos-domains/resolver';
+import { DomainNameValidator, Tracer, MavrykDomainsConfig, MavrykDomainsResolverDataProvider } from '@mavrykdynamics/mavryk-domains-core';
+import { createResolver } from '@mavrykdynamics/mavryk-domains-resolver';
 import { mock, instance } from 'ts-mockito';
 
 import { BlockchainNameResolver } from '../../src/resolver/blockchain-name-resolver';
@@ -21,7 +21,7 @@ describe('createResolver()', () => {
     let cachedNameResolverMock: CachedNameResolver;
     let nameNormalizingNameResolver: NameNormalizingNameResolver;
     let domainNameValidatorMock: DomainNameValidator;
-    let dataProviderMock: TezosDomainsResolverDataProvider;
+    let dataProviderMock: MavrykDomainsResolverDataProvider;
 
     beforeEach(() => {
         blockchainNameResolverMock = mock(BlockchainNameResolver);
@@ -47,7 +47,7 @@ describe('createResolver()', () => {
     });
 
     it('should setup with custom config', () => {
-        const config: TezosDomainsConfig = {
+        const config: MavrykDomainsConfig = {
             network: 'ghostnet',
             tracing: true,
             caching: { enabled: true, defaultRecordTtl: 50, defaultReverseRecordTtl: 60 },

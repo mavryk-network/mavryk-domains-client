@@ -10,21 +10,21 @@
     "author": "Necroskillz <necroskillz@gmail.com>",
     "repository": {
         "type": "git",
-        "url": "git+ssh://git@gitlab.com/tezos-domains/client.git"
+        "url": "git+ssh://git@gitlab.com/mavryk-network/mavryk-domains-client.git"
     },
     "bugs": {
-        "url": "https://gitlab.com/tezos-domains/client/issues"
+        "url": "https://gitlab.com/mavryk-network/mavryk-domains-client/issues"
     },
     "devDependencies": {
-        "@taquito/michelson-encoder": "17.0.0",
-        "@taquito/signer": "17.0.0",
-        "@taquito/taquito": "17.0.0",
-        "@taquito/tzip16": "17.0.0",
-        "@taquito/utils": "17.0.0",
-        "@tezos-domains/conseil-client": "^1.26.0",
-        "@tezos-domains/core": "^1.26.0",
-        "@tezos-domains/manager": "^1.26.0",
-        "@tezos-domains/taquito-client": "^1.26.0",
+        "@mavrykdynamics/mavryk-domains-conseil-client": "^1.26.0",
+        "@mavrykdynamics/mavryk-domains-core": "^1.26.0",
+        "@mavrykdynamics/mavryk-domains-manager": "^1.26.0",
+        "@mavrykdynamics/mavryk-domains-taquito-client": "^1.26.0",
+        "@mavrykdynamics/taquito": "17.5.0",
+        "@mavrykdynamics/taquito-michelson-encoder": "17.5.0",
+        "@mavrykdynamics/taquito-signer": "17.5.0",
+        "@mavrykdynamics/taquito-tzip16": "17.5.0",
+        "@mavrykdynamics/taquito-utils": "17.5.0",
         "@types/fs-extra": "^9.0.2",
         "@types/loglevel": "^1.6.3",
         "@types/minimist": "^1.2.0",

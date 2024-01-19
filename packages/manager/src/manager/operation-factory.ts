@@ -1,4 +1,4 @@
-import { WalletTransferParams } from '@taquito/taquito';
+import { WalletTransferParams } from '@mavrykdynamics/taquito';
 import {
     AdditionalOperationParams,
     AddressBook,
@@ -8,8 +8,8 @@ import {
     RpcRequestData,
     SmartContractType,
     Tracer,
-} from '@tezos-domains/core';
-import { TaquitoClient } from '@tezos-domains/taquito';
+} from '@mavrykdynamics/mavryk-domains-core';
+import { TaquitoClient } from '@mavrykdynamics/mavryk-domains-taquito';
 import { CommitmentGenerator } from './commitment-generator';
 import { TaquitoManagerDataProvider } from './data-provider';
 import {
@@ -28,7 +28,7 @@ import {
     UpdateReverseRecordRequest,
 } from './model';
 
-export interface TezosDomainsOperationFactory<TOperationParams> {
+export interface MavrykDomainsOperationFactory<TOperationParams> {
     setChildRecord(request: Exact<SetChildRecordRequest>, operationParams?: AdditionalOperationParams): Promise<TOperationParams>;
     updateRecord(request: Exact<UpdateRecordRequest>, operationParams?: AdditionalOperationParams): Promise<TOperationParams>;
     commit(tld: string, request: Exact<CommitmentRequest>, operationParams?: AdditionalOperationParams): Promise<TOperationParams>;
@@ -43,7 +43,7 @@ export interface TezosDomainsOperationFactory<TOperationParams> {
     claim(signature: string, request: Exact<ClaimRequest>, operationParams?: AdditionalOperationParams): Promise<TOperationParams>;
 }
 
-export class TaquitoTezosDomainsOperationFactory implements TezosDomainsOperationFactory<WalletTransferParams> {
+export class TaquitoMavrykDomainsOperationFactory implements MavrykDomainsOperationFactory<WalletTransferParams> {
     constructor(
         private tezos: TaquitoClient,
         private addressBook: AddressBook,

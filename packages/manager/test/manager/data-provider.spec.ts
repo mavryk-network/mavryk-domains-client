@@ -1,5 +1,5 @@
-import { ConstantsResponse } from '@taquito/rpc';
-import { MichelsonMap, TransactionWalletOperation } from '@taquito/taquito';
+import { ConstantsResponse } from '@mavrykdynamics/taquito-rpc';
+import { MichelsonMap, TransactionWalletOperation } from '@mavrykdynamics/taquito';
 import {
     AddressBook,
     BytesEncoder,
@@ -9,11 +9,11 @@ import {
     RpcRequestScalarData,
     RpcResponseData,
     SmartContractType,
-    TezosDomainsDataProvider,
+    MavrykDomainsDataProvider,
     Tracer
-} from '@tezos-domains/core';
-import { CommitmentGenerator, CommitmentRequest, DomainAcquisitionState, TaquitoManagerDataProvider } from '@tezos-domains/manager';
-import { TaquitoClient } from '@tezos-domains/taquito';
+} from '@mavrykdynamics/mavryk-domains-core';
+import { CommitmentGenerator, CommitmentRequest, DomainAcquisitionState, TaquitoManagerDataProvider } from '@mavrykdynamics/mavryk-domains-manager';
+import { TaquitoClient } from '@mavrykdynamics/mavryk-domains-taquito';
 import BigNumber from 'bignumber.js';
 import MockDate from 'mockdate';
 import { anyFunction, anyString, anything, deepEqual, instance, mock, when } from 'ts-mockito';
@@ -47,7 +47,7 @@ describe('TaquitoManagerDataProvider', () => {
     let tracerMock: Tracer;
     let commitmentGeneratorMock: CommitmentGenerator;
     let validatorMock: DomainNameValidator;
-    let tezosDomainsDataProviderMock: TezosDomainsDataProvider;
+    let mavrykDomainsDataProviderMock: MavrykDomainsDataProvider;
     let operation: TransactionWalletOperation;
     let config: MichelsonMap<string, any>;
 
@@ -62,7 +62,7 @@ describe('TaquitoManagerDataProvider', () => {
         tracerMock = mock<Tracer>();
         commitmentGeneratorMock = mock(CommitmentGenerator);
         validatorMock = mock<DomainNameValidator>();
-        tezosDomainsDataProviderMock = mock<TezosDomainsDataProvider>();
+        mavrykDomainsDataProviderMock = mock<MavrykDomainsDataProvider>();
         operation = mock(TransactionWalletOperation);
 
         config = new MichelsonMap<string, any>();
@@ -100,23 +100,23 @@ describe('TaquitoManagerDataProvider', () => {
         storage.store.auctions[e('settlement-expired')] = {
             ends_at: new Date(2020, 1, 1, 0, 0, 0),
             last_bid: new BigNumber(1e7) as any,
-            last_bidder: 'tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix',
+            last_bidder: 'mv1PZMMCSSwAgDy5cgNTBMtanUn6QB9wrvqm',
             ownership_period: new BigNumber(365) as any,
         };
 
         storage.store.auctions[e('auction')] = {
             ends_at: new Date(2020, 7, 3, 0, 0, 0),
             last_bid: new BigNumber(1e7) as any,
-            last_bidder: 'tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix',
+            last_bidder: 'mv1PZMMCSSwAgDy5cgNTBMtanUn6QB9wrvqm',
             ownership_period: new BigNumber(20) as any,
         };
 
-        storage.store.bidder_balances['tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix'] = new BigNumber(2e6);
+        storage.store.bidder_balances['mv1PZMMCSSwAgDy5cgNTBMtanUn6QB9wrvqm'] = new BigNumber(2e6);
 
         when(tracerMock.trace(anything(), anything(), anything()));
 
         const validationFunction = (name: string) => {
-            if (name === 'invalid.tez') {
+            if (name === 'invalid.mav') {
                 return DomainNameValidationResult.INVALID_NAME;
             }
 
@@ -124,7 +124,7 @@ describe('TaquitoManagerDataProvider', () => {
         };
         when(validatorMock.isValidWithKnownTld(anyString())).thenCall(validationFunction);
         when(validatorMock.validateDomainName(anyString())).thenCall(validationFunction);
-        when(validatorMock.supportedTLDs).thenReturn(['tez']);
+        when(validatorMock.supportedTLDs).thenReturn(['mav']);
 
         when(addressBookMock.lookup(anything())).thenCall(type => Promise.resolve(`${type}addr`));
         when(addressBookMock.lookup(anything(), anything())).thenCall((type, p1) => Promise.resolve(`${type}addr${p1 || ''}`));
@@ -141,7 +141,7 @@ describe('TaquitoManagerDataProvider', () => {
 
         when(operation.opHash).thenReturn('op_hash');
 
-        when(tezosDomainsDataProviderMock.getDomainRecord('alice.tez')).thenResolve({ tzip12_token_id: 1 } as any);
+        when(mavrykDomainsDataProviderMock.getDomainRecord('alice.mav')).thenResolve({ tzip12_token_id: 1 } as any);
 
         MockDate.set(now);
 
@@ -151,7 +151,7 @@ describe('TaquitoManagerDataProvider', () => {
             instance(tracerMock),
             instance(commitmentGeneratorMock),
             instance(validatorMock),
-            instance(tezosDomainsDataProviderMock)
+            instance(mavrykDomainsDataProviderMock)
         );
     });
 
@@ -161,11 +161,11 @@ describe('TaquitoManagerDataProvider', () => {
 
     describe('getCommitment()', () => {
         it('should get existing commitment from storage and return info', async () => {
-            const params: Exact<CommitmentRequest> = { label: 'necroskillz', owner: 'tz1xxx', nonce: 1 };
+            const params: Exact<CommitmentRequest> = { label: 'necroskillz', owner: 'mv1xxx', nonce: 1 };
 
             when(commitmentGeneratorMock.generate(deepEqual(params))).thenReturn('commitment');
 
-            const commitment = await dataProvider.getCommitment('tez', params);
+            const commitment = await dataProvider.getCommitment('mav', params);
 
             expect(commitment!.created.toISOString()).toBe('2020-10-01T10:00:00.000Z');
             expect(commitment!.usableFrom.toISOString()).toBe('2020-10-01T10:00:45.000Z');
@@ -173,37 +173,37 @@ describe('TaquitoManagerDataProvider', () => {
         });
 
         it('should return null if no commitment is found', async () => {
-            const params: Exact<CommitmentRequest> = { label: 'necroskillz', owner: 'tz1xxx', nonce: 1 };
+            const params: Exact<CommitmentRequest> = { label: 'necroskillz', owner: 'mv1xxx', nonce: 1 };
 
             when(commitmentGeneratorMock.generate(deepEqual(params))).thenReturn('commitment1');
 
-            const commitment = await dataProvider.getCommitment('tez', params);
+            const commitment = await dataProvider.getCommitment('mav', params);
 
             expect(commitment).toBeNull();
         });
 
         it('should not set usableFrom before created', async () => {
             constants.minimal_block_delay = new BigNumber('90');
-            const params: Exact<CommitmentRequest> = { label: 'necroskillz', owner: 'tz1xxx', nonce: 1 };
+            const params: Exact<CommitmentRequest> = { label: 'necroskillz', owner: 'mv1xxx', nonce: 1 };
 
             when(commitmentGeneratorMock.generate(deepEqual(params))).thenReturn('commitment');
 
-            const commitment = await dataProvider.getCommitment('tez', params);
+            const commitment = await dataProvider.getCommitment('mav', params);
 
             expect(commitment!.created.toISOString()).toBe('2020-10-01T10:00:00.000Z');
             expect(commitment!.usableFrom.toISOString()).toBe('2020-10-01T10:00:00.000Z');
         });
 
         it('should throw if domain name is invalid', async () => {
-            await expect(() => dataProvider.getCommitment('tez', { label: 'invalid', owner: 'tz1xxx', nonce: 1 })).rejects.toThrowError(
-                "'invalid.tez' is not a valid domain name."
+            await expect(() => dataProvider.getCommitment('mav', { label: 'invalid', owner: 'mv1xxx', nonce: 1 })).rejects.toThrowError(
+                "'invalid.mav' is not a valid domain name."
             );
         });
     });
 
     describe('getAcquisitionInfo()', () => {
         it('should get info about a new domain that can be bought', async () => {
-            const info = await dataProvider.getAcquisitionInfo('alice.tez');
+            const info = await dataProvider.getAcquisitionInfo('alice.mav');
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeBought);
             expect(info.buyOrRenewDetails.minDuration).toBe(5);
@@ -214,7 +214,7 @@ describe('TaquitoManagerDataProvider', () => {
         });
 
         it('should get info about a new expensive domain that can be bought (4 letter)', async () => {
-            const info = await dataProvider.getAcquisitionInfo('alic.tez');
+            const info = await dataProvider.getAcquisitionInfo('alic.mav');
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeBought);
             expect(info.buyOrRenewDetails.minDuration).toBe(5);
@@ -225,7 +225,7 @@ describe('TaquitoManagerDataProvider', () => {
         });
 
         it('should get info about an expired domain that can be bought', async () => {
-            const info = await dataProvider.getAcquisitionInfo('expired.tez');
+            const info = await dataProvider.getAcquisitionInfo('expired.mav');
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeBought);
             expect(info.buyOrRenewDetails.minDuration).toBe(5);
@@ -236,7 +236,7 @@ describe('TaquitoManagerDataProvider', () => {
         });
 
         it('should get info about a domain that is already owned', async () => {
-            const info = await dataProvider.getAcquisitionInfo('necroskillz.tez');
+            const info = await dataProvider.getAcquisitionInfo('necroskillz.mav');
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.Taken);
             expect(info.buyOrRenewDetails.minDuration).toBe(5);
@@ -249,7 +249,7 @@ describe('TaquitoManagerDataProvider', () => {
         it('should return unobtainable if tld is not launched yet', async () => {
             MockDate.set(new Date(2020, 5, 30, 0, 0, 0));
 
-            const info = await dataProvider.getAcquisitionInfo('alice.tez');
+            const info = await dataProvider.getAcquisitionInfo('alice.mav');
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.Unobtainable);
             expect(info.unobtainableDetails.launchDate!.toISOString()).toBe(
@@ -263,7 +263,7 @@ describe('TaquitoManagerDataProvider', () => {
         it('should return info about domain even if tld is not launched yet', async () => {
             config.set(TLDConfigProperty.DEFAULT_LAUNCH_DATE, 0);
 
-            const info = await dataProvider.getAcquisitionInfo('necroskillz.tez');
+            const info = await dataProvider.getAcquisitionInfo('necroskillz.mav');
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.Taken);
             expect(info.buyOrRenewDetails.minDuration).toBe(5);
@@ -276,7 +276,7 @@ describe('TaquitoManagerDataProvider', () => {
         it('should return info about auction if within auction period', async () => {
             MockDate.set(new Date(2020, 6, 2, 0, 0, 0));
 
-            const info = await dataProvider.getAcquisitionInfo('alice.tez');
+            const info = await dataProvider.getAcquisitionInfo('alice.mav');
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeAuctioned);
             expect(info.auctionDetails.auctionEnd.toISOString()).toBe(
@@ -295,7 +295,7 @@ describe('TaquitoManagerDataProvider', () => {
         it('should return info about auction if within auction period after domain expiration', async () => {
             MockDate.set(new Date(2021, 0, 5, 0, 0, 0));
 
-            const info = await dataProvider.getAcquisitionInfo('necroskillz.tez');
+            const info = await dataProvider.getAcquisitionInfo('necroskillz.mav');
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeAuctioned);
             expect(info.auctionDetails.auctionEnd.toISOString()).toBe(new Date(new Date(2021, 0, 31, 0, 0, 0).getTime()).toISOString());
@@ -312,7 +312,7 @@ describe('TaquitoManagerDataProvider', () => {
         it('should get info about an expired domain that can be bought after domain expiration and once auction period has passed', async () => {
             MockDate.set(new Date(2021, 1, 5, 0, 0, 0));
 
-            const info = await dataProvider.getAcquisitionInfo('necroskillz.tez');
+            const info = await dataProvider.getAcquisitionInfo('necroskillz.mav');
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeBought);
             expect(info.buyOrRenewDetails.minDuration).toBe(5);
@@ -325,7 +325,7 @@ describe('TaquitoManagerDataProvider', () => {
         it('should get info about an auction if domain expired after an unsettled auction', async () => {
             MockDate.set(new Date(2022, 1, 6, 0, 0, 0));
 
-            const info = await dataProvider.getAcquisitionInfo('settlement-expired.tez');
+            const info = await dataProvider.getAcquisitionInfo('settlement-expired.mav');
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeAuctioned);
 
@@ -344,7 +344,7 @@ describe('TaquitoManagerDataProvider', () => {
         it('should return unobtainable if launch date for particular label length is not launched yet', async () => {
             MockDate.set(new Date(2020, 6, 2, 0, 0, 0));
 
-            const info = await dataProvider.getAcquisitionInfo('a.tez');
+            const info = await dataProvider.getAcquisitionInfo('a.mav');
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.Unobtainable);
             expect(info.unobtainableDetails.launchDate!.toISOString()).toBe(
@@ -358,7 +358,7 @@ describe('TaquitoManagerDataProvider', () => {
         it('should return info about auction if within auction period for particular label length, even if default hasnt started', async () => {
             MockDate.set(new Date(2020, 5, 26, 0, 0, 0));
 
-            const info = await dataProvider.getAcquisitionInfo('aa.tez');
+            const info = await dataProvider.getAcquisitionInfo('aa.mav');
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeAuctioned);
         });
@@ -366,7 +366,7 @@ describe('TaquitoManagerDataProvider', () => {
         it('should return unobtainable if launch date is 0', async () => {
             MockDate.set(new Date(2020, 6, 2, 0, 0, 0));
 
-            const info = await dataProvider.getAcquisitionInfo('aaa.tez');
+            const info = await dataProvider.getAcquisitionInfo('aaa.mav');
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.Unobtainable);
             expect(info.unobtainableDetails.launchDate).toBeNull();
@@ -378,12 +378,12 @@ describe('TaquitoManagerDataProvider', () => {
         it('should return info about auction in progress', async () => {
             MockDate.set(new Date(2020, 6, 2, 0, 0, 0));
 
-            const info = await dataProvider.getAcquisitionInfo('auction.tez');
+            const info = await dataProvider.getAcquisitionInfo('auction.mav');
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.AuctionInProgress);
             expect(info.auctionDetails.auctionEnd.toISOString()).toBe(new Date(2020, 7, 3, 0, 0, 0).toISOString());
             expect(info.auctionDetails.lastBid).toBe(1e7);
-            expect(info.auctionDetails.lastBidder).toBe('tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix');
+            expect(info.auctionDetails.lastBidder).toBe('mv1PZMMCSSwAgDy5cgNTBMtanUn6QB9wrvqm');
             expect(info.auctionDetails.nextMinimumBid).toBe(1.2e7);
             expect(info.auctionDetails.registrationDuration).toBe(5);
             expect(info.auctionDetails.bidAdditionalPeriod).toBe(24 * 60 * 60 * 1000);
@@ -395,7 +395,7 @@ describe('TaquitoManagerDataProvider', () => {
         it('should return info about auction with expired settlement that can be auctioned again', async () => {
             MockDate.set(new Date(2020, 8, 4, 0, 0, 0));
 
-            const info = await dataProvider.getAcquisitionInfo('auction.tez');
+            const info = await dataProvider.getAcquisitionInfo('auction.mav');
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeAuctioned);
             expect(info.auctionDetails.auctionEnd.toISOString()).toBe(new Date(2020, 8, 22).toISOString());
@@ -412,7 +412,7 @@ describe('TaquitoManagerDataProvider', () => {
         it('should return info about auction with expired settlement and expired next auction that can be bought', async () => {
             MockDate.set(new Date(2020, 8, 22, 0, 0, 0));
 
-            const info = await dataProvider.getAcquisitionInfo('auction.tez');
+            const info = await dataProvider.getAcquisitionInfo('auction.mav');
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeBought);
             expect(info.buyOrRenewDetails.minDuration).toBe(5);
@@ -425,12 +425,12 @@ describe('TaquitoManagerDataProvider', () => {
         it('should return info about auction that can be settled', async () => {
             MockDate.set(new Date(2020, 7, 4, 0, 0, 0));
 
-            const info = await dataProvider.getAcquisitionInfo('auction.tez');
+            const info = await dataProvider.getAcquisitionInfo('auction.mav');
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.CanBeSettled);
             expect(info.auctionDetails.auctionEnd.toISOString()).toBe(new Date(2020, 7, 3, 0, 0, 0).toISOString());
             expect(info.auctionDetails.lastBid).toBe(1e7);
-            expect(info.auctionDetails.lastBidder).toBe('tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix');
+            expect(info.auctionDetails.lastBidder).toBe('mv1PZMMCSSwAgDy5cgNTBMtanUn6QB9wrvqm');
             expect(info.auctionDetails.nextMinimumBid).toBe(NaN);
             expect(info.auctionDetails.registrationDuration).toBe(5);
             expect(info.auctionDetails.bidAdditionalPeriod).toBe(24 * 60 * 60 * 1000);
@@ -446,12 +446,12 @@ describe('TaquitoManagerDataProvider', () => {
         });
 
         it('should throw if domain name is invalid', async () => {
-            await expect(() => dataProvider.getAcquisitionInfo('invalid.tez')).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
+            await expect(() => dataProvider.getAcquisitionInfo('invalid.mav')).rejects.toThrowError("'invalid.mav' is not a valid domain name.");
         });
 
         it('should throw if domain name not 2nd level', async () => {
-            await expect(() => dataProvider.getAcquisitionInfo('bob.alice.tez')).rejects.toThrowError(
-                "Domain 'bob.alice.tez' cannot be acquired. Only 2nd level domains (e.g. 'alice.tez') can be acquired."
+            await expect(() => dataProvider.getAcquisitionInfo('bob.alice.mav')).rejects.toThrowError(
+                "Domain 'bob.alice.mav' cannot be acquired. Only 2nd level domains (e.g. 'alice.mav') can be acquired."
             );
         });
 
@@ -465,7 +465,7 @@ describe('TaquitoManagerDataProvider', () => {
                 MockDate.set(new Date(2020, 6, 2, 0, 0, 0));
                 storage.store.auctions[e('auction')].last_bid = new BigNumber(d.lastBid) as any;
 
-                const info = await dataProvider.getAcquisitionInfo('auction.tez');
+                const info = await dataProvider.getAcquisitionInfo('auction.mav');
 
                 expect(info.auctionDetails.nextMinimumBid).toBe(d.nextBid);
             });
@@ -474,19 +474,19 @@ describe('TaquitoManagerDataProvider', () => {
 
     describe('getBidderBalance()', () => {
         it('should get balance for existing bidder', async () => {
-            const balance = await dataProvider.getBidderBalance('tez', 'tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix');
+            const balance = await dataProvider.getBidderBalance('mav', 'mv1PZMMCSSwAgDy5cgNTBMtanUn6QB9wrvqm');
 
             expect(balance).toBe(2e6);
         });
 
         it('should return 0 for unknown bidder', async () => {
-            const balance = await dataProvider.getBidderBalance('tez', 'tz1VBLpuDKMoJuHRLZ4HrCgRuiLpEr7zZx2E');
+            const balance = await dataProvider.getBidderBalance('mav', 'mv1NoYoaaCHVxJWsFN7HCujx1i6BmA6a8Fay');
 
             expect(balance).toBe(0);
         });
 
         it('should throw if tld is not supported', async () => {
-            await expect(() => dataProvider.getBidderBalance('ble', 'tz1VBLpuDKMoJuHRLZ4HrCgRuiLpEr7zZx2E')).rejects.toThrowError(
+            await expect(() => dataProvider.getBidderBalance('ble', 'mv1NoYoaaCHVxJWsFN7HCujx1i6BmA6a8Fay')).rejects.toThrowError(
                 "TLD 'ble' is not supported."
             );
         });
@@ -494,43 +494,43 @@ describe('TaquitoManagerDataProvider', () => {
 
     describe('getTokenId()', () => {
         it('should return tokenId for a domain', async () => {
-            const tokenId = await dataProvider.getTokenId('alice.tez');
+            const tokenId = await dataProvider.getTokenId('alice.mav');
 
             expect(tokenId).toBe(1);
         });
 
         it('should return null for non existent domain', async () => {
-            const tokenId = await dataProvider.getTokenId('bob.tez');
+            const tokenId = await dataProvider.getTokenId('bob.mav');
 
             expect(tokenId).toBeNull();
         });
 
         it('should throw if domain name is invalid', async () => {
-            await expect(() => dataProvider.getTokenId('invalid.tez')).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
+            await expect(() => dataProvider.getTokenId('invalid.mav')).rejects.toThrowError("'invalid.mav' is not a valid domain name.");
         });
 
         it('should throw if domain name not 2nd level', async () => {
-            await expect(() => dataProvider.getTokenId('bob.alice.tez')).rejects.toThrowError(
-                "Domain 'bob.alice.tez' does not have a tokenId. Only 2nd level domains (e.g. 'alice.tez') are NFTs."
+            await expect(() => dataProvider.getTokenId('bob.alice.mav')).rejects.toThrowError(
+                "Domain 'bob.alice.mav' does not have a tokenId. Only 2nd level domains (e.g. 'alice.mav') are NFTs."
             );
         });
     });
 
     describe('getDomainRecord()', () => {
         it('should return tokenId for a domain', async () => {
-            const domain = await dataProvider.getDomainRecord('alice.tez');
+            const domain = await dataProvider.getDomainRecord('alice.mav');
 
             expect(domain).toEqual({ tzip12_token_id: 1 });
         });
 
         it('should return null for non existent domain', async () => {
-            const tokenId = await dataProvider.getDomainRecord('bob.tez');
+            const tokenId = await dataProvider.getDomainRecord('bob.mav');
 
             expect(tokenId).toBeNull();
         });
 
         it('should throw if domain name is invalid', async () => {
-            await expect(() => dataProvider.getTokenId('invalid.tez')).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
+            await expect(() => dataProvider.getTokenId('invalid.mav')).rejects.toThrowError("'invalid.mav' is not a valid domain name.");
         });
     });
 });

@@ -1,4 +1,4 @@
-import { createTracer, Tracer } from '@tezos-domains/core';
+import { createTracer, Tracer } from '@mavrykdynamics/mavryk-domains-core';
 import MockDate from 'mockdate';
 
 describe('Tracer', () => {
@@ -23,7 +23,7 @@ describe('Tracer', () => {
         it('should log to console', () => {
             tracer.trace('some msg', 'arg1', 'arg2');
 
-            expect(consoleSpy).toHaveBeenCalledWith('[2020-10-11T20:10:35.000Z] TezosDomains', 'some msg', 'arg1', 'arg2');
+            expect(consoleSpy).toHaveBeenCalledWith('[2020-10-11T20:10:35.000Z] MavrykDomains', 'some msg', 'arg1', 'arg2');
         });
     });
 });

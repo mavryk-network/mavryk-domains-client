@@ -1,5 +1,5 @@
 import {
-    TezosDomainsResolverDataProvider,
+    MavrykDomainsResolverDataProvider,
     AddressBook,
     Tracer,
     DomainInfo,
@@ -7,12 +7,12 @@ import {
     RpcRequestData,
     BytesEncoder,
     ReverseRecordDomainInfo,
-} from '@tezos-domains/core';
-import { TaquitoClient } from '@tezos-domains/taquito';
+} from '@mavrykdynamics/mavryk-domains-core';
+import { TaquitoClient } from '@mavrykdynamics/mavryk-domains-taquito';
 
 import { TaquitoDomainInfoResponse } from './model';
 
-export class TaquitoTezosDomainsResolverDataProvider implements TezosDomainsResolverDataProvider {
+export class TaquitoMavrykDomainsResolverDataProvider implements MavrykDomainsResolverDataProvider {
     constructor(private tezos: TaquitoClient, private addressBook: AddressBook, private tracer: Tracer) {}
 
     async resolveDomainInfo(name: string): Promise<DomainInfo | null> {

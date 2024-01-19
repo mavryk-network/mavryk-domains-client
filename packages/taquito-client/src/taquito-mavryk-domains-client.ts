@@ -1,27 +1,27 @@
-import { TezosDomainsConfig, AddressBook, TezosDomainsValidator, createTracer, DomainNameValidator, UnsupportedDomainNameValidator } from '@tezos-domains/core';
-import { TezosToolkit } from '@taquito/taquito';
-import { NameResolver, NullNameResolver, createResolver } from '@tezos-domains/resolver';
+import { MavrykDomainsConfig, AddressBook, MavrykDomainsValidator, createTracer, DomainNameValidator, UnsupportedDomainNameValidator } from '@mavrykdynamics/mavryk-domains-core';
+import { TezosToolkit } from '@mavrykdynamics/taquito';
+import { NameResolver, NullNameResolver, createResolver } from '@mavrykdynamics/mavryk-domains-resolver';
 import {
     DomainsManager,
     CommitmentGenerator,
     BlockchainDomainsManager,
     UnsupportedDomainsManager,
     TaquitoManagerDataProvider,
-    TaquitoTezosDomainsOperationFactory,
-} from '@tezos-domains/manager';
-import { TaquitoClient } from '@tezos-domains/taquito';
+    TaquitoMavrykDomainsOperationFactory,
+} from '@mavrykdynamics/mavryk-domains-manager';
+import { TaquitoClient } from '@mavrykdynamics/mavryk-domains-taquito';
 
-import { TaquitoTezosDomainsProxyContractAddressResolver } from './taquito-proxy-contract-address-resolver';
-import { TaquitoTezosDomainsResolverDataProvider } from './taquito-resolver-data-provider';
-import { TaquitoTezosDomainsDataProvider } from './taquito-data-provider';
+import { TaquitoMavrykDomainsProxyContractAddressResolver } from './taquito-proxy-contract-address-resolver';
+import { TaquitoMavrykDomainsResolverDataProvider } from './taquito-resolver-data-provider';
+import { TaquitoMavrykDomainsDataProvider } from './taquito-data-provider';
 
-export type TaquitoTezosDomainsConfig = TezosDomainsConfig & { tezos: TezosToolkit };
+export type TaquitoMavrykDomainsConfig = MavrykDomainsConfig & { tezos: TezosToolkit };
 
 /**
  * Facade class that surfaces all of the libraries capability and allow it's configuration.
  * Uses taquito framework.
  */
-export class TaquitoTezosDomainsClient {
+export class TaquitoMavrykDomainsClient {
     private _manager!: DomainsManager;
     private _resolver!: NameResolver;
     private _validator!: DomainNameValidator;
@@ -48,33 +48,33 @@ export class TaquitoTezosDomainsClient {
         return this._resolver;
     }
 
-    /** Whether this is supported instance of `TaquitoTezosDomainsClient` (as opposed to `TaquitoTezosDomainsClient.Unsupported`) */
+    /** Whether this is supported instance of `TaquitoMavrykDomainsClient` (as opposed to `TaquitoMavrykDomainsClient.Unsupported`) */
     get isSupported(): boolean {
         return this._supported;
     }
 
-    constructor(config: TaquitoTezosDomainsConfig) {
+    constructor(config: TaquitoMavrykDomainsConfig) {
         if (config) {
             this.setConfig(config);
         }
     }
 
-    setConfig(config: TaquitoTezosDomainsConfig): void {
+    setConfig(config: TaquitoMavrykDomainsConfig): void {
         if (!this._supported) {
             throw new Error('Invalid operation. Unsupported client cannot be modified.');
         }
 
-        this._validator = new TezosDomainsValidator(config);
+        this._validator = new MavrykDomainsValidator(config);
 
         const tracer = createTracer(config);
         const tezos = new TaquitoClient(config.tezos, tracer);
-        const proxyContractAddressResolver = new TaquitoTezosDomainsProxyContractAddressResolver(tezos);
+        const proxyContractAddressResolver = new TaquitoMavrykDomainsProxyContractAddressResolver(tezos);
         const addressBook = new AddressBook(proxyContractAddressResolver, config);
-        const dataProvider = new TaquitoTezosDomainsResolverDataProvider(tezos, addressBook, tracer);
+        const dataProvider = new TaquitoMavrykDomainsResolverDataProvider(tezos, addressBook, tracer);
         const commitmentGenerator = new CommitmentGenerator();
-        const bigMapDataProvider = new TaquitoTezosDomainsDataProvider(tezos, addressBook, tracer);
+        const bigMapDataProvider = new TaquitoMavrykDomainsDataProvider(tezos, addressBook, tracer);
         const managerDataProvider = new TaquitoManagerDataProvider(tezos, addressBook, tracer, commitmentGenerator, this.validator, bigMapDataProvider);
-        const operationFactory = new TaquitoTezosDomainsOperationFactory(tezos, addressBook, tracer, commitmentGenerator, managerDataProvider, this.validator);
+        const operationFactory = new TaquitoMavrykDomainsOperationFactory(tezos, addressBook, tracer, commitmentGenerator, managerDataProvider, this.validator);
 
         this._manager = new BlockchainDomainsManager(tezos, tracer, operationFactory, managerDataProvider);
         this._resolver = createResolver(config, dataProvider, tracer, this.validator);
@@ -82,30 +82,30 @@ export class TaquitoTezosDomainsClient {
 
     /**
      * Gets a singleton instance with method that are stubbed and return null or default value, or throw an exception.
-     * This instance can be used in an app that supports multiple networks where on some of them Tezos Domains are supported
+     * This instance can be used in an app that supports multiple networks where on some of them Mavryk Domains are supported
      * and on other not supported (contracts are not deployed etc.).
      *
      * @example
      * ```
      * function getClient(network: string) {
-     *     if(isTezosDomainsSupportedNetwork(network)) {
-     *          return new TaquitoTezosDomainsClient({ network, tezos });
+     *     if(isMavrykDomainsSupportedNetwork(network)) {
+     *          return new TaquitoMavrykDomainsClient({ network, tezos });
      *     } else {
-     *          return TaquitoTezosDomainsClient.Unsupported;
+     *          return TaquitoMavrykDomainsClient.Unsupported;
      *     }
      * }
      *
      * const client = getClient('unsupportednetwork');
      *
      * if (client.isSupported) { // not executed
-     *     console.log(await client.manager.getAcquisitionInfo('alice.tez'));
+     *     console.log(await client.manager.getAcquisitionInfo('alice.mav'));
      * }
      *
-     * await client.resolver.resolveNameToAddress('alice.tez'); // returns null
+     * await client.resolver.resolveNameToAddress('alice.mav'); // returns null
      * ```
      */
-    static get Unsupported(): TaquitoTezosDomainsClient {
-        const client = new TaquitoTezosDomainsClient(null as any);
+    static get Unsupported(): TaquitoMavrykDomainsClient {
+        const client = new TaquitoMavrykDomainsClient(null as any);
         client.setUnsupported();
         return client;
     }

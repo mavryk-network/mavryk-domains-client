@@ -1,21 +1,21 @@
-import { isTezosDomainsSupportedNetwork } from '@tezos-domains/core';
+import { isMavrykDomainsSupportedNetwork } from '@mavrykdynamics/mavryk-domains-core';
 
-describe('isTezosDomainsSupportedNetwork()', () => {
+describe('isMavrykDomainsSupportedNetwork()', () => {
     it('should indicate if network is currently supported', () => {
-        expect(isTezosDomainsSupportedNetwork('mainnet')).toBe(true);
-        expect(isTezosDomainsSupportedNetwork('carthagenet')).toBe(false);
-        expect(isTezosDomainsSupportedNetwork('delphinet')).toBe(false);
-        expect(isTezosDomainsSupportedNetwork('edonet')).toBe(false);
-        expect(isTezosDomainsSupportedNetwork('florencenet')).toBe(false);
-        expect(isTezosDomainsSupportedNetwork('granadanet')).toBe(false);
-        expect(isTezosDomainsSupportedNetwork('hangzhounet')).toBe(false);
-        expect(isTezosDomainsSupportedNetwork('ithacanet')).toBe(false);
-        expect(isTezosDomainsSupportedNetwork('ghostnet')).toBe(true);
-        expect(isTezosDomainsSupportedNetwork('kathmandunet')).toBe(false);
-        expect(isTezosDomainsSupportedNetwork('limanet')).toBe(false);
-        expect(isTezosDomainsSupportedNetwork('jakartanet')).toBe(false);
-        expect(isTezosDomainsSupportedNetwork('custom')).toBe(false);
-        expect(isTezosDomainsSupportedNetwork('gibberish')).toBe(false);
-        expect(isTezosDomainsSupportedNetwork('')).toBe(false);
+        expect(isMavrykDomainsSupportedNetwork('mainnet')).toBe(true);
+        expect(isMavrykDomainsSupportedNetwork('carthagenet')).toBe(false);
+        expect(isMavrykDomainsSupportedNetwork('delphinet')).toBe(false);
+        expect(isMavrykDomainsSupportedNetwork('edonet')).toBe(false);
+        expect(isMavrykDomainsSupportedNetwork('florencenet')).toBe(false);
+        expect(isMavrykDomainsSupportedNetwork('granadanet')).toBe(false);
+        expect(isMavrykDomainsSupportedNetwork('hangzhounet')).toBe(false);
+        expect(isMavrykDomainsSupportedNetwork('ithacanet')).toBe(false);
+        expect(isMavrykDomainsSupportedNetwork('ghostnet')).toBe(true);
+        expect(isMavrykDomainsSupportedNetwork('kathmandunet')).toBe(false);
+        expect(isMavrykDomainsSupportedNetwork('limanet')).toBe(false);
+        expect(isMavrykDomainsSupportedNetwork('jakartanet')).toBe(false);
+        expect(isMavrykDomainsSupportedNetwork('custom')).toBe(false);
+        expect(isMavrykDomainsSupportedNetwork('gibberish')).toBe(false);
+        expect(isMavrykDomainsSupportedNetwork('')).toBe(false);
     });
 });

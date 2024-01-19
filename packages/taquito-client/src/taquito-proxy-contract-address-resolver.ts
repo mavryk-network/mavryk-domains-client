@@ -1,7 +1,7 @@
-import { TezosDomainsProxyContractAddressResolver } from '@tezos-domains/core';
-import { ProxyStorage, TaquitoClient } from '@tezos-domains/taquito';
+import { MavrykDomainsProxyContractAddressResolver } from '@mavrykdynamics/mavryk-domains-core';
+import { ProxyStorage, TaquitoClient } from '@mavrykdynamics/mavryk-domains-taquito';
 
-export class TaquitoTezosDomainsProxyContractAddressResolver implements TezosDomainsProxyContractAddressResolver {
+export class TaquitoMavrykDomainsProxyContractAddressResolver implements MavrykDomainsProxyContractAddressResolver {
     constructor(private tezos: TaquitoClient) {}
 
     async getAddress(proxyContractAddress: string): Promise<string> {

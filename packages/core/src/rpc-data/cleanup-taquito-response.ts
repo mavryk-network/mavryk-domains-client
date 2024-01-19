@@ -3,7 +3,7 @@ import isPlainObject from 'lodash.isplainobject';
 /**
  * Transforms responses like:
  *
- * {Some: {address:{Some: 'tz1...'}}} => {address: 'tz1...'}
+ * {Some: {address:{Some: 'mv1...'}}} => {address: 'mv1...'}
  *
  * Avoids any class like object in order to avoid chainging BigNumber, MichelsonMap, etc...
  *

@@ -35,7 +35,7 @@ test:core:
     image: node:${NODE_VERSION}
     allow_failure: false
     script:
-        - yarn workspace @tezos-domains/core test
+        - yarn workspace @mavrykdynamics/mavryk-domains-core test
     coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
     artifacts:
         paths:
@@ -51,7 +51,7 @@ test:resolver:
     image: node:${NODE_VERSION}
     allow_failure: false
     script:
-        - yarn workspace @tezos-domains/resolver test
+        - yarn workspace @mavrykdynamics/mavryk-domains-resolver test
     coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
     artifacts:
         paths:
@@ -67,7 +67,7 @@ test:manager:
     image: node:${NODE_VERSION}
     allow_failure: false
     script:
-        - yarn workspace @tezos-domains/manager test
+        - yarn workspace @mavrykdynamics/mavryk-domains-manager test
     coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
     artifacts:
         paths:
@@ -83,7 +83,7 @@ test:taquito:
     image: node:${NODE_VERSION}
     allow_failure: false
     script:
-        - yarn workspace @tezos-domains/taquito test
+        - yarn workspace @mavrykdynamics/mavryk-domains-taquito test
     coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
     artifacts:
         paths:
@@ -99,7 +99,7 @@ test:taquito-client:
     image: node:${NODE_VERSION}
     allow_failure: false
     script:
-        - yarn workspace @tezos-domains/taquito-client test
+        - yarn workspace @mavrykdynamics/mavryk-domains-taquito-client test
     coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
     artifacts:
         paths:
@@ -115,7 +115,7 @@ test:conseil-client:
     image: node:${NODE_VERSION}
     allow_failure: false
     script:
-        - yarn workspace @tezos-domains/conseil-client test
+        - yarn workspace @mavrykdynamics/mavryk-domains-conseil-client test
     coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
     artifacts:
         paths:

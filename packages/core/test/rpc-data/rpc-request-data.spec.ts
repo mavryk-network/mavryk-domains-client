@@ -1,4 +1,4 @@
-import { RpcRequestData, RpcRequest, encoder } from '@tezos-domains/core';
+import { RpcRequestData, RpcRequest, encoder } from '@mavrykdynamics/mavryk-domains-core';
 
 import { FakeEncoder } from './fake-encoder';
 

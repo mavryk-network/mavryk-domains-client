@@ -1,7 +1,7 @@
-import { Tracer, RpcRequestData, BytesEncoder } from '@tezos-domains/core';
-import { TaquitoClient } from '@tezos-domains/taquito';
-import { RpcClient, ConstantsResponse, OpKind } from '@taquito/rpc';
-import { Tzip16ContractAbstraction, tzip16, View } from '@taquito/tzip16';
+import { Tracer, RpcRequestData, BytesEncoder } from '@mavrykdynamics/mavryk-domains-core';
+import { TaquitoClient } from '@mavrykdynamics/mavryk-domains-taquito';
+import { RpcClient, ConstantsResponse, OpKind } from '@mavrykdynamics/taquito-rpc';
+import { Tzip16ContractAbstraction, tzip16, View } from '@mavrykdynamics/taquito-tzip16';
 import {
     TezosToolkit,
     BigMapAbstraction,
@@ -13,7 +13,7 @@ import {
     WalletTransferParams,
     WalletOperation,
     WalletOperationBatch,
-} from '@taquito/taquito';
+} from '@mavrykdynamics/taquito';
 import { mock, instance, when, verify, anything, deepEqual } from 'ts-mockito';
 import FakePromise from 'fake-promise';
 import BigNumber from 'bignumber.js';
@@ -201,7 +201,7 @@ describe('TaquitoClient', () => {
 
             expect(methods.method).toHaveBeenCalledWith('p1', 'p2');
 
-            verify(method.toTransferParams(deepEqual({ amount: 1, mutez: true, storageLimit: 100, gasLimit: 420, fee: 69 }))).called();
+            verify(method.toTransferParams(deepEqual({ amount: 1, mumav: true, storageLimit: 100, gasLimit: 420, fee: 69 }))).called();
 
             expect(p).toBe(params);
         });

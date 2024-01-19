@@ -1,6 +1,6 @@
-import { RpcRequestData, Exact, hexToArray } from '@tezos-domains/core';
-import { Schema } from '@taquito/michelson-encoder';
-import { MichelsonType, packDataBytes } from '@taquito/michel-codec';
+import { RpcRequestData, Exact, hexToArray } from '@mavrykdynamics/mavryk-domains-core';
+import { Schema } from '@mavrykdynamics/taquito-michelson-encoder';
+import { MichelsonType, packDataBytes } from '@mavrykdynamics/taquito-michel-codec';
 import { sha512 } from 'sha.js';
 
 import { CommitmentRequest } from './model';

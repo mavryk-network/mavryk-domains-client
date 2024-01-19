@@ -1,3 +1,3 @@
-export interface TezosDomainsProxyContractAddressResolver {
+export interface MavrykDomainsProxyContractAddressResolver {
     getAddress(proxyContractAddress: string): Promise<string>;
 }

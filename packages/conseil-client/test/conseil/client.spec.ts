@@ -1,6 +1,6 @@
 jest.mock('conseiljs');
 
-import { Tracer, RpcRequestData, BytesEncoder } from '@tezos-domains/core';
+import { Tracer, RpcRequestData, BytesEncoder } from '@mavrykdynamics/mavryk-domains-core';
 import { TezosNodeReader, TezosMessageUtils } from 'conseiljs';
 import { mock, instance, when, anything } from 'ts-mockito';
 import FakePromise from 'fake-promise';

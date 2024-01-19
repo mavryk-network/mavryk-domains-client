@@ -1,1 +1,1 @@
-export { TaquitoTezosDomainsClient, TaquitoTezosDomainsConfig } from './taquito-tezos-domains-client';
+export { TaquitoMavrykDomainsClient, TaquitoMavrykDomainsConfig } from './taquito-mavryk-domains-client';

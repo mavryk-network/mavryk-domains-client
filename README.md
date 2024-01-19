@@ -1,17 +1,17 @@
-# Tezos Domains Client
+# Mavryk Domains Client
 
-Library for resolving and managing tezos domains. Can be used with [Taquito](https://tezostaquito.io/) or [ConseilJS](https://cryptonomic.github.io/ConseilJS/#/).
+Library for resolving and managing mavryk domains. Can be used with [Taquito](https://tezostaquito.io/) or [ConseilJS](https://cryptonomic.github.io/ConseilJS/#/).
 
 _WARNING: This project is in beta. We welcome users and feedback, please be aware that this project is a work in progress._
 
 ## Using the library with Taquito
 
-### 1) Install `@tezos-domains/taquito-client` package
+### 1) Install `@mavrykdynamics/mavryk-domains-taquito-client` package
 
 ```
-yarn add @tezos-domains/taquito-client @tezos-domains/core @taquito/taquito @taquito/rpc @taquito/tzip16
+yarn add @mavrykdynamics/mavryk-domains-taquito-client @mavrykdynamics/mavryk-domains-core @mavrykdynamics/taquito @mavrykdynamics/taquito-rpc @mavrykdynamics/taquito-tzip16
 --or--
-npm install @tezos-domains/taquito-client @tezos-domains/core @taquito/taquito @taquito/rpc @taquito/tzip16
+npm install @mavrykdynamics/mavryk-domains-taquito-client @mavrykdynamics/mavryk-domains-core @mavrykdynamics/taquito @mavrykdynamics/taquito-rpc @mavrykdynamics/taquito-tzip16
 ```
 
 ### 2a) Use `resolver` to resolve names and addresses
@@ -19,14 +19,14 @@ npm install @tezos-domains/taquito-client @tezos-domains/core @taquito/taquito @
 Example of resolving and address from domain name:
 
 ```ts
-import { TezosToolkit } from '@taquito/taquito';
-import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
-import { Tzip16Module } from '@taquito/tzip16';
+import { TezosToolkit } from '@mavrykdynamics/taquito';
+import { TaquitoMavrykDomainsClient } from '@mavrykdynamics/mavryk-domains-taquito-client';
+import { Tzip16Module } from '@mavrykdynamics/taquito-tzip16';
 
 async function main() {
     const tezos = new TezosToolkit('https://ghostnet.smartpy.io');
     tezos.addExtension(new Tzip16Module());
-    const client = new TaquitoTezosDomainsClient({ tezos, network: 'ghostnet', caching: { enabled: true } });
+    const client = new TaquitoMavrykDomainsClient({ tezos, network: 'ghostnet', caching: { enabled: true } });
 
     const address = await client.resolver.resolveNameToAddress('bob.flo');
 
@@ -43,23 +43,23 @@ Example of registering a domain:
 **NOTE**: Installing a signer is necessary for sending transactions.
 
 ```
-yarn add @taquito/signer
+yarn add @mavrykdynamics/taquito-signer
 --or--
-npm install @taquito/signer
+npm install @mavrykdynamics/taquito-signer
 ```
 
 ```ts
-import { InMemorySigner } from '@taquito/signer';
-import { TezosToolkit } from '@taquito/taquito';
-import { Tzip16Module } from '@taquito/tzip16';
-import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
-import { getTld, getLabel, DomainNameValidationResult, RecordMetadata, generateNonce } from '@tezos-domains/core';
+import { InMemorySigner } from '@mavrykdynamics/taquito-signer';
+import { TezosToolkit } from '@mavrykdynamics/taquito';
+import { Tzip16Module } from '@mavrykdynamics/taquito-tzip16';
+import { TaquitoMavrykDomainsClient } from '@mavrykdynamics/mavryk-domains-taquito-client';
+import { getTld, getLabel, DomainNameValidationResult, RecordMetadata, generateNonce } from '@mavrykdynamics/mavryk-domains-core';
 
 async function main() {
     const tezos = new TezosToolkit('https://ghostnet.smartpy.io');
     tezos.addExtension(new Tzip16Module());
     tezos.setSignerProvider(new InMemorySigner('<your signing key>'));
-    const client = new TaquitoTezosDomainsClient({ tezos, network: 'ghostnet' });
+    const client = new TaquitoMavrykDomainsClient({ tezos, network: 'ghostnet' });
 
     const name = 'foobar.flo';
 
@@ -81,7 +81,7 @@ async function main() {
 
     const params = {
         label,
-        owner: 'tz1VxMudmADssPp6FPDGRsvJXE41DD6i9g6n',
+        owner: 'mv1UGYk3B88eN9AJYtomdLxAtKhFARGp8K8L',
         nonce
     };
 
@@ -97,7 +97,7 @@ async function main() {
     const buyOperation = await client.manager.buy(tld, {
         ...params,
         duration: 365,
-        address: 'tz1VxMudmADssPp6FPDGRsvJXE41DD6i9g6n',
+        address: 'mv1UGYk3B88eN9AJYtomdLxAtKhFARGp8K8L',
         data: new RecordMetadata(),
     });
     await buyOperation.confirmation();
@@ -108,12 +108,12 @@ async function main() {
 
 ## Using the library with ConseilJS
 
-### 1) Install `@tezos-domains/conseil-client` package
+### 1) Install `@mavrykdynamics/mavryk-domains-conseil-client` package
 
 ```
-yarn add @tezos-domains/conseil-client @tezos-domains/core conseiljs node-fetch loglevel @types/node-fetch @types/loglevel
+yarn add @mavrykdynamics/mavryk-domains-conseil-client @mavrykdynamics/mavryk-domains-core conseiljs node-fetch loglevel @types/node-fetch @types/loglevel
 --or--
-npm install @tezos-domains/conseil-client @tezos-domains/core conseiljs node-fetch loglevel @types/node-fetch @types/loglevel
+npm install @mavrykdynamics/mavryk-domains-conseil-client @mavrykdynamics/mavryk-domains-core conseiljs node-fetch loglevel @types/node-fetch @types/loglevel
 ```
 
 ### 2) Use `resolver` to resolve names and addresses
@@ -124,7 +124,7 @@ Example of resolving and address from domain name:
 import fetch from 'node-fetch';
 import * as log from 'loglevel';
 import { registerFetch, registerLogger } from 'conseiljs';
-import { ConseilTezosDomainsClient } from '@tezos-domains/conseil-client';
+import { ConseilMavrykDomainsClient } from '@mavrykdynamics/mavryk-domains-conseil-client';
 
 async function main() {
     const logger = log.getLogger('conseiljs');
@@ -132,7 +132,7 @@ async function main() {
     registerLogger(logger);
     registerFetch(fetch);
 
-    const client = new ConseilTezosDomainsClient({
+    const client = new ConseilMavrykDomainsClient({
         conseil: { server: 'https://ghostnet.smartpy.io' },
         network: 'ghostnet',
         caching: { enabled: true },
@@ -154,7 +154,7 @@ The client takes options that can customize it's behavior.
 
 `contractAddresses` (default: `undefined`)
 
--   Which tezos domains contracts to connect to to get data. Must be specified if network is `custom`. Uses built in addresses otherwise.
+-   Which mavryk domains contracts to connect to to get data. Must be specified if network is `custom`. Uses built in addresses otherwise.
 
 `tlds` (default: `undefined`)
 

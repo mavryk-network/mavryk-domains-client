@@ -1,5 +1,5 @@
-import { ConstantsResponse } from '@taquito/rpc';
-import { MichelsonMap, TransactionWalletOperation, WalletTransferParams } from '@taquito/taquito';
+import { ConstantsResponse } from '@mavrykdynamics/taquito-rpc';
+import { MichelsonMap, TransactionWalletOperation, WalletTransferParams } from '@mavrykdynamics/taquito';
 import {
     AdditionalOperationParams,
     AddressBook,
@@ -10,16 +10,16 @@ import {
     RecordMetadata,
     SmartContractType,
     Tracer,
-} from '@tezos-domains/core';
+} from '@mavrykdynamics/mavryk-domains-core';
 import {
     CommitmentGenerator,
     CommitmentRequest,
     DomainAcquisitionInfo,
     DomainAcquisitionState,
     TaquitoManagerDataProvider,
-    TaquitoTezosDomainsOperationFactory,
-} from '@tezos-domains/manager';
-import { TaquitoClient } from '@tezos-domains/taquito';
+    TaquitoMavrykDomainsOperationFactory,
+} from '@mavrykdynamics/mavryk-domains-manager';
+import { TaquitoClient } from '@mavrykdynamics/mavryk-domains-taquito';
 import BigNumber from 'bignumber.js';
 import MockDate from 'mockdate';
 import { anyOfClass, anyString, anything, capture, deepEqual, instance, mock, verify, when } from 'ts-mockito';
@@ -27,8 +27,8 @@ import { DEFAULT_STORAGE_LIMITS, TLDConfiguration } from '../../src/manager/mode
 
 const e = (s: string) => new BytesEncoder().encode(s)!;
 
-describe('TaquitoTezosDomainsOperationFactory', () => {
-    let operationFactory: TaquitoTezosDomainsOperationFactory;
+describe('TaquitoMavrykDomainsOperationFactory', () => {
+    let operationFactory: TaquitoMavrykDomainsOperationFactory;
     let taquitoClientMock: TaquitoClient;
     let addressBookMock: AddressBook;
     let tracerMock: Tracer;
@@ -49,14 +49,14 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
         validatorMock = mock<DomainNameValidator>();
         operation = mock(TransactionWalletOperation);
 
-        params = { amount: 0, to: 'tz1xxx' };
+        params = { amount: 0, to: 'mv1xxx' };
         constants = { time_between_blocks: [new BigNumber('30')] } as any;
         additionalParams = { gasLimit: 420 };
 
         when(tracerMock.trace(anything(), anything(), anything()));
 
         const validationFunction = (name: string) => {
-            if (name === 'invalid.tez') {
+            if (name === 'invalid.mav') {
                 return DomainNameValidationResult.INVALID_NAME;
             }
 
@@ -66,7 +66,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
         when(validatorMock.validateDomainName(anyString())).thenCall(validationFunction);
         when(validatorMock.isValidWithKnownTld(anyString())).thenCall(validationFunction);
 
-        when(validatorMock.supportedTLDs).thenReturn(['tez']);
+        when(validatorMock.supportedTLDs).thenReturn(['mav']);
 
         when(addressBookMock.lookup(anything())).thenCall(type => Promise.resolve(`${type}addr`));
         when(addressBookMock.lookup(anything(), anything())).thenCall((type, p1) => Promise.resolve(`${type}addr${p1 || ''}`));
@@ -78,7 +78,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
 
         when(operation.opHash).thenReturn('op_hash');
 
-        operationFactory = new TaquitoTezosDomainsOperationFactory(
+        operationFactory = new TaquitoMavrykDomainsOperationFactory(
             instance(taquitoClientMock),
             instance(addressBookMock),
             instance(tracerMock),
@@ -97,10 +97,10 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
             const p = await operationFactory.setChildRecord(
                 {
                     label: 'necroskillz',
-                    parent: 'tez',
+                    parent: 'mav',
                     data: new RecordMetadata({ ttl: '31' }),
-                    owner: 'tz1xxx',
-                    address: 'tz1yyy',
+                    owner: 'mv1xxx',
+                    address: 'mv1yyy',
                     expiry: new Date(new Date(2021, 10, 11, 8).getTime() - new Date(2021, 10, 11).getTimezoneOffset() * 60000),
                 },
                 additionalParams
@@ -110,7 +110,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
                 taquitoClientMock.params(
                     `${SmartContractType.NameRegistry}addrset_child_record`,
                     'set_child_record',
-                    deepEqual([e('necroskillz'), e('tez'), 'tz1yyy', 'tz1xxx', anyOfClass(MichelsonMap), '2021-11-11T08:00:00.000Z']),
+                    deepEqual([e('necroskillz'), e('mav'), 'mv1yyy', 'mv1xxx', anyOfClass(MichelsonMap), '2021-11-11T08:00:00.000Z']),
                     deepEqual({ storageLimit: DEFAULT_STORAGE_LIMITS['set_child_record'], ...additionalParams })
                 )
             ).called();
@@ -124,13 +124,13 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
             await expect(() =>
                 operationFactory.setChildRecord({
                     label: 'invalid',
-                    parent: 'tez',
+                    parent: 'mav',
                     data: new RecordMetadata(),
-                    owner: 'tz1xxx',
-                    address: 'tz1yyy',
+                    owner: 'mv1xxx',
+                    address: 'mv1yyy',
                     expiry: null,
                 })
-            ).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
+            ).rejects.toThrowError("'invalid.mav' is not a valid domain name.");
         });
     });
 
@@ -138,10 +138,10 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
         it('should call smart contract', async () => {
             const p = await operationFactory.updateRecord(
                 {
-                    name: 'necroskillz.tez',
+                    name: 'necroskillz.mav',
                     data: new RecordMetadata({ ttl: '31' }),
-                    owner: 'tz1xxx',
-                    address: 'tz1yyy',
+                    owner: 'mv1xxx',
+                    address: 'mv1yyy',
                 },
                 additionalParams
             );
@@ -150,7 +150,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
                 taquitoClientMock.params(
                     `${SmartContractType.NameRegistry}addrupdate_record`,
                     'update_record',
-                    deepEqual([e('necroskillz.tez'), 'tz1yyy', 'tz1xxx', anyOfClass(MichelsonMap)]),
+                    deepEqual([e('necroskillz.mav'), 'mv1yyy', 'mv1xxx', anyOfClass(MichelsonMap)]),
                     deepEqual({ storageLimit: DEFAULT_STORAGE_LIMITS['update_record'], ...additionalParams })
                 )
             ).called();
@@ -162,22 +162,22 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
         it('should throw if domain name is invalid', async () => {
             await expect(() =>
                 operationFactory.updateRecord({
-                    name: 'invalid.tez',
+                    name: 'invalid.mav',
                     data: new RecordMetadata(),
-                    owner: 'tz1xxx',
-                    address: 'tz1yyy',
+                    owner: 'mv1xxx',
+                    address: 'mv1yyy',
                 })
-            ).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
+            ).rejects.toThrowError("'invalid.mav' is not a valid domain name.");
         });
     });
 
     describe('commit()', () => {
         it('should call smart contract', async () => {
-            const request: Exact<CommitmentRequest> = { label: 'necroskillz', owner: 'tz1xxx', nonce: 1 };
+            const request: Exact<CommitmentRequest> = { label: 'necroskillz', owner: 'mv1xxx', nonce: 1 };
 
             when(commitmentGeneratorMock.generate(deepEqual(request))).thenReturn('commitment');
 
-            const p = await operationFactory.commit('tez', request, additionalParams);
+            const p = await operationFactory.commit('mav', request, additionalParams);
 
             verify(
                 taquitoClientMock.params(
@@ -192,15 +192,15 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
         });
 
         it('should throw if domain name is invalid', async () => {
-            await expect(() => operationFactory.commit('tez', { label: 'invalid', owner: 'tz1xxx', nonce: 1 })).rejects.toThrowError(
-                "'invalid.tez' is not a valid domain name."
+            await expect(() => operationFactory.commit('mav', { label: 'invalid', owner: 'mv1xxx', nonce: 1 })).rejects.toThrowError(
+                "'invalid.mav' is not a valid domain name."
             );
         });
     });
 
     describe('buy()', () => {
         it('should call smart contract with price', async () => {
-            when(dataProviderMock.getAcquisitionInfo('alice.tez')).thenResolve(
+            when(dataProviderMock.getAcquisitionInfo('alice.mav')).thenResolve(
                 DomainAcquisitionInfo.createBuyOrRenew(DomainAcquisitionState.CanBeBought, {
                     minDuration: 1,
                     pricePerMinDuration: 1e6,
@@ -208,12 +208,12 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
             );
 
             const p = await operationFactory.buy(
-                'tez',
+                'mav',
                 {
                     duration: 365,
                     label: 'alice',
-                    owner: 'tz1xxx',
-                    address: 'tz1yyy',
+                    owner: 'mv1xxx',
+                    address: 'mv1yyy',
                     data: new RecordMetadata({ ttl: '31' }),
                     nonce: 1,
                 },
@@ -224,7 +224,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
                 taquitoClientMock.params(
                     `${SmartContractType.TLDRegistrar}addrtezbuy`,
                     'buy',
-                    deepEqual([e('alice'), 365, 'tz1xxx', 'tz1yyy', anyOfClass(MichelsonMap), 1]),
+                    deepEqual([e('alice'), 365, 'mv1xxx', 'mv1yyy', anyOfClass(MichelsonMap), 1]),
                     deepEqual({ amount: 1e6 * 365, storageLimit: DEFAULT_STORAGE_LIMITS['buy'], ...additionalParams })
                 )
             ).called();
@@ -236,21 +236,21 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
 
         it('should throw if domain name is invalid', async () => {
             await expect(() =>
-                operationFactory.buy('tez', {
+                operationFactory.buy('mav', {
                     duration: 365,
                     label: 'invalid',
-                    owner: 'tz1xxx',
-                    address: 'tz1yyy',
+                    owner: 'mv1xxx',
+                    address: 'mv1yyy',
                     data: new RecordMetadata(),
                     nonce: 1,
                 })
-            ).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
+            ).rejects.toThrowError("'invalid.mav' is not a valid domain name.");
         });
     });
 
     describe('renew()', () => {
         it('should call smart contract with price', async () => {
-            when(dataProviderMock.getAcquisitionInfo('necroskillz2.tez')).thenResolve(
+            when(dataProviderMock.getAcquisitionInfo('necroskillz2.mav')).thenResolve(
                 DomainAcquisitionInfo.createBuyOrRenew(DomainAcquisitionState.Taken, {
                     minDuration: 1,
                     pricePerMinDuration: 1e6,
@@ -258,7 +258,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
             );
 
             const p = await operationFactory.renew(
-                'tez',
+                'mav',
                 {
                     duration: 365,
                     label: 'necroskillz2',
@@ -280,11 +280,11 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
 
         it('should throw if domain name is invalid', async () => {
             await expect(() =>
-                operationFactory.renew('tez', {
+                operationFactory.renew('mav', {
                     duration: 365,
                     label: 'invalid',
                 })
-            ).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
+            ).rejects.toThrowError("'invalid.mav' is not a valid domain name.");
         });
     });
 
@@ -292,8 +292,8 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
         it('should call smart contract', async () => {
             const p = await operationFactory.claimReverseRecord(
                 {
-                    name: 'necroskillz.tez',
-                    owner: 'tz1xxx',
+                    name: 'necroskillz.mav',
+                    owner: 'mv1xxx',
                 },
                 additionalParams
             );
@@ -302,7 +302,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
                 taquitoClientMock.params(
                     `${SmartContractType.NameRegistry}addrclaim_reverse_record`,
                     'claim_reverse_record',
-                    deepEqual([e('necroskillz.tez'), 'tz1xxx']),
+                    deepEqual([e('necroskillz.mav'), 'mv1xxx']),
                     deepEqual({ storageLimit: DEFAULT_STORAGE_LIMITS['claim_reverse_record'], ...additionalParams })
                 )
             ).called();
@@ -313,7 +313,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
         it('should not throw if domain name is null', async () => {
             const p = await operationFactory.claimReverseRecord({
                 name: null,
-                owner: 'tz1xxx',
+                owner: 'mv1xxx',
             });
 
             expect(p).toEqual(params);
@@ -322,10 +322,10 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
         it('should throw if domain name is invalid', async () => {
             await expect(() =>
                 operationFactory.claimReverseRecord({
-                    name: 'invalid.tez',
-                    owner: 'tz1xxx',
+                    name: 'invalid.mav',
+                    owner: 'mv1xxx',
                 })
-            ).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
+            ).rejects.toThrowError("'invalid.mav' is not a valid domain name.");
         });
     });
 
@@ -333,9 +333,9 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
         it('should call smart contract', async () => {
             const p = await operationFactory.updateReverseRecord(
                 {
-                    address: 'tz1xxx',
-                    name: 'necroskillz.tez',
-                    owner: 'tz1yyy',
+                    address: 'mv1xxx',
+                    name: 'necroskillz.mav',
+                    owner: 'mv1yyy',
                 },
                 additionalParams
             );
@@ -344,7 +344,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
                 taquitoClientMock.params(
                     `${SmartContractType.NameRegistry}addrupdate_reverse_record`,
                     'update_reverse_record',
-                    deepEqual(['tz1xxx', e('necroskillz.tez'), 'tz1yyy']),
+                    deepEqual(['mv1xxx', e('necroskillz.mav'), 'mv1yyy']),
                     deepEqual({ storageLimit: DEFAULT_STORAGE_LIMITS['update_reverse_record'], ...additionalParams })
                 )
             ).called();
@@ -354,9 +354,9 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
 
         it('should not throw if domain name is null', async () => {
             const p = await operationFactory.updateReverseRecord({
-                address: 'tz1xxx',
+                address: 'mv1xxx',
                 name: null,
-                owner: 'tz1yyy',
+                owner: 'mv1yyy',
             });
 
             expect(p).toEqual(params);
@@ -365,22 +365,22 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
         it('should throw if domain name is invalid', async () => {
             await expect(() =>
                 operationFactory.updateReverseRecord({
-                    address: 'tz1xxx',
-                    name: 'invalid.tez',
-                    owner: 'tz1yyy',
+                    address: 'mv1xxx',
+                    name: 'invalid.mav',
+                    owner: 'mv1yyy',
                 })
-            ).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
+            ).rejects.toThrowError("'invalid.mav' is not a valid domain name.");
         });
     });
 
     describe('bid()', () => {
         beforeEach(() => {
-            when(dataProviderMock.getBidderBalance('tez', 'tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix')).thenResolve(2e6);
+            when(dataProviderMock.getBidderBalance('mav', 'mv1PZMMCSSwAgDy5cgNTBMtanUn6QB9wrvqm')).thenResolve(2e6);
         });
 
         it('should call smart contract with bid amount', async () => {
             const p = await operationFactory.bid(
-                'tez',
+                'mav',
                 {
                     label: 'necroskillz',
                     bid: 5e6,
@@ -401,9 +401,9 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
         });
 
         it('should call smart contract bid with subtracted bidder balance', async () => {
-            when(taquitoClientMock.getPkh()).thenResolve('tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix');
+            when(taquitoClientMock.getPkh()).thenResolve('mv1PZMMCSSwAgDy5cgNTBMtanUn6QB9wrvqm');
 
-            const p = await operationFactory.bid('tez', {
+            const p = await operationFactory.bid('mav', {
                 label: 'necroskillz',
                 bid: 5e6,
             });
@@ -421,9 +421,9 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
         });
 
         it('should call smart contract with 0 amount if bidder balance is more than the bid', async () => {
-            when(taquitoClientMock.getPkh()).thenResolve('tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix');
+            when(taquitoClientMock.getPkh()).thenResolve('mv1PZMMCSSwAgDy5cgNTBMtanUn6QB9wrvqm');
 
-            const p = await operationFactory.bid('tez', {
+            const p = await operationFactory.bid('mav', {
                 label: 'necroskillz',
                 bid: 1e6,
             });
@@ -442,22 +442,22 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
 
         it('should throw if domain name is invalid', async () => {
             await expect(() =>
-                operationFactory.bid('tez', {
+                operationFactory.bid('mav', {
                     label: 'invalid',
                     bid: 1e6,
                 })
-            ).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
+            ).rejects.toThrowError("'invalid.mav' is not a valid domain name.");
         });
     });
 
     describe('settle()', () => {
         it('should call smart contract', async () => {
             const p = await operationFactory.settle(
-                'tez',
+                'mav',
                 {
                     label: 'necroskillz',
-                    owner: 'tz1xxx',
-                    address: 'tz1yyy',
+                    owner: 'mv1xxx',
+                    address: 'mv1yyy',
                     data: new RecordMetadata({ ttl: '31' }),
                 },
                 additionalParams
@@ -467,7 +467,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
                 taquitoClientMock.params(
                     `${SmartContractType.TLDRegistrar}addrtezsettle`,
                     'settle',
-                    deepEqual([e('necroskillz'), 'tz1xxx', 'tz1yyy', anyOfClass(MichelsonMap)]),
+                    deepEqual([e('necroskillz'), 'mv1xxx', 'mv1yyy', anyOfClass(MichelsonMap)]),
                     deepEqual({ storageLimit: DEFAULT_STORAGE_LIMITS['settle'], ...additionalParams })
                 )
             ).called();
@@ -479,25 +479,25 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
 
         it('should throw if domain name is invalid', async () => {
             await expect(() =>
-                operationFactory.settle('tez', {
+                operationFactory.settle('mav', {
                     label: 'invalid',
-                    owner: 'tz1xxx',
-                    address: 'tz1yyy',
+                    owner: 'mv1xxx',
+                    address: 'mv1yyy',
                     data: new RecordMetadata(),
                 })
-            ).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
+            ).rejects.toThrowError("'invalid.mav' is not a valid domain name.");
         });
     });
 
     describe('withdraw()', () => {
         it('should call smart contract', async () => {
-            const p = await operationFactory.withdraw('tez', 'tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix', additionalParams);
+            const p = await operationFactory.withdraw('mav', 'mv1PZMMCSSwAgDy5cgNTBMtanUn6QB9wrvqm', additionalParams);
 
             verify(
                 taquitoClientMock.params(
                     `${SmartContractType.TLDRegistrar}addrtezwithdraw`,
                     'withdraw',
-                    deepEqual(['tz1Q4vimV3wsfp21o7Annt64X7Hs6MXg9Wix']),
+                    deepEqual(['mv1PZMMCSSwAgDy5cgNTBMtanUn6QB9wrvqm']),
                     deepEqual(additionalParams)
                 )
             ).called();
@@ -506,32 +506,32 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
         });
 
         it('should throw if tld is not supported', async () => {
-            await expect(() => operationFactory.withdraw('ble', 'tz1VBLpuDKMoJuHRLZ4HrCgRuiLpEr7zZx2E')).rejects.toThrowError("TLD 'ble' is not supported.");
+            await expect(() => operationFactory.withdraw('ble', 'mv1NoYoaaCHVxJWsFN7HCujx1i6BmA6a8Fay')).rejects.toThrowError("TLD 'ble' is not supported.");
         });
     });
 
     describe('transfer()', () => {
         it('should call smart contract', async () => {
-            when(dataProviderMock.getDomainRecord('alice.tez')).thenResolve({
-                owner: 'tz1Old',
+            when(dataProviderMock.getDomainRecord('alice.mav')).thenResolve({
+                owner: 'mv1Old',
                 tzip12_token_id: 1,
                 address: null,
                 data: new RecordMetadata({ ttl: '31' }),
                 expiry_key: null,
             });
 
-            const p = await operationFactory.transfer('alice.tez', 'tz1New', additionalParams);
+            const p = await operationFactory.transfer('alice.mav', 'mv1New', additionalParams);
 
             verify(taquitoClientMock.params(`${SmartContractType.NameRegistry}addr`, 'transfer', anything(), deepEqual(additionalParams))).called();
 
             const request = capture(taquitoClientMock.params).first()[2][0];
-            expect(request).toEqual([{ from_: 'tz1Old', txs: [{ to_: 'tz1New', token_id: 1, amount: 1 }] }]);
+            expect(request).toEqual([{ from_: 'mv1Old', txs: [{ to_: 'mv1New', token_id: 1, amount: 1 }] }]);
 
             expect(p).toEqual(params);
         });
 
         it('should throw if token id is null', async () => {
-            await expect(() => operationFactory.transfer('bob.tez', 'tz1VBLpuDKMoJuHRLZ4HrCgRuiLpEr7zZx2E')).rejects.toThrowError();
+            await expect(() => operationFactory.transfer('bob.mav', 'mv1NoYoaaCHVxJWsFN7HCujx1i6BmA6a8Fay')).rejects.toThrowError();
         });
     });
 
@@ -546,7 +546,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
                 {
                     label: 'so-valid',
                     tld: 'com',
-                    owner: 'tz1xxx',
+                    owner: 'mv1xxx',
                     timestamp,
                 },
                 additionalParams
@@ -556,7 +556,7 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
                 taquitoClientMock.params(
                     `${SmartContractType.OracleRegistrar}addr`,
                     'claim',
-                    deepEqual([e('so-valid'), e('com'), 'tz1xxx', timestamp, 'signature']),
+                    deepEqual([e('so-valid'), e('com'), 'mv1xxx', timestamp, 'signature']),
                     deepEqual({ ...additionalParams, amount: 1_500_000 })
                 )
             ).called();
@@ -568,11 +568,11 @@ describe('TaquitoTezosDomainsOperationFactory', () => {
             await expect(() =>
                 operationFactory.claim('signature', {
                     label: 'invalid',
-                    tld: 'tez',
-                    owner: 'tz1xxx',
+                    tld: 'mav',
+                    owner: 'mv1xxx',
                     timestamp: new Date().toISOString(),
                 })
-            ).rejects.toThrowError("'invalid.tez' is not a valid domain name.");
+            ).rejects.toThrowError("'invalid.mav' is not a valid domain name.");
         });
     });
 });

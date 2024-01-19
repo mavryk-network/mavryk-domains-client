@@ -4,7 +4,7 @@ module.exports = {
     readme: 'README.md',
     exclude: ['**/dist/**', '**/node_modules/**', '**/rollup*.ts', '**/test/**', 'integration-tests/**/*.ts', 'scripts/**'],
     lernaExclude: [],
-    name: 'Tezos Domains',
+    name: 'Mavryk Domains',
     excludePrivate: true,
     excludeNotExported: true,
 };

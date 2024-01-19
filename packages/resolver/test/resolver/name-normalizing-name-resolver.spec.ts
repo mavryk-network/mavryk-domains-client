@@ -1,5 +1,5 @@
-import { Tracer, DomainInfo, ReverseRecordDomainInfo } from '@tezos-domains/core';
-import { NameResolver } from '@tezos-domains/resolver';
+import { Tracer, DomainInfo, ReverseRecordDomainInfo } from '@mavrykdynamics/mavryk-domains-core';
+import { NameResolver } from '@mavrykdynamics/mavryk-domains-resolver';
 import { mock, instance, when, anything, verify, anyString } from 'ts-mockito';
 import FakePromise from 'fake-promise';
 
@@ -39,9 +39,9 @@ describe('NameNormalizingNameResolver', () => {
         });
 
         it('should normalize domain name', () => {
-            const p = resolver.resolveDomainRecord('AB.tez');
+            const p = resolver.resolveDomainRecord('AB.mav');
 
-            verify(nameResolverMock.resolveDomainRecord('ab.tez')).called();
+            verify(nameResolverMock.resolveDomainRecord('ab.mav')).called();
             expect(p).toBe(dp);
         });
     });
@@ -54,9 +54,9 @@ describe('NameNormalizingNameResolver', () => {
         });
 
         it('should normalize domain name', () => {
-            const p = resolver.resolveNameToAddress('AB.tez');
+            const p = resolver.resolveNameToAddress('AB.mav');
 
-            verify(nameResolverMock.resolveNameToAddress('ab.tez')).called();
+            verify(nameResolverMock.resolveNameToAddress('ab.mav')).called();
             expect(p).toBe(ap);
         });
     });

@@ -1,4 +1,4 @@
-import { BigNumberEncoder } from '@tezos-domains/taquito';
+import { BigNumberEncoder } from '@mavrykdynamics/mavryk-domains-taquito';
 import BigNumber from 'bignumber.js';
 
 describe('BigNumberEncoder', () => {

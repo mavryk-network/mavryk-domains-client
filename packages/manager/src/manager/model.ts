@@ -1,12 +1,12 @@
-import { DateEncoder, encoder, NormalizeBytesEncoder, RecordMetadata, RpcRequest, RpcResponse } from '@tezos-domains/core';
-import { BigNumberEncoder, MapEncoder } from '@tezos-domains/taquito';
+import { DateEncoder, encoder, NormalizeBytesEncoder, RecordMetadata, RpcRequest, RpcResponse } from '@mavrykdynamics/mavryk-domains-core';
+import { BigNumberEncoder, MapEncoder } from '@mavrykdynamics/mavryk-domains-taquito';
 import BigNumber from 'bignumber.js';
 
 @RpcRequest()
 export class SetChildRecordRequest {
-    /** The first part of the domain name (e.g. `bob` if full domain name is `bob.alice.tez`) */
+    /** The first part of the domain name (e.g. `bob` if full domain name is `bob.alice.mav`) */
     @encoder(NormalizeBytesEncoder) label!: string;
-    /** The parent part of the domain name (e.g. `alice.tez` if full domain name is `bob.alice.tez`) */
+    /** The parent part of the domain name (e.g. `alice.mav` if full domain name is `bob.alice.mav`) */
     @encoder(NormalizeBytesEncoder) parent!: string;
     /** The address that should be set as the owner of the domain record. */
     owner!: string;
@@ -20,7 +20,7 @@ export class SetChildRecordRequest {
 
 @RpcRequest()
 export class UpdateRecordRequest {
-    /** The name of the domain (e.g. `alice.tez`) */
+    /** The name of the domain (e.g. `alice.mav`) */
     @encoder(NormalizeBytesEncoder) name!: string;
     /** The address that should be set as the owner of the domain record. */
     owner!: string;
@@ -32,7 +32,7 @@ export class UpdateRecordRequest {
 
 @RpcRequest()
 export class CommitmentRequest {
-    /** The first part of the domain name (e.g. `alice` if full domain name is `alice.tez`) */
+    /** The first part of the domain name (e.g. `alice` if full domain name is `alice.mav`) */
     @encoder(NormalizeBytesEncoder) label!: string;
     /** The address of the future buyer. */
     owner!: string;
@@ -42,7 +42,7 @@ export class CommitmentRequest {
 
 @RpcRequest()
 export class BuyRequest {
-    /** The first part of the domain name (e.g. `alice` if full domain name is `alice.tez`) */
+    /** The first part of the domain name (e.g. `alice` if full domain name is `alice.mav`) */
     @encoder(NormalizeBytesEncoder) label!: string;
     /** The address of the buyer. */
     owner!: string;
@@ -58,7 +58,7 @@ export class BuyRequest {
 
 @RpcRequest()
 export class RenewRequest {
-    /** The first part of the domain name (e.g. `alice` if full domain name is `alice.tez`) */
+    /** The first part of the domain name (e.g. `alice` if full domain name is `alice.mav`) */
     @encoder(NormalizeBytesEncoder) label!: string;
     /** The duration of the domain renewal in days. */
     duration!: number;
@@ -84,15 +84,15 @@ export class UpdateReverseRecordRequest {
 
 @RpcRequest()
 export class BidRequest {
-    /** The first part of the domain name (e.g. `alice` if full domain name is `alice.tez`) */
+    /** The first part of the domain name (e.g. `alice` if full domain name is `alice.mav`) */
     @encoder(NormalizeBytesEncoder) label!: string;
-    /** The new amount to bid in mutez. */
+    /** The new amount to bid in mumav. */
     bid!: number;
 }
 
 @RpcRequest()
 export class SettleRequest {
-    /** The first part of the domain name (e.g. `alice` if full domain name is `alice.tez`) */
+    /** The first part of the domain name (e.g. `alice` if full domain name is `alice.mav`) */
     @encoder(NormalizeBytesEncoder) label!: string;
     /** The address of the buyer. */
     owner!: string;

@@ -1,17 +1,17 @@
-import { TezosDomainsConfig, TLDConfig } from '../model';
+import { MavrykDomainsConfig, TLDConfig } from '../model';
 import { normalizeDomainName } from '../utils/convert';
 import { getLevel, getTld, stripTld } from '../utils/domains';
 import { BuiltInTLDs } from './built-in-tlds';
 import { DomainNameValidator, ValidateDomainNameOptions } from './domain-name-validator';
 import { DomainNameValidationResult, DomainNameValidatorFn, LengthDomainNameValidator, NoSpacesValidator } from './validators';
 
-export class TezosDomainsValidator implements DomainNameValidator {
+export class MavrykDomainsValidator implements DomainNameValidator {
     private validators: Map<string, DomainNameValidatorFn> = new Map();
     private claimableValidators: Map<string, DomainNameValidatorFn> = new Map();
     private tlds: string[] = [];
     private claimableTlds: string[] = [];
 
-    constructor(config?: TezosDomainsConfig) {
+    constructor(config?: MavrykDomainsConfig) {
         const network = config?.network || 'mainnet';
 
         if (network === 'custom' && !config?.tlds) {

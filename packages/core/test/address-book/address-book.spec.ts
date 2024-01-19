@@ -1,14 +1,14 @@
-import { AddressBook, SmartContractType, TezosDomainsProxyContractAddressResolver, CustomNetworkConfig, DefaultNetworkConfig } from '@tezos-domains/core';
+import { AddressBook, SmartContractType, MavrykDomainsProxyContractAddressResolver, CustomNetworkConfig, DefaultNetworkConfig } from '@mavrykdynamics/mavryk-domains-core';
 import { mock, instance, when, anyString } from 'ts-mockito';
 
 import { BuiltInAddresses } from '../../src/address-book/built-in-addresses';
 
 describe('AddressBook', () => {
     let addressBook: AddressBook;
-    let contractAddressResolverMock: TezosDomainsProxyContractAddressResolver;
+    let contractAddressResolverMock: MavrykDomainsProxyContractAddressResolver;
 
     beforeEach(() => {
-        contractAddressResolverMock = mock<TezosDomainsProxyContractAddressResolver>();
+        contractAddressResolverMock = mock<MavrykDomainsProxyContractAddressResolver>();
 
         when(contractAddressResolverMock.getAddress(anyString())).thenCall((a: string) => Promise.resolve(a + '_actual'));
     });
@@ -24,8 +24,8 @@ describe('AddressBook', () => {
         await expect(addressBook.lookup(SmartContractType.NameRegistry, 'set_child_record')).resolves.toBe(
             BuiltInAddresses.mainnet['nameRegistry:set_child_record'].address
         );
-        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'tez')).resolves.toBe(`${BuiltInAddresses.mainnet['tldRegistrar:tez'].address}_actual`);
-        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'tez', 'buy')).resolves.toBe(BuiltInAddresses.mainnet['tldRegistrar:tez:buy'].address);
+        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'mav')).resolves.toBe(`${BuiltInAddresses.mainnet['tldRegistrar:mav'].address}_actual`);
+        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'mav', 'buy')).resolves.toBe(BuiltInAddresses.mainnet['tldRegistrar:mav:buy'].address);
     });
 
     it('should resolve built-in addresses for ghostnet', async () => {

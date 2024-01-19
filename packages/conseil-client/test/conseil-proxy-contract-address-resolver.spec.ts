@@ -1,10 +1,10 @@
 import { mock, instance, when } from 'ts-mockito';
 
-import { ConseilTezosDomainsProxyContractAddressResolver } from '../src/conseil-proxy-contract-address-resolver';
+import { ConseilMavrykDomainsProxyContractAddressResolver } from '../src/conseil-proxy-contract-address-resolver';
 import { ConseilClient } from '../src/conseil/client';
 
-describe('ConseilTezosDomainsProxyContractAddressResolver', () => {
-    let proxyContractAddressResolver: ConseilTezosDomainsProxyContractAddressResolver;
+describe('ConseilMavrykDomainsProxyContractAddressResolver', () => {
+    let proxyContractAddressResolver: ConseilMavrykDomainsProxyContractAddressResolver;
     let conseilClientMock: ConseilClient;
 
     beforeEach(() => {
@@ -34,7 +34,7 @@ describe('ConseilTezosDomainsProxyContractAddressResolver', () => {
             args: [],
         });
 
-        proxyContractAddressResolver = new ConseilTezosDomainsProxyContractAddressResolver(instance(conseilClientMock));
+        proxyContractAddressResolver = new ConseilMavrykDomainsProxyContractAddressResolver(instance(conseilClientMock));
     });
 
     describe('getAddress', () => {

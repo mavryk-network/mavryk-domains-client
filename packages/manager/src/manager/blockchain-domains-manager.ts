@@ -1,6 +1,6 @@
-import { TransactionWalletOperation, WalletTransferParams, WalletOperation } from '@taquito/taquito';
-import { Tracer, Exact, AdditionalOperationParams } from '@tezos-domains/core';
-import { TaquitoClient } from '@tezos-domains/taquito';
+import { TransactionWalletOperation, WalletTransferParams, WalletOperation } from '@mavrykdynamics/taquito';
+import { Tracer, Exact, AdditionalOperationParams } from '@mavrykdynamics/mavryk-domains-core';
+import { TaquitoClient } from '@mavrykdynamics/mavryk-domains-taquito';
 
 import {
     SetChildRecordRequest,
@@ -16,7 +16,7 @@ import {
     TLDConfiguration,
 } from './model';
 import { DomainsManager } from './domains-manager';
-import { TezosDomainsOperationFactory } from './operation-factory';
+import { MavrykDomainsOperationFactory } from './operation-factory';
 import { TaquitoManagerDataProvider } from './data-provider';
 import { DomainAcquisitionInfo } from './acquisition-info';
 
@@ -24,7 +24,7 @@ export class BlockchainDomainsManager implements DomainsManager {
     constructor(
         private tezos: TaquitoClient,
         private tracer: Tracer,
-        private operationFactory: TezosDomainsOperationFactory<WalletTransferParams>,
+        private operationFactory: MavrykDomainsOperationFactory<WalletTransferParams>,
         private dataProvider: TaquitoManagerDataProvider
     ) {}
 
@@ -169,7 +169,7 @@ export class BlockchainDomainsManager implements DomainsManager {
         return operation;
     }
 
-    async batch(builder: (operationFactory: TezosDomainsOperationFactory<WalletTransferParams>) => Promise<WalletTransferParams[]>): Promise<WalletOperation> {
+    async batch(builder: (operationFactory: MavrykDomainsOperationFactory<WalletTransferParams>) => Promise<WalletTransferParams[]>): Promise<WalletOperation> {
         this.tracer.trace(`=> Executing batch.`);
 
         const operations = await builder(this.operationFactory);

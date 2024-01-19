@@ -1,7 +1,7 @@
-Tezos Domains Client
+Mavryk Domains Client
 ====================
 
-The sources for this package are in the main [Tezos Domains Client](https://gitlab.com/tezos-domains/client) repo. Please file issues and pull requests against that repo.
+The sources for this package are in the main [Mavryk Domains Client](https://gitlab.com/mavryk-network/mavryk-domains-client) repo. Please file issues and pull requests against that repo.
 
 License: MIT
 

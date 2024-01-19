@@ -1,5 +1,5 @@
 {
-    "name": "@tezos-domains/taquito-client",
+    "name": "@mavrykdynamics/mavryk-domains-taquito-client",
     "scripts": {
         "build": "rimraf dist && rollup -c rollup.config.ts",
         "watch": "rollup -c rollup.config.ts -w",
@@ -10,7 +10,7 @@
         "dist"
     ],
     "version": "1.26.0",
-    "description": "A library for interacting with tezos blockchain using taquito.",
+    "description": "A library for interacting with mavryk blockchain using taquito.",
     "author": "Necroskillz <necroskillz@gmail.com>",
     "license": "Apache-2.0",
     "main": "dist/taquito-client.umd.js",
@@ -18,24 +18,24 @@
     "typings": "dist/public_api.d.ts",
     "repository": {
         "type": "git",
-        "url": "git+ssh://git@gitlab.com/tezos-domains/client.git"
+        "url": "git+ssh://git@gitlab.com/mavryk-network/mavryk-domains-client.git"
     },
     "bugs": {
-        "url": "https://gitlab.com/tezos-domains/client/issues"
+        "url": "https://gitlab.com/mavryk-network/mavryk-domains-client/issues"
     },
     "peerDependencies": {
-        "@taquito/taquito": ">=17.0.0"
+        "@mavrykdynamics/taquito": ">=17.0.0"
     },
     "dependencies": {
-        "@tezos-domains/core": "^1.26.0",
-        "@tezos-domains/manager": "^1.26.0",
-        "@tezos-domains/resolver": "^1.26.0",
-        "@tezos-domains/taquito": "^1.26.0",
+        "@mavrykdynamics/mavryk-domains-core": "^1.26.0",
+        "@mavrykdynamics/mavryk-domains-manager": "^1.26.0",
+        "@mavrykdynamics/mavryk-domains-resolver": "^1.26.0",
+        "@mavrykdynamics/mavryk-domains-taquito": "^1.26.0",
         "bignumber.js": "^9.1.0",
         "node-cache": "^5.1.2"
     },
     "devDependencies": {
-        "@taquito/taquito": "17.0.0",
+        "@mavrykdynamics/taquito": "17.5.0",
         "@types/node": "^14.14.6",
         "fake-promise": "^2.5.41",
         "jest": "^26.6.1",

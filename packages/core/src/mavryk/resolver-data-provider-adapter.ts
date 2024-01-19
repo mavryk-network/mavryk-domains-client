@@ -1,10 +1,10 @@
 import { DomainInfo, ReverseRecordDomainInfo } from '../model';
-import { TezosDomainsDataProvider } from './tezos-domains-data-provider';
-import { TezosDomainsResolverDataProvider } from './tezos-domains-resolver-data-provider';
+import { MavrykDomainsDataProvider } from './mavryk-domains-data-provider';
+import { MavrykDomainsResolverDataProvider } from './mavryk-domains-resolver-data-provider';
 import { Tracer } from '../tracing/tracer';
 
-export class ResolverDataProviderAdapter implements TezosDomainsResolverDataProvider {
-    constructor(private tezosDomainsDataProvider: TezosDomainsDataProvider, private tracer: Tracer) {}
+export class ResolverDataProviderAdapter implements MavrykDomainsResolverDataProvider {
+    constructor(private mavrykDomainsDataProvider: MavrykDomainsDataProvider, private tracer: Tracer) {}
 
     async resolveDomainInfo(name: string): Promise<DomainInfo | null> {
         this.tracer.trace(`=> Resolving record '${name} with big map based resolution algorithm'`);
@@ -28,7 +28,7 @@ export class ResolverDataProviderAdapter implements TezosDomainsResolverDataProv
     async resolveReverseRecordDomainInfo(address: string): Promise<ReverseRecordDomainInfo | null> {
         this.tracer.trace(`=> Resolving reverse record for '${address} with big map based resolution algorithm'`);
 
-        const reverseRecord = await this.tezosDomainsDataProvider.getReverseRecord(address);
+        const reverseRecord = await this.mavrykDomainsDataProvider.getReverseRecord(address);
 
         if (!reverseRecord || !reverseRecord.name) {
             this.tracer.trace(`!! Reverse record is empty.`);
@@ -52,7 +52,7 @@ export class ResolverDataProviderAdapter implements TezosDomainsResolverDataProv
     }
 
     private async getValidRecord(name: string) {
-        const record = await this.tezosDomainsDataProvider.getDomainRecord(name);
+        const record = await this.mavrykDomainsDataProvider.getDomainRecord(name);
 
         if (!record) {
             this.tracer.trace('!! Record is null.');
@@ -63,7 +63,7 @@ export class ResolverDataProviderAdapter implements TezosDomainsResolverDataProv
             this.tracer.trace(`!! Validity key is null, record never expires.`);
         }
 
-        const expiry = record.expiry_key ? await this.tezosDomainsDataProvider.getDomainExpiry(record.expiry_key) : null;
+        const expiry = record.expiry_key ? await this.mavrykDomainsDataProvider.getDomainExpiry(record.expiry_key) : null;
 
         if (expiry && expiry < new Date()) {
             this.tracer.trace('!! Record is expired.');

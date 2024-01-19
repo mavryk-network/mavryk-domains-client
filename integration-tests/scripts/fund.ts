@@ -1,11 +1,11 @@
-import { TezosToolkit } from '@taquito/taquito';
-import { importKey } from '@taquito/signer';
+import { TezosToolkit } from '@mavrykdynamics/taquito';
+import { importKey } from '@mavrykdynamics/taquito-signer';
 
 import { CONFIG, TEST_WALLETS } from '../data';
 import BigNumber from 'bignumber.js';
 
 const fundWallet = {
-    pkh: 'tz1WgKeoZLuGntp6ZpWVKTBTXcLWKCgBsdPn',
+    pkh: 'mv1K3nxPsiCdNAbKi95LZGsUgdCUsbDRJbp9',
     mnemonic: ['wage', 'refuse', 'lucky', 'trigger', 'hunt', 'gold', 'trash', 'relax', 'limb', 'sunny', 'inject', 'modify', 'property', 'swear', 'tip'],
     email: 'zefklflt.wtnzugmr@teztnets.xyz',
     password: 's9iPRlkruo',
@@ -33,7 +33,7 @@ async function run() {
 
         const batch = tezos.contract.batch();
 
-        TEST_WALLETS.forEach(w => batch.withTransfer({ to: w.pkh, amount: share, mutez: true }));
+        TEST_WALLETS.forEach(w => batch.withTransfer({ to: w.pkh, amount: share, mumav: true }));
 
         const op = await batch.send();
 

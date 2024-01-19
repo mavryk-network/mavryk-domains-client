@@ -1,10 +1,10 @@
-import { CustomNetworkConfig, DefaultNetworkConfig, DomainNameValidationResult, DomainNameValidatorFn, TezosDomainsValidator } from '@tezos-domains/core';
+import { CustomNetworkConfig, DefaultNetworkConfig, DomainNameValidationResult, DomainNameValidatorFn, MavrykDomainsValidator } from '@mavrykdynamics/mavryk-domains-core';
 
-describe('TezosDomainsValidator', () => {
-    let validator: TezosDomainsValidator;
+describe('MavrykDomainsValidator', () => {
+    let validator: MavrykDomainsValidator;
 
     function init(config?: CustomNetworkConfig | DefaultNetworkConfig) {
-        validator = new TezosDomainsValidator(config);
+        validator = new MavrykDomainsValidator(config);
     }
 
     describe('isClaimableTld()', () => {
@@ -24,7 +24,7 @@ describe('TezosDomainsValidator', () => {
         it('should have supported tlds for network', () => {
             init();
 
-            expect(validator.supportedTLDs).toEqual(['tez']);
+            expect(validator.supportedTLDs).toEqual(['mav']);
         });
 
         it('should have supported claimable tlds for network', () => {
@@ -35,7 +35,7 @@ describe('TezosDomainsValidator', () => {
                 ],
             });
 
-            expect(validator.supportedTLDs).toEqual(['tez', 'com', 'dev']);
+            expect(validator.supportedTLDs).toEqual(['mav', 'com', 'dev']);
         });
     });
 
@@ -45,35 +45,35 @@ describe('TezosDomainsValidator', () => {
         });
 
         it('should return VALID if tld is supported', () => {
-            expect(validator.isValidWithKnownTld('tez')).toBe(DomainNameValidationResult.VALID);
+            expect(validator.isValidWithKnownTld('mav')).toBe(DomainNameValidationResult.VALID);
         });
 
         describe('latin', () => {
             beforeEach(() => init());
 
             it('should return UNSUPPORTED_CHARACTERS if domain name contains invalid characters', () => {
-                expect(validator.isValidWithKnownTld('a..a.tez')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
-                expect(validator.isValidWithKnownTld('a$a.tez')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
-                expect(validator.isValidWithKnownTld('a_a.tez')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
-                expect(validator.isValidWithKnownTld('$$.tez')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
+                expect(validator.isValidWithKnownTld('a..a.mav')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
+                expect(validator.isValidWithKnownTld('a$a.mav')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
+                expect(validator.isValidWithKnownTld('a_a.mav')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
+                expect(validator.isValidWithKnownTld('$$.mav')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
                 expect(
-                    validator.isValidWithKnownTld('abcdefghij1234567890abcdefghij1234567890abcdefghij1234567890abcdefghij1234567890abcdefghij123456789!.tez')
+                    validator.isValidWithKnownTld('abcdefghij1234567890abcdefghij1234567890abcdefghij1234567890abcdefghij1234567890abcdefghij123456789!.mav')
                 ).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
             });
 
             it('should return INVALID_LENGTH label is too long', () => {
                 expect(
-                    validator.isValidWithKnownTld('loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong.a.tez')
+                    validator.isValidWithKnownTld('loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong.a.mav')
                 ).toBe(DomainNameValidationResult.TOO_LONG);
                 expect(
-                    validator.isValidWithKnownTld('looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong.a.tez')
+                    validator.isValidWithKnownTld('looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong.a.mav')
                 ).toBe(DomainNameValidationResult.VALID);
             });
 
             it('should return VALID if domain is valid', () => {
-                expect(validator.isValidWithKnownTld('a-a.tez')).toBe(DomainNameValidationResult.VALID);
-                expect(validator.isValidWithKnownTld('aa.tez')).toBe(DomainNameValidationResult.VALID);
-                expect(validator.isValidWithKnownTld('aa.bb.tez')).toBe(DomainNameValidationResult.VALID);
+                expect(validator.isValidWithKnownTld('a-a.mav')).toBe(DomainNameValidationResult.VALID);
+                expect(validator.isValidWithKnownTld('aa.mav')).toBe(DomainNameValidationResult.VALID);
+                expect(validator.isValidWithKnownTld('aa.bb.mav')).toBe(DomainNameValidationResult.VALID);
             });
         });
         describe('custom tlds', () => {
@@ -153,37 +153,37 @@ describe('TezosDomainsValidator', () => {
         it('should return INVALID_NAME if domain name starts or ends with -', () => {
             init();
 
-            expect(validator.validateDomainName('-aa.tez')).toBe(DomainNameValidationResult.INVALID_NAME);
-            expect(validator.validateDomainName('aa-.tez')).toBe(DomainNameValidationResult.INVALID_NAME);
-            expect(validator.validateDomainName('aa.-bb.tez')).toBe(DomainNameValidationResult.INVALID_NAME);
+            expect(validator.validateDomainName('-aa.mav')).toBe(DomainNameValidationResult.INVALID_NAME);
+            expect(validator.validateDomainName('aa-.mav')).toBe(DomainNameValidationResult.INVALID_NAME);
+            expect(validator.validateDomainName('aa.-bb.mav')).toBe(DomainNameValidationResult.INVALID_NAME);
         });
         it('should return UNSUPPORTED_CHARACTERS if domain contains spaces or empty parts', () => {
             init();
-            expect(validator.validateDomainName('aa..tez')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
-            expect(validator.validateDomainName('aa.tez ')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
-            expect(validator.validateDomainName('aa. .tez')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
-            expect(validator.validateDomainName(' aa.tez')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
-            expect(validator.validateDomainName(' tez')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
-            expect(validator.validateDomainName('tez ')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
+            expect(validator.validateDomainName('aa..mav')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
+            expect(validator.validateDomainName('aa.mav ')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
+            expect(validator.validateDomainName('aa. .mav')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
+            expect(validator.validateDomainName(' aa.mav')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
+            expect(validator.validateDomainName(' mav')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
+            expect(validator.validateDomainName('mav ')).toBe(DomainNameValidationResult.UNSUPPORTED_CHARACTERS);
         });
 
         it('should return INVALID_NAME if starts with .', () => {
             init();
 
-            expect(validator.validateDomainName('.tez')).toBe(DomainNameValidationResult.TOO_SHORT);
+            expect(validator.validateDomainName('.mav')).toBe(DomainNameValidationResult.TOO_SHORT);
         });
 
         it('should return VALID if only the TLD is supplied', () => {
             init();
 
-            expect(validator.validateDomainName('tez')).toBe(DomainNameValidationResult.VALID);
+            expect(validator.validateDomainName('mav')).toBe(DomainNameValidationResult.VALID);
         });
 
         it('should return INVALID_NAME if name bellow min level', () => {
             init();
 
-            expect(validator.validateDomainName('tez', { minLevel: 2 })).toBe(DomainNameValidationResult.INVALID_NAME);
-            expect(validator.validateDomainName('tez', { minLevel: 1 })).toBe(DomainNameValidationResult.VALID);
+            expect(validator.validateDomainName('mav', { minLevel: 2 })).toBe(DomainNameValidationResult.INVALID_NAME);
+            expect(validator.validateDomainName('mav', { minLevel: 1 })).toBe(DomainNameValidationResult.VALID);
         });
 
         describe('length', () => {
@@ -191,17 +191,17 @@ describe('TezosDomainsValidator', () => {
 
             it('should return INVALID_LENGTH label is too long', () => {
                 expect(
-                    validator.validateDomainName('loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong.a.tez')
+                    validator.validateDomainName('loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong.a.mav')
                 ).toBe(DomainNameValidationResult.TOO_LONG);
                 expect(
-                    validator.validateDomainName('looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong.a.tez')
+                    validator.validateDomainName('looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong.a.mav')
                 ).toBe(DomainNameValidationResult.VALID);
             });
 
             it('should return VALID if domain is valid', () => {
-                expect(validator.validateDomainName('a-a.tez')).toBe(DomainNameValidationResult.VALID);
-                expect(validator.validateDomainName('aa.tez')).toBe(DomainNameValidationResult.VALID);
-                expect(validator.validateDomainName('aa.bb.tez')).toBe(DomainNameValidationResult.VALID);
+                expect(validator.validateDomainName('a-a.mav')).toBe(DomainNameValidationResult.VALID);
+                expect(validator.validateDomainName('aa.mav')).toBe(DomainNameValidationResult.VALID);
+                expect(validator.validateDomainName('aa.bb.mav')).toBe(DomainNameValidationResult.VALID);
             });
         });
     });

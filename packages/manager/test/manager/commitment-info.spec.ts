@@ -1,4 +1,4 @@
-import { CommitmentInfo } from '@tezos-domains/manager';
+import { CommitmentInfo } from '@mavrykdynamics/mavryk-domains-manager';
 import MockDate from 'mockdate';
 
 describe('CommitmentInfo', () => {

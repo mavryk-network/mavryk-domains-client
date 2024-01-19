@@ -1,5 +1,5 @@
 import {
-    TezosDomainsDataProvider,
+    MavrykDomainsDataProvider,
     Tracer,
     DomainRecord,
     ReverseRecord,
@@ -10,14 +10,14 @@ import {
     DateEncoder,
     RecordMetadata,
     RpcResponseData,
-} from '@tezos-domains/core';
+} from '@mavrykdynamics/mavryk-domains-core';
 import { JSONPath } from 'jsonpath-plus';
 
 import { NameRegistrySimpleStorage } from './model';
 import { ConseilClient } from './conseil/client';
 import { dataToObj } from './utils';
 
-export class ConseilTezosDomainsDataProvider implements TezosDomainsDataProvider {
+export class ConseilMavrykDomainsDataProvider implements MavrykDomainsDataProvider {
     constructor(private conseil: ConseilClient, private addressBook: AddressBook, private tracer: Tracer) {}
 
     async getDomainRecord(name: string): Promise<DomainRecord | null> {

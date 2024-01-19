@@ -6,13 +6,13 @@ import {
     ReverseRecord,
     RpcRequestData,
     SmartContractType,
-    TezosDomainsDataProvider,
+    MavrykDomainsDataProvider,
     Tracer
-} from '@tezos-domains/core';
-import { NameRegistryStorage, TaquitoClient } from '@tezos-domains/taquito';
+} from '@mavrykdynamics/mavryk-domains-core';
+import { NameRegistryStorage, TaquitoClient } from '@mavrykdynamics/mavryk-domains-taquito';
 import { TaquitoDomainRecord, TaquitoReverseRecord } from './model';
 
-export class TaquitoTezosDomainsDataProvider implements TezosDomainsDataProvider {
+export class TaquitoMavrykDomainsDataProvider implements MavrykDomainsDataProvider {
     constructor(private tezos: TaquitoClient, private addressBook: AddressBook, private tracer: Tracer) {}
 
     async getDomainRecord(name: string): Promise<DomainRecord | null> {
