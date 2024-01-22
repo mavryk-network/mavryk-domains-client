@@ -36,6 +36,7 @@ test:core:
     image: node:${NODE_VERSION}
     allow_failure: false
     script:
+        - yarn install
         - yarn workspace @mavrykdynamics/mavryk-domains-core test
     coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
     artifacts:
@@ -52,6 +53,7 @@ test:resolver:
     image: node:${NODE_VERSION}
     allow_failure: false
     script:
+        - yarn install
         - yarn workspace @mavrykdynamics/mavryk-domains-resolver test
     coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
     artifacts:
@@ -68,6 +70,7 @@ test:manager:
     image: node:${NODE_VERSION}
     allow_failure: false
     script:
+        - yarn install
         - yarn workspace @mavrykdynamics/mavryk-domains-manager test
     coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
     artifacts:
@@ -84,6 +87,7 @@ test:taquito:
     image: node:${NODE_VERSION}
     allow_failure: false
     script:
+        - yarn install
         - yarn workspace @mavrykdynamics/mavryk-domains-taquito test
     coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
     artifacts:
@@ -100,6 +104,7 @@ test:taquito-client:
     image: node:${NODE_VERSION}
     allow_failure: false
     script:
+        - yarn install
         - yarn workspace @mavrykdynamics/mavryk-domains-taquito-client test
     coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
     artifacts:
@@ -116,6 +121,7 @@ test:conseil-client:
     image: node:${NODE_VERSION}
     allow_failure: false
     script:
+        - yarn install
         - yarn workspace @mavrykdynamics/mavryk-domains-conseil-client test
     coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
     artifacts:
@@ -132,6 +138,7 @@ test:integration:ghostnet:
     image: node:${NODE_VERSION}
     allow_failure: false
     script:
+        - yarn install
         - TD_NETWORK=ghostnet TD_RPC_URL=${RPC_URL_GHOSTNET} TD_ADMIN_SIGN_KEY=${TD_ADMIN_SIGN_KEY} yarn integration-test
     tags:
         - docker
