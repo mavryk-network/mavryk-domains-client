@@ -9,7 +9,7 @@
     "files": [
         "dist"
     ],
-    "version": "1.26.0",
+    "version": "1.26.1",
     "description": "A library for interacting with mavryk blockchain using conseil.",
     "author": "Necroskillz <necroskillz@gmail.com>",
     "license": "Apache-2.0",
@@ -27,9 +27,9 @@
         "conseiljs": "^5.0.5"
     },
     "dependencies": {
-        "@mavrykdynamics/mavryk-domains-core": "^1.26.0",
-        "@mavrykdynamics/mavryk-domains-manager": "^1.26.0",
-        "@mavrykdynamics/mavryk-domains-resolver": "^1.26.0",
+        "@mavrykdynamics/mavryk-domains-core": "^1.26.1",
+        "@mavrykdynamics/mavryk-domains-manager": "^1.26.1",
+        "@mavrykdynamics/mavryk-domains-resolver": "^1.26.1",
         "node-cache": "^5.1.2"
     },
     "devDependencies": {

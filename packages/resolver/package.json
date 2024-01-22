@@ -9,7 +9,7 @@
     "files": [
         "dist"
     ],
-    "version": "1.26.0",
+    "version": "1.26.1",
     "description": "A library for resolving mavryk domains.",
     "author": "Necroskillz <necroskillz@gmail.com>",
     "license": "Apache-2.0",
@@ -24,7 +24,7 @@
         "url": "https://gitlab.com/mavryk-network/mavryk-domains-client/issues"
     },
     "dependencies": {
-        "@mavrykdynamics/mavryk-domains-core": "^1.26.0",
+        "@mavrykdynamics/mavryk-domains-core": "^1.26.1",
         "node-cache": "^5.1.2"
     },
     "devDependencies": {

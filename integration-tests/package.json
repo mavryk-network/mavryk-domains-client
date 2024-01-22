@@ -6,7 +6,7 @@
         "setup-records": "ts-node --script-mode ./scripts/setup-records.ts",
         "fund": "ts-node --script-mode ./scripts/fund.ts"
     },
-    "version": "1.26.0",
+    "version": "1.26.1",
     "author": "Necroskillz <necroskillz@gmail.com>",
     "repository": {
         "type": "git",
@@ -16,10 +16,10 @@
         "url": "https://gitlab.com/mavryk-network/mavryk-domains-client/issues"
     },
     "devDependencies": {
-        "@mavrykdynamics/mavryk-domains-conseil-client": "^1.26.0",
-        "@mavrykdynamics/mavryk-domains-core": "^1.26.0",
-        "@mavrykdynamics/mavryk-domains-manager": "^1.26.0",
-        "@mavrykdynamics/mavryk-domains-taquito-client": "^1.26.0",
+        "@mavrykdynamics/mavryk-domains-conseil-client": "^1.26.1",
+        "@mavrykdynamics/mavryk-domains-core": "^1.26.1",
+        "@mavrykdynamics/mavryk-domains-manager": "^1.26.1",
+        "@mavrykdynamics/mavryk-domains-taquito-client": "^1.26.1",
         "@mavrykdynamics/taquito": "17.5.0",
         "@mavrykdynamics/taquito-michelson-encoder": "17.5.0",
         "@mavrykdynamics/taquito-signer": "17.5.0",

@@ -9,7 +9,7 @@
     "files": [
         "dist"
     ],
-    "version": "1.26.0",
+    "version": "1.26.1",
     "description": "A library for managing mavryk domains.",
     "author": "Necroskillz <necroskillz@gmail.com>",
     "license": "Apache-2.0",
@@ -30,8 +30,8 @@
         "@mavrykdynamics/taquito-rpc": ">=17.0.0"
     },
     "dependencies": {
-        "@mavrykdynamics/mavryk-domains-core": "^1.26.0",
-        "@mavrykdynamics/mavryk-domains-taquito": "^1.26.0",
+        "@mavrykdynamics/mavryk-domains-core": "^1.26.1",
+        "@mavrykdynamics/mavryk-domains-taquito": "^1.26.1",
         "@types/sha.js": "^2.4.0",
         "bignumber.js": "^9.1.0",
         "sha.js": "^2.4.11"
