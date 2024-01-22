@@ -10,6 +10,7 @@ build:
     stage: build
     image: node:${NODE_VERSION}
     script:
+        - yarn install
         - yarn lint
         - yarn build
         - yarn docs
