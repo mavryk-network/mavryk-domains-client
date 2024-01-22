@@ -1,5 +1,5 @@
 variables:
-    NODE_VERSION: "alpine3.12"
+    NODE_VERSION: "18-alpine"
 
 stages:
     - build

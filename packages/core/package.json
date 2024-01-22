@@ -45,5 +45,6 @@
     "dependencies": {
         "idna-uts46-hx": "^3.3.0",
         "lodash.isplainobject": "4.0.6"
-    }
+    },
+    "gitHead": "999ee837b9a88db6e0583fd4466a8c408f93dcbd"
 }
