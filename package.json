@@ -12,7 +12,7 @@
         "lint": "eslint --ext .ts ./",
         "prepare": "yarn build",
         "version": "yarn",
-        "docs": "typedoc --options .typedoc.js --plugin typedoc-plugin-lerna-packages",
+        "docs": "typedoc --options .typedoc.js",
         "update-contracts": "ts-node --script-mode ./scripts/import-addresses.ts",
         "copy-to-app": "ts-node --script-mode ./scripts/copy-to-local-app.ts",
         "integration-test": "yarn workspace integration-tests integration-test"
@@ -41,8 +41,7 @@
         "minimist": "^1.2.5",
         "prettier": "^3.0.3",
         "ts-node": "^10.9.1",
-        "typedoc": "^0.17.0",
-        "typedoc-plugin-lerna-packages": "^0.3.1",
+        "typedoc": "^0.25.7",
         "typescript": "5.2.2"
     },
     "dependenciesMeta": {
