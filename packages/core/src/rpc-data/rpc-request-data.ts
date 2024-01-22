@@ -47,7 +47,7 @@ export class RpcRequestObjectData<T> extends RpcRequestData {
     }
 
     encode(): T {
-        const result = new this.type();
+        const result: any = new this.type();
 
         Object.assign(result, this.rawValue);
 

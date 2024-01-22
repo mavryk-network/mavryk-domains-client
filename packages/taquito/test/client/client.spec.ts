@@ -137,7 +137,7 @@ describe('TaquitoClient', () => {
 
             try {
                 await client.storage('KT1xxx');
-            } catch (e) {
+            } catch (e: any) {
                 eresult = e;
             }
             const result = await client.storage('KT1xxx');
@@ -169,7 +169,7 @@ describe('TaquitoClient', () => {
 
             try {
                 await client.getConstants();
-            } catch (e) {
+            } catch (e: any) {
                 eresult = e;
             }
             const result = await client.getConstants();

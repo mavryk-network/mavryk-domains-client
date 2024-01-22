@@ -171,7 +171,7 @@ export class CommitmentInfo {
      * Returns a promise that is resolved when commitment can be spent to buy a domain.
      */
     async waitUntilUsable(): Promise<void> {
-        await new Promise(resolve => setTimeout(() => resolve(), this._usableFrom.getTime() - Date.now()));
+        await new Promise<void>(resolve => setTimeout(() => resolve(), this._usableFrom.getTime() - Date.now()));
     }
 }
 

@@ -131,9 +131,9 @@ describe('TaquitoManagerDataProvider', () => {
         when(addressBookMock.lookup(anything(), anything(), anything())).thenCall((type, p1, p2) => Promise.resolve(`${type}addr${p1 || ''}${p2 || ''}`));
 
         when(
-            taquitoClientMock.getBigMapValue(`${SmartContractType.TLDRegistrar}addrtez`, anyFunction(), anything())
+            taquitoClientMock.getBigMapValue(`${SmartContractType.TLDRegistrar}addrmav`, anyFunction(), anything())
         ).thenCall((_, selector, key: RpcRequestScalarData<string>) => Promise.resolve(new RpcResponseData(selector(storage)[key.encode()!])));
-        when(taquitoClientMock.storage(`${SmartContractType.TLDRegistrar}addrtez`)).thenResolve(storage);
+        when(taquitoClientMock.storage(`${SmartContractType.TLDRegistrar}addrmav`)).thenResolve(storage);
         when(taquitoClientMock.storage(`${SmartContractType.OracleRegistrar}addr`)).thenResolve(<FakeOracleRegistrarStorage>{
             claim_price: new BigNumber(1_500_000),
         });
@@ -195,7 +195,7 @@ describe('TaquitoManagerDataProvider', () => {
         });
 
         it('should throw if domain name is invalid', async () => {
-            await expect(() => dataProvider.getCommitment('mav', { label: 'invalid', owner: 'mv1xxx', nonce: 1 })).rejects.toThrowError(
+            await expect(() => dataProvider.getCommitment('mav', { label: 'invalid', owner: 'mv1xxx', nonce: 1 })).rejects.toThrow(
                 "'invalid.mav' is not a valid domain name."
             );
         });
@@ -209,8 +209,8 @@ describe('TaquitoManagerDataProvider', () => {
             expect(info.buyOrRenewDetails.minDuration).toBe(5);
             expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(5e6);
             expect(info.calculatePrice(365)).toBe(365e6);
-            expect(() => info.auctionDetails).toThrowError();
-            expect(() => info.unobtainableDetails).toThrowError();
+            expect(() => info.auctionDetails).toThrow();
+            expect(() => info.unobtainableDetails).toThrow();
         });
 
         it('should get info about a new expensive domain that can be bought (4 letter)', async () => {
@@ -220,8 +220,8 @@ describe('TaquitoManagerDataProvider', () => {
             expect(info.buyOrRenewDetails.minDuration).toBe(5);
             expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(10e6);
             expect(info.calculatePrice(365)).toBe(730e6);
-            expect(() => info.auctionDetails).toThrowError();
-            expect(() => info.unobtainableDetails).toThrowError();
+            expect(() => info.auctionDetails).toThrow();
+            expect(() => info.unobtainableDetails).toThrow();
         });
 
         it('should get info about an expired domain that can be bought', async () => {
@@ -231,8 +231,8 @@ describe('TaquitoManagerDataProvider', () => {
             expect(info.buyOrRenewDetails.minDuration).toBe(5);
             expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(5e6);
             expect(info.calculatePrice(365)).toBe(365e6);
-            expect(() => info.auctionDetails).toThrowError();
-            expect(() => info.unobtainableDetails).toThrowError();
+            expect(() => info.auctionDetails).toThrow();
+            expect(() => info.unobtainableDetails).toThrow();
         });
 
         it('should get info about a domain that is already owned', async () => {
@@ -242,8 +242,8 @@ describe('TaquitoManagerDataProvider', () => {
             expect(info.buyOrRenewDetails.minDuration).toBe(5);
             expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(5e6);
             expect(info.calculatePrice(365)).toBe(365e6);
-            expect(() => info.auctionDetails).toThrowError();
-            expect(() => info.unobtainableDetails).toThrowError();
+            expect(() => info.auctionDetails).toThrow();
+            expect(() => info.unobtainableDetails).toThrow();
         });
 
         it('should return unobtainable if tld is not launched yet', async () => {
@@ -255,9 +255,9 @@ describe('TaquitoManagerDataProvider', () => {
             expect(info.unobtainableDetails.launchDate!.toISOString()).toBe(
                 new Date(new Date(2020, 6, 1, 0, 0, 0).getTime() - new Date(2020, 6, 1).getTimezoneOffset() * 60000).toISOString()
             );
-            expect(() => info.auctionDetails).toThrowError();
-            expect(() => info.buyOrRenewDetails).toThrowError();
-            expect(() => info.calculatePrice(365)).toThrowError();
+            expect(() => info.auctionDetails).toThrow();
+            expect(() => info.buyOrRenewDetails).toThrow();
+            expect(() => info.calculatePrice(365)).toThrow();
         });
 
         it('should return info about domain even if tld is not launched yet', async () => {
@@ -269,8 +269,8 @@ describe('TaquitoManagerDataProvider', () => {
             expect(info.buyOrRenewDetails.minDuration).toBe(5);
             expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(5e6);
             expect(info.calculatePrice(365)).toBe(365e6);
-            expect(() => info.auctionDetails).toThrowError();
-            expect(() => info.unobtainableDetails).toThrowError();
+            expect(() => info.auctionDetails).toThrow();
+            expect(() => info.unobtainableDetails).toThrow();
         });
 
         it('should return info about auction if within auction period', async () => {
@@ -287,9 +287,9 @@ describe('TaquitoManagerDataProvider', () => {
             expect(info.auctionDetails.nextMinimumBid).toBe(5e6);
             expect(info.auctionDetails.registrationDuration).toBe(5);
             expect(info.auctionDetails.bidAdditionalPeriod).toBe(24 * 60 * 60 * 1000);
-            expect(() => info.buyOrRenewDetails).toThrowError();
-            expect(() => info.unobtainableDetails).toThrowError();
-            expect(() => info.calculatePrice(365)).toThrowError();
+            expect(() => info.buyOrRenewDetails).toThrow();
+            expect(() => info.unobtainableDetails).toThrow();
+            expect(() => info.calculatePrice(365)).toThrow();
         });
 
         it('should return info about auction if within auction period after domain expiration', async () => {
@@ -304,9 +304,9 @@ describe('TaquitoManagerDataProvider', () => {
             expect(info.auctionDetails.nextMinimumBid).toBe(5e6);
             expect(info.auctionDetails.registrationDuration).toBe(5);
             expect(info.auctionDetails.bidAdditionalPeriod).toBe(24 * 60 * 60 * 1000);
-            expect(() => info.buyOrRenewDetails).toThrowError();
-            expect(() => info.unobtainableDetails).toThrowError();
-            expect(() => info.calculatePrice(365)).toThrowError();
+            expect(() => info.buyOrRenewDetails).toThrow();
+            expect(() => info.unobtainableDetails).toThrow();
+            expect(() => info.calculatePrice(365)).toThrow();
         });
 
         it('should get info about an expired domain that can be bought after domain expiration and once auction period has passed', async () => {
@@ -318,8 +318,8 @@ describe('TaquitoManagerDataProvider', () => {
             expect(info.buyOrRenewDetails.minDuration).toBe(5);
             expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(5e6);
             expect(info.calculatePrice(365)).toBe(365e6);
-            expect(() => info.auctionDetails).toThrowError();
-            expect(() => info.unobtainableDetails).toThrowError();
+            expect(() => info.auctionDetails).toThrow();
+            expect(() => info.unobtainableDetails).toThrow();
         });
 
         it('should get info about an auction if domain expired after an unsettled auction', async () => {
@@ -336,9 +336,9 @@ describe('TaquitoManagerDataProvider', () => {
             expect(info.auctionDetails.registrationDuration).toBe(5);
             expect(info.auctionDetails.bidAdditionalPeriod).toBe(24 * 60 * 60 * 1000);
 
-            expect(() => info.unobtainableDetails).toThrowError();
-            expect(() => info.buyOrRenewDetails).toThrowError();
-            expect(() => info.calculatePrice(365)).toThrowError();
+            expect(() => info.unobtainableDetails).toThrow();
+            expect(() => info.buyOrRenewDetails).toThrow();
+            expect(() => info.calculatePrice(365)).toThrow();
         });
 
         it('should return unobtainable if launch date for particular label length is not launched yet', async () => {
@@ -350,9 +350,9 @@ describe('TaquitoManagerDataProvider', () => {
             expect(info.unobtainableDetails.launchDate!.toISOString()).toBe(
                 new Date(new Date(2020, 7, 1, 0, 0, 0).getTime() - new Date(2020, 7, 1).getTimezoneOffset() * 60000).toISOString()
             );
-            expect(() => info.auctionDetails).toThrowError();
-            expect(() => info.buyOrRenewDetails).toThrowError();
-            expect(() => info.calculatePrice(365)).toThrowError();
+            expect(() => info.auctionDetails).toThrow();
+            expect(() => info.buyOrRenewDetails).toThrow();
+            expect(() => info.calculatePrice(365)).toThrow();
         });
 
         it('should return info about auction if within auction period for particular label length, even if default hasnt started', async () => {
@@ -370,9 +370,9 @@ describe('TaquitoManagerDataProvider', () => {
 
             expect(info.acquisitionState).toBe(DomainAcquisitionState.Unobtainable);
             expect(info.unobtainableDetails.launchDate).toBeNull();
-            expect(() => info.auctionDetails).toThrowError();
-            expect(() => info.buyOrRenewDetails).toThrowError();
-            expect(() => info.calculatePrice(365)).toThrowError();
+            expect(() => info.auctionDetails).toThrow();
+            expect(() => info.buyOrRenewDetails).toThrow();
+            expect(() => info.calculatePrice(365)).toThrow();
         });
 
         it('should return info about auction in progress', async () => {
@@ -387,9 +387,9 @@ describe('TaquitoManagerDataProvider', () => {
             expect(info.auctionDetails.nextMinimumBid).toBe(1.2e7);
             expect(info.auctionDetails.registrationDuration).toBe(5);
             expect(info.auctionDetails.bidAdditionalPeriod).toBe(24 * 60 * 60 * 1000);
-            expect(() => info.buyOrRenewDetails).toThrowError();
-            expect(() => info.unobtainableDetails).toThrowError();
-            expect(() => info.calculatePrice(365)).toThrowError();
+            expect(() => info.buyOrRenewDetails).toThrow();
+            expect(() => info.unobtainableDetails).toThrow();
+            expect(() => info.calculatePrice(365)).toThrow();
         });
 
         it('should return info about auction with expired settlement that can be auctioned again', async () => {
@@ -404,9 +404,9 @@ describe('TaquitoManagerDataProvider', () => {
             expect(info.auctionDetails.nextMinimumBid).toBe(5e6);
             expect(info.auctionDetails.registrationDuration).toBe(5);
             expect(info.auctionDetails.bidAdditionalPeriod).toBe(24 * 60 * 60 * 1000);
-            expect(() => info.buyOrRenewDetails).toThrowError();
-            expect(() => info.unobtainableDetails).toThrowError();
-            expect(() => info.calculatePrice(365)).toThrowError();
+            expect(() => info.buyOrRenewDetails).toThrow();
+            expect(() => info.unobtainableDetails).toThrow();
+            expect(() => info.calculatePrice(365)).toThrow();
         });
 
         it('should return info about auction with expired settlement and expired next auction that can be bought', async () => {
@@ -418,8 +418,8 @@ describe('TaquitoManagerDataProvider', () => {
             expect(info.buyOrRenewDetails.minDuration).toBe(5);
             expect(info.buyOrRenewDetails.pricePerMinDuration).toBe(5e6);
             expect(info.calculatePrice(365)).toBe(365e6);
-            expect(() => info.auctionDetails).toThrowError();
-            expect(() => info.unobtainableDetails).toThrowError();
+            expect(() => info.auctionDetails).toThrow();
+            expect(() => info.unobtainableDetails).toThrow();
         });
 
         it('should return info about auction that can be settled', async () => {
@@ -434,9 +434,9 @@ describe('TaquitoManagerDataProvider', () => {
             expect(info.auctionDetails.nextMinimumBid).toBe(NaN);
             expect(info.auctionDetails.registrationDuration).toBe(5);
             expect(info.auctionDetails.bidAdditionalPeriod).toBe(24 * 60 * 60 * 1000);
-            expect(() => info.buyOrRenewDetails).toThrowError();
-            expect(() => info.unobtainableDetails).toThrowError();
-            expect(() => info.calculatePrice(365)).toThrowError();
+            expect(() => info.buyOrRenewDetails).toThrow();
+            expect(() => info.unobtainableDetails).toThrow();
+            expect(() => info.calculatePrice(365)).toThrow();
         });
 
         it('should return claimable state', async () => {
@@ -446,11 +446,11 @@ describe('TaquitoManagerDataProvider', () => {
         });
 
         it('should throw if domain name is invalid', async () => {
-            await expect(() => dataProvider.getAcquisitionInfo('invalid.mav')).rejects.toThrowError("'invalid.mav' is not a valid domain name.");
+            await expect(() => dataProvider.getAcquisitionInfo('invalid.mav')).rejects.toThrow("'invalid.mav' is not a valid domain name.");
         });
 
         it('should throw if domain name not 2nd level', async () => {
-            await expect(() => dataProvider.getAcquisitionInfo('bob.alice.mav')).rejects.toThrowError(
+            await expect(() => dataProvider.getAcquisitionInfo('bob.alice.mav')).rejects.toThrow(
                 "Domain 'bob.alice.mav' cannot be acquired. Only 2nd level domains (e.g. 'alice.mav') can be acquired."
             );
         });
@@ -486,7 +486,7 @@ describe('TaquitoManagerDataProvider', () => {
         });
 
         it('should throw if tld is not supported', async () => {
-            await expect(() => dataProvider.getBidderBalance('ble', 'mv1NoYoaaCHVxJWsFN7HCujx1i6BmA6a8Fay')).rejects.toThrowError(
+            await expect(() => dataProvider.getBidderBalance('ble', 'mv1NoYoaaCHVxJWsFN7HCujx1i6BmA6a8Fay')).rejects.toThrow(
                 "TLD 'ble' is not supported."
             );
         });
@@ -506,11 +506,11 @@ describe('TaquitoManagerDataProvider', () => {
         });
 
         it('should throw if domain name is invalid', async () => {
-            await expect(() => dataProvider.getTokenId('invalid.mav')).rejects.toThrowError("'invalid.mav' is not a valid domain name.");
+            await expect(() => dataProvider.getTokenId('invalid.mav')).rejects.toThrow("'invalid.mav' is not a valid domain name.");
         });
 
         it('should throw if domain name not 2nd level', async () => {
-            await expect(() => dataProvider.getTokenId('bob.alice.mav')).rejects.toThrowError(
+            await expect(() => dataProvider.getTokenId('bob.alice.mav')).rejects.toThrow(
                 "Domain 'bob.alice.mav' does not have a tokenId. Only 2nd level domains (e.g. 'alice.mav') are NFTs."
             );
         });
@@ -530,7 +530,7 @@ describe('TaquitoManagerDataProvider', () => {
         });
 
         it('should throw if domain name is invalid', async () => {
-            await expect(() => dataProvider.getTokenId('invalid.mav')).rejects.toThrowError("'invalid.mav' is not a valid domain name.");
+            await expect(() => dataProvider.getTokenId('invalid.mav')).rejects.toThrow("'invalid.mav' is not a valid domain name.");
         });
     });
 });

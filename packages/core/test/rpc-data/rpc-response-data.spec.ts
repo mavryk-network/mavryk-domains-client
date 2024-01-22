@@ -88,7 +88,7 @@ describe('RpcRequestData', () => {
         });
 
         it('should throw if class does not have RpcRequest decorator', () => {
-            expect(() => new RpcResponseData({ prop: 'a' }).decode(InvalidFakeResponse)).toThrowError();
+            expect(() => new RpcResponseData({ prop: 'a' }).decode(InvalidFakeResponse)).toThrow();
         });
     });
 });

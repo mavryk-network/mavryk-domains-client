@@ -45,8 +45,8 @@ describe('ConseilMavrykDomainsProxyContractAddressResolver', () => {
         });
 
         it('should throw if contract does not return correct storage', async () => {
-            await expect(proxyContractAddressResolver.getAddress('404')).rejects.toThrowError();
-            await expect(proxyContractAddressResolver.getAddress('KT1inv')).rejects.toThrowError();
+            await expect(proxyContractAddressResolver.getAddress('404')).rejects.toThrow();
+            await expect(proxyContractAddressResolver.getAddress('KT1inv')).rejects.toThrow();
         });
     });
 });

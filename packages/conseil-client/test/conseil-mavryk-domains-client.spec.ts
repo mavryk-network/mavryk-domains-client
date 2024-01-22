@@ -110,7 +110,7 @@ describe('ConseilMavrykDomainsClient', () => {
             });
 
             it('should not allow to change config', () => {
-                expect(() => ConseilMavrykDomainsClient.Unsupported.setConfig({ conseil: { server: 'https://rpc2.io/' } })).toThrowError();
+                expect(() => ConseilMavrykDomainsClient.Unsupported.setConfig({ conseil: { server: 'https://rpc2.io/' } })).toThrow();
             });
         });
     });

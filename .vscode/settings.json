@@ -4,8 +4,6 @@
   "eslint.nodePath": ".yarn/sdks",
   "typescript.tsdk": ".yarn/sdks/typescript/lib",
   "search.exclude": {
-    "**/.yarn": true,
-    "**/.pnp.*": true,
     "**/dist": true,
     "**/*.d.ts": true
   }

@@ -29,19 +29,19 @@ describe('NullNameResolver', () => {
 
     describe('addSupportedTld()', () => {
         it('should throw error', () => {
-            expect(() => validator.addSupportedTld('mav', () => DomainNameValidationResult.VALID)).toThrowError();
+            expect(() => validator.addSupportedTld('mav', () => DomainNameValidationResult.VALID)).toThrow();
         });
     });
 
     describe('removeSupportedTld()', () => {
         it('should throw error', () => {
-            expect(() => validator.removeSupportedTld('mav')).toThrowError();
+            expect(() => validator.removeSupportedTld('mav')).toThrow();
         });
     });
 
     describe('isClaimableTld()', () => {
         it('should throw error', () => {
-            expect(() => validator.isClaimableTld('mav')).toThrowError();
+            expect(() => validator.isClaimableTld('mav')).toThrow();
         });
     });
 });

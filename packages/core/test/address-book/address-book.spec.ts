@@ -56,11 +56,11 @@ describe('AddressBook', () => {
     });
 
     it('should throw when no addresses are specified for custom network', () => {
-        expect(() => init({ network: 'custom' } as any)).toThrowError();
+        expect(() => init({ network: 'custom' } as any)).toThrow();
     });
 
     it('should when unknown option network is specified', () => {
-        expect(() => init({ network: 'blehnet' as any })).toThrowError();
+        expect(() => init({ network: 'blehnet' as any })).toThrow();
     });
 
     describe('lookup()', () => {

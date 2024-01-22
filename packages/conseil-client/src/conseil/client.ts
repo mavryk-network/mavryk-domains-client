@@ -42,7 +42,7 @@ export class ConseilClient {
         let value: any;
         try {
             value = await TezosNodeReader.getValueForBigMapKey(this.config.server, mapid, mapKey);
-        } catch (err) {
+        } catch (err: any) {
             if (err.httpStatus === 404) {
                 value = null;
             } else {

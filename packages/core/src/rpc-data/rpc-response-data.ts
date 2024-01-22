@@ -19,7 +19,7 @@ export class RpcResponseData {
             return null;
         }
 
-        const result = new type();
+        const result: any = new type();
 
         Object.assign(result, cleanupResponse(this.rawValue));
 

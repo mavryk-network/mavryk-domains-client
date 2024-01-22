@@ -170,7 +170,7 @@ describe('TaquitoMavrykDomainsClient', () => {
             });
 
             it('should not allow to change config', () => {
-                expect(() => TaquitoMavrykDomainsClient.Unsupported.setConfig({ tezos: instance(tezosToolkitMock) })).toThrowError();
+                expect(() => TaquitoMavrykDomainsClient.Unsupported.setConfig({ tezos: instance(tezosToolkitMock) })).toThrow();
             });
         });
     });

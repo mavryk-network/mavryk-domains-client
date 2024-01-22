@@ -1,17 +1,4 @@
 {
-  "packages": [
-    "packages/*",
-    "integration-tests"
-  ],
-  "version": "1.26.0",
-  "npmClient": "yarn",
-  "useWorkspaces": true,
-  "granularPathspec": false,
-  "command": {
-    "version": {
-      "message": "release: cut the %s release",
-      "allowBranch": "master",
-      "conventionalCommits": true
-    }
-  }
+  "useNx": true,
+  "version": "1.26.0"
 }

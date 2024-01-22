@@ -43,7 +43,7 @@ describe('RpcRequestData', () => {
         });
 
         it('should throw if class does not have RpcRequest decorator', () => {
-            expect(() => RpcRequestData.fromObject(InvalidFakeRequest, { prop: 'a' }).encode()).toThrowError();
+            expect(() => RpcRequestData.fromObject(InvalidFakeRequest, { prop: 'a' }).encode()).toThrow();
         });
     });
 });

@@ -130,7 +130,7 @@ describe('TaquitoMavrykDomainsOperationFactory', () => {
                     address: 'mv1yyy',
                     expiry: null,
                 })
-            ).rejects.toThrowError("'invalid.mav' is not a valid domain name.");
+            ).rejects.toThrow("'invalid.mav' is not a valid domain name.");
         });
     });
 
@@ -167,7 +167,7 @@ describe('TaquitoMavrykDomainsOperationFactory', () => {
                     owner: 'mv1xxx',
                     address: 'mv1yyy',
                 })
-            ).rejects.toThrowError("'invalid.mav' is not a valid domain name.");
+            ).rejects.toThrow("'invalid.mav' is not a valid domain name.");
         });
     });
 
@@ -181,7 +181,7 @@ describe('TaquitoMavrykDomainsOperationFactory', () => {
 
             verify(
                 taquitoClientMock.params(
-                    `${SmartContractType.TLDRegistrar}addrtezcommit`,
+                    `${SmartContractType.TLDRegistrar}addrmavcommit`,
                     'commit',
                     deepEqual(['commitment']),
                     deepEqual({ storageLimit: DEFAULT_STORAGE_LIMITS['commit'], ...additionalParams })
@@ -192,7 +192,7 @@ describe('TaquitoMavrykDomainsOperationFactory', () => {
         });
 
         it('should throw if domain name is invalid', async () => {
-            await expect(() => operationFactory.commit('mav', { label: 'invalid', owner: 'mv1xxx', nonce: 1 })).rejects.toThrowError(
+            await expect(() => operationFactory.commit('mav', { label: 'invalid', owner: 'mv1xxx', nonce: 1 })).rejects.toThrow(
                 "'invalid.mav' is not a valid domain name."
             );
         });
@@ -222,7 +222,7 @@ describe('TaquitoMavrykDomainsOperationFactory', () => {
 
             verify(
                 taquitoClientMock.params(
-                    `${SmartContractType.TLDRegistrar}addrtezbuy`,
+                    `${SmartContractType.TLDRegistrar}addrmavbuy`,
                     'buy',
                     deepEqual([e('alice'), 365, 'mv1xxx', 'mv1yyy', anyOfClass(MichelsonMap), 1]),
                     deepEqual({ amount: 1e6 * 365, storageLimit: DEFAULT_STORAGE_LIMITS['buy'], ...additionalParams })
@@ -244,7 +244,7 @@ describe('TaquitoMavrykDomainsOperationFactory', () => {
                     data: new RecordMetadata(),
                     nonce: 1,
                 })
-            ).rejects.toThrowError("'invalid.mav' is not a valid domain name.");
+            ).rejects.toThrow("'invalid.mav' is not a valid domain name.");
         });
     });
 
@@ -268,7 +268,7 @@ describe('TaquitoMavrykDomainsOperationFactory', () => {
 
             verify(
                 taquitoClientMock.params(
-                    `${SmartContractType.TLDRegistrar}addrtezrenew`,
+                    `${SmartContractType.TLDRegistrar}addrmavrenew`,
                     'renew',
                     deepEqual([e('necroskillz2'), 365]),
                     deepEqual({ amount: 365 * 1e6, ...additionalParams })
@@ -284,7 +284,7 @@ describe('TaquitoMavrykDomainsOperationFactory', () => {
                     duration: 365,
                     label: 'invalid',
                 })
-            ).rejects.toThrowError("'invalid.mav' is not a valid domain name.");
+            ).rejects.toThrow("'invalid.mav' is not a valid domain name.");
         });
     });
 
@@ -325,7 +325,7 @@ describe('TaquitoMavrykDomainsOperationFactory', () => {
                     name: 'invalid.mav',
                     owner: 'mv1xxx',
                 })
-            ).rejects.toThrowError("'invalid.mav' is not a valid domain name.");
+            ).rejects.toThrow("'invalid.mav' is not a valid domain name.");
         });
     });
 
@@ -369,7 +369,7 @@ describe('TaquitoMavrykDomainsOperationFactory', () => {
                     name: 'invalid.mav',
                     owner: 'mv1yyy',
                 })
-            ).rejects.toThrowError("'invalid.mav' is not a valid domain name.");
+            ).rejects.toThrow("'invalid.mav' is not a valid domain name.");
         });
     });
 
@@ -390,7 +390,7 @@ describe('TaquitoMavrykDomainsOperationFactory', () => {
 
             verify(
                 taquitoClientMock.params(
-                    `${SmartContractType.TLDRegistrar}addrtezbid`,
+                    `${SmartContractType.TLDRegistrar}addrmavbid`,
                     'bid',
                     deepEqual([e('necroskillz'), 5e6]),
                     deepEqual({ storageLimit: DEFAULT_STORAGE_LIMITS['bid'], amount: 5e6, ...additionalParams })
@@ -410,7 +410,7 @@ describe('TaquitoMavrykDomainsOperationFactory', () => {
 
             verify(
                 taquitoClientMock.params(
-                    `${SmartContractType.TLDRegistrar}addrtezbid`,
+                    `${SmartContractType.TLDRegistrar}addrmavbid`,
                     'bid',
                     deepEqual([e('necroskillz'), 5e6]),
                     deepEqual({ storageLimit: DEFAULT_STORAGE_LIMITS['bid'], amount: 3e6 })
@@ -430,7 +430,7 @@ describe('TaquitoMavrykDomainsOperationFactory', () => {
 
             verify(
                 taquitoClientMock.params(
-                    `${SmartContractType.TLDRegistrar}addrtezbid`,
+                    `${SmartContractType.TLDRegistrar}addrmavbid`,
                     'bid',
                     deepEqual([e('necroskillz'), 1e6]),
                     deepEqual({ storageLimit: DEFAULT_STORAGE_LIMITS['bid'], amount: 0 })
@@ -446,7 +446,7 @@ describe('TaquitoMavrykDomainsOperationFactory', () => {
                     label: 'invalid',
                     bid: 1e6,
                 })
-            ).rejects.toThrowError("'invalid.mav' is not a valid domain name.");
+            ).rejects.toThrow("'invalid.mav' is not a valid domain name.");
         });
     });
 
@@ -465,7 +465,7 @@ describe('TaquitoMavrykDomainsOperationFactory', () => {
 
             verify(
                 taquitoClientMock.params(
-                    `${SmartContractType.TLDRegistrar}addrtezsettle`,
+                    `${SmartContractType.TLDRegistrar}addrmavsettle`,
                     'settle',
                     deepEqual([e('necroskillz'), 'mv1xxx', 'mv1yyy', anyOfClass(MichelsonMap)]),
                     deepEqual({ storageLimit: DEFAULT_STORAGE_LIMITS['settle'], ...additionalParams })
@@ -485,7 +485,7 @@ describe('TaquitoMavrykDomainsOperationFactory', () => {
                     address: 'mv1yyy',
                     data: new RecordMetadata(),
                 })
-            ).rejects.toThrowError("'invalid.mav' is not a valid domain name.");
+            ).rejects.toThrow("'invalid.mav' is not a valid domain name.");
         });
     });
 
@@ -495,7 +495,7 @@ describe('TaquitoMavrykDomainsOperationFactory', () => {
 
             verify(
                 taquitoClientMock.params(
-                    `${SmartContractType.TLDRegistrar}addrtezwithdraw`,
+                    `${SmartContractType.TLDRegistrar}addrmavwithdraw`,
                     'withdraw',
                     deepEqual(['mv1PZMMCSSwAgDy5cgNTBMtanUn6QB9wrvqm']),
                     deepEqual(additionalParams)
@@ -506,7 +506,7 @@ describe('TaquitoMavrykDomainsOperationFactory', () => {
         });
 
         it('should throw if tld is not supported', async () => {
-            await expect(() => operationFactory.withdraw('ble', 'mv1NoYoaaCHVxJWsFN7HCujx1i6BmA6a8Fay')).rejects.toThrowError("TLD 'ble' is not supported.");
+            await expect(() => operationFactory.withdraw('ble', 'mv1NoYoaaCHVxJWsFN7HCujx1i6BmA6a8Fay')).rejects.toThrow("TLD 'ble' is not supported.");
         });
     });
 
@@ -531,7 +531,7 @@ describe('TaquitoMavrykDomainsOperationFactory', () => {
         });
 
         it('should throw if token id is null', async () => {
-            await expect(() => operationFactory.transfer('bob.mav', 'mv1NoYoaaCHVxJWsFN7HCujx1i6BmA6a8Fay')).rejects.toThrowError();
+            await expect(() => operationFactory.transfer('bob.mav', 'mv1NoYoaaCHVxJWsFN7HCujx1i6BmA6a8Fay')).rejects.toThrow();
         });
     });
 
@@ -572,7 +572,7 @@ describe('TaquitoMavrykDomainsOperationFactory', () => {
                     owner: 'mv1xxx',
                     timestamp: new Date().toISOString(),
                 })
-            ).rejects.toThrowError("'invalid.mav' is not a valid domain name.");
+            ).rejects.toThrow("'invalid.mav' is not a valid domain name.");
         });
     });
 });
