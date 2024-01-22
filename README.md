@@ -24,9 +24,9 @@ import { TaquitoMavrykDomainsClient } from '@mavrykdynamics/mavryk-domains-taqui
 import { Tzip16Module } from '@mavrykdynamics/taquito-tzip16';
 
 async function main() {
-    const tezos = new TezosToolkit('https://ghostnet.smartpy.io');
+    const tezos = new TezosToolkit('https://basenet-baking-node.mavryk.network');
     tezos.addExtension(new Tzip16Module());
-    const client = new TaquitoMavrykDomainsClient({ tezos, network: 'ghostnet', caching: { enabled: true } });
+    const client = new TaquitoMavrykDomainsClient({ tezos, network: 'basenet', caching: { enabled: true } });
 
     const address = await client.resolver.resolveNameToAddress('bob.flo');
 
@@ -56,10 +56,10 @@ import { TaquitoMavrykDomainsClient } from '@mavrykdynamics/mavryk-domains-taqui
 import { getTld, getLabel, DomainNameValidationResult, RecordMetadata, generateNonce } from '@mavrykdynamics/mavryk-domains-core';
 
 async function main() {
-    const tezos = new TezosToolkit('https://ghostnet.smartpy.io');
+    const tezos = new TezosToolkit('https://basenet-baking-node.mavryk.network');
     tezos.addExtension(new Tzip16Module());
     tezos.setSignerProvider(new InMemorySigner('<your signing key>'));
-    const client = new TaquitoMavrykDomainsClient({ tezos, network: 'ghostnet' });
+    const client = new TaquitoMavrykDomainsClient({ tezos, network: 'basenet' });
 
     const name = 'foobar.flo';
 
@@ -133,8 +133,8 @@ async function main() {
     registerFetch(fetch);
 
     const client = new ConseilMavrykDomainsClient({
-        conseil: { server: 'https://ghostnet.smartpy.io' },
-        network: 'ghostnet',
+        conseil: { server: 'https://basenet-baking-node.mavryk.network' },
+        network: 'basenet',
         caching: { enabled: true },
     });
 
@@ -150,7 +150,7 @@ The client takes options that can customize it's behavior.
 
 `network` (default: `'mainnet'`)
 
--   Specifies which contracts addresses to use. There are built in ones specified for `mainnet` and `ghostnet`. For `custom` you need to also specify `contractAddresses`.
+-   Specifies which contracts addresses to use. There are built in ones specified for `mainnet` and `basenet`. For `custom` you need to also specify `contractAddresses`.
 
 `contractAddresses` (default: `undefined`)
 

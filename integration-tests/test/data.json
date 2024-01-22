@@ -1,5 +1,5 @@
 {
-    "ghostnet": {
+    "basenet": {
         "price": 1000000,
         "aliceTokenId": 1,
         "commitment": { "created": "2022-07-06T11:47:50.000Z", "usableFrom": "2022-07-06T11:47:57.000Z", "usableUntil": "2022-07-07T11:47:50.000Z" }

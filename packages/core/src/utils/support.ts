@@ -1,6 +1,6 @@
 import { BuiltInAddresses } from '../address-book/built-in-addresses';
 
-export type SupportedNetworkType = 'mainnet' | 'ghostnet';
+export type SupportedNetworkType = 'mainnet' | 'basenet';
 
 const SUPPORTED_NETWORKS = Object.keys(BuiltInAddresses).filter(n => n !== 'custom');
 

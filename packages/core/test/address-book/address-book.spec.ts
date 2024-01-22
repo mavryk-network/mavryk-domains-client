@@ -28,18 +28,18 @@ describe('AddressBook', () => {
         await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'mav', 'buy')).resolves.toBe(BuiltInAddresses.mainnet['tldRegistrar:mav:buy'].address);
     });
 
-    it('should resolve built-in addresses for ghostnet', async () => {
-        init({ network: 'ghostnet' });
+    it('should resolve built-in addresses for basenet', async () => {
+        init({ network: 'basenet' });
 
-        await expect(addressBook.lookup(SmartContractType.NameRegistry)).resolves.toBe(`${BuiltInAddresses.ghostnet['nameRegistry'].address}_actual`);
+        await expect(addressBook.lookup(SmartContractType.NameRegistry)).resolves.toBe(`${BuiltInAddresses.basenet['nameRegistry'].address}_actual`);
         await expect(addressBook.lookup(SmartContractType.NameRegistry, 'set_child_record')).resolves.toBe(
-            BuiltInAddresses.ghostnet['nameRegistry:set_child_record'].address
+            BuiltInAddresses.basenet['nameRegistry:set_child_record'].address
         );
-        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'gho')).resolves.toBe(
-            `${BuiltInAddresses.ghostnet['tldRegistrar:gho'].address}_actual`
+        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'bas')).resolves.toBe(
+            `${BuiltInAddresses.basenet['tldRegistrar:bas'].address}_actual`
         );
-        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'gho', 'buy')).resolves.toBe(
-            BuiltInAddresses.ghostnet['tldRegistrar:gho:buy'].address
+        await expect(addressBook.lookup(SmartContractType.TLDRegistrar, 'bas', 'buy')).resolves.toBe(
+            BuiltInAddresses.basenet['tldRegistrar:bas:buy'].address
         );
     });
 
@@ -50,7 +50,7 @@ describe('AddressBook', () => {
     });
 
     it('should disregard network when resolving custom addresses', async () => {
-        init({ network: 'ghostnet', contractAddresses: { nameRegistry: { address: 'custom_nr' } } });
+        init({ network: 'basenet', contractAddresses: { nameRegistry: { address: 'custom_nr' } } });
 
         await expect(addressBook.lookup(SmartContractType.NameRegistry)).resolves.toBe('custom_nr');
     });

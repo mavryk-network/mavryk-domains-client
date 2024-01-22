@@ -82,7 +82,7 @@ describe('MavrykDomainsValidator', () => {
 
             it('should override tlds for known network in isValidWithKnownTld()', () => {
                 init({
-                    network: 'ghostnet',
+                    network: 'basenet',
                     tlds: [{ name: 'test', validator: testValidatorFn }],
                 });
 

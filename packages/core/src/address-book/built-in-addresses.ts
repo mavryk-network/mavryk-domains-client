@@ -43,7 +43,7 @@ export const BuiltInAddresses = {
         },
     },
     custom: null,
-    ghostnet: {
+    basenet: {
         'nameRegistry:set_child_record': {
             address: 'KT1HpddfW7rX5aT2cTdsDaQZnH46bU7jQSTU',
         },
@@ -60,26 +60,26 @@ export const BuiltInAddresses = {
             address: 'KT1B3j3At2XMF5P8bVoPD2WeJbZ9eaPiu3pD',
             resolveProxyContract: true,
         },
-        'tldRegistrar:gho:commit': {
+        'tldRegistrar:bas:commit': {
             address: 'KT1PEnPDgGKyHvaGzWj6VJJYwobToiW2frff',
         },
-        'tldRegistrar:gho': {
+        'tldRegistrar:bas': {
             address: 'KT1PEnPDgGKyHvaGzWj6VJJYwobToiW2frff',
             resolveProxyContract: true,
         },
-        'tldRegistrar:gho:buy': {
+        'tldRegistrar:bas:buy': {
             address: 'KT1Ks7BBTLLjD9PsdCboCL7fYEfq8z1mEvU1',
         },
-        'tldRegistrar:gho:renew': {
+        'tldRegistrar:bas:renew': {
             address: 'KT1Bv32pdMYmBJeMa2HsyUQZiC6FNj1dX6VR',
         },
-        'tldRegistrar:gho:bid': {
+        'tldRegistrar:bas:bid': {
             address: 'KT1P3wdbusZK2sj16YXxRViezzWCPXpiE28P',
         },
-        'tldRegistrar:gho:withdraw': {
+        'tldRegistrar:bas:withdraw': {
             address: 'KT1C7EF4c1pnPW9qcfNRiTPj5tBFMQJtvUhq',
         },
-        'tldRegistrar:gho:settle': {
+        'tldRegistrar:bas:settle': {
             address: 'KT1DMNPg3b3fJQpjXULcXjucEXfwq3zGTKGo',
         },
         'tldRegistrar:a1:commit': {
