@@ -1,4 +1,4 @@
-import { TezosDomainsConfig, TezosDomainsResolverDataProvider, Tracer, DomainNameValidator } from '@tezos-domains/core';
+import { MavrykDomainsConfig, MavrykDomainsResolverDataProvider, Tracer, DomainNameValidator } from '@mavrykdynamics/mavryk-domains-core';
 
 import { NameResolver } from './name-resolver';
 import { BlockchainNameResolver } from './blockchain-name-resolver';
@@ -6,8 +6,8 @@ import { CachedNameResolver } from './cached-name-resolver';
 import { NameNormalizingNameResolver } from './name-normalizing-name-resolver';
 
 export function createResolver(
-    config: TezosDomainsConfig,
-    dataProvider: TezosDomainsResolverDataProvider,
+    config: MavrykDomainsConfig,
+    dataProvider: MavrykDomainsResolverDataProvider,
     tracer: Tracer,
     validator: DomainNameValidator
 ): NameResolver {

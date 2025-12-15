@@ -1,4 +1,4 @@
-import { RecordMetadata, JsonBytesEncoder, StandardRecordMetadataKey } from '@tezos-domains/core';
+import { RecordMetadata, JsonBytesEncoder, StandardRecordMetadataKey } from '@mavrykdynamics/mavryk-domains-core';
 
 describe('RecordMetadata', () => {
     let metadata: RecordMetadata;

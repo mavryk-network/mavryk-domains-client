@@ -4,6 +4,7 @@ const commonRules = {
     '@typescript-eslint/no-unsafe-member-access': 'off',
     '@typescript-eslint/no-unsafe-assignment': 'off',
     '@typescript-eslint/no-unsafe-return': 'off',
+    '@typescript-eslint/no-unsafe-argument': 'off',
     'sonarjs/no-duplicate-string': 'off',
     'sonarjs/cognitive-complexity': 'off',
     'sonarjs/no-element-overwrite': 'off',

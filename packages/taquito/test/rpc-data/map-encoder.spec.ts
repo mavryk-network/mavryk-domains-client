@@ -1,6 +1,6 @@
-import { RecordMetadata, JsonBytesEncoder, BytesEncoder } from '@tezos-domains/core';
-import { MapEncoder } from '@tezos-domains/taquito';
-import { MichelsonMap } from '@taquito/taquito';
+import { RecordMetadata, JsonBytesEncoder, BytesEncoder } from '@mavrykdynamics/mavryk-domains-core';
+import { MapEncoder } from '@mavrykdynamics/mavryk-domains-taquito';
+import { MichelsonMap } from '@mavrykdynamics/taquito';
 
 describe('MapEncoder', () => {
     let encoder: MapEncoder;

@@ -12,11 +12,11 @@ import {
     RpcRequestData,
     RpcResponseData,
     SmartContractType,
-    TezosDomainsDataProvider,
+    MavrykDomainsDataProvider,
     TLDConfigProperty,
     Tracer
-} from '@tezos-domains/core';
-import { BigNumberEncoder, MapEncoder, OracleRegistrarStorage, TaquitoClient, TLDRegistrarStorage } from '@tezos-domains/taquito';
+} from '@mavrykdynamics/mavryk-domains-core';
+import { BigNumberEncoder, MapEncoder, OracleRegistrarStorage, TaquitoClient, TLDRegistrarStorage } from '@mavrykdynamics/mavryk-domains-taquito';
 import BigNumber from 'bignumber.js';
 import { AcquisitionInfoInput, calculateAcquisitionInfo, DomainAcquisitionInfo } from './acquisition-info';
 import { CommitmentGenerator } from './commitment-generator';
@@ -29,7 +29,7 @@ export class TaquitoManagerDataProvider {
         private tracer: Tracer,
         private commitmentGenerator: CommitmentGenerator,
         private validator: DomainNameValidator,
-        private bigMapDataProvider: TezosDomainsDataProvider
+        private bigMapDataProvider: MavrykDomainsDataProvider
     ) {}
 
     async getCommitment(tld: string, request: Exact<CommitmentRequest>): Promise<CommitmentInfo | null> {

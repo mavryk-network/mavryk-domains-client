@@ -1,15 +1,12 @@
 {
   "compilerOptions": {
     "moduleResolution": "node",
-    "target": "es2015",
-    "module": "esnext",
+    "target": "es6",
+    "module": "es2020",
     "lib": [
-      "es2015",
-      "es2016",
-      "es2017",
+      "es2020",
       "dom"
     ],
-    "types": ["node", "jest"],
     "strict": true,
     "sourceMap": true,
     "esModuleInterop": true,
@@ -24,22 +21,22 @@
     "baseUrl": "packages",
     "downlevelIteration": true,
     "paths": {
-      "@tezos-domains/core": [
+      "@mavrykdynamics/mavryk-domains-core": [
         "core/public_api.ts"
       ],
-      "@tezos-domains/resolver": [
+      "@mavrykdynamics/mavryk-domains-resolver": [
         "resolver/public_api.ts"
       ],
-      "@tezos-domains/manager": [
+      "@mavrykdynamics/mavryk-domains-manager": [
         "manager/public_api.ts"
       ],
-      "@tezos-domains/taquito-client": [
+      "@mavrykdynamics/mavryk-domains-taquito-client": [
         "taquito-client/public_api.ts"
       ],
-      "@tezos-domains/conseil-client": [
+      "@mavrykdynamics/mavryk-domains-conseil-client": [
         "conseil-client/public_api.ts"
       ],
-      "@tezos-domains/taquito": [
+      "@mavrykdynamics/mavryk-domains-taquito": [
         "taquito/public_api.ts"
       ],
     }

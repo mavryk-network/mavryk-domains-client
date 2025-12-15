@@ -1,4 +1,4 @@
-import { generateNonce } from '@tezos-domains/core';
+import { generateNonce } from '@mavrykdynamics/mavryk-domains-core';
 
 describe('generateNonce()', () => {
     it('should generate a number', () => {

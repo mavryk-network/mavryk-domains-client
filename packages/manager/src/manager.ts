@@ -26,6 +26,6 @@ export {
     UpdateRecordRequest,
     UpdateReverseRecordRequest
 } from './manager/model';
-export { TaquitoTezosDomainsOperationFactory, TezosDomainsOperationFactory } from './manager/operation-factory';
+export { TaquitoMavrykDomainsOperationFactory, MavrykDomainsOperationFactory } from './manager/operation-factory';
 export { UnsupportedDomainsManager } from './manager/unsupported-domains-manager';
 

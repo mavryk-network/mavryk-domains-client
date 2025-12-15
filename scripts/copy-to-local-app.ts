@@ -2,7 +2,7 @@ import * as fs from 'fs-extra';
 
 async function run() {
     const from = ['conseil-client/dist', 'core/dist', 'manager/dist', 'resolver/dist', 'taquito/dist', 'taquito-client/dist'];
-    const files = from.map(f => ({ from: `./packages/${f}`, to: `E:/work/xtz-domains/app/node_modules/@tezos-domains/${f}` }));
+    const files = from.map(f => ({ from: `./packages/${f}`, to: `E:/work/xtz-domains/app/node_modules/@mavrykdynamics/mavryk-domains-${f}` }));
 
     console.log('-- copying files');
     files.forEach(f => {

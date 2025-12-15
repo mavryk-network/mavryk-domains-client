@@ -1,5 +1,5 @@
-import { TransactionWalletOperation, WalletTransferParams, WalletOperation } from '@taquito/taquito';
-import { AdditionalOperationParams, Exact } from '@tezos-domains/core';
+import { TransactionWalletOperation, WalletTransferParams, WalletOperation } from '@mavrykdynamics/taquito';
+import { AdditionalOperationParams, Exact } from '@mavrykdynamics/mavryk-domains-core';
 
 import {
     SetChildRecordRequest,
@@ -13,7 +13,7 @@ import {
     BidRequest,
     SettleRequest,
 } from './model';
-import { TezosDomainsOperationFactory } from './operation-factory';
+import { MavrykDomainsOperationFactory } from './operation-factory';
 import { TLDConfiguration } from './model';
 import { DomainAcquisitionInfo } from './acquisition-info';
 
@@ -43,7 +43,7 @@ export interface DomainsManager {
      *  - Associated contract: [TLDRegistrar.Commit](https://docs.tezos.domains/deployed-contracts)
      *  - Associated endpoint: `commit`
      *
-     * @param tld The name of the top level domain (e.g. `tez`).
+     * @param tld The name of the top level domain (e.g. `mav`).
      */
     commit(tld: string, request: Exact<CommitmentRequest>, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation>;
 
@@ -54,7 +54,7 @@ export interface DomainsManager {
      *  - Associated contract: [TLDRegistrar.Buy](https://docs.tezos.domains/deployed-contracts)
      *  - Associated endpoint: `buy`
      *
-     * @param tld The name of the top level domain (e.g. `tez`).
+     * @param tld The name of the top level domain (e.g. `mav`).
      */
     buy(tld: string, request: Exact<BuyRequest>, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation>;
 
@@ -64,7 +64,7 @@ export interface DomainsManager {
      *  - Associated contract: [TLDRegistrar.Renew](https://docs.tezos.domains/deployed-contracts)
      *  - Associated endpoint: `renew`
      *
-     * @param tld The name of the top level domain (e.g. `tez`).
+     * @param tld The name of the top level domain (e.g. `mav`).
      */
     renew(tld: string, request: Exact<RenewRequest>, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation>;
 
@@ -87,7 +87,7 @@ export interface DomainsManager {
     /**
      * Gets the information about an existing commitment created via [[`commit`]].
      *
-     * @param tld The name of the top level domain (e.g. `tez`).
+     * @param tld The name of the top level domain (e.g. `mav`).
      */
     getCommitment(tld: string, request: Exact<CommitmentRequest>): Promise<CommitmentInfo | null>;
 
@@ -105,7 +105,7 @@ export interface DomainsManager {
      * The return value of this method also contains additional information about auction or buy/renewal
      * where applicable.
      *
-     * @param name The name of the domain (e.g. `alice.tez`)
+     * @param name The name of the domain (e.g. `alice.mav`)
      */
     getAcquisitionInfo(name: string): Promise<DomainAcquisitionInfo>;
 
@@ -116,7 +116,7 @@ export interface DomainsManager {
      * under it's senders address. The original bidder can then use this balance for another bid, or withdraw it by calling
      * [[`withdraw`]].
      *
-     * @param tld The name of the top level domain (e.g. `tez`).
+     * @param tld The name of the top level domain (e.g. `mav`).
      * @param address The address for which to get the balance.
      */
     getBidderBalance(tld: string, address: string): Promise<number>;
@@ -124,14 +124,14 @@ export interface DomainsManager {
     /**
      * Gets the configuration of the specified TLD registrar.
      *
-     * @param tld The name of the top level domain (e.g. `tez`).
+     * @param tld The name of the top level domain (e.g. `mav`).
      */
     getTldConfiguration(tld: string): Promise<TLDConfiguration>;
 
     /**
      * Gets the NFT token id for a specified domain name.
      * 
-     * @param name The name of the domain (e.g. `alice.tez`)
+     * @param name The name of the domain (e.g. `alice.mav`)
      */
     getTokenId(name: string): Promise<number | null>;
 
@@ -141,7 +141,7 @@ export interface DomainsManager {
      *  - Associated contract: [TLDRegistrar.Bid](https://docs.tezos.domains/deployed-contracts)
      *  - Associated endpoint: `bid`
      *
-     * @param tld The name of the top level domain (e.g. `tez`).
+     * @param tld The name of the top level domain (e.g. `mav`).
      */
     bid(tld: string, request: Exact<BidRequest>, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation>;
 
@@ -151,7 +151,7 @@ export interface DomainsManager {
      *  - Associated contract: [TLDRegistrar.Settle](https://docs.tezos.domains/deployed-contracts)
      *  - Associated endpoint: `settle`
      *
-     * @param tld The name of the top level domain (e.g. `tez`).
+     * @param tld The name of the top level domain (e.g. `mav`).
      */
     settle(tld: string, request: Exact<SettleRequest>, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation>;
 
@@ -162,7 +162,7 @@ export interface DomainsManager {
      *  - Associated contract: [TLDRegistrar.Withdraw](https://docs.tezos.domains/deployed-contracts)
      *  - Associated endpoint: `withdraw`
      *
-     * @param tld The name of the top level domain (e.g. `tez`).
+     * @param tld The name of the top level domain (e.g. `mav`).
      * @param recipient The address of the recipient of the withdrawn funds.
      */
     withdraw(tld: string, recipient: string, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation>;
@@ -170,11 +170,11 @@ export interface DomainsManager {
     /**
      * Transfers the domain NFT token to a new owner.
      * 
-     * @param name The name of the domain (e.g. `alice.tez`)
+     * @param name The name of the domain (e.g. `alice.mav`)
      * @param newOwner The address to transfer the token to.
      */
     transfer(name: string, newOwner: string, operationParams?: AdditionalOperationParams): Promise<TransactionWalletOperation>;
 
-    /** Execute multiple Tezos Domains operations in a batch. */
-    batch(builder: (operationFactory: TezosDomainsOperationFactory<WalletTransferParams>) => Promise<WalletTransferParams[]>): Promise<WalletOperation>;
+    /** Execute multiple Mavryk Domains operations in a batch. */
+    batch(builder: (operationFactory: MavrykDomainsOperationFactory<WalletTransferParams>) => Promise<WalletTransferParams[]>): Promise<WalletOperation>;
 }

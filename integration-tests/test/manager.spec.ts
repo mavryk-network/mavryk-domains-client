@@ -1,7 +1,7 @@
-import { TezosToolkit } from '@taquito/taquito';
-import { DomainNameValidationResult } from '@tezos-domains/core/src/core';
-import { DomainAcquisitionState } from '@tezos-domains/manager';
-import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
+import { TezosToolkit } from '@mavrykdynamics/taquito';
+import { DomainNameValidationResult } from '@mavrykdynamics/mavryk-domains-core/src/core';
+import { DomainAcquisitionState } from '@mavrykdynamics/mavryk-domains-manager';
+import { TaquitoMavrykDomainsClient } from '@mavrykdynamics/mavryk-domains-taquito-client';
 import fs from 'fs-extra';
 import path from 'path';
 import { CONFIG } from '../data';
@@ -10,13 +10,13 @@ import { CONFIG } from '../data';
 const db = fs.readJSONSync(path.join(__dirname, './data.json'));
 
 describe('manager', () => {
-    let client: TaquitoTezosDomainsClient;
+    let client: TaquitoMavrykDomainsClient;
 
     beforeAll(() => {
         jest.setTimeout(30 * 60 * 1000);
         const tezos = new TezosToolkit(CONFIG.rpcUrl);
 
-        client = new TaquitoTezosDomainsClient({ network: CONFIG.network, tezos });
+        client = new TaquitoMavrykDomainsClient({ network: CONFIG.network, tezos });
     });
 
     describe('getCommitment()', () => {
@@ -58,7 +58,7 @@ describe('manager', () => {
 
         it('should throw error for claimable domain', async () => {
             const tezos = new TezosToolkit(CONFIG.rpcUrl);
-            client = new TaquitoTezosDomainsClient({
+            client = new TaquitoMavrykDomainsClient({
                 network: CONFIG.network,
                 claimableTlds: [{ name: 'com', validator: () => DomainNameValidationResult.VALID }],
                 tezos,

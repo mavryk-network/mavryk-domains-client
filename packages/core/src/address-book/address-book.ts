@@ -1,11 +1,11 @@
 import { BuiltInAddresses } from './built-in-addresses';
-import { ContractConfig, TezosDomainsConfig, SmartContractType } from '../model';
-import { TezosDomainsProxyContractAddressResolver } from '../tezos/tezos-domains-proxy-contract-address-resolver';
+import { ContractConfig, MavrykDomainsConfig, SmartContractType } from '../model';
+import { MavrykDomainsProxyContractAddressResolver } from '../mavryk/mavryk-domains-proxy-contract-address-resolver';
 
 export class AddressBook {
     private config: ContractConfig;
 
-    constructor(private proxyContractAddressResolver: TezosDomainsProxyContractAddressResolver, config?: TezosDomainsConfig) {
+    constructor(private proxyContractAddressResolver: MavrykDomainsProxyContractAddressResolver, config?: MavrykDomainsConfig) {
         const network = config?.network || 'mainnet';
         if (network === 'custom' && !config?.contractAddresses) {
             throw new Error(`When network type is 'custom', it is required to specify 'contractAddresses'.`);

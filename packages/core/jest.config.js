@@ -2,7 +2,7 @@ module.exports = {
     preset: 'ts-jest',
     testEnvironment: 'node',
     moduleNameMapper: {
-        '^@tezos-domains/core$': '<rootDir>/public_api.ts',
+        '^@mavrykdynamics/mavryk-domains-core$': '<rootDir>/public_api.ts',
     },
     globals: {
         'ts-jest': {

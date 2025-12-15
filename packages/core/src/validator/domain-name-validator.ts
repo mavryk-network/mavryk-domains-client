@@ -6,8 +6,8 @@ export interface ValidateDomainNameOptions {
      * 
      * @example
      * 1 - allows anything but an empty string
-     * 2 - allows names like 'alice.tez'
-     * 3 - allows names like 'bob.alice.tez'
+     * 2 - allows names like 'alice.mav'
+     * 3 - allows names like 'bob.alice.mav'
      * ...
      * 
      * @type {number}

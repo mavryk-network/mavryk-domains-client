@@ -1,4 +1,4 @@
-import { getLabel, TLDConfigProperty } from '@tezos-domains/core';
+import { getLabel, TLDConfigProperty } from '@mavrykdynamics/mavryk-domains-core';
 import BigNumber from 'bignumber.js';
 import { TLDConfiguration } from './model';
 import { maxDate } from './utils';
@@ -14,11 +14,11 @@ export enum DomainAcquisitionState {
 }
 
 export interface DomainAcquisitionAuctionInfo {
-    /** The amount of the last bid in mutez. */
+    /** The amount of the last bid in mumav. */
     lastBid: number;
     /** The address of the sender of the last bid. */
     lastBidder: string | null;
-    /** The minimum amount to outbid the current bid in mutez. (Value is `NaN` when auction is ended and waiting to be settled) */
+    /** The minimum amount to outbid the current bid in mumav. (Value is `NaN` when auction is ended and waiting to be settled) */
     nextMinimumBid: number;
     /** The date at which the auction will end. This may change when bids are added towards the end of an auction. */
     auctionEnd: Date;
@@ -72,7 +72,7 @@ export class DomainAcquisitionInfo {
      * Calculates buy or renew price for this domain.
      *
      * @param duration The number of days for which to calculate the price.
-     * @returns Price for owning the domain for the specified duration in mutez.
+     * @returns Price for owning the domain for the specified duration in mumav.
      */
     calculatePrice(duration: number): number {
         this.assertState('calculatePrice', DomainAcquisitionState.CanBeBought, DomainAcquisitionState.Taken);

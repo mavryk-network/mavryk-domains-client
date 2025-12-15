@@ -1,5 +1,5 @@
-import { RecordMetadata, RpcResponse, BytesEncoder, encoder, DateEncoder } from '@tezos-domains/core';
-import { MapEncoder, BigNumberEncoder } from '@tezos-domains/taquito';
+import { RecordMetadata, RpcResponse, BytesEncoder, encoder, DateEncoder } from '@mavrykdynamics/mavryk-domains-core';
+import { MapEncoder, BigNumberEncoder } from '@mavrykdynamics/mavryk-domains-taquito';
 
 @RpcResponse()
 export class TaquitoReverseRecord {

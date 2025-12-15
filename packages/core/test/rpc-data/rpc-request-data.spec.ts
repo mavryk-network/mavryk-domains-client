@@ -1,4 +1,4 @@
-import { RpcRequestData, RpcRequest, encoder } from '@tezos-domains/core';
+import { RpcRequestData, RpcRequest, encoder } from '@mavrykdynamics/mavryk-domains-core';
 
 import { FakeEncoder } from './fake-encoder';
 
@@ -43,7 +43,7 @@ describe('RpcRequestData', () => {
         });
 
         it('should throw if class does not have RpcRequest decorator', () => {
-            expect(() => RpcRequestData.fromObject(InvalidFakeRequest, { prop: 'a' }).encode()).toThrowError();
+            expect(() => RpcRequestData.fromObject(InvalidFakeRequest, { prop: 'a' }).encode()).toThrow();
         });
     });
 });

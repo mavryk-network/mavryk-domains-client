@@ -2,15 +2,15 @@ import {
     Tracer,
     DomainNameValidationResult,
     DomainNameValidator,
-    TezosDomainsResolverDataProvider,
+    MavrykDomainsResolverDataProvider,
     DomainInfo,
     ReverseRecordDomainInfo,
-} from '@tezos-domains/core';
+} from '@mavrykdynamics/mavryk-domains-core';
 
 import { NameResolver } from './name-resolver';
 
 export class BlockchainNameResolver implements NameResolver {
-    constructor(private tezosDomainsDataProvider: TezosDomainsResolverDataProvider, private tracer: Tracer, private validator: DomainNameValidator) {}
+    constructor(private mavrykDomainsDataProvider: MavrykDomainsResolverDataProvider, private tracer: Tracer, private validator: DomainNameValidator) {}
 
     async resolveDomainRecord(name: string): Promise<DomainInfo | null> {
         this.tracer.trace(`=> Resolving record '${name}'`);
@@ -23,7 +23,7 @@ export class BlockchainNameResolver implements NameResolver {
             throw new Error(`'${name}' is not a valid domain name.`);
         }
 
-        const record = await this.tezosDomainsDataProvider.resolveDomainInfo(name);
+        const record = await this.mavrykDomainsDataProvider.resolveDomainInfo(name);
 
         this.tracer.trace(`<= Resolved record.`, record);
 
@@ -49,7 +49,7 @@ export class BlockchainNameResolver implements NameResolver {
             throw new Error(`Argument 'address' was not specified.`);
         }
 
-        const reverseRecordDomain = await this.tezosDomainsDataProvider.resolveReverseRecordDomainInfo(address);
+        const reverseRecordDomain = await this.mavrykDomainsDataProvider.resolveReverseRecordDomainInfo(address);
 
         this.tracer.trace(`<= Resolved reverse record.`, reverseRecordDomain);
 

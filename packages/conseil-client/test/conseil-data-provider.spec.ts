@@ -1,14 +1,14 @@
-import { SmartContractType, RpcRequestScalarData, Tracer, BytesEncoder, AddressBook } from '@tezos-domains/core';
+import { SmartContractType, RpcRequestScalarData, Tracer, BytesEncoder, AddressBook } from '@mavrykdynamics/mavryk-domains-core';
 import { mock, when, anything, instance, anyNumber, anyString } from 'ts-mockito';
-import { StandardRecordMetadataKey } from '@tezos-domains/core';
+import { StandardRecordMetadataKey } from '@mavrykdynamics/mavryk-domains-core';
 
-import { ConseilTezosDomainsDataProvider } from '../src/conseil-data-provider';
+import { ConseilMavrykDomainsDataProvider } from '../src/conseil-data-provider';
 import { ConseilClient } from '../src/conseil/client';
 
 const e = (s: string) => new BytesEncoder().encode(s)!;
 
-describe('ConseilTezosDomainsDataProvider', () => {
-    let dataProvider: ConseilTezosDomainsDataProvider;
+describe('ConseilMavrykDomainsDataProvider', () => {
+    let dataProvider: ConseilMavrykDomainsDataProvider;
     let conseilClientMock: ConseilClient;
     let addressBookMock: AddressBook;
     let tracerMock: Tracer;
@@ -26,7 +26,7 @@ describe('ConseilTezosDomainsDataProvider', () => {
             3: {},
         };
 
-        maps[2][e('play.necroskillz.tez')] = {
+        maps[2][e('play.necroskillz.mav')] = {
             prim: 'Pair',
             args: [
                 {
@@ -35,19 +35,19 @@ describe('ConseilTezosDomainsDataProvider', () => {
                         {
                             prim: 'Pair',
                             args: [
-                                { prim: 'Some', args: [{ string: 'tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i' }] },
+                                { prim: 'Some', args: [{ string: 'mv1K91dgHkrxFgQdML1HBk1nUwhBDHhXSfwa' }] },
                                 [{ prim: 'Elt', args: [{ string: 'td:ttl' }, { bytes: e('420') }] }],
                             ],
                         },
                         {
                             prim: 'Pair',
-                            args: [{ prim: 'Some', bytes: e('necroskillz.tez') }],
+                            args: [{ prim: 'Some', bytes: e('necroskillz.mav') }],
                         },
                     ],
                 },
                 {
                     prim: 'Pair',
-                    args: [{ int: '3' }, { string: 'tz1OWN' }],
+                    args: [{ int: '3' }, { string: 'mv1OWN' }],
                 },
                 {
                     prim: 'Pair',
@@ -56,20 +56,20 @@ describe('ConseilTezosDomainsDataProvider', () => {
             ],
         };
 
-        maps[3]['tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i'] = {
+        maps[3]['mv1K91dgHkrxFgQdML1HBk1nUwhBDHhXSfwa'] = {
             prim: 'Pair',
             args: [
                 {
                     prim: 'Pair',
-                    args: [[], { prim: 'Some', args: [{ bytes: e('play.necroskillz.tez') }] }],
+                    args: [[], { prim: 'Some', args: [{ bytes: e('play.necroskillz.mav') }] }],
                 },
                 {
-                    string: 'tz1zzz',
+                    string: 'mv1zzz',
                 },
             ],
         };
 
-        maps[1][e('necroskillz.tez')] = { string: new Date(2021, 1, 1).toISOString() };
+        maps[1][e('necroskillz.mav')] = { string: new Date(2021, 1, 1).toISOString() };
 
         when(tracerMock.trace(anything(), anything()));
 
@@ -95,7 +95,7 @@ describe('ConseilTezosDomainsDataProvider', () => {
                         },
                         {
                             prim: 'Pair',
-                            args: [{ string: 'tz1VBLpuDKMoJuHRLZ4HrCgRuiLpEr7zZx2E' }, { int: '2' }],
+                            args: [{ string: 'mv1NoYoaaCHVxJWsFN7HCujx1i6BmA6a8Fay' }, { int: '2' }],
                         },
                         { int: '3' },
                         { int: '9405' },
@@ -114,22 +114,22 @@ describe('ConseilTezosDomainsDataProvider', () => {
             return Promise.resolve(maps[mapid][encodedKey]);
         });
 
-        dataProvider = new ConseilTezosDomainsDataProvider(instance(conseilClientMock), instance(addressBookMock), instance(tracerMock));
+        dataProvider = new ConseilMavrykDomainsDataProvider(instance(conseilClientMock), instance(addressBookMock), instance(tracerMock));
     });
 
     describe('getDomainRecord()', () => {
         it('should return info about a domain', async () => {
-            const domain = await dataProvider.getDomainRecord('play.necroskillz.tez');
+            const domain = await dataProvider.getDomainRecord('play.necroskillz.mav');
 
-            expect(domain?.address).toBe('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i');
-            expect(domain?.expiry_key).toBe('necroskillz.tez');
-            expect(domain?.owner).toBe('tz1OWN');
+            expect(domain?.address).toBe('mv1K91dgHkrxFgQdML1HBk1nUwhBDHhXSfwa');
+            expect(domain?.expiry_key).toBe('necroskillz.mav');
+            expect(domain?.owner).toBe('mv1OWN');
             expect(domain?.tzip12_token_id).toBe(777);
             expect(domain?.data.getJson(StandardRecordMetadataKey.TTL)).toBe(420);
         });
 
         it('should return null if domain does not exist', async () => {
-            const domain = await dataProvider.getDomainRecord('lol.necroskillz.tez');
+            const domain = await dataProvider.getDomainRecord('lol.necroskillz.mav');
 
             expect(domain).toBeNull();
         });
@@ -137,13 +137,13 @@ describe('ConseilTezosDomainsDataProvider', () => {
 
     describe('getDomainExpiry()', () => {
         it('should return date of expiry', async () => {
-            const address = await dataProvider.getDomainExpiry('necroskillz.tez');
+            const address = await dataProvider.getDomainExpiry('necroskillz.mav');
 
             expect(address).toStrictEqual(new Date(2021, 1, 1));
         });
 
         it('should return null if expiry record does not exist', async () => {
-            const address = await dataProvider.getDomainExpiry('xxx.tez');
+            const address = await dataProvider.getDomainExpiry('xxx.mav');
 
             expect(address).toBeNull();
         });
@@ -151,14 +151,14 @@ describe('ConseilTezosDomainsDataProvider', () => {
 
     describe('getReverseRecord()', () => {
         it('should return info about a reverse record', async () => {
-            const reverseRecord = await dataProvider.getReverseRecord('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i');
+            const reverseRecord = await dataProvider.getReverseRecord('mv1K91dgHkrxFgQdML1HBk1nUwhBDHhXSfwa');
 
-            expect(reverseRecord?.name).toBe('play.necroskillz.tez');
-            expect(reverseRecord?.owner).toBe('tz1zzz');
+            expect(reverseRecord?.name).toBe('play.necroskillz.mav');
+            expect(reverseRecord?.owner).toBe('mv1zzz');
         });
 
         it('should return null if reverse record does not exist', async () => {
-            const reverseRecord = await dataProvider.getReverseRecord('lol.necroskillz.tez');
+            const reverseRecord = await dataProvider.getReverseRecord('lol.necroskillz.mav');
 
             expect(reverseRecord).toBeNull();
         });

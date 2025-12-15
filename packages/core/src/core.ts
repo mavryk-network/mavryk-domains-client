@@ -1,16 +1,16 @@
 import './rpc-data/data-encoder';
 import './tracing/tracer';
 import './validator/domain-name-validator';
-import './tezos/tezos-domains-data-provider';
-import './tezos/tezos-domains-resolver-data-provider';
-import './tezos/tezos-domains-proxy-contract-address-resolver';
+import './mavryk/mavryk-domains-data-provider';
+import './mavryk/mavryk-domains-resolver-data-provider';
+import './mavryk/mavryk-domains-proxy-contract-address-resolver';
 
 export {
     SmartContractType,
     ContractConfig,
     DomainRecord,
     ReverseRecord,
-    TezosDomainsConfig,
+    MavrykDomainsConfig,
     DefaultNetworkConfig,
     CustomNetworkConfig,
     CachingConfig,
@@ -33,13 +33,13 @@ export { JsonBytesEncoder } from './rpc-data/encoders/json-bytes-encoder';
 export { Tracer } from './tracing/tracer';
 export { createTracer } from './tracing/factory';
 export { DomainNameValidator, ValidateDomainNameOptions } from './validator/domain-name-validator';
-export { TezosDomainsValidator } from './validator/tezos-domains-validator';
+export { MavrykDomainsValidator } from './validator/mavryk-domains-validator';
 export { UnsupportedDomainNameValidator } from './validator/unsupported-domain-name-validator';
 export { DomainNameValidationResult, DomainNameValidatorFn, LatinDomainNameValidator, LengthDomainNameValidator } from './validator/validators';
-export { TezosDomainsResolverDataProvider } from './tezos/tezos-domains-resolver-data-provider';
-export { TezosDomainsDataProvider } from './tezos/tezos-domains-data-provider';
-export { ResolverDataProviderAdapter } from './tezos/resolver-data-provider-adapter';
-export { TezosDomainsProxyContractAddressResolver } from './tezos/tezos-domains-proxy-contract-address-resolver';
+export { MavrykDomainsResolverDataProvider } from './mavryk/mavryk-domains-resolver-data-provider';
+export { MavrykDomainsDataProvider } from './mavryk/mavryk-domains-data-provider';
+export { ResolverDataProviderAdapter } from './mavryk/resolver-data-provider-adapter';
+export { MavrykDomainsProxyContractAddressResolver } from './mavryk/mavryk-domains-proxy-contract-address-resolver';
 export * from './utils/domains';
 export * from './utils/types';
 export * from './utils/support';

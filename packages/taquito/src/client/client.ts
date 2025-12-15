@@ -1,7 +1,7 @@
-import { ConstantsResponse, OpKind } from '@taquito/rpc';
-import { BigMapAbstraction, TezosToolkit, TransactionWalletOperation, WalletOperation, WalletTransferParams } from '@taquito/taquito';
-import { tzip16 } from '@taquito/tzip16';
-import { AdditionalOperationParams, RpcRequestScalarData, RpcResponseData, Tracer } from '@tezos-domains/core';
+import { ConstantsResponse, OpKind } from '@mavrykdynamics/taquito-rpc';
+import { BigMapAbstraction, TezosToolkit, TransactionWalletOperation, WalletOperation, WalletTransferParams } from '@mavrykdynamics/taquito';
+import { tzip16 } from '@mavrykdynamics/taquito-tzip16';
+import { AdditionalOperationParams, RpcRequestScalarData, RpcResponseData, Tracer } from '@mavrykdynamics/mavryk-domains-core';
 import NodeCache from 'node-cache';
 
 export class TaquitoClient {
@@ -71,7 +71,7 @@ export class TaquitoClient {
         );
 
         const contract = await this.tezos.wallet.at(contractAddress);
-        const params = contract.methods[method](...parameters).toTransferParams({ mutez: true, ...operationParams });
+        const params = contract.methods[method](...parameters).toTransferParams({ mumav: true, ...operationParams });
 
         this.tracer.trace('<= Prepared params.', params);
 

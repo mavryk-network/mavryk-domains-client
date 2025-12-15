@@ -1,4 +1,4 @@
-import { DomainInfo, ReverseRecordDomainInfo } from '@tezos-domains/core';
+import { DomainInfo, ReverseRecordDomainInfo } from '@mavrykdynamics/mavryk-domains-core';
 
 /**
  * An interface that defines functions for resolving names and addresses.
@@ -24,8 +24,8 @@ export interface NameResolver {
      *
      * @example
      * ```
-     * const address = await resolver.resolveNameToAddress('alice.tez');
-     * console.log(address); // 'tz1...'
+     * const address = await resolver.resolveNameToAddress('alice.mav');
+     * console.log(address); // 'mv1...'
      * ```
      *
      *  - Associated contract: [NameRegistry](https://docs.tezos.domains/deployed-contracts)
@@ -53,8 +53,8 @@ export interface NameResolver {
      *
      * @example
      * ```
-     * const name = await resolver.resolveAddressToName('tz1...');
-     * console.log(name); // 'alice.tez'
+     * const name = await resolver.resolveAddressToName('mv1...');
+     * console.log(name); // 'alice.mav'
      * ```
      *
      *  - Associated contract: [NameRegistry](https://docs.tezos.domains/deployed-contracts)

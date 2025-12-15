@@ -1,5 +1,5 @@
-import { TransactionWalletOperation, WalletOperation } from '@taquito/taquito';
-import { NotSupportedError } from '@tezos-domains/core';
+import { TransactionWalletOperation, WalletOperation } from '@mavrykdynamics/taquito';
+import { NotSupportedError } from '@mavrykdynamics/mavryk-domains-core';
 
 import { DomainAcquisitionInfo, DomainsManager } from '../manager';
 import { CommitmentInfo, TLDConfiguration } from './model';

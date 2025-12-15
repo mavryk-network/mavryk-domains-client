@@ -1,5 +1,5 @@
-import { MichelsonMap } from '@taquito/taquito';
-import { RecordMetadata, TypedRpcDataEncoder } from '@tezos-domains/core';
+import { MichelsonMap } from '@mavrykdynamics/taquito';
+import { RecordMetadata, TypedRpcDataEncoder } from '@mavrykdynamics/mavryk-domains-core';
 
 export class MapEncoder implements TypedRpcDataEncoder<RecordMetadata, MichelsonMap<string, string>> {
     encode(value: RecordMetadata | null): MichelsonMap<string, string> | null {

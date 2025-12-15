@@ -1,8 +1,8 @@
-import { importKey, InMemorySigner } from '@taquito/signer';
-import { PollingSubscribeProvider, TezosToolkit } from '@taquito/taquito';
-import { Tzip16Module } from '@taquito/tzip16';
-import { getLabel, getTld, LatinDomainNameValidator, RecordMetadata, StandardRecordMetadataKey } from '@tezos-domains/core';
-import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client';
+import { importKey, InMemorySigner } from '@mavrykdynamics/taquito-signer';
+import { PollingSubscribeProvider, TezosToolkit } from '@mavrykdynamics/taquito';
+import { Tzip16Module } from '@mavrykdynamics/taquito-tzip16';
+import { getLabel, getTld, LatinDomainNameValidator, RecordMetadata, StandardRecordMetadataKey } from '@mavrykdynamics/mavryk-domains-core';
+import { TaquitoMavrykDomainsClient } from '@mavrykdynamics/mavryk-domains-taquito-client';
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import path from 'path';
@@ -12,7 +12,7 @@ import { CONFIG, DATA, FaucetWallet } from '../data';
 /**
  * Setup integration test data on specified network
  */
-let client: TaquitoTezosDomainsClient;
+let client: TaquitoMavrykDomainsClient;
 
 async function setTezos(wallet: FaucetWallet | 'admin') {
     const tezos = new TezosToolkit(CONFIG.rpcUrl);
@@ -27,7 +27,7 @@ async function setTezos(wallet: FaucetWallet | 'admin') {
         await importKey(tezos, wallet.email, wallet.password, wallet.mnemonic.join(' '), wallet.secret);
     }
 
-    client = new TaquitoTezosDomainsClient({ tezos, network: CONFIG.network });
+    client = new TaquitoMavrykDomainsClient({ tezos, network: CONFIG.network });
     client.validator.addSupportedTld('test', LatinDomainNameValidator);
 }
 

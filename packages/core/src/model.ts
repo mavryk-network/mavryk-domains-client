@@ -29,7 +29,7 @@ export type DefaultNetworkConfig = {
     claimableTlds?: TLDConfig[];
 } & CommonConfig;
 
-export type TezosDomainsConfig = DefaultNetworkConfig | CustomNetworkConfig;
+export type MavrykDomainsConfig = DefaultNetworkConfig | CustomNetworkConfig;
 
 export type ContractAddressDescriptor = {
     address: string;

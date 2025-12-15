@@ -1,4 +1,4 @@
-import { Tracer, StandardRecordMetadataKey, CachingConfig, DomainInfo, ReverseRecordDomainInfo } from '@tezos-domains/core';
+import { Tracer, StandardRecordMetadataKey, CachingConfig, DomainInfo, ReverseRecordDomainInfo } from '@mavrykdynamics/mavryk-domains-core';
 import NodeCache from 'node-cache';
 
 import { NameResolver } from './name-resolver';

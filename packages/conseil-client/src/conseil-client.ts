@@ -1,2 +1,2 @@
-export { ConseilTezosDomainsClient } from './conseil-tezos-domains-client';
-export { ConseilTezosDomainsConfig } from './model';
+export { ConseilMavrykDomainsClient } from './conseil-mavryk-domains-client';
+export { ConseilMavrykDomainsConfig } from './model';

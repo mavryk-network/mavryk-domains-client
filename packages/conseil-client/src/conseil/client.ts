@@ -1,4 +1,4 @@
-import { Tracer, RpcRequestScalarData } from '@tezos-domains/core';
+import { Tracer, RpcRequestScalarData } from '@mavrykdynamics/mavryk-domains-core';
 import { TezosMessageUtils, TezosNodeReader } from 'conseiljs';
 import NodeCache from 'node-cache';
 
@@ -42,7 +42,7 @@ export class ConseilClient {
         let value: any;
         try {
             value = await TezosNodeReader.getValueForBigMapKey(this.config.server, mapid, mapKey);
-        } catch (err) {
+        } catch (err: any) {
             if (err.httpStatus === 404) {
                 value = null;
             } else {

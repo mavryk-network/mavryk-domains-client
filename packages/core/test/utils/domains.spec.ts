@@ -1,44 +1,44 @@
-import { getTld, getLabel, getParent, stripTld, getLevel } from '@tezos-domains/core';
+import { getTld, getLabel, getParent, stripTld, getLevel } from '@mavrykdynamics/mavryk-domains-core';
 
 describe('domains', () => {
     describe('getTld()', () => {
         it('should get tld of domain name', () => {
-            expect(getTld('tez')).toBe('tez');
-            expect(getTld('necroskillz.tez')).toBe('tez');
-            expect(getTld('play.necroskillz.tez')).toBe('tez');
+            expect(getTld('mav')).toBe('mav');
+            expect(getTld('necroskillz.mav')).toBe('mav');
+            expect(getTld('play.necroskillz.mav')).toBe('mav');
         });
     });
 
     describe('getLabel()', () => {
         it('should get label of domain name', () => {
-            expect(getLabel('tez')).toBe('');
-            expect(getLabel('necroskillz.tez')).toBe('necroskillz');
-            expect(getLabel('play.necroskillz.tez')).toBe('play');
+            expect(getLabel('mav')).toBe('');
+            expect(getLabel('necroskillz.mav')).toBe('necroskillz');
+            expect(getLabel('play.necroskillz.mav')).toBe('play');
         });
     });
 
     describe('getParent()', () => {
         it('should get parent of domain name', () => {
-            expect(getParent('tez')).toBe('');
-            expect(getParent('necroskillz.tez')).toBe('tez');
-            expect(getParent('play.necroskillz.tez')).toBe('necroskillz.tez');
+            expect(getParent('mav')).toBe('');
+            expect(getParent('necroskillz.mav')).toBe('mav');
+            expect(getParent('play.necroskillz.mav')).toBe('necroskillz.mav');
         });
     });
 
     describe('stripTld()', () => {
         it('should get parent of domain name', () => {
-            expect(stripTld('tez')).toBe('');
-            expect(stripTld('.tez')).toBe('');
-            expect(stripTld('necroskillz.tez')).toBe('necroskillz');
-            expect(stripTld('play.necroskillz.tez')).toBe('play.necroskillz');
+            expect(stripTld('mav')).toBe('');
+            expect(stripTld('.mav')).toBe('');
+            expect(stripTld('necroskillz.mav')).toBe('necroskillz');
+            expect(stripTld('play.necroskillz.mav')).toBe('play.necroskillz');
         });
     });
 
     describe('getLevel()', () => {
         it('should level of domain', () => {
-            expect(getLevel('tez')).toBe(1);
-            expect(getLevel('necroskillz.tez')).toBe(2);
-            expect(getLevel('play.necroskillz.tez')).toBe(3);
+            expect(getLevel('mav')).toBe(1);
+            expect(getLevel('necroskillz.mav')).toBe(2);
+            expect(getLevel('play.necroskillz.mav')).toBe(3);
         });
     });
 });

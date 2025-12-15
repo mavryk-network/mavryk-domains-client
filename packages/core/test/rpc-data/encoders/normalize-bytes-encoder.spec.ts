@@ -1,4 +1,4 @@
-import { NormalizeBytesEncoder } from '@tezos-domains/core';
+import { NormalizeBytesEncoder } from '@mavrykdynamics/mavryk-domains-core';
 
 describe('BytesEncoder', () => {
     let encoder: NormalizeBytesEncoder;

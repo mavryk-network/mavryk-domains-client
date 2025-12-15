@@ -1,54 +1,54 @@
 import {
     DomainNameValidationResult, DomainNameValidator, RecordMetadata,
 
-    StandardRecordMetadataKey, TezosDomainsResolverDataProvider,
+    StandardRecordMetadataKey, MavrykDomainsResolverDataProvider,
 
 
-    TezosDomainsValidator, Tracer
-} from '@tezos-domains/core';
-import { NameResolver } from '@tezos-domains/resolver';
+    MavrykDomainsValidator, Tracer
+} from '@mavrykdynamics/mavryk-domains-core';
+import { NameResolver } from '@mavrykdynamics/mavryk-domains-resolver';
 import { anything, instance, mock, when } from 'ts-mockito';
 import { BlockchainNameResolver } from '../../src/resolver/blockchain-name-resolver';
 
 
 describe('BlockchainNameResolver', () => {
     let resolver: NameResolver;
-    let dataProviderMock: TezosDomainsResolverDataProvider;
+    let dataProviderMock: MavrykDomainsResolverDataProvider;
     let tracerMock: Tracer;
     let validator: DomainNameValidator;
 
     beforeEach(() => {
-        dataProviderMock = mock<TezosDomainsResolverDataProvider>();
+        dataProviderMock = mock<MavrykDomainsResolverDataProvider>();
         tracerMock = mock<Tracer>();
-        validator = new TezosDomainsValidator();
+        validator = new MavrykDomainsValidator();
 
         const domainData = new RecordMetadata();
         domainData.setJson(StandardRecordMetadataKey.TTL, 420);
 
-        when(dataProviderMock.resolveDomainInfo('play.necroskillz.tez')).thenResolve({
-            address: 'tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i',
+        when(dataProviderMock.resolveDomainInfo('play.necroskillz.mav')).thenResolve({
+            address: 'mv1K91dgHkrxFgQdML1HBk1nUwhBDHhXSfwa',
             data: domainData,
             expiry: new Date(2021, 1, 1),
-            name: 'play.necroskillz.tez',
+            name: 'play.necroskillz.mav',
         });
 
-        when(dataProviderMock.resolveDomainInfo('no-address.tez')).thenResolve({
+        when(dataProviderMock.resolveDomainInfo('no-address.mav')).thenResolve({
             address: null,
             data: new RecordMetadata(),
             expiry: new Date(2021, 1, 1),
-            name: 'no-address.tez',
+            name: 'no-address.mav',
         });
 
-        when(dataProviderMock.resolveDomainInfo('404.tez')).thenResolve(null);
+        when(dataProviderMock.resolveDomainInfo('404.mav')).thenResolve(null);
 
-        when(dataProviderMock.resolveReverseRecordDomainInfo('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i')).thenResolve({
-            address: 'tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i',
+        when(dataProviderMock.resolveReverseRecordDomainInfo('mv1K91dgHkrxFgQdML1HBk1nUwhBDHhXSfwa')).thenResolve({
+            address: 'mv1K91dgHkrxFgQdML1HBk1nUwhBDHhXSfwa',
             data: domainData,
             expiry: new Date(2021, 1, 1),
-            name: 'play.necroskillz.tez',
+            name: 'play.necroskillz.mav',
         });
 
-        when(dataProviderMock.resolveReverseRecordDomainInfo('tz1dkLSGXbGxocN1QgxAp5tnYhY8VAaZ4kQp')).thenResolve(null);
+        when(dataProviderMock.resolveReverseRecordDomainInfo('mv1Q6r6jTAiFyM9sxirr12rqhLBnBqRJNuqY')).thenResolve(null);
 
         when(tracerMock.trace(anything(), anything()));
 
@@ -57,35 +57,35 @@ describe('BlockchainNameResolver', () => {
 
     describe('resolveDomainRecord()', () => {
         it('should return info about a domain', async () => {
-            const domain = await resolver.resolveDomainRecord('play.necroskillz.tez');
+            const domain = await resolver.resolveDomainRecord('play.necroskillz.mav');
 
-            expect(domain?.name).toBe('play.necroskillz.tez');
-            expect(domain?.address).toBe('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i');
+            expect(domain?.name).toBe('play.necroskillz.mav');
+            expect(domain?.address).toBe('mv1K91dgHkrxFgQdML1HBk1nUwhBDHhXSfwa');
             expect(domain?.expiry).toStrictEqual(new Date(2021, 1, 1));
             expect(domain?.data.getJson(StandardRecordMetadataKey.TTL)).toBe(420);
         });
 
         it('should not accept invalid domain name', async () => {
             jest.spyOn(validator, 'validateDomainName').mockReturnValue(DomainNameValidationResult.INVALID_NAME);
-            await expect(() => resolver.resolveDomainRecord('play.necroskillz.tez')).rejects.toEqual(new Error(`'play.necroskillz.tez' is not a valid domain name.`));
+            await expect(() => resolver.resolveDomainRecord('play.necroskillz.mav')).rejects.toEqual(new Error(`'play.necroskillz.mav' is not a valid domain name.`));
         });
     });
 
     describe('resolveNameToAddress()', () => {
         it('should resolve name', async () => {
-            const address = await resolver.resolveNameToAddress('play.necroskillz.tez');
+            const address = await resolver.resolveNameToAddress('play.necroskillz.mav');
 
-            expect(address).toBe('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i');
+            expect(address).toBe('mv1K91dgHkrxFgQdML1HBk1nUwhBDHhXSfwa');
         });
 
         it('should return null if record has no address', async () => {
-            const address = await resolver.resolveNameToAddress('no-address.tez');
+            const address = await resolver.resolveNameToAddress('no-address.mav');
 
             expect(address).toBe(null);
         });
 
         it('should return null if record does not exist', async () => {
-            const address = await resolver.resolveNameToAddress('404.tez');
+            const address = await resolver.resolveNameToAddress('404.mav');
 
             expect(address).toBe(null);
         });
@@ -97,10 +97,10 @@ describe('BlockchainNameResolver', () => {
 
     describe('resolveReverseRecord()', () => {
         it('should return info about a reverse record', async () => {
-            const reverseRecord = await resolver.resolveReverseRecord('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i');
+            const reverseRecord = await resolver.resolveReverseRecord('mv1K91dgHkrxFgQdML1HBk1nUwhBDHhXSfwa');
 
-            expect(reverseRecord?.name).toBe('play.necroskillz.tez');
-            expect(reverseRecord?.address).toBe('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i');
+            expect(reverseRecord?.name).toBe('play.necroskillz.mav');
+            expect(reverseRecord?.address).toBe('mv1K91dgHkrxFgQdML1HBk1nUwhBDHhXSfwa');
             expect(reverseRecord?.expiry).toStrictEqual(new Date(2021, 1, 1));
             expect(reverseRecord?.data.getJson(StandardRecordMetadataKey.TTL)).toBe(420);
         });
@@ -108,13 +108,13 @@ describe('BlockchainNameResolver', () => {
 
     describe('resolveAddressToName()', () => {
         it('should resolve address', async () => {
-            const name = await resolver.resolveAddressToName('tz1ar8HGBcd4KTcBKEFwhXDYCV6LfTjrYA7i');
+            const name = await resolver.resolveAddressToName('mv1K91dgHkrxFgQdML1HBk1nUwhBDHhXSfwa');
 
-            expect(name).toBe('play.necroskillz.tez');
+            expect(name).toBe('play.necroskillz.mav');
         });
 
         it('should return null if record does not exist', async () => {
-            const name = await resolver.resolveAddressToName('tz1dkLSGXbGxocN1QgxAp5tnYhY8VAaZ4kQp');
+            const name = await resolver.resolveAddressToName('mv1Q6r6jTAiFyM9sxirr12rqhLBnBqRJNuqY');
 
             expect(name).toBe(null);
         });

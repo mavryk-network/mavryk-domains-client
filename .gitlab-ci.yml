@@ -1,5 +1,5 @@
 variables:
-    NODE_VERSION: "alpine3.12"
+    NODE_VERSION: "18-alpine"
 
 stages:
     - build
@@ -10,6 +10,7 @@ build:
     stage: build
     image: node:${NODE_VERSION}
     script:
+        - yarn install
         - yarn lint
         - yarn build
         - yarn docs
@@ -35,7 +36,8 @@ test:core:
     image: node:${NODE_VERSION}
     allow_failure: false
     script:
-        - yarn workspace @tezos-domains/core test
+        - yarn install
+        - yarn workspace @mavrykdynamics/mavryk-domains-core test
     coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
     artifacts:
         paths:
@@ -51,7 +53,8 @@ test:resolver:
     image: node:${NODE_VERSION}
     allow_failure: false
     script:
-        - yarn workspace @tezos-domains/resolver test
+        - yarn install
+        - yarn workspace @mavrykdynamics/mavryk-domains-resolver test
     coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
     artifacts:
         paths:
@@ -67,7 +70,8 @@ test:manager:
     image: node:${NODE_VERSION}
     allow_failure: false
     script:
-        - yarn workspace @tezos-domains/manager test
+        - yarn install
+        - yarn workspace @mavrykdynamics/mavryk-domains-manager test
     coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
     artifacts:
         paths:
@@ -83,7 +87,8 @@ test:taquito:
     image: node:${NODE_VERSION}
     allow_failure: false
     script:
-        - yarn workspace @tezos-domains/taquito test
+        - yarn install
+        - yarn workspace @mavrykdynamics/mavryk-domains-taquito test
     coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
     artifacts:
         paths:
@@ -99,7 +104,8 @@ test:taquito-client:
     image: node:${NODE_VERSION}
     allow_failure: false
     script:
-        - yarn workspace @tezos-domains/taquito-client test
+        - yarn install
+        - yarn workspace @mavrykdynamics/mavryk-domains-taquito-client test
     coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
     artifacts:
         paths:
@@ -115,7 +121,8 @@ test:conseil-client:
     image: node:${NODE_VERSION}
     allow_failure: false
     script:
-        - yarn workspace @tezos-domains/conseil-client test
+        - yarn install
+        - yarn workspace @mavrykdynamics/mavryk-domains-conseil-client test
     coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
     artifacts:
         paths:
@@ -126,12 +133,13 @@ test:conseil-client:
     tags:
         - docker
 
-test:integration:ghostnet:
+test:integration:basenet:
     stage: test
     image: node:${NODE_VERSION}
     allow_failure: false
     script:
-        - TD_NETWORK=ghostnet TD_RPC_URL=${RPC_URL_GHOSTNET} TD_ADMIN_SIGN_KEY=${TD_ADMIN_SIGN_KEY} yarn integration-test
+        - yarn install
+        - TD_NETWORK=basenet TD_RPC_URL=${RPC_URL_BASENET} TD_ADMIN_SIGN_KEY=${TD_ADMIN_SIGN_KEY} yarn integration-test
     tags:
         - docker
     only:
